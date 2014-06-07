@@ -1,0 +1,54 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.19.12.36.25;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of api.c.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@#define FINDERLINKPORT  1526
+#ifndef SUN4
+#define SUN4
+#endif
+#include <sys/types.h>
+#include <stdio.h>
+#include <pwd.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#ifdef SUN4
+#include <sys/filio.h>
+#else
+#define	FD_SET(n, s)	(((s)->fds_bits[0]) |= (1 << n))
+#define	FD_CLR(n, s)	(((s)->fds_bits[0]) &= ~(1 << n))
+#define	FD_ZERO(s)	bzero((char *)(s), sizeof (*(s)))
+#define	FD_ISSET(n, s)	(((s)->fds_bits[0]) & (1 << n))
+#include <sys/ioctl.h>
+#endif /* SUN4 */
+#include <setjmp.h>
+#include <netdb.h>
+#include <signal.h>
+#include <string.h>
+
+struct sockaddr_in	sin;
+struct sockaddr_in	udp_sin;
+struct servent		*sp;
+
+
+@

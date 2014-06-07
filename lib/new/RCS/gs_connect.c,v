@@ -1,0 +1,714 @@
+head     1.19;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.19; strict;
+comment  @ * @;
+
+
+1.19
+date     91.05.20.03.30.09;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.05.14.23.36.09;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.14.14.23.33;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.14.03.37.49;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.12.03.42.59;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.12.01.43.03;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.09.07.56.42;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.07.06.22.24;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.07.03.05.29;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.07.01.25.51;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.06.16.18.11;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.06.15.52.23;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.05.15.19.39;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.19.22.01.27;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.19.20.51.30;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.19.49.34;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.18.14.34;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.12.36.07;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_connect.c.
+@
+
+
+1.19
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+#include <math.h>
+
+/****************************************************************************
+Module:	GS_CONNECT
+
+Description:
+	This routine is called by data receiver programs in order
+	to establish a connection with the GeoShare connection Manager
+	process.  This routine will return a communication handle upon
+	successful completion.  The handle returned is used in calls such as
+	gs_send to identify the channel that is connected to the sending
+	application.
+
+Usage:
+	handle = gs_connect(&argc,&argv);
+	
+Parameters:
+	INPUT:
+	    int *argc		- Address of the argc from callers main.
+	    char ***argv	- Address of argv array from caller.
+
+	OUTPUT:
+	    GSHandle_t  handle	- handle for subsequent communication.
+
+Status:
+	This routine will return a NULL ('\0') handle if an error occurrs
+	while connecting to the sender or connection manager processes.
+
+
+Author:
+	Julian Carlisle 	 Sat Apr 20 11:28:14 PDT 1991
+*****************************************************************************/
+
+GSHandle_t *gs_connect(ac, av)
+int    *ac;
+char ***av;
+{
+	int     status = GS_SUCCESS;
+	char  **newargv;
+	int     argc, len;
+	char  **argv, *cp;
+	int     i, i2;
+	char    slotkey[64];
+	GSHandle_t *h;
+
+	argc = (int) *ac;
+	argv = (char **) *av;
+	newargv = (char **) malloc(sizeof(char *) * argc + 1);
+	for (i = 0, i2 = 0; argv[i] != (char *) 0; i++) {
+		cp = argv[i];
+		if (*cp == '-') {
+			if (strcmp(cp + 1, "slot") == 0) {
+				if (argv[i + 1] != (char *) 0) {
+					strcpy(slotkey, argv[i + 1]);
+					i++;
+					continue;
+				}
+			}
+		}
+		len = strlen(cp);
+		newargv[i2] = (char *) malloc(sizeof(char) * len + 1);
+		strcpy(newargv[i2], argv[i]);
+		i2++;
+	}
+	*ac = i2;
+	*av = (char **) newargv;
+
+	signal(SIGALRM,SIG_IGN);
+	alarm(0);
+	signal(SIGHUP,SIG_IGN);
+	signal(SIGTTOU,SIG_IGN);
+	signal(SIGTTIN,SIG_IGN);
+	signal(SIGTSTP,SIG_IGN);
+	
+	gs_set_debug(TRUE);
+
+	umask(2);
+	h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+	if (h == (GSHandle_t *) 0) {
+		gs_log("rec:Out of memory. cannot allocate handle");
+		return(h);
+	}
+	h->debug = gs_chk_debug();
+
+	if ((cp = gs_home(0)) != NULL)
+		strcpy(h->homedir, cp);
+	else {
+		free(h);
+		h = (GSHandle_t *) 0;
+		gs_log("rec:Can't get GSHOME directory\n");
+		return (h);
+	}
+	if ((cp = gs_cf_name(0)) != NULL)
+		strcpy(h->cfgfile, cp);
+	else
+		h->cfgfile[0] = '\0';
+
+	if ((cp = gs_logfile(0)) != NULL)
+		strcpy(h->logfile, cp);
+
+	h->pid = getpid();
+	h->init = TRUE;
+	h->key = (GSKey_t *) gs_ipc_key(slotkey);
+
+	 /* connect to ap slot. */
+	if ((status = gsz_attach_slot(h->key, &h->slot)) != GS_SUCCESS) {
+		gs_log("rec:Error attaching  to app slot, keyfile=%s",slotkey);
+		free(h);
+		h = (GSHandle_t *)0;
+	}
+	return (h);
+}
+
+
+
+int     gsz_attach_slot(key, pslot)
+GSKey_t *key;
+GSSlot_t **pslot;
+{
+	int     id = 0;
+
+	errno = 0;
+
+	if (key == (GSKey_t *) 0) {
+		gs_log("gsz_attach_slot: Null key.");
+		return (GS_FAIL);
+	}
+
+ /* Create shared memory segment, return its id.	 */
+	id = shmget(key->key, sizeof(GSSlot_t), 0);
+	if (id < 0) {
+		gs_log("gsz_attach_slot:Cannot attach shared memory for slot.");
+		return (GS_FAIL);
+	}
+
+
+ /* Attach the shared memory, let the system 	 */
+ /* choose the address at which the memory is 	 */
+ /* attached.  This is more portable.		 */
+	*pslot = (GSSlot_t *) shmat(id, (char *) 0, 0);
+	if (*pslot == (GSSlot_t *) -1) {
+		gs_log("gsz_attach_slot:Cannot attach shared memory.");
+		return (GS_FAIL);
+	}
+
+ /* Create the slot lock semaphore. 	 */
+	(*pslot)->lockkey = ftok(key->str,'0');
+	if ((*pslot)->lockkey > 0)
+		(*pslot)->locksem = gs_semtran((*pslot)->lockkey);
+	if ((*pslot)->locksem < 0 || (*pslot)->lockkey == -1) {
+		gs_log("gsz_attach_slot:Cannot open lock semaphore");
+		return (GS_FAIL);
+	}
+
+ /* Create the slot message semaphore. 	 */
+	(*pslot)->msgkey = ftok(key->str,'1');
+	if ((*pslot)->msgkey > 0)
+		(*pslot)->msgsem = gs_semtran((*pslot)->msgkey);
+	if ((*pslot)->msgsem < 0 || (*pslot)->msgkey == -1) {
+
+	/* remove the semaphore open above. 	 */
+		gs_semrm((*pslot)->locksem);
+
+		gs_log("gsz_attach_slot:Cannot attach msg semaphore");
+		return (GS_FAIL);
+	}
+
+ /* Create the slot message semaphore. 	 */
+	(*pslot)->cmkey = ftok(key->str,'2');
+	if ((*pslot)->cmkey > 0)
+		(*pslot)->cmsem = gs_semtran((*pslot)->cmkey);
+	if ((*pslot)->cmsem < 0 || (*pslot)->cmkey == -1) {
+
+	/* remove the semaphore opened above. 	 */
+		gs_semrm((*pslot)->locksem);
+		gs_semrm((*pslot)->msgsem);
+
+		gs_log("gsz_attach_slot:Cannot open cm semaphore");
+		return (GS_FAIL);
+	}
+	(*pslot)->id = id;
+
+	return (GS_SUCCESS);
+}
+
+
+@
+
+
+1.18
+log
+@Update
+@
+text
+@d119 1
+d129 1
+a129 1
+		gs_log("rec:gsz_attach_slot: Null key.");
+d136 1
+a136 1
+		gs_log("rec:gsz_attach_slot:Cannot attach shared memory for slot.");
+d146 1
+a146 1
+		gs_log("rec:gsz_attach_slot:Cannot attach shared memory.");
+d151 5
+a155 3
+	(*pslot)->locksem = gs_semtran(key->key);
+	if ((*pslot)->locksem < 0) {
+		gs_log("rec:gsz_attach_slot:Cannot open lock semaphore");
+d160 4
+a163 2
+	(*pslot)->msgsem = gs_semtran(key->key + 4);
+	if ((*pslot)->msgsem < 0) {
+d168 1
+a168 1
+		gs_log("rec:gsz_attach_slot:Cannot attach msg semaphore");
+d173 4
+a176 2
+	(*pslot)->cmsem = gs_semtran(key->key + 8);
+	if ((*pslot)->cmsem < 0) {
+d182 1
+a182 1
+		gs_log("rec:gsz_attach_slot:Cannot open cm semaphore");
+d189 2
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d79 1
+a79 1
+	/* gs_set_debug(TRUE);  */
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d35 1
+a35 1
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+d71 1
+d78 3
+a80 1
+	gs_set_debug(TRUE);
+a81 1
+ /* connect to ap slot. */
+d85 1
+a85 1
+		exit(1);
+d94 1
+a94 1
+		gs_log("gs_get_handle:Can't get GSHOME directory\n");
+d108 2
+d111 3
+a113 3
+		gs_log("rec:Error attaching  to app slot");
+		sleep(3);
+		exit(1);
+a114 3
+	gs_log("rec:Slot attached ok.   id = %d", h->slot->id);
+	gs_log("rec:cmsem:%d msgsem:%d locksem:%d",
+		h->slot->cmsem, h->slot->msgsem, h->slot->locksem);
+d128 1
+a128 1
+		gs_log("gs_attach_slot: Null key.");
+d135 1
+a135 1
+		gs_log("gs_attach_slot:Cannot attach shared memory for slot.");
+d145 1
+a145 1
+		gs_log("gs_attach_slot:Cannot attach shared memory.");
+d152 1
+a152 1
+		gs_log("gs_attach_slot:Cannot open lock semaphore");
+d163 1
+a163 1
+		gs_log("gs_attach_slot:Cannot attach msg semaphore");
+d175 1
+a175 1
+		gs_log("gs_attach_slot:Cannot open cm semaphore");
+@
+
+
+1.15
+log
+@Update
+@
+text
+@a73 1
+	signal(SIGCLD,SIG_IGN);
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d71 7
+a77 1
+
+@
+
+
+1.13
+log
+@Update
+@
+text
+@a45 1
+	char   *sptr;
+a116 1
+	int     status = GS_SUCCESS;
+a117 1
+	int     debug = FALSE;
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d48 1
+a48 1
+	char slotkey[64];
+d59 1
+a59 1
+					strcpy(slotkey,argv[i+1]);
+d70 3
+a72 3
+	*ac=i2;
+	*av = (char **)newargv;
+	
+d75 1
+a75 1
+	/* connect to ap slot. */
+d77 1
+a77 1
+	if (h == (GSHandle_t *)0)  {
+d87 1
+a87 1
+		h = (GSHandle_t *)0;
+d101 2
+a102 2
+	h->key = (GSKey_t *)gs_ipc_key(slotkey);
+	if((status = gsz_attach_slot(h->key,&h->slot)) != GS_SUCCESS) {
+d106 2
+a107 2
+	}	
+	gs_log("rec:Slot attached ok.   id = %d",h->slot->id);
+d109 2
+a110 2
+			h->slot->cmsem,h->slot->msgsem,h->slot->locksem);
+	return (h);	
+a178 1
+
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d102 1
+a102 1
+	if((status = gs_attach_slot(h->key,&h->slot)) != GS_SUCCESS) {
+d111 67
+@
+
+
+1.10
+log
+@Update
+@
+text
+@a75 1
+	h = gs_get_handle();
+d108 2
+@
+
+
+1.9
+log
+@Update
+@
+text
+@d77 1
+d79 1
+d82 20
+a101 1
+	gs_log("rec:slotkey=%s",slotkey);
+a102 1
+	gs_log("rec:keynum=%d",(int)h->key->key);
+d108 1
+a108 2
+	gs_log("rec:Slot attached ok.");
+	gs_log("rec:slot id = %d",h->slot->id);
+d111 1
+@
+
+
+1.8
+log
+@Update
+@
+text
+@d88 2
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d3 3
+d42 1
+a42 1
+	int     status = 0;
+d48 2
+a52 1
+
+d59 1
+a59 1
+					sptr = (char *) atoi(argv[i + 1]);
+d72 17
+a88 1
+
+@
+
+
+1.6
+log
+@Reformat to indentation 8 for readability
+@
+text
+@a40 1
+	int     newargc;
+d61 1
+a61 1
+		len = strlen(argv[i]);
+d64 1
+a64 1
+		newargc++;
+d66 3
+@
+
+
+1.5
+log
+@.
+@
+text
+@d39 7
+a45 7
+    int     status = 0;
+    char  **newargv;
+    int     newargc;
+    int     argc, len;
+    char  **argv, *cp;
+    char   *sptr;
+    int     i, i2;
+d47 2
+a48 2
+    argc = (int) *ac;
+    argv = (char **) *av;
+d50 11
+a60 9
+    newargv = (char **) malloc(sizeof(char *) * argc + 1);
+    for (i = 0, i2 = 0; argv[i] != (char *) 0; i++) {
+	cp = argv[i];
+	if (*cp == '-') {
+	    if (strcmp(cp + 1, "slot") == 0) {
+		if (argv[i + 1] != (char *) 0) {
+		    sptr = (char *) atoi(argv[i + 1]);
+		    i++;
+		    continue;
+d62 4
+a65 1
+	    }
+a66 5
+	len = strlen(argv[i]);
+	newargv[i2] = (char *) malloc(sizeof(char) * len + 1);
+	strcpy(newargv[i2], argv[i]);
+	newargc++;
+    }
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d8 1
+a8 1
+	This routine is called by data receiver programs in order 
+d35 2
+a36 2
+GSHandle_t *gs_connect(ac,av)
+int *ac;
+d39 7
+a45 7
+int status = 0;
+char **newargv;
+int newargc;
+int argc,len;
+char **argv,*cp;
+char *sptr;
+int i,i2;
+d47 2
+a48 2
+	argc = (int)*ac;
+	argv =(char **)*av;
+d50 9
+a58 11
+	newargv = (char **)malloc(sizeof (char *) * argc +1);
+	for (i=0,i2=0; argv[i] != (char *)0; i++) {
+		cp = argv[i];
+		if (*cp == '-') {
+			if (strcmp(cp+1,"slot") == 0) {
+				if (argv[i+1] != (char *)0) {
+					sptr = (char *)atoi(argv[i+1]);
+					i++;
+					continue;
+				}
+			}
+d60 1
+a60 4
+		len = strlen(argv[i]);
+		newargv[i2] = (char *)malloc(sizeof (char) * len +1);
+		strcpy(newargv[i2],argv[i]);
+		newargc++;
+d62 5
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d65 1
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d4 30
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@a0 2
+/* GS_CONNECT */
+
+d2 1
+d4 4
+a7 1
+int gs_connect()
+d9 27
+a35 1
+return SUCCESS;
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d1 8
+a8 2
+/* 
+	The gs_connect routine will 
+@

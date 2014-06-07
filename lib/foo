@@ -1,0 +1,11 @@
+#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+
+
+/* gs_log.c */
+int gs_log P_((char *va_alist));
+
+#undef P_

@@ -1,0 +1,39 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@# @;
+
+
+1.0
+date	91.04.30.21.54.47;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of mkstab.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@#!/bin/csh -f
+echo "Creating types table for $1..."
+/usr/5bin/cc -I. -I../h -g3 -S $1 && mv $1:r.s $1:r.sym && \
+	echo " $1:r.sym created"
+/usr/5bin/cc -I. -I../h -g3 -P $1 && mv $1:r.i $1:r.tmp
+if (! -f ./$1:r.tmp ) then
+	echo "Cannot create $1:r.tmp" 
+	exit 1
+else
+	echo "Creating clean types file from $1 ..."
+	cat $1:r.tmp | sed -e '/^ $/d' -e '/^$/d' -e '1,$ s/\(typedef.*{\).*\($\n\)/\2\1\2/' -e '1,$ s/^\(}.*;\).*\($\n\)/\1\2/' > $1:r.clean && rm -f $1:r.tmp && echo "$1:r.clean created."
+endif
+echo "Done."
+exit 0
+@

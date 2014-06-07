@@ -1,0 +1,67 @@
+Alias - 
+the nickname that maps to a specific client. 
+Client - 
+any application that participates in the GeoShare facility.
+CM - 
+oonnection 
+anager is a background process that handles information about a transfer between applications
+.  The CM holds addressing  information about client applications, sets up and  maintains a connection between the clients.
+Context - 
+data about a receiving application required by a sending   application: sign on, passwords, pathnames...
+Data volume - 
+Executive structure - 
+one of the structures defined by GeoScience.h.  It contains information about ----
+Geoscience.h - 
+a 'C' language data structure defining  entities that may be transferred between applications
+Handle - 
+Host -
+ computer system where a GeoShare CM  and at least one application resides
+Key - 
+a data item that uniquely identifies a database entity.
+Receiver -
+ a client application partcipating in GeoShare that is the target of data sent by another client application
+Server - 
+a client application driver that acts as a bridge between applications
+Slot -
+a region of shared memory, owned by CM, that is assigned to a client applicantion for use as a message delivery mechanism.
+Static Registration - 
+the method by which CM recognizes client applications.  Information about a client is entered into the CM database where it remains fixed until updated.
+TCB - 
+ransfer 
+ontrol 
+lock a data structure containing meta-data used by servers to control the flow of data between applications.
+TCP - 
+Definitions
+Alias - 
+ nickname that maps to a specific client application. 
+Client - 
+any application that participates in the GeoShare facility.
+CM - 
+onnection 
+anager is a background process that handles information about a transfer between applications
+.  The CM holds addressing  information about client applications, sets up and  maintains a connection between the clients.
+Context - 
+data about a receiving application required by a sending   application: sign on, passwords, pathnames...
+Data volume - 
+Executive structure - 
+one of the 'C' language structures defined by GeoScience.h.  It contains information about ----
+Geoscience.h - 
+a 'C' language data structure defining  entities that may be transferred between applications
+Handle - 
+Host -
+ computer system where a GeoShare CM  and at least one application reside
+Key - 
+a data item that uniquely identifies a shared memory data item.
+Receiver -
+ a client application participating in GeoShare that is the target of data sent by another client application
+Server - 
+a client application driver that acts as a bridge between applications
+Slot -
+a region of shared memory, owned by CM, that is assigned to a client application for use as a message delivery mechanism.
+Static Registration - 
+the method by which CM recognizes client applications.  Information about a client is entered into the CM database where it remains fixed until updated.
+TCB - 
+ransfer 
+ontrol 
+lock a data structure containing meta-data used by servers to control the flow of data between applications.
+TCP - 

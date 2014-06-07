@@ -1,0 +1,35 @@
+Shared Memory Allococation
+--------------------------
+
+The Geolink shared memory tool box consists of two routines:
+
+	alloc		- Allocate a shared memory region.
+	free		- Free a shared memory region.
+
+
+These routines allocate and free shared memory resources.  The alloc
+routine behaves similarly to the C library routine 'malloc' except
+that it requires a key identifier to specifiy a handle to the region
+allocated.  This key is used by routines that wish to attach to a
+shared memory region created by a different routine or process. 
+
+Routine Specification
+---------------------
+
+void *gs_alloc(size,key)
+	INPUT:
+		int size	- Minimum number of bytes to allocate.
+		int key		- Unique key to identify region.
+	OUTPUT:
+		The function returns a pointer to a shared memory
+		region.
+
+
+void gs_free(ptr)
+	INPUT:
+		void *Ptr	- Pointer to region of memory to release.
+	OUTPUT:
+		none.  This is a void function.
+
+
+

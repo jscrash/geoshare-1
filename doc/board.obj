@@ -1,0 +1,82 @@
+state(1,9,0,128,0,8,1,0,2,2,0,0,1,0,1,0,1,0,4,0,0).
+text('magenta',64,16,1,0,4,1,0,0,1,66,19,11,0,[
+	"Finder"]).
+text('magenta',120,128,1,0,4,1,0,0,1,132,19,12,0,[
+	"select lists"]).
+text('magenta',104,168,1,0,4,20,0,0,1,605,380,13,0,[
+	"VOIDPTR fl_control;",
+	"TCP dests;",
+	"",
+	"fl_inq_destinations (&dests);",
+	"",
+	"...display destinations; user selects one.",
+	"",
+	"fl_init_control (dests[x], &fl_control);",
+	"",
+	"fl_inq_arg_desc (fl_control, arg_def);",
+	"",
+	"...display arg prompts; get user responses.",
+	"...build argstring.",
+	"",
+	"fl_set_args (fl_control, argstring);",
+	"",
+	"loop",
+	"    load struct",
+	"    fl_put  (fl_control, struct_type, struct, &status);",
+	"repeat"]).
+box('magenta',56,8,136,40,0,0,1,14,0,[
+]).
+box('magenta',96,160,720,560,0,0,1,16,0,[
+]).
+poly('magenta',2,[96,40,104,80],1,0,1,17,0,0,0,[
+]).
+poly('magenta',2,[408,560,408,608],1,0,1,18,0,0,0,[
+]).
+text('magenta',144,616,1,0,4,8,0,0,1,539,152,19,0,[
+	"fl_put (fl_control, struct_type, struct, *status)",
+	"",
+	"if (NOT fl_control->channel_opened)",
+	"   {",
+	"      initialize channel and send exec struct",
+	"   }",
+	"",
+	"fl_send_the_stuff (struct_type, struct, status)"]).
+rcbox('magenta',80,80,280,120,0,0,1,0,16,20,[
+]).
+text('magenta',92,91,1,0,4,1,0,0,1,176,19,21,0,[
+	"Select Processor"]).
+poly('magenta',2,[112,120,120,160],1,0,1,22,0,0,0,[
+]).
+text('magenta',104,48,1,0,4,1,0,0,1,154,19,23,0,[
+	"Select request"]).
+box('magenta',120,608,696,792,0,0,1,24,0,[
+]).
+text('magenta',792,176,1,0,4,9,0,0,1,462,171,25,0,[
+	"pgm  \"context string\"",
+	"",
+	"   fl_get (&struct, &struct_type, &status)",
+	"",
+	"   switch (struct_type)",
+	"   {",
+	"      case WELL_LIST:   ... store wells",
+	"      case SEIS_SURVEY: ... store seismic",
+	"      case etc:         ... store etc.."]).
+text('magenta',800,432,1,0,4,12,0,0,1,429,228,26,0,[
+	"fl_get (*struct, *struct_type, *status)",
+	"",
+	"read from STDIN",
+	"",
+	"while (struct_type == EXECUTIVE)",
+	"   {",
+	"      configure / handshake",
+	"   }",
+	"",
+	"allocate and decode",
+	"",
+	"return <<struct, struct_type, status>>"]).
+box('magenta',768,160,1264,376,0,0,1,29,0,[
+]).
+box('magenta',784,424,1240,680,0,0,1,30,0,[
+]).
+poly('magenta',2,[1016,376,1016,424],1,0,1,34,0,0,0,[
+]).

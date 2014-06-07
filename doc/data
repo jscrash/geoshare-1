@@ -1,0 +1,146 @@
+
+/**************************************************************************/
+/*                                                                        */
+/*                    STATUS STRUCTURE                                    */
+/*                                                                        */
+/**************************************************************************/
+
+ /*
+  * A status structure for returning to the exporting application information
+  * about the success/failure of the various functions performed by the
+  * receiver.
+  */
+
+typedef struct
+{
+    Vector_t error_return;
+} ErrorVector_t;
+
+typedef struct
+{
+    LongInt_t error_code;    /* error code */
+    String_t object_key;     /* One or more object keys, separated by ^ */
+ /* by ^, identifying entity with the error */
+    String_t error_description;	/* Error description */
+} ErrorReturn_t;
+
+/**************************************************************************/
+/*                                                                        */
+/*                    CONTEXT STRUCTURES                                  */
+/*                                                                        */
+/**************************************************************************/
+
+ /*
+  * The first three structures are associated with defining the information
+  * to be sent to to the receiver to establish context.  This assumes that
+  * any context establishment information can be set by a set of character
+  * strings and/or a set of integers
+  */
+
+typedef struct
+{
+    Type_t  type;	     /* Data type of context variable */
+    LongInt_t max_length;    /* Maximum length of context variable *if
+			      * string) */
+    String_t prompt;	     /* Prompt string to use for requesting context
+			      * variable */
+} ContextRequirements_t;
+
+ /*
+  * The next two structures are uset to transmit the requested information
+  * back to the receiving process
+  */
+
+typedef struct
+{
+    Vector_t string_array;   /* array of strings */
+} ContextInformation_t;
+
+/**************************************************************************/
+/*                                                                        */
+/*          EXECUTIVE STRUCTURES                                          */
+/*                                                                        */
+/**************************************************************************/
+
+ /*
+  * The following is a list of top-level structures that GeoLink defines. The
+  * list is extendable past the enum set by using the extension portion of
+  * the union.
+  */
+
+typedef union
+{
+    enum
+    {
+	GL_STRUCT_CONTEXT_INFO = 1,
+	GL_STRUCT_SEISMIC_SURVEY = 2,
+	GL_STRUCT_FAULT_TRACE = 3,
+	GL_STRUCT_WELL_HDR_LIST = 4,
+	GL_STRUCT_GRID = 5,
+	GL_STRUCT_CONTOUR = 6,
+	GL_STRUCT_MAP = 7,
+	GL_STRUCT_XYZ = 8,
+	GL_STRUCT_LITHOSTRAT_CODES = 9,
+	GL_STRUCT_STRAT_COLUMN = 10,
+	GL_STRUCT_ZONES = 11,
+	GL_STRUCT_STOP_SERVER = 100,	/* Address of structure is NULL */
+	GL_STRUCT_CONTEXT_BREAK = 101	/* Address of structure is NULL */
+    } symbolic;
+    LongInt_t extension;
+} DataStructType_t;
+
+ /*
+  * A Receiver information structure returned to the exporting application
+  * upon contact with a receiver.  This structure contains the following
+  * information: a.  Status of Receiver service initialization b.
+  * Exploration data structures supported c.  Data structure revision level
+  * range supported d.  Specification of information required for receiving
+  * data base context establishment
+  */
+
+typedef struct
+{
+    DataStructType_t data_struc_type;
+    Version_t version;
+} DataSupported_t;
+
+typedef struct
+{
+    LongInt_t receiver_status;	/* */
+    Vector_t data_supported; /* List of types of data the server supports */
+    Vector_t context_rqmts;
+    LongInt_t max_memory;    /* Size of local memory buffer, in bytes */
+    String_t banner_string;  /* Product string (<=80 * characters ) */
+} ReceiverSpecs_t;
+
+typedef struct
+{
+    DataStructType_t type;
+    Version_t version;
+    Voidptr_t structure_pointer;
+} Structure_t;
+
+ /*
+  * An executive structure containing context destination information for
+  * cross check reference to the context establishment information
+  * strucuture, and a list which provides reference to all supported data
+  * type structures which are to be transmitted.  If context has been
+  * previously established then the context information structure need not be
+  * included.  If context has not been previously established then the
+  * context information structure must be referenced first in the list.
+  */
+
+typedef struct
+{
+    LongInt_t context_token; /* integer tag for context established  */
+    Structure_t structure;
+} Executive_t;
+
+/**************************************************************************/
+/*                                                                        */
+/*          END OF INCLUDE FILE GEOSCIENCE.H                              */
+/*                                                                        */
+/**************************************************************************/
+/**INDENT** Error@146: Unmatched #endif */
+
+#endif

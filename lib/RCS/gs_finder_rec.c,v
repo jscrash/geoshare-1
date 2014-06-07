@@ -1,0 +1,648 @@
+head     1.14;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.14; strict;
+comment  @ * @;
+
+
+1.14
+date     91.05.14.23.36.11;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.14.15.08.56;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.14.11.20.39;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.14.10.25.28;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.14.08.06.50;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.09.07.56.44;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.07.07.36.10;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.07.07.18.22;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.07.06.22.26;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.05.06.22.52.11;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.05.06.17.42.07;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.05.06.13.53.58;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.19.50.20;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_finder_rec.c.
+@
+
+
+1.14
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+/*************************************************/
+/*                                               */
+/*      DATA RECEIVER SAMPLE IMPLEMENTATION      */
+/*  This program implements a skeleton Finder    */
+/*  data receiver                                */
+/*                                               */
+/* Julian Carlisle  Thu Apr 18 19:16:33 PDT 1991 */
+/*************************************************/
+
+#define RETRYS 4
+
+int     main(argc, argv)     /* Data Receiver Main.  */
+int     argc;
+char  **argv;
+{
+	GSHandle_t *handle;
+	GSTCB_t *ptcb;
+	int     status = GS_SUCCESS;
+	int     reqtype = 0;
+	int     done = 0;
+	int     trys = 0;
+	char    text[256];
+
+
+ /*
+  * Call gs_connect.  This routine extracts the connection args from the
+  * argument list and return a new argument list from which the
+  * connection-arguments have been deleted. The handle returned by gs_connect
+  * identifies the communication channel used to talk with the Connection
+  * Manager and the Client application.
+  */
+
+	gs_print_args(argc,argv);
+	handle = (GSHandle_t *) gs_connect((int *) &argc, (char ***) &argv);
+	if (handle == (GSHandle_t *) 0) {
+		gs_log("Failed to connect to Client.");
+		exit(GS_FAIL);
+	}
+	while (1) {
+		status = gs_receive(handle, &ptcb);
+		if (status == GS_SUCCESS) {
+			gs_log("Receive status=%d, tcb blocknum=%d",status,ptcb->BlockNum);
+		}
+		else if (status == GS_TERMINATE) {
+			gs_log("rec:Terminating...receive returned %d status.", status);
+			sleep(1);
+			exit(0);
+		}
+		else {
+			gs_log("rec:Unkown status from gs_receive: %lu",status);
+			sleep(1);
+			exit(0);
+		}
+	}
+}
+	/*NOTREACHED*/
+#if 0
+
+ /*
+  * Receiver Main Loop - Read messages & process until terminate message
+  * received.
+  */
+	do {
+		status = GS_receive(handle, &tcb);
+
+	/*
+	 * If a receive fails, try again RETRYS times before aborting
+	 */
+		if (status != GS_SUCCESS) {
+			Error_Handler(handle, "Error From gs_receive", status);
+			trys++;
+			if (trys > RETRYS) {
+				sprintf(text, "Aborting after %d retrys.", trys);
+				Error_Handler(handle, text, status);
+				gs_term(handle);
+				exit(GS_FAIL);
+			}
+			else {
+				continue;	/* Try again to receive */
+			}
+		}
+
+	/*
+	 * Get here if receive was successful, reset the retry counter and
+	 * process the message we have received.
+	 */
+		trys = 0;
+
+
+	/*
+	 * Process the message.  Determine if it is a Data message or an
+	 * Executive request message.
+	 */
+		switch (tcb.data.type.symbolic) {
+
+		/*
+		 * Process this data message.
+		 */
+		case Data:
+			store_data(&tcb.data);
+			done = FALSE;
+			break;
+
+		/*
+		 * An executive message has arrived.  Process the request and
+		 * send back an acknowledge message.
+		 */
+		case Executive:
+			Process_Executive_request(&tcb.data, &reqtype);
+			if (reqtype == GS_STRUCT_RECEIVER_TERMINATE)
+				done = TRUE;
+			break;
+
+
+		/*
+		 * If message type is not recognized, log error to Connection
+		 * Manager. For now this will be non-terminal even though it
+		 * represents an unknown state that is difficult to recover
+		 * from.
+		 */
+		default:
+			Error_Handler(handle, "Invalid message type", tcb.data.type);
+			break;
+		}
+	} while (!done);
+	status = gs_term(handle);
+	exit(status);
+}
+#endif
+
+
+#if 0
+
+/****************************************************************/
+/* Error handler.  Send a status message back to the Connection        */
+/* Manager.  Include the Error code & message string.                  */
+/****************************************************************/
+static void Error_Handler(handle, string, code)
+GSHandle_t handle;
+char   *string;
+int     code;
+{
+	GSTCB_t tcb;
+	GSMessage_t msg;
+	int     result;
+	char    text[256];
+
+	sprintf(text, "%d:%s", code, string);
+	strcpy(msg.MsgBuf, text);
+	msg.MsgType = Executive;
+	msg.MsgLen = strlen(text);
+
+	strcpy(tcb.id, "TCB");
+	tcb.BlockNum = 0;
+	tcb.LastBlock = 0;
+	tcb.data.structure_pointer = (GSVoidptr_t) &msg;
+
+	if (handle != (GSHandle_t) 0) {
+		gs_send(handle, &tcb, &result);
+	}
+	else {
+	/* Write to an error log here */
+	}
+}
+#endif
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d37 1
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d11 1
+a11 1
+/* Julian Carlisle  Fri Apr 19 12:32:55 PDT 1991 */
+a13 17
+ /* Send Error string to Connection Manager if handle         */
+ /* is valid. Otherwise just write the string to the          */
+ /* local error log in   the GSHOME directory.                */
+#ifndef sun
+void    Error_Handler(GSHandle_t h, char *str, int code);
+#else
+void    Error_Handler();
+#endif
+
+ /* Process an Executive request message.  Return the          */
+ /* type of request processed in the request_type arg.         */
+#ifndef sun
+void    Process_executive(Structure_t data, DataStructureType_t * request_type);
+#else
+void    Process_executive();
+#endif
+
+a14 1
+
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d76 2
+a147 1
+#endif
+d150 1
+@
+
+
+1.10
+log
+@Update
+@
+text
+@d39 1
+a39 1
+	GSTCB_t tcb;
+d60 16
+a75 7
+	gs_print_args(argc, argv);
+	status = gs_receive(handle, &tcb);
+	sleep(1);
+	gs_log("rec:receive returned %d status.", status);
+	sleep(1);
+	exit(0);
+
+@
+
+
+1.9
+log
+@Update
+@
+text
+@a62 1
+/*	gs_free(handle->slot); */
+@
+
+
+1.8
+log
+@Update
+@
+text
+@d60 2
+a61 2
+	gs_print_args(argc,argv);
+	status = gs_receive(handle,&tcb);
+d64 1
+a64 1
+	gs_log("rec:receive returned %d status.",status);
+d69 1
+d143 1
+a143 1
+#if 0 
+@
+
+
+1.7
+log
+@Update
+@
+text
+@d63 1
+a63 1
+	gs_free(handle->slot);
+@
+
+
+1.6
+log
+@Update
+@
+text
+@d63 1
+a63 2
+	gsz_detach_slot(handle->slot);
+/*	gs_detach_slot(handle->cmslot); */
+@
+
+
+1.5
+log
+@Update
+@
+text
+@d2 2
+d63 1
+a63 1
+	gs_detach_slot(handle->slot);
+@
+
+
+1.4
+log
+@Update
+@
+text
+@d60 1
+d62 1
+d64 1
+a64 1
+	sleep(2);
+@
+
+
+1.3
+log
+@Update
+@
+text
+@a52 1
+	gs_print_args(argc,argv);
+d59 3
+@
+
+
+1.2
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d36 1
+a36 1
+	GSHandle_t handle;
+d53 4
+a56 3
+	handle = (GSHandle_t) gs_connect((int *) &argc, (char ***) &argv);
+	if (handle == (GSHandle_t) 0) {
+		Error_Handler(handle, "Failed to connect to Client.", GS_FAIL);
+d59 3
+d63 1
+a63 2
+
+
+d132 1
+d137 1
+a138 1
+
+d170 1
+@
+
+
+1.1
+log
+@.
+@
+text
+@d36 7
+a42 7
+    GSHandle_t handle;
+    GSTCB_t tcb;
+    int     status = GS_SUCCESS;
+    int     reqtype = 0;
+    int     done = 0;
+    int     trys = 0;
+    char    text[256];
+d53 5
+a57 5
+    handle = (GSHandle_t) gs_connect((int *) &argc, (char ***) &argv);
+    if (handle == (GSHandle_t) 0) {
+	Error_Handler(handle, "Failed to connect to Client.", GS_FAIL);
+	exit(GS_FAIL);
+    }
+d65 2
+a66 2
+    do {
+	status = GS_receive(handle, &tcb);
+a67 30
+    /*
+     * If a receive fails, try again RETRYS times before aborting
+     */
+	if (status != GS_SUCCESS) {
+	    Error_Handler(handle, "Error From gs_receive", status);
+	    trys++;
+	    if (trys > RETRYS) {
+		sprintf(text, "Aborting after %d retrys.", trys);
+		Error_Handler(handle, text, status);
+		gs_term(handle);
+		exit(GS_FAIL);
+	    }
+	    else {
+		continue;    /* Try again to receive */
+	    }
+	}
+
+    /*
+     * Get here if receive was successful, reset the retry counter and
+     * process the message we have received.
+     */
+	trys = 0;
+
+
+    /*
+     * Process the message.  Determine if it is a Data message or an
+     * Executive request message.
+     */
+	switch (tcb.data.type.symbolic) {
+
+d69 1
+a69 1
+	 * Process this data message.
+d71 13
+a83 4
+	case Data:
+	    store_data(&tcb.data);
+	    done = FALSE;
+	    break;
+d86 2
+a87 2
+	 * An executive message has arrived.  Process the request and send
+	 * back an acknowledge message.
+d89 1
+a89 5
+	case Executive:
+	    Process_Executive_request(&tcb.data, &reqtype);
+	    if (reqtype == GS_STRUCT_RECEIVER_TERMINATE)
+		done = TRUE;
+	    break;
+d93 2
+a94 3
+	 * If message type is not recognized, log error to Connection
+	 * Manager. For now this will be non-terminal even though it
+	 * represents an unknown state that is difficult to recover from.
+d96 34
+a129 7
+	default:
+	    Error_Handler(handle, "Invalid message type", tcb.data.type);
+	    break;
+	}
+    } while (!done);
+    status = gs_term(handle);
+    exit(status);
+d144 4
+a147 4
+    GSTCB_t tcb;
+    GSMessage_t msg;
+    int     result;
+    char    text[256];
+d149 4
+a152 4
+    sprintf(text, "%d:%s", code, string);
+    strcpy(msg.MsgBuf, text);
+    msg.MsgType = Executive;
+    msg.MsgLen = strlen(text);
+d154 4
+a157 4
+    strcpy(tcb.id, "TCB");
+    tcb.BlockNum = 0;
+    tcb.LastBlock = 0;
+    tcb.data.structure_pointer = (GSVoidptr_t) &msg;
+d159 6
+a164 6
+    if (handle != (GSHandle_t) 0) {
+	gs_send(handle, &tcb, &result);
+    }
+    else {
+    /* Write to an error log here */
+    }
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d37 1
+a37 1
+    GSTCB_t     tcb;
+d55 2
+a56 2
+        Error_Handler(handle, "Failed to connect to Client.", GS_FAIL);
+        exit(GS_FAIL);
+d66 1
+a66 1
+        status = GS_receive(handle, &tcb);
+d71 13
+a83 13
+        if (status != GS_SUCCESS) {
+            Error_Handler(handle, "Error From gs_receive", status);
+            trys++;
+            if (trys > RETRYS) {
+                sprintf(text, "Aborting after %d retrys.", trys);
+                Error_Handler(handle, text, status);
+                gs_term(handle);
+                exit(GS_FAIL);
+            }
+            else {
+                continue;    /* Try again to receive */
+            }
+        }
+d89 1
+a89 1
+        trys = 0;
+d96 1
+a96 1
+        switch (tcb.data.type.symbolic) {
+d98 7
+a104 7
+        /*
+         * Process this data message.
+         */
+        case Data:
+            store_data(&tcb.data);
+            done = FALSE;
+            break;
+d106 9
+a114 9
+        /*
+         * An executive message has arrived.  Process the request and send
+         * back an acknowledge message.
+         */
+        case Executive:
+            Process_Executive_request(&tcb.data, &reqtype);
+            if (reqtype == GS_STRUCT_RECEIVER_TERMINATE)
+                done = TRUE;
+            break;
+d117 9
+a125 9
+        /*
+         * If message type is not recognized, log error to Connection
+         * Manager. For now this will be non-terminal even though it
+         * represents an unknown state that is difficult to recover from.
+         */
+        default:
+            Error_Handler(handle, "Invalid message type", tcb.data.type);
+            break;
+        }
+d143 1
+a143 1
+    GSTCB_t     tcb;
+d156 1
+a156 1
+    tcb.data.structure_pointer = (GSVoidptr_t) & msg;
+d159 1
+a159 1
+        gs_send(handle, &tcb, &result);
+@

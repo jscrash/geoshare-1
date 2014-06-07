@@ -1,0 +1,1 @@
+-st -bbb -nbc -nce -nfc1 -nip -nlp -npsl -sc -nsob -di8 -i8 -d1 -c30 -TGSHandle_t -TGSMessage_t -TGSSlot_t -TGSKey_t -TGSTCB_t -TGSStructure_t -TGSVoidptr_t -TGSGBL_t

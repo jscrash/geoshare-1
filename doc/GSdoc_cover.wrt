@@ -1,0 +1,122 @@
+104 pgscriptver 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@default) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*default) DefParaResource 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResource 
+
+0 DefPageDimensions 12240 DefPageWidth 15840 DefPageHeight 1440 
+DefInsideMargin 1080 DefOutsideMargin 1080 DefTopMargin 1080 
+DefBottomMargin 0 DefOrientation 0 DefPageStyle 1 DefColumns 360 
+DefGutter (%default) DefMasterPage ResDefEnd 
+
+0 DefFirstLeft 0 DefDocSetup 1 DefNumPages 1 AutoPage 1 
+DefStartPageNum () DefPageNumPrefix 1 DefGraphicLocation document 
+
+0 DefAutoPage 
+0 (%default) 1 DefPage 
+1 DefAutoPage 
+0 (%default) 2 DefPage 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK POLY_COLUMN | |  DefSLinksFlags 0 DefStreamSucc 0 
+DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (%default) 0 1 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK MPREF_VALID POLY_COLUMN AUTO_STREAM | | | |  
+DefSLinksFlags 0 DefStreamSucc 0 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 2 TextPolygon 
+
+3 asciitextstream 
+<48 cs><eop>
+<eop>
+GeoShare<ON it><eop>
+<eop>
+<eop>
+<28 cs>Software Design<IT type_rev><eop>
+<48 cs><eop>
+<eop>
+<eop>
+<eop>
+<18 cs>by<eop>
+Finder Graphics Systems, Inc.
+<textstream_end> 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK MPREF_VALID POLY_COLUMN AUTO_STREAM | | | |  
+DefSLinksFlags 0 DefStreamSucc 0 DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (2) 0 4 TextPolygon 
+
+BeginProfile 
+(Number of Pages) (1)  DefProfileString 
+(Language) (ENGLISH)  DefProfileString 
+(Version) (IslandWrite Version 2.3)  DefProfileString 
+(Creation Date) (vince 12 Apr, 1991 10:53 AM)  DefProfileString 
+(Text Formats) (default)  DefProfileString 
+(Container Formats) (default)  DefProfileString 
+(Page Formats) (default)  DefProfileString 
+(Fonts) (NewCenturySchlbk)  DefProfileString 
+(File Path) ()  DefProfileString 
+(External Contents) ()  DefProfileString 
+(Title) ()  DefProfileString 
+(Status) ()  DefProfileString 
+(Distribution List) ()  DefProfileString 
+(Preparer) ()  DefProfileString 
+(Owner) ()  DefProfileString 
+(Author) ()  DefProfileString 
+(Superseded Documents) ()  DefProfileString 
+EndProfile 
+
+pgscriptdone 

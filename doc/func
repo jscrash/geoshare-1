@@ -1,0 +1,66 @@
+GeoShare Function Library
+-------------------------
+
+FUNCTION
+int 	GS_inquire_destinations (TCP dest_list)
+
+ASSERTIONS
+	Input:	NONE
+
+	Output: TCP dest_list	- Array of character strings
+
+DESCRIPTION
+Query the connection manager for an array of character strings
+containing valid data receiver names.  The data receiver names
+returned by this routine may be used to initialize a connection
+using the GS_initialize function.
+
+A data receiver name is comprised of two parts, only the first part
+is mandatory:
+
+	receiver_name:host_string
+
+where host_string is an optional host name where the receiver
+exists.
+
+
+
+
+
+FUNCTION
+GS_handle_t	GS_initialize (char *destination, GS_contextinfo context)
+
+ASSERTIONS
+	Input:	destination	- Name of the data receiver to start
+		context		- Argument string for receiver
+				  command line
+
+	Output: NONE	
+
+DESCRIPTION
+Initialize a connection to the named receiver program.  This will
+send a protocol request to the connection manager running on the
+current host and have it start the named program.  The name of the
+program may be an alias that requires translation by the connection
+manager process.
+
+
+FUNCTION
+int	GS_term (GS_handle_t handle)
+
+ASSERTIONS
+	Input:	handle		- A handle describing the connection
+				  to the receiving process. 
+
+	Output:	NONE
+
+DESCRIPTION
+
+PARAMETERS
+
+
+int	GS_receive (GS_handle_t handle, TCB *tcb)
+
+PARAMETERS
+
+

@@ -1,0 +1,6 @@
+The connection manager polls each of the active process slots (slots
+which indicate a state of Locked, or unlocked) in a scheduled
+manner. The shedule is as follows:
+
+
+

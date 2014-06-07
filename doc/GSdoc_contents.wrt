@@ -1,0 +1,498 @@
+104 pgscriptver 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@default) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*default) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 1 DefBoldOn 1 
+DefItalicOn 100 DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH 
+DefLanguage 14 DefPointSize USE_POINTSIZE DefSetSize (@TOC1) DefTypeResource 
+
+CENTER DefJustifyFlags 8 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 300 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOC1) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 1 DefItalicOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@TOC2) DefTypeResource 
+
+CENTER DefJustifyFlags 8 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 300 DefLeaderEx 46 DefLeaderChar 360 DefFirstIndent 360 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOC2) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@TOC3) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 300 DefLeaderEx 46 DefLeaderChar 720 DefFirstIndent 720 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOC3) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@TOC4) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 300 DefLeaderEx 46 DefLeaderChar 1080 DefFirstIndent 1080 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOC4) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@TOC5) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 300 DefLeaderEx 46 DefLeaderChar 1440 DefFirstIndent 1440 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOC5) DefParaResource 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 24 
+DefPointSize USE_POINTSIZE DefSetSize (@TOCTitle) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*TOCTitle) DefParaResource 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResource 
+
+0 DefPageDimensions 12240 DefPageWidth 15840 DefPageHeight 1440 
+DefInsideMargin 1080 DefOutsideMargin 1080 DefTopMargin 1080 
+DefBottomMargin 0 DefOrientation 0 DefPageStyle 1 DefColumns 360 
+DefGutter (%default) DefMasterPage ResDefEnd 
+
+0 DefFirstLeft 0 DefDocSetup 1 DefNumPages 1 AutoPage 1 
+DefStartPageNum () DefPageNumPrefix 1 DefGraphicLocation document 
+
+0 DefAutoPage 
+0 (%default) 1 DefPage 
+1 DefAutoPage 
+0 (%default) 2 DefPage 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK POLY_COLUMN | |  DefSLinksFlags 0 DefStreamSucc 0 
+DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (%default) 0 1 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 7 DefStreamSucc 0 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 2 TextPolygon 
+
+3 asciitextstream 
+<*TOC1><@TOC1>Chapter 1<li>1<eop>
+<*TOC2><@TOC2>Overview<li>1<eop>
+<*TOC3><@TOC3>References<li>2<eop>
+Introduction<li>2<eop>
+Scope<li>2<eop>
+System Overview<li>3<eop>
+Definitions<li>5<eop>
+Connection Manager<li>6<eop>
+<*TOC4><@TOC4>Connection Manager Flow<li>7<eop>
+Connection Manager Internal Services<li>8<eop>
+Connection Manager implementation notes<li>9<eop>
+Connection Manager Message Arbitration<li>10<eop>
+<*TOC3><@TOC3>The Client Process<li>11<eop>
+Client - Server Communication<li>13<eop>
+<*TOC4><@TOC4>Message Passing<li>14<eop>
+Message Synchronization<li>15<eop>
+Client Process Pseudo-Code<li>17<eop>
+Subroutines used by the Client Process<li>18<eop>
+<*TOC3><@TOC3>Data Receiver<li>19<eop>
+<*TOC4><@TOC4>Receiver Psuedo-Code<li>22<eop>
+<*TOC1><@TOC1>Chapter 2<li>27<eop>
+<*TOC2><@TOC2>Subroutine Library<li>27<eop>
+<*TOC3><@TOC3>GS_connect<li>28<eop>
+GS_initialize<li>30<eop>
+GS_inquire_context<li>31<eop>
+GS_inquire_destinations<li>32<eop>
+GS_receive<li>33<eop>
+GS_send<li>34<eop>
+GS_terminate<li>35<eop>
+GS_receive<li>36<eop>
+<*TOC1><@TOC1><pe>Chapter 3<li>37<eop>
+<*TOC2><@TOC2>Data Structures<li>37<eop>
+<*TOC3><@TOC3>STATUS STRUCTURE<li>38<eop>
+CONTEXT STRUCTURES<li>39<eop>
+EXECUTIVE STRUCTURES<li>40<@TOC1><eop>
+<*TOC1>Chapter 4<li>43<eop>
+<@TOC2><*TOC2><*TOC2>Installation<li>43<eop>
+<*TOC3><@TOC3>GeoShare Installation<li>44<eop>
+Configuration<li>44<eop>
+Privileges<li>44<eop>
+<*TOC4><@TOC4>Starting The Connection Manager<li>45<eop>
+Adding or Installing Data Receivers<li>45<eop>
+<*TOC3><@TOC3>Configuration File<li>46<eop>
+
+<textstream_end> 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+0  DefSLinksFlags 0 DefStreamSucc 0 DefStreamPred 5 DefTextHandle 
+1440 1080 11160 1080 11160 2191 1440 2191 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 4 TextPolygon 
+
+5 asciitextstream 
+<*TOCTitle><@TOCTitle><*TOC1>Table of Contents <eop>
+<textstream_end> 10849 1795 1975 1795 
+0 100 -1 0 0 0 0 (1) 6 
+rule 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK MPREF_VALID POLY_COLUMN AUTO_STREAM | | | |  
+DefSLinksFlags 0 DefStreamSucc 2 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (2) 0 7 TextPolygon 
+
+BeginProfile 
+(Number of Pages) (2)  DefProfileString 
+(Language) (ENGLISH)  DefProfileString 
+(Version) (IslandWrite Version 2.3)  DefProfileString 
+(Creation Date) (vince 25 Mar, 1991 6:23 PM)  DefProfileString 
+(Revision History) (vince 27 Mar, 1991 12:59 PM)  DefProfileString 
+(Revision History) (vince 27 Mar, 1991 12:56 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 1:54 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 1:52 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 1:49 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 1:28 PM)  DefProfileString 
+(Revision History) (julian March 26, 1991 1:21 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:40 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:39 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:33 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:32 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:28 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:25 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:16 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 12:12 PM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 11:40 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 11:20 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 11:18 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 10:45 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 9:44 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 9:42 AM)  DefProfileString 
+(Revision History) (vince 26 Mar, 1991 9:42 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 6:23 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 6:03 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 5:47 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 5:37 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 10:40 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 10:18 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 10:12 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 10:04 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 9:55 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 9:41 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 9:20 AM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 6:21 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 5:57 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 5:25 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 4:34 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 4:25 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 4:15 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 4:12 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 3:37 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 3:09 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 3:05 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 2:59 PM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 11:31 AM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 11:30 AM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 11:30 AM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 11:29 AM)  DefProfileString 
+(Revision History) (vince 22 Mar, 1991 10:58 AM)  DefProfileString 
+(Revision History) (vince 21 Mar, 1991 6:18 PM)  DefProfileString 
+(Revision History) (vince 21 Mar, 1991 5:53 PM)  DefProfileString 
+(Revision History) (vince 21 Mar, 1991 5:51 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 4:42 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 4:03 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 4:01 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:58 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:47 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:46 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:38 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:36 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:33 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:17 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 3:08 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 2:59 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 2:50 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 2:30 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 1:03 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 12:46 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 12:18 PM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 11:58 AM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 11:56 AM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 11:54 AM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 11:02 AM)  DefProfileString 
+(Revision History) (vince 20 Mar, 1991 10:03 AM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:29 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:26 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:24 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:22 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:21 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 6:20 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 5:14 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 4:41 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 4:40 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 3:50 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 3:27 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 1:32 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 1:16 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 12:55 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 12:42 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 12:07 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 12:04 PM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 11:58 AM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 11:55 AM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 11:44 AM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 10:59 AM)  DefProfileString 
+(Revision History) (vince 19 Mar, 1991 10:51 AM)  DefProfileString 
+(Text Formats) (TOC1)  DefProfileString 
+(Text Formats) (TOC2)  DefProfileString 
+(Text Formats) (TOC3)  DefProfileString 
+(Text Formats) (TOC4)  DefProfileString 
+(Text Formats) (TOCTitle)  DefProfileString 
+(Container Formats) (default)  DefProfileString 
+(Page Formats) (default)  DefProfileString 
+(Fonts) (NewCenturySchlbk)  DefProfileString 
+(File Path) ()  DefProfileString 
+(External Contents) ()  DefProfileString 
+(Title) (GeoShare Software Plan)  DefProfileString 
+(Status) ()  DefProfileString 
+(Distribution List) ()  DefProfileString 
+(Preparer) ()  DefProfileString 
+(Owner) ()  DefProfileString 
+(Author) (Julian Carlisle & Vince Cardinale)  DefProfileString 
+(Superseded Documents) ()  DefProfileString 
+EndProfile 
+
+pgscriptdone 

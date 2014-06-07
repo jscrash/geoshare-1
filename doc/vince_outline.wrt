@@ -1,0 +1,320 @@
+104 pgscriptver 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (NewCenturySchlbk) DefTypeFace ENGLISH DefLanguage 12 
+DefPointSize USE_POINTSIZE DefSetSize (@default) DefTypeResource 
+
+CENTER DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*default) DefParaResource 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResource 
+
+0 DefPageDimensions 12240 DefPageWidth 15840 DefPageHeight 1440 
+DefInsideMargin 1080 DefOutsideMargin 1080 DefTopMargin 1080 
+DefBottomMargin 0 DefOrientation 0 DefPageStyle 1 DefColumns 360 
+DefGutter (%default) DefMasterPage ResDefEnd 
+
+0 DefFirstLeft 0 DefDocSetup 1 DefNumPages 1 AutoPage 1 
+DefStartPageNum () DefPageNumPrefix 1 DefGraphicLocation document 
+
+0 DefAutoPage 
+0 (%default) 1 DefPage 
+1 DefAutoPage 
+0 (%default) 2 DefPage 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK POLY_COLUMN | |  DefSLinksFlags 0 DefStreamSucc 0 
+DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (%default) 0 1 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 8 DefStreamSucc 0 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 2 TextPolygon 
+
+3 asciitextstream 
+<LEFT align><0 46 TAB_LEFT 720 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LEFT 2160 1 0 46
+ TAB_LEFT 2880 1 0 46 TAB_LEFT 3600 1 0 46 TAB_LEFT 4320 1 0 46 TAB_LEFT 5040 1
+ 0 46 TAB_LEFT 5760 0 0 46 TAB_LEFT 6480 0 0 46 TAB_LEFT 7200 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><eop>
+<ON bo>   Table of Contents<eop>
+<BO type_rev><eop>
+<LEFT align><0 46 TAB_LEFT 720 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LEFT 2160 1 0 46
+ TAB_LEFT 2880 1 0 46 TAB_LEFT 3600 1 0 46 TAB_LEFT 4320 1 0 46 TAB_LEFT 5040 1
+ 0 46 TAB_LEFT 5760 0 0 46 TAB_LEFT 6480 0 0 46 TAB_LEFT 7200 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler>   <ON bo>Introduction<BO type_rev><
+eop>
+<LEFT align><0 46 TAB_LEFT 720 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LEFT 2160 1 0 46
+ TAB_LEFT 2880 1 0 46 TAB_LEFT 3600 1 0 46 TAB_LEFT 4320 1 0 46 TAB_LEFT 5040 1
+ 0 46 TAB_LEFT 5760 0 0 46 TAB_LEFT 6480 0 0 46 TAB_LEFT 7200 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><ON it>      What is this document a
+bout<eop>
+<IT type_rev>         GeoLink of course!<eop>
+<eop>
+<ON it>      Who is the intended reader<eop>
+<IT type_rev>         Anyone who will stand for being victimized by it<eop>
+<eop>
+<ON bo><pe>   System Overview<eop>
+<BO type_rev><ON it>      What is FinderLink<eop>
+<IT type_rev>         What is the problem to be solved<eop>
+            The transfer of Geoscientific data between various vendors of<eop>
+            Geoscience applications<eop>
+<eop>
+         What problems will NOT be solved<eop>
+            Not a distributed database system<eop>
+            Not a Data inquiry system<eop>
+<eop>
+<ON it>      How is the problem going to be solved<eop>
+<IT type_rev>         What will the user see (in general)<eop>
+            Finder users<eop>
+               Finder Data Mover user interface<eop>
+<eop>
+            Other vendor users<eop>
+               The vendor's standard data selection methods<eop>
+<eop>
+<ON bo><pe>   Functional Overview<eop>
+<BO type_rev><ON it>      What will a Finder user see (in more detail)<eop>
+<IT type_rev>         Picture of Dialog(s)<eop>
+<eop>
+<ON it>      What will happen behind the scenes<eop>
+<IT type_rev>         Will backgrounding be an option<eop>
+<eop>
+<ON it>      Introduce the Layered approach<eop>
+<IT type_rev>         Picture of layers<eop>
+         Overview of each layer / What will each layer do<eop>
+            User Layer<eop>
+            Data Layer<eop>
+            Application Layer<eop>
+            Coding Layer<eop>
+            Transport Layer<eop>
+            Network Layer<eop>
+<eop>
+<ON bo><pe>   Design<eop>
+<BO type_rev><ON it>      How will each layer do its job / What does each layer
+ expect<eop>
+      from the previous layer / What functions will each layer provide<eop>
+      to the previous layer (Overview)<eop>
+<IT type_rev>         User Layer<eop>
+            provide the User Interface<eop>
+            generates selection criteria (SQL phrases or descriptions of data)<
+eop>
+            Not implemented in this document.  See Finder Data Mover design<eop
+>
+<eop>
+         Data Layer<eop>
+            accept SQL phrases or data descriptions as input<eop>
+            generate select lists<eop>
+            Not implemented in this document.  See Finder Data Mover design<eop
+>
+<eop>
+         Application Layer<eop>
+            accept select lists as input<eop>
+            provide inquiry functions of Hosts and Servers<eop>
+            provide memory management (alloc / free)<eop>
+            provide the high level transport routines (put / get)<eop>
+            generate interface structures from the select lists<eop>
+<eop>
+         Coding Layer<eop>
+            accept interface structures<eop>
+            serialize/deserialize the structures<eop>
+            convert serialized data from/to encoded data stream<eop>
+<eop>
+         Transport Layer<eop>
+            accept an encoded data stream<eop>
+            transmit the stream to a corresponding process (using Network Layer
+)<eop>
+<eop>
+         Network Layer<eop>
+            select transport method (user selection and/or supported by target)
+<eop>
+               TCP/IP, shared memory, shared binary files, memory to memory,<eo
+p>
+               etc.<eop>
+<eop>
+<pe><ON it>   Functional Specifications (detailed specs for each function in ea
+ch layer)<eop>
+<IT type_rev>      User Layer (Finder User point of view)<eop>
+         Provided by Finder Data Mover<eop>
+<eop>
+      Data Layer<eop>
+         Provided by Finder Data Mover<eop>
+<eop>
+      Application Layer<eop>
+         fl_alloc, fl_free, fl_get, fl_inq_destinations, fl_inq_server_args,<eo
+p>
+         fl_inq_transport_method, fl_put<eop>
+<eop>
+      Coding Layer<eop>
+         fl_encode, fl_decode<eop>
+<eop>
+      Transport Layer<eop>
+         fl_close, fl_open, fl_read, fl_stat, fl_write<eop>
+<eop>
+      Network Layer<eop>
+         No routines provided by FGS.<eop>
+
+<textstream_end> 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth 0 DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+0  DefSLinksFlags 0 DefStreamSucc 0 DefStreamPred 5 DefTextHandle 
+1440 1080 11160 1080 11160 3332 1440 3332 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 4 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth 100 DefPenColor 3 DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+0  DefSLinksFlags 0 DefStreamSucc 0 DefStreamPred 7 DefTextHandle 
+3681 1080 8770 1080 8770 3332 3681 3332 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 6 TextPolygon 
+
+7 asciitextstream 
+<ON bo><ON it><LEFT align><0 46 TAB_LEFT 720 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LE
+FT 2160 1 0 46 TAB_LEFT 2880 1 0 46 TAB_LEFT 3600 1 0 46 TAB_LEFT 4320 1 0 46 T
+AB_LEFT 5040 1 0 46 TAB_LEFT 5760 0 0 46 TAB_LEFT 6480 0 0 46 TAB_LEFT 7200 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 244
+80 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB
+_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0
+ 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><4 ABSOLUTE bpl><BEGIN
+PARALEAD para_rev><14 ABSOLUTE cl><2 INCREMENTAL cl><116 PROPORTIONAL cl>   Gui
+delines<eop>
+<*default><116 PROPORTIONAL cl><LEFT align><0 46 TAB_LEFT 720 1 0 46 TAB_LEFT 1
+440 1 0 46 TAB_LEFT 2160 1 0 46 TAB_LEFT 2880 1 0 46 TAB_LEFT 3600 1 0 46 TAB_L
+EFT 4320 1 0 46 TAB_LEFT 5040 1 0 46 TAB_LEFT 5760 0 0 46 TAB_LEFT 6480 0 0 46 
+TAB_LEFT 7200 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler>     
+ The KIS principle applies to all text<eop>
+      Graphics have 5 to 7 entities<eop>
+      Sentences are short<eop>
+      The vocabulary is simple<eop>
+      Make it flow<eop>
+      Avoid referencing future events<eop>
+
+<textstream_end> 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 0 DefStreamSucc 2 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (2) 0 8 TextPolygon 
+
+BeginProfile 
+(Number of Pages) (5)  DefProfileString 
+(Language) (ENGLISH)  DefProfileString 
+(Version) (IslandWrite Version 2.3)  DefProfileString 
+(Creation Date) (vince 13 Mar, 1991 1:15 PM)  DefProfileString 
+(Text Formats) (default)  DefProfileString 
+(Container Formats) (default)  DefProfileString 
+(Page Formats) (default)  DefProfileString 
+(Fonts) (NewCenturySchlbk)  DefProfileString 
+(File Path) ()  DefProfileString 
+(External Contents) ()  DefProfileString 
+(Title) ()  DefProfileString 
+(Status) ()  DefProfileString 
+(Distribution List) ()  DefProfileString 
+(Preparer) ()  DefProfileString 
+(Owner) ()  DefProfileString 
+(Author) ()  DefProfileString 
+(Superseded Documents) ()  DefProfileString 
+EndProfile 
+
+pgscriptdone 

@@ -1,0 +1,39 @@
+Structure Splitting & Traversal Example
+---------------------------------------
+The algorithm for splitting up the data before sending is as
+follows:
+
+Foreach data element to process & send:
+    *  Scan data structure & tag any non-Atom members
+    *  transfer data structure
+    *  Process tags sequentially in order tagged.  For each data tag,
+       scan & tag non-Atoms and send data element followed by any tags
+       contained within.
+
+
+Consider the following structure definitions:
+
+	struct c {
+	    int ci3;
+	    Vector_t cv3;
+	}
+
+	struct a {
+	    int ai1;
+	    struct  b  {
+		int bi2;
+		Vector_t  bv1;
+	    }
+	    char ac1[16];
+	    struct c *asp1;
+	    Vector_t av2;
+	}
+
+1) struct a is processed.  All non-Atom members are tagged (bv1,asp1,av2)
+2) struct a is transferred.
+3) Vector bv1 is transferred.
+4) Structure tag asp1 is processed.  All non-Atom members are tagged (cv3)
+5) structure asp1 is transferred.
+6) Vector cv3 is transferred.
+7) Vector av2 is transferred.
+

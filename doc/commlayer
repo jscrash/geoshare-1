@@ -1,0 +1,125 @@
+COMMUNICATIONS LAYER INTERFACE ROUTINES
+---------------------------------------
+
+The routines in this layer include:
+
+	flopen()
+	flencode()
+	fldecode()
+	flclose()
+	flset()
+	flinq()
+
+FlHandle *flopen (char *servicename)
+	This routine opens a connection to the service requested in
+	the servicename argument.  Servicename is an address string
+	of the form:
+
+		<Appliction data server name>[:address]
+
+	The first component of the servicename string identifies the
+	target application server to recieve the data.  The second
+	part of the servicename string is an optional address
+	specifier.  This implementation of flopen will ignore the
+	address portion of a servicename string and always route the
+	data to an application server on the current host.  If specified,
+	it must be preceded by a colon.
+
+	A FlHandle pointer is returned by flopen.  This handle is
+	used in calls to the other communication layer routines
+	such as flencode etc.  The definition of the FlHandle
+	structure is as follows:
+
+		struct FlHandle {
+			int 	type; 	/* Class of handle      	*/
+			void	*h;	/* Protocol specific structure	*/
+			};
+
+		
+	
+
+int flclose (FlHandle *h)
+	The flclose routine flushes and closes the connection identified 
+	by the handle argument.   Any resources associated with the handle
+	are released.
+
+
+
+int flencode (FlHandle *h, void *data, int datatype)
+	The flencode routine encodes a datastructure into a format
+	suitable for transferring to the destination identified by
+	the handle argument, and then transfers the data.
+	
+	The datatype argument specifies a known interface
+	datastructure as defined in goescience.h
+
+	The following is a list of some known data types:
+
+FIG N
+-------------------------------------------------------------------
+
+			Contour_t
+			DataStructType_t
+			DataSupported_t
+			ErrorReturn_t
+			ErrorVector_t
+			Executive_t
+			FaultTraceSet_t
+			Grid_t
+			LithostratigraphicCodeList_t
+			Map_t
+			ReceiverSpecs_t
+			SeismicSurvey_t
+			Structure_t
+			WellList_t
+			XYZData_t
+			ZoneList_t
+
+-------------------------------------------------------------------
+
+	The type of encoding used depends on what is supported by
+	receiving end.  If the reciever is on the same host as the
+	sender, then a BINARY encoding method is used.  This is
+	encoding method that will be used in the first release, and
+	it is beyond the scope of this document to discuss other
+	formats such as DLIS.
+
+	
+
+int fldecode (FlHandle *h, void *data, &datatype)
+	The fldecode reads data from the connection identified by
+	the handle argument and decodes it into an interface
+	datastructure that is returned in the data argument.  The
+	type of datastructure being returned is placed in the
+	datatype argument.  See figure N above.
+
+ 
+
+int flset (FlHandle *h, FlParam_t param, void *value)
+	The flset routine is used to set/change connection related
+	parameters.  The parameters that may be set are listed in
+	FIG N. 
+
+FIG N
+-------------------------------------------------------------------
+Parameter	Range	Default	Meaning	
+--------- 	-----	-------	-------
+MAXBUF  	1-65535	65535	Max size of a single entity packet
+    .   	.	.	.	
+    .   	.	.	.	
+-------------------------------------------------------------------
+
+	
+int flinq (FlHandle *h, FlParam_t param, void *value)
+	The flinq routine is used to inquire a connection related
+	parameter value.  The parameters that may be inquired are
+	listed in FIG N.
+
+FIG N
+-------------------------------------------------------------------
+Parameter	Range	Default	Meaning	
+--------- 	-----	-------	-------
+MAXBUF  	1-65535	65535	Max size of a single entity packet
+SERVICES
+    .   	.	.	.	
+    .   	.	.	.	

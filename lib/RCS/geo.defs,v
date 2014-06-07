@@ -1,0 +1,1166 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@# @;
+
+
+1.0
+date	91.05.03.09.31.36;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of geo.defs.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@typedef long GSLongInt_t;
+typedef float GSReal_t;
+typedef double GSDP_t;
+typedef unsigned long int GSUlong_t;
+typedef long GSBoolean_t;
+typedef char *GSVoidptr_t;
+typedef long GSMask_t;
+
+typedef struct {
+    GSLongInt_t num;
+    GSUlong_t den;
+}       GSRational_t;
+
+
+typedef enum {
+    GSV_UNKNOWN = 0,
+    GSV_INT = 10,
+    GSV_REAL = 11,
+    GSV_DP = 12,
+    GSV_FRAC8 = 13,
+    GSV_FRAC16 = 14,
+    GSV_UNSIGNED_LONG = 15,
+    GSV_BOOLEAN = 16,
+    GSV_RATIONAL = 17,
+    GSV_CHAR = 18,
+    GSV_COMPLEX = 19,
+    GSV_STRING = 20,
+    GSV_RECEIVER_RQMTS = 100,
+    GSV_DATA_SUPPORTED = 101,
+    GSV_GSSTRUCTURE = 102,
+    GSV_RECEIVER_CONTEXT = 103,
+    GSV_STATUS_RETURN = 104,
+    GSV_XYZ_POINT = 1000,
+    GSV_SEISMIC_DATA_POINT = 1001,
+    GSV_MAP_LOCATION = 1002,
+    GSV_DEPTHS = 1003,
+    GSV_PROCESS_HISTORY = 1004,
+    GSV_STRAT_COLUMN = 2000,
+    GSV_LITHOSTRAT_CODE_DESC = 2001,
+    GSV_ZONE_VARIABLE_DEF = 3000,
+    GSV_ZONE_DEF = 3001,
+    GSV_ZONE_VALUE = 3002,
+    GSV_WELL_REMARKS = 4001,
+    GSV_WELL_TUBULARS = 4002,
+    GSV_WELL_PRODUCTION = 4003,
+    GSV_WELL_MARKER = 4004,
+    GSV_WELL_CORE = 4005,
+    GSV_WELL_ATTRIBUTE = 4006,
+    GSV_WELL_HDR = 4007,
+    GSV_WELL_TEST_HDR = 4008,
+    GSV_LOG_RUN = 5000,
+    GSV_LOG_PASS = 5001,
+    GSV_LOG_SERVICE = 5002,
+    GSV_LOG_TRACE = 5003,
+    GSV_SEISMIC_TRACE = 6000,
+    GSV_SEISMIC_CLASS = 6001,
+    GSV_SEISMIC_LINE = 6002,
+    GSV_SEISMIC_SURFACE = 6003,
+    GSV_SEISMIC_TRANSDUCER = 6004,
+    GSV_MAP_POLYLINE = 7000,
+    GSV_MAP_POINT = 7001,
+    GSV_MAP_SYMBOL = 7002,
+    GSV_MAP_ANNOTATION = 7003,
+    GSV_MAP_ATTRIBUTE = 7004,
+    GSV_MAP_OBJECTS = 7005,
+    GSV_ATTRIBUTE_ITEM = 7006,
+    GSV_CONTACT = 8000,
+    GSV_SEGMENT = 8001,
+    GSV_FAULT_TRACE = 9000,
+    GSV_FAULT_SURFACE = 9001,
+    GSV_SURFACE_ATTRIBUTE = 10000,
+    GSV_SURFACE_GEOMETRY = 10001
+} GSVectorType_t;
+
+
+typedef struct {
+    GSVectorType_t element_format;
+    GSLongInt_t extension;
+    GSUlong_t element_size;
+    GSUlong_t number_elements;
+    GSVoidptr_t vector_pointer;
+}       GSVector_t;
+
+typedef GSVector_t GSString_t;
+typedef GSString_t GSDate_t;
+
+typedef struct {
+    GSLongInt_t major;
+    GSLongInt_t revision;
+    GSString_t vendor;
+}       GSVersion_t;
+
+typedef GSLongInt_t GSNodeID_t;
+typedef GSString_t GSPlotSymbol_t;
+typedef GSString_t GSUWI_t;
+typedef GSString_t GSSurfaceSetName_t;
+typedef GSRational_t GSShotPoint_t;
+typedef GSRational_t GSCDP_t;
+typedef GSRational_t GSLineNumber_t;
+typedef GSReal_t GSStatic_t;
+
+typedef enum {
+    GS_SRF_TYPE_UNKNOWN = 0,
+    GS_SRF_TYPE_HOR = 1,
+    GS_SRF_TYPE_FLT = 2
+} GSSurfaceType_t;
+
+
+typedef enum {
+    GS_Z_VALUE_UNDEFINED = 0,
+    GS_Z_VALUE_TIME = 1,
+    GS_Z_VALUE_UNSNAPPED_TIME = 2,
+    GS_Z_VALUE_AMPLITUDE = 3,
+    GS_Z_VALUE_DEPTH = 4
+} GSZValueCode_t;
+
+
+typedef enum {
+    GS_SNAP_P_NEAR = 1,
+    GS_SNAP_P_MAX = 2,
+    GS_SNAP_T_NEAR = 3,
+    GS_SNAP_T_MAX = 4,
+    GS_SNAP_ZPN = 5,
+    GS_SNAP_ZNP = 6,
+    GS_SNAP_NULL = 7,
+    GS_SNAP_UNDEFINED = 8
+} GSSnapEvent_t;
+
+
+typedef enum {
+    GS_LINE_2D = 30,
+    GS_LINE_3DI = 31,
+    GS_LINE_XLN = 32,
+    GS_LINE_TSL = 33,
+    GS_LINE_RANDOM = 34
+} GSLineType_t;
+
+
+typedef struct {
+    GSDate_t proc_date;
+    GSString_t vendor;
+    GSString_t description;
+}       GSProcessingHistory_t;
+
+
+typedef struct {
+    GSLongInt_t n_live;
+    GSReal_t max_amplitude;
+    GSReal_t min_amplitude;
+    GSReal_t max_magnitude;
+    GSReal_t min_magnitude;
+    GSReal_t rms_amplitude;
+    GSReal_t mean_amplitude;
+    GSReal_t mean_magnitude;
+}       GSAmplitudeStats_t;
+
+
+typedef enum {
+    GS_OPEN_POLYLINE = 0,
+    GS_CLOSED_POLYGON = 1
+} GSPolyLineType_t;
+
+
+typedef struct {
+    GSString_t type;
+    GSString_t unit;
+}       GSUnit_t;
+
+
+typedef struct {
+    GSDP_t  value;
+    GSUnit_t uom;
+}       GSMeasurement_t;
+
+typedef GSMeasurement_t GSTemperature_t;
+typedef GSMeasurement_t GSResistivity_t;
+typedef GSMeasurement_t GSTime_t;
+typedef GSMeasurement_t GSVelocity_t;
+typedef GSMeasurement_t GSWeight_t;
+typedef GSMeasurement_t GSDistance_t;
+typedef GSMeasurement_t GSElevation_t;
+
+typedef struct {
+    GSElevation_t val;
+    GSString_t ref;
+}       GSElevationRef_t;
+
+
+typedef struct {
+    GSMask_t valid;
+    GSDP_t  x;
+    GSDP_t  y;
+    GSDP_t  z;
+}       GSXYZPoint_t;
+
+
+typedef struct {
+    GSMask_t valid;
+    GSDP_t  longitude;
+    GSDP_t  latitude;
+    GSXYZPoint_t coord;
+    GSNodeID_t node_id;
+}       GSMapLocation_t;
+
+
+typedef struct {
+    GSMask_t valid;
+    GSCDP_t cdp;
+    union {
+	GSShotPoint_t shot_point;
+	GSLineNumber_t line_number;
+    }       y;
+    GSMapLocation_t map_loc;
+}       GSSeismicDataPoint_t;
+
+
+typedef struct {
+    GSSeismicDataPoint_t seismic_loc;
+    GSElevation_t datum;
+    GSElevation_t wdepth;
+    GSVelocity_t wvel;
+    GSStatic_t wstatic;
+    GSStatic_t dstatic;
+    GSStatic_t astatic;
+}       GSSeismicTransducer_t;
+
+
+typedef struct {
+    GSDP_t  xmin;
+    GSDP_t  ymin;
+    GSDP_t  zmin;
+    GSDP_t  xmax;
+    GSDP_t  ymax;
+    GSDP_t  zmax;
+}       GSExtents_t;
+
+
+typedef struct {
+    GSDP_t  parms[15];
+    GSLongInt_t projection_type;
+    GSLongInt_t projection_unit;
+    GSLongInt_t zone_code;
+    GSLongInt_t spheroid_code;
+    GSString_t proj_name;
+}       GSCartoProjection_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSString_t attribute;
+    GSUnit_t z_unit;
+    GSVector_t x;
+    GSVector_t y;
+    GSVector_t z;
+    GSMask_t connect_valid;
+    GSVector_t connect;
+}       GSXYZData_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSString_t attribute;
+    GSUnit_t z_unit;
+    GSDistance_t row_distance;
+    GSDistance_t col_distance;
+    GSReal_t angle;
+    GSLongInt_t nrows;
+    GSLongInt_t ncols;
+    GSBoolean_t fl_honored;
+    GSVector_t zvals;
+    GSMask_t valid;
+    GSVector_t xvals;
+    GSVector_t yvals;
+}       GSGrid_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSString_t attribute;
+    GSUnit_t z_unit;
+    GSLongInt_t inc_type;
+    GSVector_t inc_levels;
+    GSVector_t z_vals;
+    GSVector_t endpts;
+    GSVector_t x;
+    GSVector_t y;
+}       GSContour_t;
+
+
+typedef struct {
+    enum {
+	GS_REGULAR_CORRESP = 0,
+	GS_SEMI_REGULAR_CORRESP = 1,
+	GS_IRREGULAR_CORRESP = 2
+    } cdp_sp_reg_flag;
+    GSRational_t cdp_per_sp;
+    GSDistance_t shotpoint_interval;
+    GSCDP_t cdp1;
+    GSShotPoint_t sp1;
+    GSCDP_t cdpinc;
+    GSShotPoint_t spinc;
+    GSVector_t seismic_transducer;
+}       GSSeismicLoc2D_t;
+
+
+typedef struct {
+    GSGrid_t grid;
+    GSLineNumber_t lin1;
+    GSLineNumber_t lininc;
+    GSLongInt_t number_inlines;
+    GSCDP_t cdp1;
+    GSCDP_t cdpinc;
+    GSLongInt_t number_cdps;
+    GSShotPoint_t sp1;
+    GSShotPoint_t spinc;
+    GSSeismicDataPoint_t loc[4];
+}       GSSeismicLocation3D_t;
+
+
+typedef struct {
+    GSUnit_t si_unit;
+    enum {
+	GS_TRACE_ORDER_SHOT = 1,
+	GS_TRACE_ORDER_CDP = 2,
+	GS_TRACE_ORDER_STACK = 3,
+	GS_TRACE_ORDER_SEQ = 4
+    } trace_order;
+    GSUnit_t to_unit;
+    GSBoolean_t offset_validity;
+    GSDistance_t trail_offset;
+    GSDistance_t lead_offset;
+    GSDistance_t near_offset;
+    GSDistance_t far_offset;
+    GSReal_t sample_interval;
+    GSLongInt_t n_samples;
+    GSLongInt_t n_live_traces;
+    GSLongInt_t n_channels;
+    GSLongInt_t n_fold;
+    GSDistance_t cdp_interval;
+    GSShotPoint_t min_shotpoint;
+    GSShotPoint_t max_shotpoint;
+    GSRational_t min_receiver;
+    GSRational_t max_receiver;
+    GSCDP_t min_cdp;
+    GSCDP_t max_cdp;
+    GSRational_t cdp_incr;
+    GSRational_t shotpoint_incr;
+    GSVector_t shot_info_table;
+    GSVector_t receiver_info_table;
+    GSAmplitudeStats_t line_amplitude;
+    enum {
+	GS_NO_MIGRATION = 0,
+	GS_PRESTACK_MIGRATION = 1,
+	GS_POSTSTACK_MIGRATION = 2
+    } migration_type;
+}       GSSeismicLineHdr_t;
+
+
+typedef struct {
+    GSReal_t z;
+    GSReal_t value;
+}       GSVelocityPair_t;
+
+
+typedef struct {
+    enum {
+	GS_STACKING_VELOCITY = 1,
+	GS_AVERAGE_VELOCITY = 2,
+	GS_PSEUDO_VELOCITY = 3,
+	GS_INTERVAL_VELOCITY = 4
+    } velocity_type;
+    GSUnit_t z_unit;
+    GSUnit_t value_unit;
+    GSVector_t velocity_pair;
+}       GSSeismicVelocity_t;
+
+
+typedef struct {
+    enum {
+	GS_DEAD_TRACE = -1,
+	GS_LIVE_TRACE = 1,
+	GS_SWEEP_TRACE = 2,
+	GS_NULL_TRACE = 3
+    } trace_type;
+    GSLongInt_t record_no;
+    GSLongInt_t record_trace_no;
+    GSLongInt_t field_record_no;
+    GSLongInt_t field_record_trace_no;
+    GSCDP_t cdp;
+    GSLongInt_t cdp_trace_no;
+    GSShotPoint_t cdp_sp;
+    GSLongInt_t cdp_fold;
+    GSLongInt_t mute_length;
+    GSReal_t tfs;
+    GSStatic_t bulk_static;
+    GSAmplitudeStats_t trace_amplitude;
+    GSReal_t minimum_scalar;
+    GSReal_t maximum_scalar;
+    GSVector_t seismic_velocity;
+    GSVector_t samples;
+}       GSSeismicTrace_t;
+
+
+typedef struct {
+    GSLineType_t line_type;
+    GSString_t line_name;
+    GSLongInt_t line_number;
+    GSString_t line_desc;
+    GSVector_t seismic_class;
+    GSSeismicLoc2D_t loc2d;
+}       GSSeismicLine_t;
+
+
+typedef struct {
+    GSString_t class_name;
+    GSString_t class_desc;
+    GSSeismicLineHdr_t seismic_line_hdr;
+    GSVector_t seismic_trace;
+    GSVector_t seismic_surface;
+    GSVector_t processing_history;
+}       GSSeismicClass_t;
+
+
+typedef struct {
+    GSSurfaceType_t surface_type;
+    GSSurfaceSetName_t surface_set_name;
+    GSUnit_t z_uom;
+    GSString_t source;
+    GSString_t surface_desc;
+    GSDate_t modified_date;
+    GSSnapEvent_t snap_event;
+    GSReal_t snap_window;
+    GSVector_t segment;
+    GSVector_t contact;
+}       GSSeismicSurface_t;
+
+
+typedef struct {
+    GSSeismicDataPoint_t contact_loc;
+    GSSurfaceType_t surface_type_2;
+    GSSurfaceSetName_t name_2;
+}       GSContact_t;
+
+
+typedef struct {
+    GSLongInt_t seg_id;
+    GSZValueCode_t z_value_code;
+    GSVector_t seismic_data_point;
+}       GSSegment_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSVector_t fault_trace;
+}       GSFaultSurface_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t fault_name;
+    GSLongInt_t ft_seg_id;
+    GSZValueCode_t z_value_code;
+    GSPolyLineType_t open_closed;
+    GSVector_t map_location;
+}       GSFaultTrace_t;
+
+
+typedef struct {
+    enum {
+	GS_REP_NONE,
+	GS_REP_GRID,
+	GS_REP_CONTOUR,
+	GS_REP_CONSTANT,
+	GS_REP_XYZ
+    }       type;
+    union {
+	GSGrid_t grid;
+	GSXYZData_t xyz;
+	GSMeasurement_t constant;
+	GSContour_t contour;
+    }       data;
+}       GSSurfaceRepresentation_t;
+
+
+typedef struct {
+    GSString_t attribute;
+    GSVector_t surface_representation;
+}       GSSurfaceAttribute_t;
+
+
+typedef struct {
+    GSExtents_t extent;
+    GSSurfaceRepresentation_t time_representation;
+    GSSurfaceRepresentation_t depth_representation;
+    GSVector_t surface_attribute;
+}       GSSurfaceGeometry_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSUnit_t z_uom;
+    GSString_t source;
+    GSString_t line_name;
+    GSString_t surface_desc;
+    GSDate_t modified_date;
+    GSSnapEvent_t snap_event;
+    GSReal_t snap_window;
+    GSVector_t segment;
+    GSVector_t contact;
+}       GSLineIntersection_t;
+
+
+typedef struct {
+    GSZValueCode_t z_value_code;
+    GSVector_t xyz_point;
+}       GSSurfaceTrace_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSVector_t surface_trace;
+}       GSSurfaceSurfaceIntersection_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_set_name;
+    GSVector_t line_intersection;
+    GSVector_t well_marker;
+    GSVector_t seismic_well_tie;
+    GSVector_t surface_surface_intersection
+}       GSSurfaceIntersection_t;
+
+
+typedef struct {
+    GSString_t item_name;
+    GSMeasurement_t item_value;
+}       GSAttributeItem_t;
+
+
+typedef struct {
+    GSString_t category_name;
+    enum {
+	GS_PRIMARY_ANNOTATION = 0,
+	GS_ATTRIBUTE_ANNOTATION = 1
+    } anno_type;
+    GSString_t anno;
+    GSString_t font;
+    GSReal_t height_in_mm;
+    GSReal_t anchor_angle;
+    GSMapLocation_t anchor_point;
+    GSVector_t attribute_item;
+}       GSMapAnnotation_t;
+
+
+typedef struct {
+    GSString_t category_name;
+    GSPlotSymbol_t symbol;
+    GSReal_t height_in_mm;
+    GSMapLocation_t anchor_point;
+    GSReal_t anchor_angle;
+    GSVector_t attribute_item;
+}       GSMapSymbol_t;
+
+
+typedef struct {
+    GSString_t category_name;
+    GSMapLocation_t location;
+    GSVector_t attribute_item;
+}       GSMapPoint_t;
+
+
+typedef struct {
+    GSString_t category_name;
+    GSBoolean_t flag;
+    GSPolyLineType_t open_closed;
+    GSVector_t map_location;
+    GSVector_t attribute_item;
+}       GSMapPolyline_t;
+
+
+typedef struct {
+    GSVector_t map_annotation;
+    GSVector_t map_symbol;
+    GSVector_t map_point;
+    GSVector_t map_polyline;
+}       GSMapObjects_t;
+
+
+typedef struct {
+    enum {
+	GS_JEFFERSONIAN = 1,
+	GS_GULF_COAST_OFFSHORE = 2,
+	GS_TEXAS_ABSTRACT = 3,
+	GS_OCS_OFFSHORE = 4
+    } type;
+    union {
+	struct {
+	    GSLongInt_t meridian_code;
+	    GSReal_t township;
+	    char    twpns;
+	    GSReal_t range;
+	    char    rngew;
+	    GSReal_t section;
+	    GSString_t section_type;
+	    GSString_t spot;
+	    GSString_t state;
+	    GSString_t country;
+	    GSString_t county;
+	    GSString_t narrative;
+	}       jeffersonian;
+	struct {
+	    GSString_t abstract;
+	    GSString_t state;
+	    GSString_t country;
+	    GSString_t county;
+	}       texas_abstract;
+	struct {
+	    GSString_t tract;
+	    struct {
+		GSLongInt_t number;
+		char    alpha;
+	    }       block_id;
+	}       gulfcoast_offshore;
+	struct {
+	    enum {
+		GS_FEDERAL_WATERS,
+		GS_STATE_WATERS
+	    }       state_fed;
+	    GSString_t offshore_block;
+	    GSString_t utm_grid_block;
+	    GSLongInt_t ocs_number;
+	}       ocs_offshore;
+    }       system;
+    GSDistance_t nsfootage;
+    GSString_t ns;
+    GSDistance_t ewfootage;
+    GSString_t ew;
+}       GSLegal_t;
+
+
+typedef struct {
+    GSMask_t valid;
+    GSReal_t md;
+    GSReal_t subdatum;
+    GSReal_t tvd;
+    GSReal_t time;
+    GSReal_t dx;
+    GSReal_t dy;
+}       GSDepth_t;
+
+
+typedef struct {
+    GSString_t Code;
+    GSString_t Age;
+}       GSLithoStrat_t;
+
+
+typedef struct {
+    GSVersion_t Version;
+    GSUWI_t uwi;
+    GSPlotSymbol_t symbol;
+    GSUnit_t z_unit;
+    struct {
+	GSBoolean_t flag;
+	GSVector_t depth;
+    }       deviation;
+    GSString_t well_name;
+    GSString_t well_number;
+    GSString_t plot_name;
+    GSString_t short_name;
+    GSString_t operator;
+    GSString_t licensee;
+    GSString_t agent;
+    GSString_t class;
+    GSString_t crstatus;
+    GSString_t orstatus;
+    GSString_t prstatus;
+    GSMapLocation_t tophole_xy;
+    GSLegal_t tophole;
+    GSMapLocation_t bottomhole_xy;
+    GSLegal_t bottomhole;
+    struct {
+	GSMeasurement_t water_depth;
+	GSString_t platform_name;
+    }       offshore;
+    struct {
+	GSDepth_t driller;
+	GSDepth_t logger;
+	GSDepth_t plugback;
+	GSLithoStrat_t formation;
+	GSTemperature_t temperature;
+	GSMeasurement_t pressure;
+    }       td;
+    GSElevationRef_t elevation;
+    GSElevation_t Ground_Elevation;
+    GSElevation_t kb_elevation;
+    GSElevation_t cf_elevation;
+    struct {
+	GSElevationRef_t datum;
+	GSVelocity_t vsd;
+	GSUnit_t time_unit;
+	GSVector_t depth;
+	GSVector_t time;
+    }       checkshot;
+    struct {
+	GSString_t contractor;
+	GSString_t rig_number;
+    }       drilling;
+    GSString_t primary_source;
+    GSString_t stratcolumn;
+    enum {
+	GS_IMPERIAL_UNIT = 1,
+	GS_METRIC_UNIT = 2
+    } original_unit;
+    GSBoolean_t proprietary;
+    GSBoolean_t discovery_well;
+    GSBoolean_t fault;
+    struct {
+	GSBoolean_t flag;
+	GSString_t formcode;
+	GSDepth_t depth;
+	GSDate_t release_date;
+    }       confidential;
+    GSDate_t Last_Update;
+    GSDate_t Spud_Date;
+    GSDate_t Comp_Date;
+    GSDate_t rigrel;
+    GSDate_t onprod;
+    GSDate_t calc_onprod;
+    GSDate_t oninject;
+    GSDate_t status_date;
+    GSDate_t fin_drill;
+    GSBoolean_t updated;
+    GSVector_t log_run;
+    GSVector_t well_core;
+    GSVector_t zone_value;
+    GSVector_t well_marker;
+    GSVector_t well_production;
+    GSVector_t well_tubulars;
+    GSVector_t well_remarks;
+    GSVector_t well_tests;
+}       GSWellHdr_t;
+
+
+typedef struct {
+    enum {
+	GS_WELL_CORE_NORMAL = 1,
+	GS_WELL_CORE_SIDEWALL = 2
+    } core_type;
+    GSDepth_t top;
+    GSDepth_t base;
+    GSReal_t recovered;
+    GSString_t remarks;
+    GSString_t show;
+}       GSWellCore_t;
+
+
+typedef struct {
+    GSString_t type_name;
+    GSDepth_t depth;
+    GSVector_t strings;
+}       GSWellRemarks_t;
+
+
+typedef struct {
+    GSResistivity_t rm;
+    GSResistivity_t rmf;
+    GSResistivity_t rmc;
+    GSString_t source;
+}       GSMudResistivity_t;
+
+
+typedef struct {
+    GSString_t name;
+    GSString_t source;
+    GSLongInt_t version;
+    GSString_t comments;
+    GSUnit_t depth_uom;
+    GSUnit_t trace_uom;
+    GSReal_t non_null_top;
+    GSReal_t non_null_base;
+    GSReal_t min;
+    GSReal_t max;
+    GSReal_t dinc;
+    GSVector_t processing_history;
+    GSVector_t depth;
+    GSVector_t value;
+}       GSLogTrace_t;
+
+
+typedef struct {
+    GSString_t log_service;
+    GSString_t tool_id;
+    GSLongInt_t sequence;
+    GSVector_t log_trace;
+}       GSLogService_t;
+
+
+typedef struct {
+    GSLongInt_t pass_number;
+    GSDate_t pass_date;
+    GSMeasurement_t top;
+    GSMeasurement_t base;
+    GSVector_t log_service;
+}       GSLogPass_t;
+
+
+typedef struct {
+    GSLongInt_t run_number;
+    GSString_t logging_company;
+    GSDate_t run_date;
+    GSString_t logging_unit_number;
+    GSString_t logging_unit_loc;
+    GSString_t recorder;
+    GSString_t witness;
+    GSElevationRef_t datum;
+    struct {
+	GSString_t type;
+	GSMeasurement_t salinity;
+	GSMeasurement_t density;
+	GSMeasurement_t viscosity;
+	GSMeasurement_t fluid_loss;
+	GSReal_t pH;
+	GSMudResistivity_t resistivity;
+	GSMudResistivity_t resistivity_bht;
+    }       mud_data;
+    GSMeasurement_t time_circ_stopped;
+    GSMeasurement_t time_logger_on_bottom;
+    GSTemperature_t max_rec_temp;
+    GSVector_t log_pass;
+}       GSLogRun_t;
+
+typedef GSString_t GSZoneName_t;
+typedef GSString_t GSZoneVariable_t;
+
+typedef struct {
+    GSZoneName_t zone_name;
+    GSString_t top_definition;
+    GSString_t base_definition;
+    GSString_t remarks;
+}       GSZoneDefinition_t;
+
+
+typedef struct {
+    GSZoneName_t zone_name;
+    GSZoneVariable_t variable_name;
+    GSString_t algorithm;
+    GSString_t remarks;
+}       GSZoneVariableDefinition_t;
+
+
+typedef struct {
+    GSZoneName_t zone_name;
+    GSZoneVariable_t variable_name;
+    GSDepth_t top;
+    GSDepth_t base;
+    GSString_t value;
+    GSUnit_t unit;
+}       GSZoneValue_t;
+
+
+typedef struct {
+    enum {
+	GS_OIL = 1,
+	GS_WATER = 2,
+	GS_GAS = 3
+    } fluid_type;
+    GSLongInt_t year;
+    GSZoneName_t zone_name;
+    GSReal_t cumulative_prior_years;
+    GSVector_t prod_month;
+    GSUnit_t unit;
+}       GSWellProduction_t;
+
+
+typedef struct {
+    GSString_t tubing_type;
+    GSString_t tubing_size;
+    GSDate_t install_date;
+    GSDepth_t top;
+    GSDepth_t base;
+    GSMeasurement_t bore;
+    GSMeasurement_t hole_size;
+    struct {
+	GSDepth_t depth;
+	GSLithoStrat_t form;
+    }       shoe;
+    GSReal_t strength;
+    GSString_t steel_spec;
+    GSString_t remarks;
+}       GSWellTubulars_t;
+
+
+typedef enum {
+    GS_LITHO_TOP = 1,
+    GS_CONTACT_TOP = 2,
+    GS_FAULT_POINT = 3,
+    GS_MARKER_TOP = 4,
+    GS_OTHER_TOP = 5
+} GSMarkerType_t;
+
+
+typedef struct {
+    GSUWI_t uwi;
+    GSLithoStrat_t name;
+    GSString_t source;
+    GSSurfaceSetName_t seismic_horizon;
+    GSUnit_t z_uom;
+    GSDepth_t depth;
+    GSMeasurement_t fault_gap;
+    enum {
+	GS_NORMAL_SECTION = 0,
+	GS_INVERTED_SECTION = 1
+    } up_direction;
+    GSString_t Comment;
+    GSBoolean_t Best_Pick;
+    char    Quality;
+    GSDate_t Last_Update;
+}       GSWellMarker_t;
+
+
+typedef struct {
+    GSUWI_t uwi;
+    GSMeasurement_t measurement;
+    GSString_t source;
+}       GSWellAttribute_t;
+
+
+typedef struct {
+    GSLithoStrat_t code_name;
+    GSString_t source;
+    GSSurfaceSetName_t full_name;
+    GSMarkerType_t marker_type;
+    GSLithoStrat_t parent;
+    GSString_t remarks;
+}       GSLithostratCodeDesc_t;
+
+
+typedef struct {
+    GSString_t name;
+    GSString_t citation;
+    GSString_t remarks;
+    GSVector_t lithostrat;
+}       GSStratigraphicColumn_t;
+
+
+typedef struct {
+    enum {
+	GS_WELL_DRILLSTEM_TEST,
+	GS_WELL_PRODUCTION_TEST
+    }       test_type;
+}       GSWellTestHdr_t;
+
+
+typedef struct {
+    GSString_t survey_name;
+    GSString_t survey_desc;
+    enum {
+	GS_SURVEY_2D = 2,
+	GS_SURVEY_3D = 3
+    } survey_type;
+    GSElevation_t z_datum;
+    GSCartoProjection_t proj;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSSeismicLocation3D_t loc3d;
+    GSVector_t seismic_line;
+}       GSSeismicSurvey_t;
+
+
+typedef struct {
+    GSSurfaceSetName_t surface_name;
+    GSString_t description;
+    GSCartoProjection_t proj;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSSurfaceType_t surface_type;
+    GSVector_t surface_geometry;
+    GSSurfaceIntersection_t intersection;
+}       GSSurfaceSet_t;
+
+
+typedef struct {
+    GSString_t field_name;
+    GSString_t field_type;
+    GSUWI_t discovery_well;
+    GSVector_t zone_value;
+    GSVector_t map_polyline;
+    GSCartoProjection_t proj;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSVector_t well_hdr;
+}       GSField_t;
+
+
+typedef struct {
+    GSUWI_t uwi;
+    GSLithoStrat_t marker;
+    GSSurfaceSetName_t surface_set_name;
+    GSCartoProjection_t proj;
+    GSString_t survey_name;
+    GSString_t line_name;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSSeismicDataPoint_t seismic_loc;
+}       GSSeismicWellTie_t;
+
+
+typedef struct {
+    GSString_t source_name;
+    GSCartoProjection_t proj;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSString_t local_datum;
+    GSUnit_t z_unit;
+    GSExtents_t extent;
+    GSVector_t map_objects;
+}       GSMap_t;
+
+
+typedef struct {
+    GSElevation_t z_datum;
+    GSCartoProjection_t proj;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+    GSVector_t fault_surface;
+}       GSFaultTraceSet_t;
+
+
+typedef struct {
+    GSVector_t lithostrat_code_desc;
+    GSVector_t stratigraphic_column;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+}       GSLithostratCodeList_t;
+
+
+typedef struct {
+    GSVector_t zone_definition;
+    GSVector_t zone_variable_definition;
+    GSDP_t  dp_null;
+    GSLongInt_t int_null;
+}       GSZoneList_t;
+
+
+typedef struct {
+    GSLongInt_t status_code;
+    GSString_t object_key;
+    GSString_t status_description;
+}       GSStatusReturn_t;
+
+typedef GSVector_t GSStatusVector_t;
+
+typedef struct {
+    GSLongInt_t max_memory;
+    GSVector_t context_requirements;
+}       GSReceiverContext_t;
+
+
+typedef struct {
+    enum {
+	GS_INTEGER_TYPE = 1,
+	GS_CHARACTER_TYPE = 2,
+	GS_FLOAT_TYPE = 3,
+	GS_UNSIGNED_INTEGER = 4
+    } type;
+    GSLongInt_t max_length;
+    GSBoolean_t confidential;
+    GSString_t prompt;
+}       GSContextRequirements_t;
+
+typedef GSVector_t GSContextInformation_t;
+typedef GSLongInt_t GSContextToken_t;
+
+typedef enum {
+    GS_CMD_UNKNOWN = 0,
+    GS_STOP_SERVER = 1000,
+    GS_CONTEXT_BREAK = 1001,
+    GS_SEND_CONTEXT = 1002,
+    GS_NO_RETURN = 1003
+} GSDataDisposition_t;
+
+
+typedef enum {
+    GS_STRUCT_UNKNOWN = 0,
+    GS_STRUCT_RECEIVER_SPECS = 1,
+    GS_STRUCT_RECEIVER_RQMTS = 2,
+    GS_STRUCT_CONTEXT_RQMTS = 3,
+    GS_STRUCT_CONTEXT_INFO = 4,
+    GS_STRUCT_CONTEXT_TOKEN = 5,
+    GS_STRUCT_STATUS_VECTOR = 6,
+    GS_STRUCT_SEISMIC_SURVEY = 11,
+    GS_STRUCT_SURFACE_SET = 12,
+    GS_STRUCT_WELL_FIELD = 13,
+    GS_STRUCT_WELL_TIE = 14,
+    GS_STRUCT_MAP = 15,
+    GS_STRUCT_FAULT_TRACE_SET = 16,
+    GS_STRUCT_LITHOSTRAT_CODES = 17,
+    GS_STRUCT_ZONES = 18
+} GSDataStructType_t;
+
+
+typedef struct {
+    GSDataDisposition_t disposition;
+    GSLongInt_t disposition_ext;
+    GSDataStructType_t type;
+    GSLongInt_t type_ext;
+    GSVersion_t version;
+    GSVoidptr_t structure_pointer;
+} GSStructure_t;
+
+
+typedef struct {
+    GSContextToken_t context_token;
+    GSVector_t gs_structure;
+}       GSExecutive_t;
+
+
+typedef struct {
+    GSDataStructType_t data_struct_type;
+    GSMask_t components_supported;
+    GSVersion_t version;
+}       GSDataSupported_t;
+
+
+typedef struct {
+    GSLongInt_t receiver_status;
+    GSString_t receiver_name;
+    GSString_t banner_string;
+    GSVector_t data_supported;
+}       GSReceiverSpecs_t;
+
+typedef GSVector_t GSReceiverRqmts_t;
+
+typedef struct {
+    enum {
+	GS_STRUCT_SUPPORTED = 1,
+	GS_NAME = 2
+    } spec_type;
+    GSString_t receiver_name;
+    GSDataSupported_t data;
+}       GSRequirement_t;
+@

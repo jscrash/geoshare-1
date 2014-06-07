@@ -1,0 +1,143 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     91.05.14.15.24.13;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#define  AmplitudeStats_t   		GSAmplitudeStats_t
+#define  AttributeItem_t   		GSAttributeItem_t
+#define  Boolean_t   			GSBoolean_t
+#define  CDP_t   			GSCDP_t
+#define  CartoProjection_t   		GSCartoProjection_t
+#define  Contact_t   			GSContact_t
+#define  ContextRequirements_t   	GSContextRequirements_t
+#define  ContextToken_t   		GSContextToken_t
+#define  Contour_t   			GSContour_t
+#define  DP_t   			GSDP_t
+#define  DataDisposition_t   		GSDataDisposition_t
+#define  DataStructType_t   		GSDataStructType_t
+#define  DataSupported_t   		GSDataSupported_t
+#define  Date_t   			GSDate_t
+#define  Depth_t   			GSDepth_t
+#define  Distance_t   			GSDistance_t
+#define  ElevationRef_t   		GSElevationRef_t
+#define  Elevation_t   			GSElevation_t
+#define  Executive_t   			GSExecutive_t
+#define  Extents_t   			GSExtents_t
+#define  FaultSurface_t   		GSFaultSurface_t
+#define  FaultTraceSet_t   		GSFaultTraceSet_t
+#define  FaultTrace_t   		GSFaultTrace_t
+#define  Field_t   			GSField_t
+#define  Grid_t   			GSGrid_t
+#define  Legal_t   			GSLegal_t
+#define  LineIntersection_t   		GSLineIntersection_t
+#define  LineNumber_t   		GSLineNumber_t
+#define  LineType_t   			GSLineType_t
+#define  LithoStrat_t   		GSLithoStrat_t
+#define  LithostratCodeDesc_t   	GSLithostratCodeDesc_t
+#define  LithostratCodeList_t   	GSLithostratCodeList_t
+#define  LogPass_t   			GSLogPass_t
+#define  LogRun_t   			GSLogRun_t
+#define  LogService_t   		GSLogService_t
+#define  LogTrace_t   			GSLogTrace_t
+#define  LongInt_t   			GSLongInt_t
+#define  MapAnnotation_t   		GSMapAnnotation_t
+#define  MapLocation_t   		GSMapLocation_t
+#define  MapObjects_t   		GSMapObjects_t
+#define  MapPoint_t   			GSMapPoint_t
+#define  MapPolyline_t   		GSMapPolyline_t
+#define  MapSymbol_t   			GSMapSymbol_t
+#define  Map_t   			GSMap_t
+#define  MarkerType_t   		GSMarkerType_t
+#define  Mask_t   			GSMask_t
+#define  Measurement_t   		GSMeasurement_t
+#define  MudResistivity_t   		GSMudResistivity_t
+#define  NodeID_t   			GSNodeID_t
+#define  PlotSymbol_t   		GSPlotSymbol_t
+#define  PolyLineType_t   		GSPolyLineType_t
+#define  ProcessHistory_t   		GSProcessHistory_t
+#define  ProcessingHistory_t   		GSProcessingHistory_t
+#define  Rational_t   			GSRational_t
+#define  Real_t   			GSReal_t
+#define  ReceiverContext_t   		GSReceiverContext_t
+#define  ReceiverRqmts_t   		GSReceiverRqmts_t
+#define  ReceiverSpecs_t   		GSReceiverSpecs_t
+#define  Requirement_t   		GSRequirement_t
+#define  Resistivity_t   		GSResistivity_t
+#define  Segment_t   			GSSegment_t
+#define  SeismicClass_t   		GSSeismicClass_t
+#define  SeismicDataPoint_t   		GSSeismicDataPoint_t
+#define  SeismicLineHdr_t   		GSSeismicLineHdr_t
+#define  SeismicLine_t   		GSSeismicLine_t
+#define  SeismicSurface_t   		GSSeismicSurface_t
+#define  SeismicSurvey_t   		GSSeismicSurvey_t
+#define  SeismicTrace_t   		GSSeismicTrace_t
+#define  SeismicTransducer_t   		GSSeismicTransducer_t
+#define  SeismicVelocity_t   		GSSeismicVelocity_t
+#define  SeismicWellTie_t   		GSSeismicWellTie_t
+#define  ShotPoint_t   			GSShotPoint_t
+#define  SnapEvent_t   			GSSnapEvent_t
+#define  Static_t   			GSStatic_t
+#define  StatusReturn_t   		GSStatusReturn_t
+#define  StatusVector_t   		GSStatusVector_t
+#define  StratigraphicColumn_t   	GSStratigraphicColumn_t
+#define  String_t   			GSString_t
+#define  String_t   			GSString_t
+#define  Structure_t   			GSStructure_t
+#define  SurfaceAttribute_t   		GSSurfaceAttribute_t
+#define  SurfaceGeometry_t   		GSSurfaceGeometry_t
+#define  SurfaceIntersection_t   	GSSurfaceIntersection_t
+#define  SurfaceRepresentation_t   	GSSurfaceRepresentation_t
+#define  SurfaceSetName_t   		GSSurfaceSetName_t
+#define  SurfaceSet_t   		GSSurfaceSet_t
+#define  SurfaceSurfaceIntersection_t  	GSSurfaceSurfaceIntersection_t
+#define  SurfaceTrace_t   		GSSurfaceTrace_t
+#define  SurfaceType_t   		GSSurfaceType_t
+#define  Temperature_t   		GSTemperature_t
+#define  Time_t   			GSTime_t
+#define  UWI_t   			GSUWI_t
+#define  Ulong_t   			GSUlong_t
+#define  Unit_t   			GSUnit_t
+#define  VectorType_t   		GSVectorType_t
+#define  Vector_t   			GSVector_t
+#define  VelocityPair_t   		GSVelocityPair_t
+#define  Velocity_t   			GSVelocity_t
+#define  Version_t   			GSVersion_t
+#define  Voidptr_t   			GSVoidptr_t
+#define  Weight_t   			GSWeight_t
+#define  WellAttribute_t   		GSWellAttribute_t
+#define  WellCore_t   			GSWellCore_t
+#define  WellHdr_t   			GSWellHdr_t
+#define  WellMarker_t   		GSWellMarker_t
+#define  WellProduction_t   		GSWellProduction_t
+#define  WellRemarks_t   		GSWellRemarks_t
+#define  WellTestHdr_t   		GSWellTestHdr_t
+#define  WellTubulars_t   		GSWellTubulars_t
+#define  XYZData_t   			GSXYZData_t
+#define  XYZPoint_t   			GSXYZPoint_t
+#define  ZValueCode_t   		GSZValueCode_t
+#define  ZoneDefinition_t   		GSZoneDefinition_t
+#define  ZoneList_t   			GSZoneList_t
+#define  ZoneName_t   			GSZoneName_t
+#define  ZoneValue_t   			GSZoneValue_t
+#define  ZoneVariableDefinition_t   	GSZoneVariableDefinition_t
+#define  ZoneVariable_t   		GSZoneVariable_t
+@

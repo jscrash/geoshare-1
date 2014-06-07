@@ -1,0 +1,1733 @@
+
+
+Chapter 1
+
+
+
+
+
+
+
+
+
+
+
+Overview
+
+
+
+References
+
+
+
+	GeoShare Architectural Description, March, 1991.
+
+	GeoScience.h 'C' include file.
+
+
+
+Introduction
+
+
+
+	The GeoShare architecture is a Client/Server software integration model that solves the problem of sharing data between applications through a common data model.  Applications become part of the GeoShare system by subscribing to the GeoScience.h data model, writing a data receiver service and making the service available to a Connection Manager.
+
+
+
+Scope
+
+
+
+	The GeoShare software design addresses a method of ensuring the universal availability of organizational data by developing the second of four levels of integration - Level 1 - passive integration.  For this design level, multiple copies of the data may exist, the data exchanged is accomplished by GeoScience.h, and developers will require a description of the interface and connectivity methods.  The design provides evolution path beginning with a single workstation running multiple applications using shared memory.
+
+System Overview
+
+
+
+	Functionally, the GeoShare system forms an infrastructure for sharing data among participating applications.  Through a shared geoscience data structure processes may exchange data they use in common.
+
+
+
+	The system is composed of geoscientific applications, vendor specific data receiver services, one or more GeoShare Connection Managers, GeoShare primitives and a shared geoscience data structure to form a Client/Server connection model.  Applications participate in the system through a local Connection Manager using GeoShare primitives to establish a data link between cooperating geoscientific applications.
+
+
+
+	Each process is described in detail in the following pages, briefly the responsibilities of each process are as follows.
+
+
+
+	The Client process:  Manages the user interface, communicates with the Connection Manager, reads proprietary data storage, loads transfer structures, sends transfer structures to a receiving data service.
+
+
+
+	The data receiver Service process:  Is started by the Connection Manager, receives the data as a transfer structure, loads the data into a proprietary data storage for the receiving application.
+
+
+
+	The Connection Manager process:  Provides a Name Server listing registered receiver services, manages the connections to itself as well as between Clients and Services, maintains accounting information about the data transfers that have occurred, starts a receiver process when requested to do so by a Client.
+
+
+
+	At the GeoShare Connection Manager level, there may exist many Connection Managers but, usually one per host in a networked environment.   Each Connection Manager is aware of the others and each is aware of applications registered in its own configuration file.
+
+
+
+	At the application level, an application is aware of only its local GeoShare Connection Manager; the one running on its local host.  Individual applications query a local Connection Manager name server about the availability of other applications through GeoShare supplied primitives.
+
+
+
+	Data transfers through the system are controlled by a user, at the application level, who designates which data are sent to a target application.  Data transfers are carried out by GeoShare primitives embedded in an application data provider.
+
+Definitions
+
+
+
+	There are many terms used in this document that may need some clarification or definition.  Here is a list of terms and their meanings within the context of this document.
+
+
+
+	Alias	The nickname that maps to a specific Service.
+
+	Client	A process with data to be sent to a receiving Service process.
+
+	CM	Connection Manager is a background process that manages data connections and transfers of data between Client processes and Service processes.
+
+	Context	Information needed by a receiving process required to properly perform its task of data reception and storage  (i.e. sign on account and password, project/prospect names, pathnames, etc. ... ).
+
+	Executive Structure	One of the structures defined by GeoScience.h.  It contains command structures sent from the Client to the Connection Manager.
+
+	GeoScience.h	A 'C' language include file defining the transfer data structures used by the sending Client and receiving Service processes.
+
+	Handle	A structure used internally by the GeoShare primitives to define the type of connections between the Client, Service, and CM.
+
+	Host	Computer system where a GeoShare CM  and at least one Client or Service resides.
+
+	Key	A host dependent way of identifying a shared memory location.
+
+	Receiver	A process participating in GeoShare that is the target of data sent by a Client process.  Also know as a Service or Data Writer.
+
+	Service	A process started by a CM specifically to receive data transmissions from a Client process and store these data in a proprietary database.  May also be referred to as a receiver process.
+
+	Slot	A region of shared memory, owned by CM, that is assigned to a Client/Service pair for use as a message delivery and notification mechanism.
+
+	Static Registration	The method by which CM recognizes available Services.  Information about a Service is entered into the CM database file using a standard text editor where it remains fixed until updated.
+
+	TCB	Transfer Control Block a data structure containing meta-data used by the GeoShare primitives to control the flow of data between processes.  The TCB contains the data block to be transferred.  The GeoShare primitives deal only with TCBs.
+
+	TCP	Table of Character Pointers.  A pointer to a list of pointers each of which points to a null terminated character string.  The TCP itself is also null terminated; the last element of the pointer array is a null pointer.
+
+Connection Manager
+
+
+
+	The Connection Manager is responsible for furnishing clients with information regarding the connections available as well as starting up receiver processes as needed.  It is implemented as a background task running on each host in a GeoShare system.
+
+
+
+	The Connection Manager communicates with processes through a shared memory region that it creates upon initialization and startup.  Processes connecting to the Connection Manager are assigned a piece of this memory region (a slot) through which they pass messages.  The organization of a slot is shown in the following diagram.
+
+Connection Manager Flow
+
+
+
+The connection manager watches each of the active process slots (slots which indicate a state of locked, or unlocked) in a scheduled manner. The schedule is as follows:
+
+
+
+	The flow of the connection manager is as follows:
+
+
+
+		The Connection Manager is started, perhaps as part of a system boot procedure.
+
+
+
+		The Connection Manager creates a region of shared memory that is organized as a series of process slots.
+
+
+
+		The Connection Manager watches for semaphore state changes in each slot that is in-use and determines if there are messages that require responding to.
+
+
+
+Connection Manager Internal Services
+
+
+
+	The Connection Manager can process a number of protocol requests from the application client without requiring the application client to initialize a connection to a receiver.  These are useful for protocol requests that provide connection information.  An application client may inquire a list of all known data receivers from the connection manager, for instance, and then use this information when it makes its request to connect to a data receiver.
+
+
+
+The available Connection Manager internal services are as follows:
+
+
+
+	*	Inquire list of Data Receivers known to Connection Manager.
+
+	*	Inquire context information template for a specific receiver.
+
+	*	Inquire current Connection Manager status.
+
+	*	Flow of normal query processing - application view.
+
+	*	In subroutine library include detail of structures used in each function, list all structures used.
+
+	*	On output assertions cover error conditions.
+
+	*	Implementation notes need to be included.
+
+
+
+Connection Manager implementation notes
+
+
+
+The following outline describes the high level operation of the connection Manager process:
+
+
+
+	a)	Create a shared memory region using a key that is well  known; the path to the CM program works well for this.
+
+
+
+	b)	Create the process slots datastructure and allocate semaphores for each of the slots.
+
+
+
+	c)	Read the system configuration file, build datastructure of known data receivers.
+
+
+
+	loop:
+
+		d)	Listen for activity on any of the slot semaphores.
+
+
+
+		e)	If message in slot is for CM, process the protocol request.
+
+
+
+		f)	If message in slot is not for CM then ignore it and continue watching the slots.
+
+
+
+
+
+Connection Manager Message Arbitration
+
+
+
+	Message writing is arbitrated by the Connection Manager using semaphores.  These allow control over the synchronization of buffer reads and writes among several processes as described below.  The Connection Manager watches the state of active process slots by waiting for semaphore state changes triggered by message writes by either client or receiver processes.
+
+
+
+	When the Connection Manager is not servicing a Client or Data Receiver request, it sleeps until there is a state change on one of the message control semaphores that it is watching.
+
+
+
+The Client Process
+
+
+
+	The Client process is the provider of GeoShare data.  It will take a transfer request from a user and send the data to any available GeoShare service.  The Client process is provided by the vendor of a participating geoscientific product.  It may be part of the original product or a separate product.
+
+
+
+	The Client process gets information about available services and their required parameters by making inquiries of the Connection Manager.
+
+
+
+	The Client process provides the user interface for the selection of the data to be transferred as well as the selection of a destination service and any other parameters that may be needed.
+
+
+
+	The data to be transferred is retrieved from the vendor's proprietary storage scheme and is loaded into a set of transfer structures.  The transfer structures are then sent to the receiving process.
+
+	The Client process preforms the following actions:
+
+		Query the user for the data to be transferred.
+
+		Query the Connection Manager for the available receiver services.
+
+		Allow the user to select one receiver service.
+
+		Query the Connection Manager for the parameters required by the selected receiver.
+
+		Allow the user to enter values for the receiver's parameters.
+
+		Make a request to the Connection Manager to start the requested receiver.
+
+		Build and send transfer structures as required to send the data.
+
+		Close the connection to the receiver.
+
+Client - Server Communication
+
+
+
+	This section describes how the connections between the various GeoShare processes operate.  The following topics are discussed:
+
+
+
+	*	Connection Management - Application / Server / Service
+
+	*	Communications - shared memory, protocol requests and responses.
+
+	*	Protocols used for Client-Server-Service
+
+	*	Message sending & receiving
+
+
+
+	Client applications connect to the local Connection Manager using shared memory.  The memory region is identified by using a well known address scheme for publishing the key.  In UNIX a file name, such as the GeoShare home directory, can be used to implement a public shared memory key.  On VMS, the shared memory key can be published using job or system logical names.
+
+
+
+	The Connection Manager assigns a section of its shared memory region (a Slot) to the connecting application.  This slot is used to pass messages between the client and the Connection Manager, as well as between the client & data receiver service if the client has started one.  A description of Connection Manager slots is in the Connection Manager section of this document.
+
+
+
+Message Passing
+
+	Communications between clients and servers or services is accomplished by passing messages through shared buffers. The Connection Manager arbitrates the accesses to the process slots that connect the sender application to its destination data receiver.  
+
+
+
+	Messages and their destinations are written into the connection slot, and a flag is set which indicates that the slot has been written to.  An example of this interaction can be found in Appendix A - Slot Usage.
+
+
+
+	Messages come in two types:  Data or Executive.  Data messages  are used to transfer data from the Client to the receiver.  Executive  messages are used to perform other communications with either the Connection Manager or the data receiver.  
+
+
+
+	Both Data and Executive messages use the GS_MESSAGE structure defined as follows:
+
+
+
+			typedef enum {
+
+				Data = 1,
+
+				Executive = 2
+
+			} gs_msgtype_t;
+
+
+
+			typedef struct gs_message {
+
+				gs_msgtype_t MsgType;
+
+				unsigned int MsgLen;
+
+				unsigned char MsgBuf[GSMAXMESSAGE];
+
+			} GS_MESSAGE;
+
+
+
+	The  MsgType field is set to either Data or Executive depending on the type of message structure being passed in the MsgBuf field.  The size of the message object being passed in the buffer is stored in the MsgLen field.
+
+Message Synchronization
+
+	Semaphore operations are used to synchronize access to message slots, and thus avoid buffer access collisions.  A process that wishes to write a message into a slot first waits until the slots' buffer-free semaphore indicates that it is not in use.  The process sleeps until the semaphore it is waiting for clears.  The process then sets the semaphore immediately to indicate that the buffer is busy.  When this is done, the message and its destination address are written into the slot.
+
+
+
+	It is important that the semaphore implementation support atomic test/set operations.  Atomic test/set operations let a process: 
+
+
+
+        a)	Check the state of a semaphore
+
+
+
+        b)	Change the semaphores state if desired
+
+
+
+	in one operation without interruption (i.e. to swap in another process). 
+
+
+
+	The implementation of the semaphores is not important as long as it supports atomic test/set operations and process notification.  The UNIX semaphore implementation satisfies this requirement.  On VMS systems event flag clusters provide the required functionality. 
+
+
+
+The usage of the Connection Manager process slots is outlined in the following diagram which shows a client making a request of the connection manager to furnish it with a list of data destinations (services).
+
+Client Process Pseudo-Code
+
+
+
+#include "GS.h"
+
+int main ()
+
+{
+
+  int		choice_number;
+
+  TCP		dest_list;
+
+  GSHandle_t	handle;
+
+  TCB		tcb;
+
+  GSContextRequirments_t context_requirments;
+
+  GSContextInformation_t context_information;
+
+
+
+  /* get the available destinations from the local CM */
+
+  GS_inquire_destinations (&dest_list);
+
+
+
+  /* display the destinations to the user and let him/her pick one */
+
+  user_interface_selector (dest_list, &choice_number);
+
+  
+
+  /* did the user choose to cancel ? */
+
+  if (choice_number == -1) exit (0);
+
+
+
+  /* get the context requirements of the selected service */
+
+  GS_inquire_context (dest_list[choice_number], &context_requirments);
+
+  user_interface_context_filler (&context_requirments, &context_infomation);
+
+
+
+  /* set up the handle for the communication channel */
+
+  handle = GS_initilize (dest_tcp[choice_number], context_information);
+
+
+
+  loop
+
+    {
+
+      /* load a data entity */
+
+      get_some_data (data_description, &data_structure);
+
+
+
+      /* set up a TCB for the transfer */
+
+      strcpy (tcb.id, "TCB");
+
+      tcb.BlockNum++;
+
+      tcb.Lastblock = False;
+
+      tcb.data      = &data_structure;
+
+
+
+      /* send the data */
+
+      GS_send (handle, &tcb, &result);
+
+
+
+      /* check the result */
+
+      if (result.status != GS_SUCCESS) exit (1);
+
+    }
+
+
+
+  /* close the connection */
+
+  GS_term (handle);
+
+
+
+  exit (0);
+
+}
+
+Subroutines used by the Client Process
+
+
+
+	The following are the subroutines used by the Client process.  For a complete descriptions and design specifications of all GS library subroutines see the Library Subroutines section.
+
+
+
+	GS_inquire_destinations (&destination_list)
+
+	This subroutine sends a request to the local CM for a list of available receiver processes.  There are no input parameters.  The list is returned as a TCP.
+
+
+
+	GS_inquire_context (destination, &context_requirments)
+
+	This subroutine sends a request to the local CM for the list of parameter requirements registered by the indicated destination Service.  This subroutine takes destination as input and returns a context requirements structure in its second argument.
+
+
+
+	handle = GS_initilize (destination, context_information)
+
+	This subroutine takes a destination string and context information and returns a communications channel handle as it's function value.
+
+
+
+	GS_send (handle, &tcb, &result)
+
+	This subroutine sends the actual data and waits for an acknowledgment from the receiver.  The result structure contains information about any errors that may have occurred in the data transfer or in the receiver process.
+
+
+
+	GS_term (handle)
+
+	This subroutine closes the communication channel.
+
+Data Receiver
+
+
+
+	This section discusses the operation of the Data Receiver Service including:
+
+
+
+        *	How receiver works - walk through.
+
+        *	Handling of repeat queries - repeated requests from client.
+
+        *	Receiver responses.
+
+        *	Timeout handling.
+
+        *	Interruptablility.
+
+        *	Error handling.
+
+
+
+	The data receiver process gets started by the Connection Manager when the Client application calls the GS_initialize library function.  The receiver startup sequence is as follows:
+
+
+
+	a)	The Client application calls GS_initialize with the name of the receiver it wishes to send data to, as well as the context information required by the receiver.
+
+
+
+	b)	The Connection Manager gets a service request generated by the applications call to GS_initialize.  The Connection Manager responds to the request by taking the receiver name and context information passed in the request message and using it to build a command string with which the receiver is invoked.
+
+
+
+	c)	The receiver process starts up and connects to the Connection Manager.  This is accomplished by a call to the function GS_connect Connection Manager through the publicly known shared memory connection address described above in the section Client - CM connectivity.
+
+	d)	The Connection Manager assigns the receiver process a slot in its shared memory region.
+
+
+
+	e)	The receiver waits for incoming messages by watching the message buffer control semaphore in its slot.
+
+
+
+	f)	For each message that is received, an appropriate action is taken to process the message.  If necessary, an acknowledge message is written back to the message sender.  The type of processing that a message receives is dependant on the type of the message; Data messages are processed by an application dependant data storage method while Executive messages and processed as protocol requests.
+
+
+
+	This step is repeated until an executive request arrives that terminates the transfer.
+
+
+
+Executive messages include:
+
+
+
+        *	Perform orderly shutdown & termination of transfer
+
+        *	Abort transfer. 
+
+		(Rollback processing is application dependant.)
+
+	*	The diagram on the next page illustrates the steps described above.
+
+
+
+Receiver Pseudo-Code
+
+
+
+/*************************************************/
+
+/*                                               */
+
+/*      DATA RECEIVER SAMPLE IMPLEMENTATION      */
+
+/*                                               */
+
+/*************************************************/
+
+
+
+#include "geoscience.h"
+
+
+
+ /*
+
+  * STATUS CODES
+
+  */
+
+#define GS_SUCCESS			 0	/* Successful Completion */
+
+#define GS_FAIL			 1	/* Operation Failed */
+
+
+
+#define GS_ERR_MSGTYPE		 3	/* Unknown message type */
+
+#define GS_ERR_NOCONNECT		 5	/* Connect attempt failed */
+
+#define GS_ERR_EXECTYPE		 7	/* Unknown Executive Request */
+
+#define GSERR_SVC_UNAVAIL	 9	/* Unknown data service */
+
+#define GSERR_SVC_BUSY		11	/* Requested data receiver is single */
+
+							/* threaded, and already in use */
+
+#define GSERR_SVC_MISMATCH	13	/* The data type sent to the data */
+
+							/* service is not supported.  */
+
+#define GSERR_SVC_BADCONTEXT	15	/* The context args given to the */
+
+							/* receiver are bad or unsupported. */
+
+#define GSERR_CM_NOTINIT		17	/* The connection manager is not */
+
+							/* available, request is refused.  */
+
+
+
+#define GSMAXMESSAGE	1024
+
+#define GSMAXKEY		64
+
+
+
+/* Shared memory identifier key */
+
+typedef struct shmkey {
+
+    int     keylen;
+
+    char    key[GSMAXKEY];
+
+}       GS_shmkey_t;
+
+
+
+
+
+ /*
+
+  * Communications Handle Definition
+
+  */
+
+typedef unsigned char *GSHandle_t;
+
+
+
+ /*
+
+  * Message Definitions
+
+  */
+
+typedef enum {
+
+    Data = 1,
+
+    Executive = 2
+
+} gs_msgtype_t;
+
+
+
+typedef struct gs_message {
+
+    gs_msgtype_t MsgType;
+
+    unsigned int MsgLen;
+
+    unsigned char MsgBuf[GSMAXMESSAGE];
+
+}       GS_MESSAGE;
+
+
+
+typedef struct tcb_t {
+
+    char    id[4];
+
+    int     BlockNum;
+
+    int     LastBlock;
+
+    Structure_t data;
+
+}       TCB;
+
+
+
+ /* Send Error string to Connection Manager if handle         */
+
+ /* is valid. Otherwise just write the string to the          */
+
+ /* local error log in   the GSHOME directory.                */
+
+
+
+#ifndef sun
+
+void    Error_Handler(GSHandle_t h, char *str, int code);
+
+#else
+
+void    Error_Handler();
+
+#endif
+
+
+
+ /* Process an Executive request message.  Return the          */
+
+ /* type of request processed in the request_type arg.         */
+
+#ifndef sun
+
+void    Process_executive(Structure_t data, DataStructureType_t * request_type);
+
+#else
+
+void    Process_executive();
+
+#endif
+
+
+
+ /* Local defines. */
+
+#define TRUE 1
+
+#define FALSE 2
+
+#define RETRYS 4
+
+
+
+int     main(argc, argv)     /* Data Receiver Main.  */
+
+int     argc;
+
+char  **argv;
+
+{
+
+    GSHandle_t handle;
+
+    TCB     tcb;
+
+    int     status = GS_SUCCESS;
+
+    int     reqtype = 0;
+
+    int     done = 0;
+
+    int     trys = 0;
+
+    char    text[256];
+
+
+
+ /*
+
+  * Call gs_connect.  This routine extracts the connection args from the
+
+  * argument list and return a new argument list from which the
+
+  * connection-arguments have been deleted. The handle returned by gs_connect
+
+  * identifies the communication channel used to talk with the Connection
+
+  * Manager and the Client application.
+
+  */
+
+
+
+    handle = (GSHandle_t) gs_connect((int *) &argc, (char ***) &argv);
+
+    if (handle == (GSHandle_t) 0) {
+
+        Error_Handler(handle, "Failed to connect to Client.", GS_FAIL);
+
+        exit(GS_FAIL);
+
+    }
+
+
+
+ /*
+
+  * Receiver Main Loop - Read messages & process until terminate message
+
+  * received.
+
+  */
+
+    do {
+
+        status = GS_receive(handle, &tcb);
+
+
+
+    /*
+
+     * If a receive fails, try again RETRYS times before aborting
+
+     */
+
+        if (status != GS_SUCCESS) {
+
+            Error_Handler(handle, "Error From gs_receive", status);
+
+            trys++;
+
+            if (trys > RETRYS) {
+
+                sprintf(text, "Aborting after %d retrys.", trys);
+
+                Error_Handler(handle, text, status);
+
+                gs_term(handle);
+
+                exit(GS_FAIL);
+
+            }
+
+            else {
+
+                continue;    /* Try again to receive */
+
+            }
+
+        }
+
+
+
+    /*
+
+     * Get here if receive was successful, reset the retry counter and
+
+     * process the message we have received.
+
+     */
+
+        trys = 0;
+
+
+
+    /*
+
+     * Process the message.  Determine if it is a Data message or an
+
+     * Executive request message.
+
+     */
+
+        switch (tcb.data.type.symbolic) {
+
+
+
+        /*
+
+         * Process this data message.
+
+         */
+
+        case Data:
+
+            store_data(&tcb.data);
+
+            done = FALSE;
+
+            break;
+
+
+
+        /*
+
+         * An executive message has arrived.  Process the request and send
+
+         * back an acknowledge message.
+
+         */
+
+        case Executive:
+
+            Process_Executive_request(&tcb.data, &reqtype);
+
+            if (reqtype == GS_STRUCT_RCVR_TERMINATE)
+
+                done = TRUE;
+
+            break;
+
+
+
+        /*
+
+         * If message type is not recognized, log error to Connection
+
+         * Manager. For now this will be non-terminal even though it
+
+         * represents an unknown state that is difficult to recover from.
+
+         */
+
+        default:
+
+            Error_Handler(handle, "Invalid message type", tcb.data.type);
+
+            break;
+
+        }
+
+    } while (!done);
+
+    status = gs_term(handle);
+
+    exit(status);
+
+}
+
+
+
+/****************************************************************/
+
+/* Error handler.  Send a status message back to the Connection */
+
+/* Manager.  Include the Error code & message string.           */
+
+/****************************************************************/
+
+static void Error_Handler(handle, string, code)
+
+GSHandle_t handle;
+
+char   *string;
+
+int     code;
+
+{
+
+    TCB     tcb;
+
+    GS_MESSAGE msg;
+
+    int     result;
+
+    char    text[256];
+
+
+
+    sprintf(text, "%d:%s", code, string);
+
+    strcpy(msg.MsgBuf, text);
+
+    msg.MsgType = Executive;
+
+    msg.MsgLen = strlen(text);
+
+
+
+    strcpy(tcb.id, "TCB");
+
+    tcb.BlockNum = 0;
+
+    tcb.LastBlock = 0;
+
+    tcb.data.structure_pointer = (Voidptr_t) & msg;
+
+
+
+    if (handle != (GSHandle_t) 0) {
+
+        gs_send(handle, &tcb, &result);
+
+    }
+
+    else {
+
+    /* Write to an error log here */
+
+    }
+
+}
+
+
+
+Chapter 2
+
+
+
+
+
+
+
+Subroutine Library
+
+Definitions
+
+GSHandle_t *GS_connect (
+
+	int		*argc,
+
+	char	***argv)
+
+
+
+Assertions
+
+	Input
+
+		argc	number of elements in the original argv array.
+
+		argv	a pointer to an array of character pointers pointing to the original command line arguments.
+
+	Output
+
+		argc	number of elements in the argv array after  removal of the GS arguments.
+
+		argv	array of character pointers pointing to the remaining command line arguments.
+
+
+
+Return Value / Status
+
+	A pointer to a GSHandle_t structure to be used by other GS primitives.
+
+
+
+Description
+
+	This routine is used by the receiver process to accept a connection from the sender process.  The command line arguments, argv, argc, are passed directly to this routine.  The connection manager will automatically add arguments to the command line which are used by this subroutine.  It will locate its own arguments and remove them from the array.  It will return an updated argc and argv without these arguments.  The program should call this routine before processing its own command line arguments.
+
+
+
+Implementation Notes
+
+	*	Pass through the argument list.
+
+
+
+	*	Use the arguments added by the Connection Manager to generate a GS handle structure.
+
+
+
+	*	Remove the arguments from the list of arguments. This may mean creating a new argv and coping the unused arguments to it.
+
+
+
+	*	Update the argc value to reflect the new argv.
+
+
+
+GSHandle_t *GS_initialize (
+
+	char				*destination,
+
+	GSContextInfo_t	context_info )
+
+
+
+Assertions
+
+	Input
+
+		destination		Name of the data receiver to start
+
+		context_info		Argument string for receiver command line
+
+	Output
+
+		NONE	
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+	GSNotARegisteredDestination
+
+		The indicated destination is not known to the CM.
+
+	GSCannotContactCM
+
+		The process was unable to contact a CM on the local machine.
+
+
+
+Description
+
+	Initialize a connection to the named receiver program.  This will send a protocol request to the connection manager running on the current host and have it start the named program.  The name of the program may be an alias that requires translation by the connection manager process.
+
+int GS_inquire_context (
+
+	char	*destination,
+
+	GSContextRequirments_t *context_req )
+
+
+
+Assertions
+
+	Input
+
+		destination	A string used by GS to identify the target for this transfer.
+
+	Output
+
+		context_req	A structure indicating the context or command line arguments needed by the indicated destination.
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+	GSNotARegisteredDestination
+
+		The indicated destination is not known to the CM.
+
+	GSCannotContactCM
+
+		The process was unable to contact a CM on the local machine.
+
+
+
+Description
+
+	This subroutine takes a string identifying the destination of an intended data transfer.  It returns a structure indicating the command line arguments needed by the receiving process.
+
+int GS_inquire_destinations (
+
+	TCP *destination_list )
+
+
+
+Assertions
+
+	Input
+
+		NONE
+
+	Output
+
+		TCP dest_list	Array of character strings
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+	GSCannotContactCM
+
+		The process was unable to contact a CM on the local machine.
+
+
+
+Description
+
+	Query the connection manager for an array of character strings containing valid data receiver names.  The data receiver names returned by this routine may be used to initialize a connection using the GS_initialize function.
+
+
+
+	A data receiver name is comprised of two parts, only the first part is mandatory:
+
+
+
+		receiver_name:host_string
+
+
+
+	where host_string is an optional host name on which the receiver exists.
+
+int GS_receive (
+
+	GSHandle_t		handle,
+
+	GSTCB_t		*tcb )
+
+
+
+Assertions
+
+	Input
+
+		handle	A handle describing the connection to the connection manager.
+
+	Output
+
+		tcb		A transfer control block containing the data sent.
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+
+
+Description
+
+	Receive a transfer control block that contains either a transfer structure containing data or an executive structure containing a protocol request.  
+
+
+
+
+
+int GS_send (
+
+	GSHandle_t handle,
+
+	GSTCB_t *tcb,
+
+	GSResult_t *result )
+
+
+
+Assertions
+
+	Input
+
+		handle		A structure defining the connection.
+
+		tcb			A transfer control block containing the data structure to be transferred.
+
+	Output
+
+		result		A result structure indicating the success or failure of the transfer.
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+
+
+Description
+
+	This subroutine sends the data structure contained in the tcb to the receiver process.
+
+int GS_terminate (
+
+	GSHandle_t handle)
+
+
+
+Assertions
+
+	Input
+
+		handle	A handle describing the connection to the receiving process. 
+
+	Output
+
+		NONE
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+	GSCannotContactCM
+
+		The process was unable to contact a CM on the local machine.
+
+
+
+Description
+
+	Terminate the connection described by the handle argument.  This will flush the data stream and close any buffers associated with the handle.  This routine must be called by the data sending application before it exits in order to guarantee that a data transfer is completed correctly.
+
+
+
+int	GS_receive (
+
+	GSHandle_t		handle,
+
+	TCB			*tcb )
+
+
+
+Assertions
+
+	Input
+
+		handle	A handle describing the connection to the connection manager.
+
+	Output
+
+		tcb		A transfer control block containing the data sent.
+
+
+
+Return Value / Status
+
+	GSSuccess
+
+		No problems encountered.
+
+	GSNotARegisteredDestination
+
+		The indicated destination is not known to the CM.
+
+	GSCannotContactCM
+
+		The process was unable to contact a CM on the local machine.
+
+
+
+Description
+
+	Receive a transfer control block that contains either a transfer structure containing data or an executive structure containing a protocol request.  
+
+
+
+
+
+Chapter 3
+
+
+
+
+
+
+
+
+
+
+
+
+
+Data Structures
+
+/**************************************************************************/
+
+/*                                                                        */
+
+/*                    STATUS STRUCTURE                                    */
+
+/*                                                                        */
+
+/**************************************************************************/
+
+
+
+ /*
+
+  * A status structure for returning to the exporting application information
+
+  * about the success/failure of the various functions performed by the
+
+  * receiver.
+
+  */
+
+
+
+typedef struct
+
+{
+
+    Vector_t error_return;
+
+} ErrorVector_t;
+
+
+
+typedef struct
+
+{
+
+    LongInt_t error_code;    /* error code */
+
+    String_t object_key;     /* One or more object keys, separated by ^ */
+
+                             /* by ^, identifying entity with the error */
+
+    String_t error_description;	/* Error description */
+
+} ErrorReturn_t;
+
+
+
+/**************************************************************************/
+
+/*                                                                        */
+
+/*                    CONTEXT STRUCTURES                                  */
+
+/*                                                                        */
+
+/**************************************************************************/
+
+
+
+ /*
+
+  * The first three structures are associated with defining the information
+
+  * to be sent to to the receiver to establish context.  This assumes that
+
+  * any context establishment information can be set by a set of character
+
+  * strings and/or a set of integers
+
+  */
+
+
+
+typedef struct
+
+{
+
+    Type_t  type;	     /* Data type of context variable */
+
+    LongInt_t max_length;    /* Maximum length of context variable *if
+
+			      * string) */
+
+    String_t prompt;	     /* Prompt string to use for requesting context
+
+			      * variable */
+
+} ContextRequirements_t;
+
+
+
+ /*
+
+  * The next two structures are used to transmit the requested information
+
+  * back to the receiving process
+
+  */
+
+
+
+typedef struct
+
+{
+
+    Vector_t string_array;   /* array of strings */
+
+} ContextInformation_t;
+
+
+
+/**************************************************************************/
+
+/*                                                                        */
+
+/*          EXECUTIVE STRUCTURES                                          */
+
+/*                                                                        */
+
+/**************************************************************************/
+
+
+
+ /*
+
+  * The following is a list of top-level structures that GeoShare defines. The
+
+  * list is extendable past the enum set by using the extension portion of
+
+  * the union.
+
+  */
+
+
+
+typedef union
+
+{
+
+    enum
+
+    {
+
+	GL_STRUCT_CONTEXT_INFO = 1,
+
+	GL_STRUCT_SEISMIC_SURVEY = 2,
+
+	GL_STRUCT_FAULT_TRACE = 3,
+
+	GL_STRUCT_WELL_HDR_LIST = 4,
+
+	GL_STRUCT_GRID = 5,
+
+	GL_STRUCT_CONTOUR = 6,
+
+	GL_STRUCT_MAP = 7,
+
+	GL_STRUCT_XYZ = 8,
+
+	GL_STRUCT_LITHOSTRAT_CODES = 9,
+
+	GL_STRUCT_STRAT_COLUMN = 10,
+
+	GL_STRUCT_ZONES = 11,
+
+	GL_STRUCT_STOP_SERVER = 100,	/* Address of structure is NULL */
+
+	GL_STRUCT_CONTEXT_BREAK = 101, /* Address of structure is NULL */
+
+	GS_STRUCT_RCVR_TERMINATE = 102 
+
+    } symbolic;
+
+    LongInt_t extension;
+
+} DataStructType_t;
+
+
+
+ /*
+
+  * A Receiver information structure returned to the exporting application
+
+  * upon contact with a receiver.  This structure contains the following
+
+  * information: a.  Status of Receiver service initialization b.
+
+  * Exploration data structures supported c.  Data structure revision level
+
+  * range supported d.  Specification of information required for receiving
+
+  * data base context establishment
+
+  */
+
+
+
+typedef struct
+
+{
+
+    DataStructType_t data_struc_type;
+
+    Version_t version;
+
+} DataSupported_t;
+
+
+
+typedef struct
+
+{
+
+    LongInt_t receiver_status;	/* */
+
+    Vector_t data_supported; /* List of types of data the server supports */
+
+    Vector_t context_rqmts;
+
+    LongInt_t max_memory;    /* Size of local memory buffer, in bytes */
+
+    String_t banner_string;  /* Product string (<=80 * characters ) */
+
+} ReceiverSpecs_t;
+
+
+
+typedef struct
+
+{
+
+    DataStructType_t type;
+
+    Version_t version;
+
+    Voidptr_t structure_pointer;
+
+} Structure_t;
+
+
+
+ /*
+
+  * An executive structure containing context destination information for
+
+  * cross check reference to the context establishment information
+
+  * structure, and a list which provides reference to all supported data
+
+  * type structures which are to be transmitted.  If context has been
+
+  * previously established then the context information structure need not be
+
+  * included.  If context has not been previously established then the
+
+  * context information structure must be referenced first in the list.
+
+  */
+
+
+
+typedef struct
+
+{
+
+    LongInt_t context_token; /* integer tag for context established  */
+
+    Structure_t structure;
+
+} Executive_t;
+
+Chapter 4
+
+
+
+
+
+
+
+
+
+
+
+Installation
+
+GeoShare Installation
+
+
+
+When the GeoShare system is shipped it will include (at least):
+
+	*	A Connection Manager
+
+	*	At least one data receiver service: The FINDER receiver
+
+	*	A toolbox for writing data receivers and application senders
+
+
+
+Configuration
+
+	When the GeoShare system is initially installed, it is necessary to create the Connection Manager control file: GStab.  This file is owned by the system account, and maintained by the system administrator. An entry must be made for each data receiver service that is to be installed in this GeoShare system and known to the Connection Manager.   See the section titled Configuration File for a full description of the GStab file.  Each time the Connection Manager starts up, the GStab configuration file is read and the data receiver services are registered as valid data destinations.
+
+
+
+Privileges
+
+	The GeoShare connection manager needs to be run in a privileged account, on UNIX systems for instance, it would be run as root.  This is because the connection manager requires the ability to start jobs that run as other users.  Data Receivers  are expected to run under the same user id as the Client Application.
+
+
+
+Starting The Connection Manager
+
+	The connection manager should always be running.  It is recommended that the connection manager be started as part of the system boot procedure.  On UNIX systems, this would mean adding an entry in the system boot file /etc/rc.local.
+
+
+
+Adding or Installing Data Receivers
+
+	The Data Receivers that will be available to the GeoShare connection manager should be installed in the GeoShare home directory.   An environment variable GSHOME is used on UNIX systems to identify this directory.   New data receivers may be added to a GeoShare installation simply by installing the new receiver program in the GSHOME directory and adding an entry for the receiver in the GStab configuration file.
+
+
+
+Configuration File
+
+
+
+	The configuration information used by the Connection Manager is stored in a local system file that is read into the Connection Manager during its initialization.  This file contains an entry for each known data receiver, and is organized as shown in the diagram that follows.  Under UNIX the file is named GStab and is located by using the environment variable GSHOME.  If GSHOME is not defined the path /etc/GStab will be assumed.
+
+
+
+	The data services available to a client process are registered in this file statically.  New data receiver services are registered with the Connection Manager by manually adding the necessary information to this file with a text editor.
+
+
+
+	Each service in the file is represented as a single entry in the file.  Entries may span multiple lines with the continuation character on the end of each unfinished line.  The continuation character in UNIX for example is the backslash "\".
+
+
+
+	Each entry consists of elements separated by the vertical bar character.  An entry is generally described as follows.
+
+
+
+		alias,alias,...|[/path/]serverpgm|"parameter list"|[host id]
+
+
+
+	The first element of an entry is a comma separated list of aliases, only the first alias is required to be displayed in the user interface.
+
+
+
+	The next element is the name of the program to be executed (optionally preceded by a directory path).
+
+
+
+	Next is a standardized definition of the parameters needed by the program as command line arguments.
+
+
+
+	Finally an optional host identifier which is only needed if the Service exists on a remote host.
+
+
+
+	The following diagram shows a typical entry for the UNIX environment.
+
+
+
+
+
+
+
+
+
+
+
+
+
+

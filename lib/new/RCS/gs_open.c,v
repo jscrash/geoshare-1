@@ -1,0 +1,46 @@
+head	1.1;
+access;
+symbols;
+locks
+	julian:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.19.15.18.46;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.12.43.23;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_open.c.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+int flopen();
+
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@a1 4
+extern struct servent *getservbyname();
+extern char *getenv();
+
+
+@

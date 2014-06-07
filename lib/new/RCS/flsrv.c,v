@@ -1,0 +1,89 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.19.10.05.19;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of flsrv.c.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@/********************************************************************
+Program:	FLSRV
+
+Description:	This is the FinderLink data receiver for Finder.
+		It is run by the FinderLink host daemon to read
+		an incoming data transfer and store the contents.
+		
+Usage:		This program is not run interactively.  It is 
+		started by the fld daemon and handed a socket ad
+		from which it reads the data stream.  
+
+		The program uses the following I/O convention:
+		stdin	=  stdout of caller
+		stdout  =  stdin of caller.
+		stderr  = (if not a terminal) /dev/flsrv.{PID}
+
+
+Author:		Julian Carlisle
+Date:		Sun Feb 24 23:21:33 PST 1991
+********************************************************************/
+
+#ifndef SUN4
+#define SUN4		/* Put in makefile later */
+#endif
+#include <sys/types.h>
+#include <stdio.h>
+#include <pwd.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#ifdef SUN4
+#include <sys/filio.h>
+#else
+#define	FD_SET(n, s)	(((s)->fds_bits[0]) |= (1 << n))
+#define	FD_CLR(n, s)	(((s)->fds_bits[0]) &= ~(1 << n))
+#define	FD_ZERO(s)	bzero((char *)(s), sizeof (*(s)))
+#define	FD_ISSET(n, s)	(((s)->fds_bits[0]) & (1 << n))
+#include <sys/ioctl.h>
+#endif /* SUN40 */
+#include <setjmp.h>
+#include <netdb.h>
+#include <signal.h>
+#include <string.h>
+
+struct sockaddr_in	sin;
+struct sockaddr_in	udp_sin;
+struct servent		*sp;
+jmp_buf			sdied;
+
+done()
+{
+	fprintf(stderr, "broken pipe\n");
+	longjmp(sdied);
+}
+
+main (argc,argv)
+int argc;
+char *argv[];
+{
+
+printf (" %s started.\n",argv[0]);
+
+exit(0);
+}
+@

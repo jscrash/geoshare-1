@@ -1,0 +1,277 @@
+head	1.7;
+access;
+symbols;
+locks
+	julian:1.7; strict;
+comment	@ * @;
+
+
+1.7
+date	91.05.05.11.30.00;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.30.05.05.58;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.29.10.47.18;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.29.08.31.20;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.29.05.47.12;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.29.05.41.25;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_def_handle.c.
+@
+
+
+1.7
+log
+@Update
+@
+text
+@#include "gs.h"
+
+
+GSHandle_t *gs_def_handle()
+{
+	int     status = GS_SUCCESS;
+	char    log[256];
+	char   *cp;
+	static GSHandle_t *h = (GSHandle_t *) 0;
+	static int firsttime = TRUE;
+
+	if (h != (GSHandle_t *) 0) {
+		if (h->init == FALSE)
+			firsttime = TRUE;
+	}
+
+	if (firsttime == TRUE) {
+		if (h == (GSHandle_t *) 0) {
+			h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+		}
+
+		h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+
+		if ((cp = gs_home(0)) != NULL)
+			strcpy(h->homedir, cp);
+
+		if ((cp = gs_cf_name(0)) != NULL)
+			strcpy(h->cfgfile, cp);
+
+		if ((cp = gs_logfile(0)) != NULL)
+			strcpy(h->logfile, cp);
+
+		h->pid = getpid();
+
+		h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+		if (h->key == (GSKey_t *) 0) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_def_handle: Error generating shm key.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		if (gs_attach_slot(h->key, &h->cmslot) != GS_SUCCESS) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_def_handle: Error attaching to cm slot.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		h->init = TRUE;
+		firsttime = FALSE;
+	}
+	return ((GSHandle_t *) h);
+}
+@
+
+
+1.6
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d44 1
+a44 1
+		if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d6 5
+a10 5
+    int     status = GS_SUCCESS;
+    char    log[256];
+    char   *cp;
+    static GSHandle_t *h = (GSHandle_t *)0;
+    static int firsttime = TRUE;
+d12 3
+a14 8
+    if (h != (GSHandle_t *)0) {
+	if (h->init == FALSE )
+	   firsttime = TRUE;
+    }
+
+    if (firsttime == TRUE) {
+	if (h == (GSHandle_t *)0) {
+	    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+d17 4
+a20 1
+	h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+d22 1
+a22 2
+	if ((cp = gs_home(0)) != NULL)
+	    strcpy(h->homedir, cp);
+d24 2
+a25 2
+	if ((cp = gs_cf_name(0)) != NULL)
+	    strcpy(h->cfgfile, cp);
+d27 2
+a28 2
+	if ((cp = gs_logfile(0)) != NULL)
+	    strcpy(h->logfile, cp);
+d30 2
+a31 1
+	h->pid = getpid();
+d33 1
+a33 8
+	h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+	if (h->key == (GSKey_t *) 0) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error generating shm key.");
+	    }
+	    return ((GSHandle_t *) 0);
+	}
+d35 19
+a53 6
+	if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error attaching to cm slot.");
+	    }
+	    return ((GSHandle_t *) 0);
+d55 1
+a55 5
+
+	h->init = TRUE;
+	firsttime = FALSE;
+    }
+    return ((GSHandle_t *) h);
+@
+
+
+1.4
+log
+@.
+@
+text
+@d9 1
+a9 1
+    static GSHandle_t *h;
+d12 4
+d18 3
+a20 1
+	h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d12 1
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a8 1
+    GSMessage_t msg, reply;
+d28 1
+a28 1
+	h->key = (GSKey_t *) gs_ipc_key(h->config_file);
+d37 1
+a37 1
+	if (gs_attach_slot(h->key, &h->cmslot) != GS_SUCCESS) {
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d18 2
+a19 2
+	cp = gs_home(0);
+	strcpy(h->homedir,cp);
+d21 2
+a22 2
+	cp = gs_cf_name(0);
+	strcpy(h->config_file,cp);
+d24 2
+a25 1
+	h->key = (GSKey_t *)gs_ipc_key(h->config_file);
+d27 9
+a35 3
+	if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+		gs_log("error attaching slot.\n");
+		return ((GSHandle_t *)0);
+d37 9
+d47 1
+a47 2
+
+    firsttime = FALSE;
+d49 1
+a49 1
+    return (h);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@a2 1
+extern char *gs_home(),*gs_cf_name();
+@

@@ -1,0 +1,64 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     91.05.14.14.25.21;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#ifdef __STDC__
+extern int abort(int status);
+extern int alarm(int secs);
+extern int atoi(char *str);
+extern int close(int fd);
+extern int dup(int fd);
+extern int execv(char *pgm,char **argv);
+extern void exit(int status);
+extern int fclose(FILE *fp);
+extern void fflush(FILE *fp);
+extern int fork(void);
+extern int free(char *ptr);
+extern int ftok(char *ptr);
+extern int getopt(int argc,char **argv,int optarg);
+extern int getpid(void);
+extern int getppid(void);
+extern char *memcpy(char *ptr1,char *ptr2,int len);
+extern char *mktemp(char *template);
+extern int read(int fd, char *buf, int nbytes);
+extern char *realloc(int size);
+extern int semctl(int id,int semnum, u_int mode,struct sembug *sops);
+extern int semget();
+extern int semop(int id,struct sembuf *sops,int nsem);
+extern void setbuf(FILE *fp,int mode);
+extern int setgid(int gid);
+extern int setpgrp(int grp);
+extern int setuid(int uid);
+extern char *shmat();
+extern int shmctl();
+extern int shmdt(char *ptr);
+extern int shmget();
+extern void sleep(int secs);
+extern int system(char *cmd);
+extern int umask(u_int mask);
+extern int vfprintf(FILE *fp,char *format,...);
+extern int fprintf(FILE *fp,char *format,...);
+extern int sprintf(char *buf,char *format,...);
+extern int printf(char *format,...);
+#endif
+@

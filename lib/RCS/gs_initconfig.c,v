@@ -1,0 +1,452 @@
+head	1.7;
+access;
+symbols;
+locks
+	julian:1.7; strict;
+comment	@ * @;
+
+
+1.7
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.24.09.37.59;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.23.09.20.57;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.20.22.50.54;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.20.19.31.11;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.20.19.09.42;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.20.18.25.12;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_initconfig.c.
+@
+
+
+1.7
+log
+@Reformat to indentation 8 for readability
+@
+text
+@#include "gs.h"
+#include <sys/stat.h>
+
+/****************************************************************************
+Module: GS_INITCONFIG
+
+Description:
+
+     Get the homedirectory specification from the environment,
+     assign one if none is defined.
+
+     Determine the location of the GeoShare product home directory using the
+     following guidlines:
+
+          * Check for GSHOME environment variable, use it if defined as
+            a valid path.
+
+          * If GSHOME is not defined, use the definition of GSDEFAULTHOME
+            (normally /tmp).
+
+          * If neither of the above yields a valid home dir spec., log the
+            error message and return GS_FAIL.
+
+     Determine the location of the gstab configuration file using
+     the following guidelines:
+
+        * The default config file is  $GSHOME/gstab
+
+        * The environment variable GSCONFIG is search for, and if found
+          supersedes the default spec.
+
+        * Check for a configuration file specification in the program
+          argument list.  A configuration file provided on the command
+          line supersedes both of the above definitions should more than one
+          be present.
+
+        * If none of the above yields a valid config file spec, log an error
+          message and return GS_FAIL.
+
+    Determine if debug mode is active.  This is determined by the definition
+    of the environment variable GSDEBUG.
+
+
+Usage:
+        status = gs_initconfig(homedir,config_file,debug_mode);
+        char *homedir,*config_file;
+	int *debug_mode;
+
+Parameters:
+        INPUT:
+		None
+        OUTPUT:
+		char * homedir;  	- ptr to allocated string
+		char * config_file;  	- ptr to allocated string
+		int *debug_mode;  	- ptr to integer
+
+Status:
+	This routine returns GS_SUCCESS upon successful completion or
+	GS_FAIL if an error was encountered.
+
+Author:
+        Julian Carlisle          Fri Apr 20 06:09:42 PDT 1991
+*****************************************************************************/
+
+int     gs_initconfig(homedir, cfgfile, debugflag)
+char   *homedir;
+char   *cfgfile;
+int    *debugflag;
+{
+	char   *cp;
+	struct stat statbuf;
+	char    text[256];
+	int     status = GS_SUCCESS;
+	GSGBL_t tmpgbl, *pcm;
+	int     tt = 0;
+	pcm = &tmpgbl;
+
+	getcwd(text, sizeof text);
+
+	sprintf(pcm->config_file, "%s/gstab", text);
+	pcm->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+
+ /*
+  * Figure out where the GeoShare home directory is, if it is not specified
+  * anywhere then set it to /tmp.
+  */
+	if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+		strcpy(pcm->homedir, cp);
+	}
+	else {
+		strcpy(pcm->homedir, GSDEFAULTHOME);
+	}
+
+ /* Check if whatever we got exists... */
+	if (stat(pcm->homedir, &statbuf)) {
+		if (pcm->debug)
+			fprintf(stderr, "Can't locate path: %s\n", pcm->homedir);
+		strcpy(pcm->homedir, "/tmp");
+		if (pcm->debug)
+			fprintf(stderr, "Using %s as CM home directory.", pcm->homedir);
+	}
+
+ /* Check for permission to work in here... */
+	if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+		if (pcm->debug)
+			fprintf(stderr, "Directory %s is not r/w accessible. Using /tmp",
+				pcm->homedir);
+		strcpy(pcm->homedir, "/tmp");
+	}
+
+	if (stat(pcm->config_file, &statbuf)) {
+		sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+		strcpy(pcm->config_file, text);
+		if (stat(pcm->config_file, &statbuf)) {
+			if (pcm->debug)
+				fprintf(stderr, "Error!!! Cannot find configuration file: %s\n",
+					pcm->config_file);
+		}
+	}
+	if (cfgfile != NULL)
+		strcpy(cfgfile, pcm->config_file);
+
+	if (homedir != NULL)
+		strcpy(homedir, pcm->homedir);
+
+	if (debugflag != (int *) 0)
+		*debugflag = pcm->debug;
+
+	return (GS_SUCCESS);
+}
+@
+
+
+1.6
+log
+@.
+@
+text
+@d70 7
+a76 7
+    char   *cp;
+    struct stat statbuf;
+    char    text[256];
+    int     status = GS_SUCCESS;
+    GSGBL_t tmpgbl, *pcm;
+    int     tt = 0;
+    pcm = &tmpgbl;
+d78 1
+a78 1
+    getcwd(text, sizeof text);
+d80 2
+a81 2
+    sprintf(pcm->config_file, "%s/gstab", text);
+    pcm->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+d87 6
+a92 6
+    if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	strcpy(pcm->homedir, cp);
+    }
+    else {
+	strcpy(pcm->homedir, GSDEFAULTHOME);
+    }
+d95 7
+a101 7
+    if (stat(pcm->homedir, &statbuf)) {
+	if (pcm->debug)
+	    fprintf(stderr, "Can't locate path: %s\n", pcm->homedir);
+	strcpy(pcm->homedir, "/tmp");
+	if (pcm->debug)
+	    fprintf(stderr, "Using %s as CM home directory.", pcm->homedir);
+    }
+d104 6
+a109 6
+    if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+	if (pcm->debug)
+	    fprintf(stderr, "Directory %s is not r/w accessible. Using /tmp",
+		pcm->homedir);
+	strcpy(pcm->homedir, "/tmp");
+    }
+a110 3
+    if (stat(pcm->config_file, &statbuf)) {
+	sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+	strcpy(pcm->config_file, text);
+d112 7
+a118 3
+	    if (pcm->debug)
+		fprintf(stderr, "Error!!! Cannot find configuration file: %s\n",
+		    pcm->config_file);
+d120 2
+a121 3
+    }
+    if (cfgfile != NULL)
+	strcpy(cfgfile, pcm->config_file);
+d123 2
+a124 2
+    if (homedir != NULL)
+	strcpy(homedir, pcm->homedir);
+d126 2
+a127 2
+    if (debugflag != (int *) 0)
+	*debugflag = pcm->debug;
+d129 1
+a129 1
+    return (GS_SUCCESS);
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d66 3
+a68 3
+char  *homedir;
+char  *cfgfile;
+int   *debugflag;
+d75 1
+a75 1
+    int tt = 0;
+d78 1
+a78 1
+	getcwd(text,sizeof text);
+d80 1
+a80 1
+	sprintf(pcm->config_file,"%s/gstab",text);
+d82 1
+d97 1
+a97 1
+		fprintf(stderr,"Can't locate path: %s\n", pcm->homedir);
+d100 1
+a100 1
+		fprintf(stderr,"Using %s as CM home directory.", pcm->homedir);
+d106 2
+a107 2
+		fprintf(stderr,"Directory %s is not r/w accessible. Using /tmp",
+	    pcm->homedir);
+d116 2
+a117 2
+		fprintf(stderr,"Error!!! Cannot find configuration file: %s\n",
+		pcm->config_file);
+d126 1
+a126 1
+    if (debugflag != (int *)0)
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@a81 1
+    tt = isatty(stderr);
+d95 1
+a95 1
+	if (tt)
+d98 1
+a98 1
+	if (tt)
+d104 1
+a104 1
+	if (tt)
+d114 1
+a114 1
+	    if (tt)
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d78 3
+a80 1
+    strcpy(pcm->config_file, "gstab");
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d75 1
+a75 1
+
+d80 1
+a80 1
+
+d94 2
+a95 1
+	gs_log("Can't locate path: %s\n", pcm->homedir);
+d97 2
+a98 1
+	gs_log("Using %s as CM home directory.", pcm->homedir);
+d103 2
+a104 1
+	gs_log("Directory %s is not r/w accessible. Using /tmp",
+d113 2
+a114 1
+	    gs_log("Error!!! Cannot find configuration file: %s\n",
+d124 1
+a124 1
+    if (*debugflag != NULL)
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d9 1
+a9 1
+     Get the homedirectory specification from the environment, 
+d33 1
+a33 1
+          argument list.  A configuration file provided on the command 
+d46 1
+a46 1
+        char **homedir,**config_file;
+d53 2
+a54 2
+		char ** homedir;  	- ptr to allocated string
+		char ** config_file;  	- ptr to allocated string
+d65 4
+a68 3
+int     gs_initconfig(homedir,cfgfile)
+char **homedir;
+char **cfgfile;
+d74 2
+a75 2
+    GSGBL_t tmpgbl,*pcm;
+    
+a80 1
+    
+d82 3
+a84 3
+ Figure out where the GeoShare home directory is,
+ if it is not specified anywhere then set it to /tmp.
+ */
+d114 2
+a115 2
+    if (*cfgfile != NULL) 
+	strcpy(*cfgfile,pcm->config_file);
+d117 2
+a118 2
+    if (*homedir != NULL) 
+	strcpy(*homedir,pcm->homedir);
+d123 1
+a123 1
+return (GS_SUCCESS);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d40 4
+d45 3
+a47 2
+        status = gs_initconfig(pcm);
+        
+d51 1
+a51 2
+		GSGBL_t *pcm;	- Connection Manager object.
+
+d53 3
+a55 1
+		None
+d65 3
+a67 2
+int     gs_initconfig(pcm)
+GSGBL_t *pcm;
+d73 3
+a76 7
+ /* Init the error logging facility. */
+    status = gs_init_log();
+
+    if (pcm == (GSGBL_t *) 0) {
+	gs_log("gs_initconfig: Null CM object pointer passed..");
+	return (GS_FAIL);
+    }
+d78 1
+a78 1
+    pcm->debug = 0;
+d80 1
+d114 9
+@

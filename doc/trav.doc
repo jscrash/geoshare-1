@@ -1,0 +1,208 @@
+Outline for the structure splitting routine.
+--------------------------------------------
+
+int gs_split(ptr)
+GSStructure_t *ptr;
+{
+
+LOOP:
+
+/* Split up the structure as described in the next section. */
+. . . . . . . 
+
+
+/* for each sub-structure or vector that is ready to be sent: */
+
+	gs_process_structure((GSStructure_t *)sub-struct-ptr);
+END-LOOP:
+}
+
+
+
+Structure Splitting & Sending Protocol
+--------------------------
+
+The following is an outline of the structure passing protocol and
+the policies that support it.
+
+There are policies regarding how and when data is sent from the
+Sender to the Receiver.  These policies exist to enforce a protocol
+that is designed to facilitate large data transfers without
+requiring special resource capacities on either side of the
+connection.   
+
+The protocol defines how interface data structures are split up before
+being transferred.   Structures are considered to be composed of two
+types of entities: Atoms & Pointers.
+
+An Atom is any member that is stored directly in the structure
+itself  while a Pointer is a member stored in the structure by
+reference such as a vector or a pointer to a substructures.
+
+Structures sent by one application to another are processed in the
+following manner:
+        
+        * All Pointer members in the structure are replaced by tags
+        that are numerically sequential. I.e. the first Pointer
+        member encountered would be assigned TAG1 the next would be
+        assigned TAG2 and so on.
+
+        * The remaining structure containing only Atoms and tags is
+        transferred.
+
+        * Each Pointer member tagged in the structure is processed
+        and sent in the same sequence as tagged.
+        The processing of the Pointer members is the same as the
+        Initial processing of the structure: Each Pointer member
+        is tagged and sent afterwards.
+
+        Note that the processing of structures is represented as a
+        pre-order tree traversal:
+
+        First the root structure is processed to Atoms and sent.  
+        The next transfer after the root will be the first tagged pointer.
+        If the pointer being processed contains pointers, they are
+        processed and sent directly after the root pointer and so on.
+        Finally, the next pointer tagged in the root structure is processed
+        and sent and so on.  
+        
+        The processing of structures is a recursive operation and results
+        in a predictable ordering of data transfer such that receivers
+        can always know what context received data is in.
+
+Transfer Types
+--------------
+
+Sending a data structure involves one or more transfers. There are
+several classes of transfer:
+
+        * StructRootClass
+        * StructTagClass
+        * VectorTagClass
+
+The StructRootClass marks the beginning of a new transfer and the
+sending of the root data structure (atoms only).
+
+The StructTagClass marks the transfer of a structure pointer tagged
+within the parent structure.
+
+The VectorTagClass marks the transfer of a vector tagged within the
+parent structure.
+
+
+Transfer States
+---------------
+
+A data transfer may be in any one of the following states:
+
+        START_OF_ROOT
+        END_OF_ROOT
+        START_OF_STRUCT_TAG
+        END_OF_STRUCT_TAG
+        START_OF_VECTOR_TAG
+        CONTINUE_VECTOR_TAG
+        END_OF_VECTOR_TAG
+
+
+
+Structure Splitting & Traversal Example
+---------------------------------------
+The algorithm for splitting up the data before sending is as
+follows:
+
+Foreach data element to process & send:
+    *  Scan data structure & tag any non-Atom members
+    *  transfer data structure
+    *  Process tags sequentially in order tagged.  For each data tag,
+       scan & tag non-Atoms and send data element followed by any tags
+       contained within.
+
+
+Consider the following structure definitions:
+
+        struct c {
+            int ci3;
+            Vector_t cv3;
+        }
+
+        struct a {
+            int ai1;
+            struct  b  {
+                int bi2;
+                Vector_t  bv1;
+            }
+            char ac1[16];
+            struct c *asp1;
+            Vector_t av2;
+        }
+
+1) struct a is processed.  All non-Atom members are tagged (bv1,asp1,av2)
+2) struct a is transferred.
+3) Vector bv1 is transferred.
+4) Structure tag asp1 is processed.  All non-Atom members are tagged (cv3)
+5) structure asp1 is transferred.
+6) Vector cv3 is transferred.
+7) Vector av2 is transferred.
+
+
+
+Datastructure Programmatic Interface
+------------------------------------
+
+The sending application would interact with the datastructures in
+the following manner:
+
+        * Allocate a structure in shared memory using the gs_alloc
+        routine as follows:
+                ptr = (struct TheStruct *) gs_alloc(sizof(struct TheStruct),
+                                                &key);
+        
+        * Fill the structure:
+                ptr->Type = type
+                ptr->
+
+
+Alternatively, it is possible to supply programmers with an
+interface to the structures that hides their definition.  This
+method involves supplying routines that allocate structures,
+load structures in a tokenized fashion, and read structures in a
+tokenized fashion.  
+
+for instance:
+To create a structure the user would make a call like:
+        ptr = (Executive_t *) AllocStruct( "Executive_t" )
+where the type of structure to create is passed as a string.
+
+To load members of the structure the user would:
+        status = LoadStruct( ptr, (MemberId)105, data)
+
+To read from the structure the user would:
+        status = ReadStruct(ptr, (MemberId)105, &data);
+
+The MemberId argument identifies the member of the structure to
+process.  This id is an integer code read from the Structure
+Description Table (SDT).  
+
+The problems associated with this method of handling the
+programmatic interface to the structures are:
+
+        * It complicates the design of sender/receiver programs
+        by not allowing the programs to marshal their data:
+
+        - Receivers cannot predict the order in which they must
+        process data.  Therefor it is difficult to write database
+        loading routines that use imbedded SQL calls since building
+        the phrases must be done dynamically.
+
+        - Sending routines must fetch data in the order requested by
+        the structure interface routines.  This leads to very
+        inefficient data handling since programs cannot optimize
+        their fetching of data. (i.e. from different databases or
+        or other various sources.)  
+
+        
+
+
+
+
+

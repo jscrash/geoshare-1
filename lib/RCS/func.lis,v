@@ -1,0 +1,76 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@# @;
+
+
+1.1
+date	91.04.20.16.19.50;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.20.16.19.46;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of func.lis.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@
+		Catalog of GeoShare Library
+
+The following is a list of the routines that exist or are currently being
+created to support the GeoShare application programmers library.
+
+The programs listed are all kept in the directory /j/fl/lib along with a
+Makefile that builds them into a library called libgs.a
+
+Some of the routines listed are currently only stubs, these are indicated
+with an asterisk in the left margin.
+
+Stub    Function		Description
+----    --------		-----------
+        gs_alloc		- shared memory allocation
+        gs_cgetent		- configuration file tools
+        gs_cgetflag		- configuration file tools
+        gs_cgetnum		- configuration file tools
+        gs_cgetstr		- configuration file tools
+        gs_connect		- receiver startup & connect 
+        gs_debug		- GeoShare debugging tools
+        gs_err_dump		- Error logging & handling tools
+        gs_err_quit		- Error logging & handling tools
+        gs_err_ret		- Error logging & handling tools
+        gs_err_sys		- Error logging & handling tools
+        gs_free			- Shared memory release routine
+*       gs_initialize		- Initialize application connection
+*       gs_inq_destinations	- App. inq. valid data receivers.
+*       gs_inquire_context	- App. inq. args for given receiver
+*       gs_receive		- Receive data from application
+        gs_sem_close		- Semaphore tools
+        gs_sem_create		- Semaphore tools
+        gs_sem_op		- Semaphore tools
+        gs_sem_open		- Semaphore tools
+        gs_sem_rm		- Semaphore tools
+        gs_sem_signal		- Semaphore tools
+        gs_sem_wait		- Semaphore tools
+*       gs_send			- App. Send data to receiver.
+*       gs_terminate		- Shutdown connection, release resources.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@@

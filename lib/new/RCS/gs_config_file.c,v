@@ -1,0 +1,132 @@
+head	1.1;
+access;
+symbols;
+locks
+	julian:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.29.03.38.14;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.29.03.32.16;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_config_file.c.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#include "gs.h"
+#include <sys/stat.h>
+
+/****************************************************************************
+Module: GS_CONFIG_FILE
+
+Description:
+     Returns the name of the configuration file used by the GeoShare
+     connection manager.
+    
+     Determine the location of the gstab configuration file using
+     the following guidelines:
+
+        * The default config file is  $GSHOME/gstab
+
+        * The environment variable GSCONFIG is search for, and if found
+          supersedes the default spec.
+
+        * If none of the above yields a valid config file spec a NULL
+	pointer is returned. If the environment variable GSDEBUG is 
+	defined an error message is printed.
+
+       
+Usage:
+        config_file = (char *)gs_initconfig(config_file);
+        char **config_file;
+
+Parameters:
+        INPUT:
+		None
+        OUTPUT:
+		char ** config_file;  	- ptr to char pointer to allocate
+
+Status:
+	a NULL pointer is returned if an error occurs.  Otherwise a pointer
+	is returned to an internally allocated string buffer containing the
+	name of the configuration file.
+
+Author:
+        Julian Carlisle        Sun Apr 28 20:18:12 PDT 1991
+*****************************************************************************/
+extern char *getenv();
+extern char *gs_home();
+
+char *gs_config_file(cfgfile)
+char  **cfgfile;
+{
+    int     status = GS_SUCCESS;
+    int     debug = FALSE;
+    int     len = 0;
+    char   *cp;
+    char    text[256];
+    char    config[256];
+    struct stat statbuf;
+
+    debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+
+ /*
+  * Figure out where the GeoShare home directory is, if it is not specified
+  * anywhere then set it to /tmp.
+  */
+    if ((cp = (char *) getenv("GSCONFIG")) != (char *) 0) {
+	strcpy(config, cp);
+    }
+    else {
+	cp = (char *) gs_home(NULL);
+	sprintf(config,"%s/gstab",cp);
+    }
+    
+ /* Check if whatever we got exists... */
+    if (stat(config, &statbuf)) {
+	if (debug)
+	    fprintf(stderr,"gs_config_file: Can't find gstab file %s\n",config);
+	status = GS_FAIL;
+    }
+
+    if (status == GS_SUCCESS && (cfgfile != (char **)0)) {
+	len = strlen(config);
+	*cfgfile = (char *)malloc(sizeof(char)*len+1);
+	strcpy(*cfgfile, config);
+    }
+    
+    if (status == GS_SUCCESS) 
+	return (config);
+    else
+	return ((char *)0);
+
+}
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d42 2
+d66 1
+a66 1
+	cp = gs_home(NULL);
+a67 1
+	}
+@

@@ -1,0 +1,806 @@
+head     1.18;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.18; strict;
+comment  @ * @;
+
+
+1.18
+date     91.05.20.03.30.15;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.14.12.39.10;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.09.07.56.51;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.09.04.00.41;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.05.14.23.54;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.05.11.30.06;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.04.30.14.25.18;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.04.30.09.48.36;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.04.30.08.13.52;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.30.07.24.43;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.30.06.56.19;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.30.05.05.58;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.30.02.51.28;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.29.11.47.55;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.29.10.47.18;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.28.17.40.11;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.19.23.29;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_inq_dest.c.
+@
+
+
+1.18
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <string.h>
+#include "errno.h"
+
+/****************************************************************************
+Module: GS_INQ_DEST
+
+Description:
+	Get a list of all the data receiver services available through
+	the local GeoShare connection manager.  The connection manager is
+	queried via an Executive request, and returns the list of currently
+	installed and available data receiversa in a NULL terminated array
+	of character strings.  The data receivers are registered in the
+	connection manager configuration file 'gstab'.
+
+Usage:
+	char **tcp;
+	unsigned int count;
+	status = gs_inquire_destinations(&tcp,&count);
+	
+Parameters:
+	INPUT:
+		none
+
+	OUTPUT:
+		char **tcp			- Allocated table of character strings.
+		unsigned int count	-	Total destinations returned.	
+
+Status:
+	If the request is successful, GS_SUCCESS is returned.  If an error
+	is encountered, one of the following status codes may be returned:
+
+	GS_FAIL	             - Cannot queue request. (No Resources, etc)
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Mon Apr 29 23:52:01 PDT 1991
+*****************************************************************************/
+extern int errno;
+
+
+
+int     gs_inquire_destinations(dest_list,count)
+char ***dest_list;
+unsigned int *count;
+{
+	int     status = GS_SUCCESS;
+	GSHandle_t *h = (GSHandle_t *) 0;
+	GSMessage_t msg, reply;
+	int     i;
+	char   *cp = NULL;
+	char  **tcp = (char **) 0;
+
+	*count = 0;
+	h = gs_get_handle();
+	if (h == (GSHandle_t *) 0) {
+		gs_log("gs_inquire_destinations: null handle from gs_get_handle\n");
+		return (GSERR_CM_NOTINIT);
+	}
+#if 0
+	if (h->debug) {
+		gs_sem_dump("(inq dest) locksem", h->cmslot->locksem);
+		gs_sem_dump("(inq dest) msgsem", h->cmslot->msgsem);
+		gs_sem_dump("(inq dest) cmsem", h->cmslot->cmsem);
+	}
+#endif
+	msg.MsgType = Executive;
+	msg.MsgBuf[0] = InqAllReceivers;
+	msg.MsgLen = 1;
+
+	reply.MsgType = 0;
+	reply.MsgLen = 0;
+	reply.MsgBuf[0] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+	status = gs_talk(h, h->cmslot, &msg, &reply);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_inquire_destinations: talk status=%d - detaching slot\n", status);
+
+		if (gs_detach_slot(h->cmslot) == GS_SUCCESS)
+			h->init = FALSE;
+		else
+			gs_log("gs_inquire_destinations: error detaching slot\n");
+
+		return (status);
+	}
+
+
+ /*
+  * handle the various possible replies from the Connection Manager
+  */
+	switch (reply.MsgType) {
+	case Status:
+		status = (int) reply.MsgBuf[0];
+		if (h->debug)
+			gs_log("gs_inquire_destinations: Reply is Status %d\n", status);
+		break;
+
+	case Data:
+		if (h->debug)
+			gs_log("gs_inquire_destinations: Message is %s\n", reply.MsgBuf);
+
+		if (reply.MsgLen <= 1) {
+			if (h->debug)
+				gs_log("gs_inquire_destinations: No entries returned.");
+			status = GS_FAIL;
+			break;
+		}
+
+		cp = strtok(reply.MsgBuf, " ");
+		for (i = 0; cp != NULL; cp = strtok(NULL, " "), i++) {
+			gs_tcp_append(&tcp, cp);
+		}
+
+		status = GS_SUCCESS;
+		*dest_list = tcp;
+		*count = i;
+		break;
+
+	default:
+		if (h->debug)
+			gs_log("gs_inquire_destinations: Msg Type:%d  Len:%d .\n",
+				reply.MsgType, reply.MsgLen);
+		status = GSERR_MSGTYPE;
+		*count = 0;
+		break;
+	}
+
+
+ /*
+  * Free up the temporary connection context we have established.
+  */
+	if (gs_detach_slot(h->cmslot) == GS_SUCCESS)
+		h->init = FALSE;
+	else
+		gs_log("gs_inquire_destinations: error detaching slot\n");
+
+	return (status);
+}
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d66 1
+d72 1
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d18 2
+a19 1
+	status = gs_inq_destinations(&tcp);
+d24 1
+d26 2
+a27 1
+		char **tcp	- Allocated table of character strings.
+d49 1
+a49 1
+int     gs_inquire_destinations(dest_list)
+d51 1
+d60 1
+d63 2
+a64 2
+		fprintf(stderr, "gs_inq_dest: null handle from gs_get_handle\n");
+		return (GS_FAIL);
+d85 1
+a85 1
+			gs_log("gs_inq_dest: talk status=%d - detaching slot\n", status);
+d90 1
+a90 1
+			printf("inq dest: error detaching slot\n");
+d103 1
+a103 1
+			gs_log("gs_inq_dest: Reply is Status %d\n", status);
+d108 1
+a108 1
+			printf("gs_inq_dest: Message is %s\n", reply.MsgBuf);
+d112 1
+a112 1
+				gs_log("gs_inq_dest: No entries returned.");
+d124 1
+d129 1
+a129 1
+			printf("gs_inq_dest: Msg Type:%d  Len:%d .\n",
+d131 2
+a132 1
+		status = GS_FAIL;
+d143 1
+a143 1
+		printf("inq dest: error detaching slot\n");
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d62 3
+a64 3
+		gs_sem_dump("(inq dest) locksem",h->cmslot->locksem);
+		gs_sem_dump("(inq dest) msgsem",h->cmslot->msgsem);
+		gs_sem_dump("(inq dest) cmsem",h->cmslot->cmsem);
+d77 1
+a77 1
+	status = gs_talk(h,h->cmslot, &msg, &reply);
+d135 2
+a136 2
+		else
+			printf("inq dest: error detaching slot\n");
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d61 5
+a65 1
+
+d80 1
+a80 1
+			gs_log("gs_inq_dest: talk status = %d\n", status);
+d84 2
+d135 2
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d56 1
+a56 1
+	h = gs_def_handle();
+d58 1
+a58 1
+		fprintf(stderr, "gs_inq_dest: null handle from gs_def_handle\n");
+@
+
+
+1.12
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d73 1
+a73 1
+	status = gs_talk(h, &msg, &reply);
+d78 1
+a78 1
+		if (gs_detach_slot(h->slot) == GS_SUCCESS)
+d127 1
+a127 1
+	if (gs_detach_slot(h->slot) == GS_SUCCESS)
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d13 1
+a13 1
+	of character strings.  The data receivers are registered in the 
+d35 2
+a36 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d49 6
+a54 6
+    int     status = GS_SUCCESS;
+    GSHandle_t *h = (GSHandle_t *)0;
+    GSMessage_t msg, reply;
+    int i;
+    char *cp = NULL;
+    char **tcp = (char **)0;
+d56 5
+a60 5
+    h = gs_def_handle();
+    if (h == (GSHandle_t *) 0) {
+	fprintf(stderr,"gs_inq_dest: null handle from gs_def_handle\n");
+	return (GS_FAIL);
+    }
+d62 3
+a64 3
+    msg.MsgType = Executive;
+    msg.MsgBuf[0] = InqAllReceivers;
+    msg.MsgLen = 1;
+d66 3
+a68 3
+    reply.MsgType = 0;
+    reply.MsgLen = 0;
+    reply.MsgBuf[0] = '\0';
+d73 4
+a76 4
+    status = gs_talk(h, &msg, &reply);
+    if (status != GS_SUCCESS) {
+	if (h->debug)
+	    gs_log("gs_inq_dest: talk status = %d\n", status);
+d78 2
+a79 2
+	if (gs_detach_slot(h->slot) == GS_SUCCESS)
+		h->init = FALSE;
+d81 2
+a82 2
+	return (status);
+    }
+d86 1
+a86 1
+  *handle the various possible replies from the Connection Manager 
+d88 6
+a93 6
+    switch (reply.MsgType) {
+    case Status:
+	status = (int) reply.MsgBuf[0];
+	if (h->debug)
+	    gs_log("gs_inq_dest: Reply is Status %d\n", status);
+	break;
+d95 3
+a97 3
+    case Data:
+	if (h->debug)
+	    printf("gs_inq_dest: Message is %s\n", reply.MsgBuf);
+d99 17
+a115 1
+	if (reply.MsgLen <= 1) {
+d117 2
+a118 1
+			gs_log("gs_inq_dest: No entries returned.");
+a122 4
+	cp = strtok(reply.MsgBuf," ");
+	for (i=0; cp != NULL;  cp = strtok(NULL," "), i++) {
+		gs_tcp_append(&tcp, cp);			
+	}	
+a123 13
+	status = GS_SUCCESS;
+	*dest_list = tcp;
+	break;
+
+    default:
+	if (h->debug)
+	    printf("gs_inq_dest: Msg Type:%d  Len:%d .\n",
+		reply.MsgType, reply.MsgLen);
+	status = GS_FAIL;
+	break;
+    }
+
+
+d127 2
+a128 2
+    if (gs_detach_slot(h->slot) == GS_SUCCESS)
+	    h->init = FALSE;
+d130 1
+a130 1
+    return (status);
+a131 2
+
+
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@a43 5
+#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+a44 3
+char **gs_tcp_append P_((char ***tcp, char *string));
+int gs_tcp_len P_((char **strings));
+#undef P_
+a45 4
+
+
+
+
+d76 5
+a80 3
+	    printf("gs_inq_dest: talk status = %d\n", status);
+	gs_detach_slot(h->slot);
+	h->init = FALSE;
+d105 1
+d110 1
+a132 64
+
+
+
+char **gs_tcp_append (tcp, string)
+char ***tcp;
+char *string;
+    {
+    int i;
+    int len = 0;
+    char ** local_tcp;
+    
+    /*  Search for the null pointer  */
+    
+    i = 0;
+    if (*tcp == (char **)NULL || ** tcp == (char *)NULL)
+        {
+        local_tcp = *tcp = (char **)malloc ((size_t)(sizeof(char *) * 2));
+        }
+    else
+        {
+        local_tcp = *tcp;
+        len = gs_tcp_len (local_tcp);
+        for (i = 0; i < len; i++)
+            {
+            if (local_tcp[i] == (char *)0)
+                {
+                local_tcp[i] = (char *)malloc ((size_t)(strlen ((char *)string) + 1));
+                strcpy ((char *)local_tcp[i++], (char *)string);
+                local_tcp[i] = (char *)0;
+                return *tcp;
+                }
+            }
+        *tcp = local_tcp = (char **)realloc ((unsigned char *)local_tcp,
+                                            (size_t)((i + 2) * sizeof(char *)));
+        }
+    local_tcp[i] = (char *)malloc ((size_t)(strlen ((char *)string) + 1));
+    strcpy ((char *)local_tcp[i++], (char *)string);
+    local_tcp[i] = (char *)0;
+    
+    return *tcp;
+    }
+
+
+
+
+
+int gs_tcp_len (strings)
+char ** strings;
+    {
+    int len = 0;                    /* Returned length of strings array */
+    
+    
+    /*  Calculate length of array by scanning for the null pointer terminator.
+        If a null pointer was supplied, return 0 as the length.         */
+    
+    if (strings != (char **)0)
+        {
+        while (*strings++ != (char *)0)
+            {
+            len++;
+            }
+        }
+    return len;
+    }
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d58 1
+a58 1
+int     gs_inq_destinations(dest_list)
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d66 1
+d116 2
+a117 2
+	for (i=0; cp != NULL;  cp = strtok(NULL," ")) {
+		gs_tcp_append(dest_list, cp);			
+d120 1
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d2 1
+d44 14
+d62 1
+a62 6
+    char    home[256];
+    char    cf[256];
+    char    log[256];
+    char   *cp;
+    int     debug = FALSE;
+    GSHandle_t *h;
+d64 2
+a66 1
+
+d81 3
+d93 1
+d107 12
+d129 1
+d138 66
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@a1 2
+#include <sys/ipc.h>
+#include <sys/shm.h>
+d4 37
+d57 2
+a58 2
+    if (h == (GSHandle_t *)0) {
+	printf("gs_inq_dest: null handle from gs_def_handle\n");
+d62 1
+a62 1
+    msg.MsgType = Executive; 
+d72 2
+a73 1
+	printf("test: talk status = %d\n", status);
+d79 19
+a97 9
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+    }
+    else if (reply.MsgType == Data) {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+    else {
+	printf("test: Message Type %d  Length %d received.\n",
+	    reply.MsgType, reply.MsgLen);
+d99 1
+d102 6
+a107 2
+    gs_detach_slot(h->slot);
+    h->init = FALSE;
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d38 2
+d54 3
+@
+
+
+1.4
+log
+@.
+@
+text
+@a20 6
+    cp = getenv("GSHOME");
+    if (cp == NULL) {
+	printf("Error: GSHOME not defined.\n");
+	return (GS_FAIL);
+    }
+
+d22 2
+a23 7
+#if 0
+    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+
+    h->init = TRUE;
+    status = gs_initconfig(h->homedir, h->cfgfile, &h->debug);
+    if (status != GS_SUCCESS) {
+	printf("Error from initconfig.\n");
+a25 1
+    h->key = gs_ipc_key(h->cfgfile);
+d27 3
+a29 5
+    if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	gs_log("error creating/attaching slot.\n");
+	return (GS_FAIL);
+    }
+#endif
+d31 3
+a33 3
+    msg.MsgType = InqAllReceivers;
+    msg.MsgBuf[0] = '\0';
+    msg.MsgLen = 0;
+d36 1
+a36 1
+    if (status != GS_SUCCESS)
+d38 2
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d51 1
+a51 1
+	printf("test: talk status = %d\n",status);
+d56 1
+a56 1
+    else if (reply.MsgType == Data ){
+d61 1
+a61 1
+		reply.MsgType,reply.MsgLen);
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d50 3
+d56 1
+a56 1
+    else {
+d59 6
+a64 2
+
+    return status;
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d27 2
+d32 1
+a32 1
+    status = gs_initconfig(h->homedir, h->config_file, &h->debug);
+d37 1
+a37 1
+    h->key = gs_ipc_key(h->config_file);
+d43 1
+a44 1
+
+a55 6
+
+    gs_sem_close(h->slot->msgsem);
+    gs_sem_close(h->slot->cmsem);
+    gs_sem_close(h->slot->locksem);
+    gs_free(h->slot);
+    free(h);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d2 3
+d6 3
+a8 1
+int *gs_inq_destinations(dest_list)
+d11 8
+d20 42
+a61 1
+return GS_SUCCESS;
+a62 1
+
+@

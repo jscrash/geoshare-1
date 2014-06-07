@@ -1,0 +1,2216 @@
+head	1.24;
+access;
+symbols;
+locks
+	julian:1.24; strict;
+comment	@ * @;
+
+
+1.24
+date	91.05.20.19.13.26;	author julian;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	91.05.20.06.19.09;	author julian;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	91.05.20.04.27.13;	author julian;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	91.05.14.21.31.49;	author julian;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	91.05.12.01.43.02;	author julian;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	91.05.09.07.56.40;	author julian;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	91.05.06.13.05.17;	author julian;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	91.05.06.07.44.46;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.05.03.18.25.37;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.04.30.14.56.30;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.04.29.12.39.31;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.04.25.05.14.42;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.04.21.09.28.30;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.04.20.19.31.32;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.04.20.19.09.42;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.04.20.18.31.30;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.20.18.31.04;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.20.18.26.30;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.20.17.14.40;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.20.12.28.46;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.20.03.04.15;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.19.17.42.12;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.17.39.27;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_config.c.
+@
+
+
+1.24
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <ctype.h>
+#include <string.h>
+
+/****************************************************************************
+Module: GS_CONFIG
+
+Description:
+	This is a toolbox of routines that manipulate the GeoShare
+	connection manager configuration file. (gstab)
+
+	The configuration file format is modelled from the Unix Termcap file
+	format.  Each new entry consists of one or more 'names' for the
+	entry followed by the specifications for the entry.  Each field in an
+	entry is of the following format:
+		:xxxx=yyyyy:
+	where xx is a character field identifier, and yyyy is a string
+	of variable length terminated by a colon.
+	Note that every entry in the file must begin and end with a ':' .
+	If an entry continues for several lines, each line must be
+	terminated with a '\' character.
+
+Status:
+
+	GS_SUCCESS & GS_FAIL
+
+
+Author:
+	Julian Carlisle 	 Thu Apr 18 01:42:39 PDT 1991
+*****************************************************************************/
+#ifndef TEST
+#define TEST    0
+#else
+#undef  TEST
+#define TEST 	1
+#endif
+
+
+#define	BUFSIZE	2048
+
+extern char *getenv();
+
+static char *ebuf = NULL;    /* pointer to entry buffer */
+
+/*
+ * Returns pointing to the character immediately following the capability id.
+ * Returns NULL if gs_cgetent() has not yet been called successfully.
+ * Returns NULL if capability not found.
+ */
+static char *gs_findCap(id)
+char   *id;		     /* name of the capability to find */
+{
+	char   *p;	     /* pointer into the entry buffer */
+	register char *p1;
+	register int i;
+
+	if (ebuf == NULL)
+		return NULL;
+	if (id == (char *) 0 || id[0] == '\0')
+		return NULL;
+
+	for (p = ebuf; *p; ++p) {
+		if (p[0] == ':' && p[1]) {
+			for (p1 = p + 1, i = 0; id[i]; i++) {
+				if (p1[i] == '\0' || id[i] != p1[i])
+					break;
+			}
+			if (id[i])
+				continue;
+			else {
+				p = p1 + i;
+				break;
+			}
+		}
+	}
+	if (!*p)
+		p = NULL;
+	return p;
+}
+
+
+
+/*
+ * Gets the named entry from the already-opened gstab file into the buffer.
+ * The size of the buffer is BUFSIZE, and it is considered to be an
+ * error if the size of the entry equals or exceeds this.
+ * We place a terminating NULL character at the end of the entry.
+ * Call gs_log() on any irregularities.
+ * Return 0 if the named entry not found, else 1.
+ * Removes host names and all newlines from the entry.
+ **If this is called for a 2nd time from gs_cgetent(), then the length checking
+ **is useless.
+ */
+static int gs_getEntry(fd, outbuf, name)
+int     fd;		     /* FileDescriptor for gstab file */
+char   *outbuf;		     /* where we put the entry */
+char   *name;		     /* host name we seek */
+{
+	unsigned namlen;     /* # chars in name */
+	int     cnt;	     /* # unprocessed chars in inbuf[] */
+	char   *ip;	     /* pointer into input buffer */
+	char   *op;	     /* pointer into output buffer */
+	char   *ptmp;	     /* temporary pointer */
+	int     stat;	     /* status of read(), etc */
+	char    inbuf[BUFSIZE];	/* gstab file is read into here */
+
+	op = outbuf;
+	namlen = strlen(name);
+	if (outbuf == NULL) {
+		gs_log("gs_getEntry: outbuf is NULL");
+		return (GS_FAIL);
+	}
+	if (name == NULL || namlen == 0 || fd < 0) {
+		return (GS_FAIL);
+	}
+
+	if ((cnt = read(fd, inbuf, BUFSIZE - 1)) < 0) {
+		gs_log("gs_getEntry(): file is empty\n");
+		return (FALSE);
+	}
+
+	inbuf[cnt] = '\0';   /* maintain inbuf[] as a string */
+	for (ip = inbuf; 0 < cnt; ++ip, --cnt) {
+		stat = strspn(ip, "\r\n \t\b\f");
+		if (0 < stat) {
+			ip = &ip[--stat];
+			cnt -= stat;
+		}
+		else if (*ip == '#') {
+			ptmp = ip;
+			ip = strchr(ip, (char) '\n');
+			cnt -= (ip == NULL) ? cnt : (int) (ip - ptmp);
+		}
+		else if (strncmp(name, ip, namlen) == 0) {
+		/* skip over namelist */
+			ip = strchr(ip, (char) ':');
+		/* copy to output buffer, removing */
+		/* non-space whitespace and \ chars */
+			for (op = outbuf; ip != NULL && *ip != '\0'; ++ip) {
+				if (ip[0] == '\\' && ip[1] == '\r' && ip[2] == '\n')
+					ip = &ip[2];
+				else if (ip[0] == '\\' && ip[1] == '\n')
+					++ip;
+				else if (strchr("\t\r\b\f", *ip) != NULL)
+					continue;
+				else if (*ip == '\n')
+					break;
+				else
+					*op++ = *ip;
+			}
+			if (*ip != '\n')
+				gs_log("gs_getEntry(): entry too long\n");
+			*op = '\0';
+			return (TRUE);
+		}
+		else {	     /* advance to next name in list */
+			ptmp = ip;
+			ip = strpbrk(ip, "|:");	/* find name delimiter */
+			if (ip == NULL)
+				gs_log("gs_getEntry(): bad format\n");
+			cnt -= ip - ptmp;
+			if (*ip != '|') {	/* at end of namelist for
+						 * entry */
+			/* dispose of entire entry */
+				for (++ip, --cnt; 0 < cnt; ++ip, --cnt)
+					if (ip[0] == '\n' &&
+						((ip[-1] == '\r' && ip[-2] != '\\') ||
+							(ip[-1] != '\r' && ip[-1] != '\\'))) {
+					/* skip to next entry in file */
+					/* delete this entry from inbuf */
+						for (ptmp = inbuf; *ip != '\0'; ++ptmp, ++ip)
+							*ptmp = *ip;
+						*ptmp = *ip;	/* string stopper
+								 * character */
+						ip = inbuf;
+						if (strlen(ip) != cnt)
+							gs_log("gs_getEntry(): bad strlen(ip)\n");
+
+					/* fill inbuf with more characters */
+						stat = read(fd, ptmp, BUFSIZE - cnt - 1);
+						if (0 < stat) {
+							cnt += stat;
+							inbuf[cnt] = '\0';
+						}
+						break;
+					}
+				if (cnt <= 0)
+					gs_log("gs_getEntry(): entry too long!\n");
+			}
+		}
+	}
+	outbuf[0] = '\0';    /* not found */
+	return FALSE;
+}
+
+
+
+/*
+ * Extracts the entry for host name into the buffer at bp.
+ * Bp should be a character array of size 1024 and must be retained through
+ * all subsequent calls to gs_cgetnum(), gs_cgetflag(), and gs_cgetstr().
+ * Returns GS_FAIL if it cannot open the gstab file, 0 if the host name
+ * given does not have an entry, and 1 if all goes well.
+ */
+int     gs_cgetent(bp, name)
+char   *bp;		     /* pointer to user's buffer */
+char   *name;		     /* host name */
+{
+	int     fd;	     /* File Descriptor, gstab file */
+	int     retval;	     /* return value */
+	char   *cp;
+	static int first_time = TRUE;
+	struct stat statbuf;
+	static char gstab[256];	/* pointer to string */
+
+	if (first_time == TRUE) {
+		cp = gs_cf_name(gstab);
+		if (cp == NULL) {
+			cp = gs_home(NULL);
+			if (cp == NULL) {
+				gs_log("Can't find GeoShare config file directory.\n");
+				return (GS_FAIL);
+			}
+			sprintf(gstab, "%s/gstab", cp);
+		}
+		if (stat(gstab, &statbuf)) {
+			gs_log("Cannot locate config file %s", gstab);
+			return (GS_FAIL);
+		}
+		first_time = FALSE;
+	}
+
+	fd = open(gstab, O_RDONLY);
+	if (fd == -1)
+		retval = GS_FAIL;
+	else {
+		retval = gs_getEntry(fd, bp, name);
+		close(fd);
+	}
+	if (retval == TRUE)
+		ebuf = bp;   /* for our use in future pkg calls */
+ /* deal with the :include= capability */
+	bp = gs_findCap("include");
+	if (bp != NULL) {
+		char    newname[88];
+
+		strncpy(newname, &bp[1], sizeof newname);
+		if (strchr(newname, (char) ':') != NULL)
+			*(strchr(newname, (char) ':')) = '\0';
+		fd = open(gstab, O_RDONLY);
+		if (fd == -1) {
+			gs_log("gs_cgetent(%s): can't open :include file '%s'\n",
+				name, newname);
+			retval = GS_FAIL;
+		}
+		else {
+			retval = gs_getEntry(fd, &bp[-7], newname);
+			close(fd);
+		}
+	}
+
+	return retval;
+}
+
+
+
+/*
+ * Gets the numeric value of capability id, returning GS_FAIL if it is not given
+ * for the host.
+ */
+int     gs_cgetnum(id)
+char   *id;		     /* capability name */
+{
+	int     retval;
+	char   *p;
+
+	p = gs_findCap(id);
+	if (p == NULL || *p != '#')
+		retval = GS_FAIL;	/* not found, or not numeric */
+	else {
+		retval = 0;
+		for (++p; *p != ':'; ++p)
+			retval = (retval * 10) + (*p - '0');
+	}
+	return retval;
+}
+
+
+
+/*
+ * Returns 1 if the specified capability is present in the host's entry,
+ * 0 if it is not.
+ **This implementation requires that the capability be a boolean one.
+ */
+int     gs_cgetflag(id)
+char   *id;		     /* capability name */
+{
+	int     retval;
+	char   *p;
+
+	p = gs_findCap(id);
+	retval = (p != NULL && *p == ':');
+	return retval;
+}
+
+
+
+/*
+ * Returns the string value of the capability id, places it in the buffer
+ * at area, and advances the area pointer [past the terminating '\0' char].
+ * Returns NULL if the capability was not found.
+ */
+char   *gs_cgetstr(id, area)
+char   *id;		     /* capability name */
+char  **area;		     /* pointer to output pointer */
+{
+	char   *retval;	     /* return value */
+	char   *p;	     /* pointer into capability string */
+	unsigned sum;	     /* for chars given in octal */
+
+	p = gs_findCap(id);
+	if (p == NULL || *p != '=')
+		retval = NULL;
+	else {
+		retval = *area;
+		for (++p; *p != ':'; ++p) {
+			if (*p == '\\')
+				switch (*++p) {	/* special */
+				case '0':
+				case '1':
+				case '2':
+				case '3':
+				case '4':
+				case '5':
+				case '6':
+				case '7':
+					sum = ((p[0] - '0') << 6) + ((p[1] - '0') << 3) + (p[2] - '0');
+					++p;
+					++p;
+					*(*area)++ = (char) (sum & 0377);
+				/** will \200 really end up as \000 like it should ? **/
+					break;
+				case '^':
+					*(*area)++ = '^';
+					break;
+				case '\\':
+					*(*area)++ = '\\';
+					break;
+				case 'E':
+					*(*area)++ = '\033';
+					break;	/* escape */
+				case 'b':
+					*(*area)++ = '\b';
+					break;
+				case 'f':
+					*(*area)++ = '\f';
+					break;
+				case 'n':
+					*(*area)++ = '\n';
+					break;
+				case 'r':
+					*(*area)++ = '\r';
+					break;
+				case 't':
+					*(*area)++ = '\t';
+					break;
+				default:
+					*(*area)++ = *p;
+					break;
+				}
+			else if (*p == '^')
+				*(*area)++ = *++p - '@@';	/* control */
+			else
+				*(*area)++ = *p;	/* normal */
+		}
+		*(*area)++ = '\0';	/* NULL-terminate the string */
+	}
+	return (retval);
+}
+
+
+
+
+#if TEST
+
+/*****************************************************
+ *
+ * Test program for the gstab routines.
+ * Command line parameters:
+ *		1st is host name, defaulted to "snuffy".
+ *		2nd is name of numeric capability
+ *		3rd is name of boolean capability
+ *		4th is name of string capability
+ *
+ *****************************************************/
+
+static char buf[1024];	     /* holds gstab entry */
+static char strbuf[512];     /* for output of gs_cgetstr() */
+static char *strptr;	     /* ptr to strbuf[] */
+extern char *optarg;
+extern int optind;
+extern char getopt();
+static char **av;
+static void usage();
+
+
+int     main(argc, argv)
+int     argc;
+char  **argv;
+{
+	int     status = GS_SUCCESS;
+	int     ac, len = 0;
+	int     debug = 0;
+	char    text[512];
+	char   *instr;	     /* input string value */
+	char   *outstr;	     /* string return value */
+	char   *htype;	     /* host string */
+	char   *capability;  /* capability name string */
+	char   *cp = NULL;
+	char   *cp2 = NULL;
+	char    c;
+
+	av = argv;
+	ac = 0;
+	htype = NULL;
+
+	if (argc == 1) {
+		usage();
+		exit(1);
+	}
+
+	cp = gs_home(0);
+	if (cp == NULL) {
+		printf("Error: Must define GSHOME as dir where gstab file lives.\n");
+		exit(1);
+	}
+
+	status = GS_FAIL;
+	htype = argv[1];
+
+	if (*htype != '-') {
+		status = gs_cgetent(buf, htype);
+	}
+	else {
+		while (++ac < argc) {
+			if (*av[ac] == '-') {
+				if (av[ac][1] == 'h') {
+					htype = av[ac + 1];
+					status = gs_cgetent(buf, htype);
+					break;
+				}
+			}
+		}
+	}
+
+	if (status == GS_FAIL) {
+		printf("Cannot open config file.\n");
+		exit(1);
+	}
+	if (status == 0) {
+		printf("Entry %s not found in config file\n", htype);
+		exit(1);
+	}
+	printf("gs_cgetent(buf, \"%s\") returned %d\n\tbuf=%s\n",
+		htype, status, buf);
+
+	while ((c = getopt(argc, argv, "dh:s:f:b:n:")) != -1) {
+		switch (c) {
+		case 'd':
+			debug = TRUE;
+			break;
+
+		case 'h':
+			if (htype != NULL)
+				break;
+			htype = optarg;
+			status = gs_cgetent(buf, htype);
+			if (status == GS_FAIL) {
+				printf("Cannot open config file.\n");
+				exit(1);
+			}
+			if (status == 0) {
+				printf("Entry %s not found in config file\n", htype);
+				exit(1);
+			}
+			printf("gs_cgetent(buf, \"%s\") returned %d\nbuf=%s\n",
+				htype, status, buf);
+			break;
+
+		case 'f':
+		case 'b':
+		/* test gs_cgetflag() */
+			capability = optarg;
+			status = gs_cgetflag(capability);
+			printf("\tgs_cgetflag(%s) returned %d\n", capability, status);
+			break;
+
+		case 'n':
+		/* test gs_cgetnum() */
+			capability = optarg;
+			status = gs_cgetnum(capability);
+			printf("\tgs_cgetnum(%s) returned %d\n", capability, status);
+			break;
+
+		case 's':
+		/* test gs_cgetstr() */
+			capability = optarg;
+			strptr = strbuf;
+			outstr = gs_cgetstr(capability, &strptr);
+			printf("\tgs_cgetstr(%s, 0x%lx = %s) returned '%s'\n",
+				capability, &strptr, strptr, outstr);
+			break;
+
+		case '?':
+			usage();
+			exit(1);
+
+		default:
+			printf("Impossible argument parsing in getopt.i\n");
+			exit(1);
+		}
+	}
+
+	exit(0);
+}
+
+static void usage()
+{
+	printf("Usage:\n\t%s [-d -s string -f flag -n number]\n", av[0]);
+}
+
+#endif			     /* TEST */
+@
+
+
+1.23
+log
+@Update
+@
+text
+@d4 2
+@
+
+
+1.22
+log
+@Update
+@
+text
+@d221 1
+a221 1
+				gs_log(stderr, "Can't find GeoShare config file directory.\n");
+@
+
+
+1.21
+log
+@Update
+@
+text
+@d217 2
+a218 5
+		cp = gs_cf_name(NULL);
+		if (cp != (char *) 0) {
+			strcpy(gstab, cp);
+		}
+		else {
+@
+
+
+1.20
+log
+@Update
+@
+text
+@d513 2
+a514 2
+			printf("\tgs_cgetstr(%s, 0x%lx) returned '%s'\n",
+				capability, &strptr, outstr);
+@
+
+
+1.19
+log
+@Update
+@
+text
+@a211 1
+	int     status = GS_SUCCESS;
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d51 1
+a51 1
+char   *id;		     			/* name of the capability to find */
+d53 1
+a53 1
+	char   *p;	     			/* pointer into the entry buffer */
+d95 3
+a97 3
+int     fd;		     				/* FileDescriptor for gstab file */
+char   *outbuf;		     			/* where we put the entry */
+char   *name;		     			/* host name we seek */
+d99 7
+a105 7
+	unsigned namlen;     			/* # chars in name */
+	int     cnt;	     			/* # unprocessed chars in inbuf[] */
+	char   *ip;	     				/* pointer into input buffer */
+	char   *op;	     				/* pointer into output buffer */
+	char   *ptmp;	     			/* temporary pointer */
+	int     stat;	     			/* status of read(), etc */
+	char    inbuf[BUFSIZE];			/* gstab file is read into here */
+d117 1
+a117 1
+	if ((cnt = read(fd, inbuf, BUFSIZE-1)) < 0) {
+d122 1
+a122 1
+	inbuf[cnt] = '\0';   				/* maintain inbuf[] as a string */
+d135 4
+a138 4
+										/* skip over namelist */
+			ip = strchr(ip,(char)':');
+										/* copy to output buffer, removing */
+										/* non-space whitespace and \ chars */
+d156 1
+a156 1
+		else {	     					/* advance to next name in list */
+d158 1
+a158 1
+			ip = strpbrk(ip, "|:");		/* find name delimiter */
+d162 3
+a164 2
+			if (*ip != '|') {			/* at end of namelist for entry */
+										/* dispose of entire entry */
+d169 2
+a170 2
+										/* skip to next entry in file */
+										/* delete this entry from inbuf */
+d173 2
+a174 1
+						*ptmp = *ip;	/* string stopper character */
+d179 1
+a179 1
+										/* fill inbuf with more characters */
+d192 1
+a192 1
+	outbuf[0] = '\0';    					/* not found */
+d206 2
+a207 2
+char   *bp;		     				/* pointer to user's buffer */
+char   *name;		     			/* host name */
+d209 5
+a213 5
+	int         fd;	     			/* File Descriptor, gstab file */
+	int         retval;	     		/* return value */
+	char        *cp;
+	int         status = GS_SUCCESS;
+	static int  first_time = TRUE;
+d215 1
+a215 1
+	static char gstab[256];  		/* pointer to string */
+d225 1
+a225 1
+				gs_log(stderr,"Can't find GeoShare config file directory.\n");
+d245 2
+a246 2
+		ebuf = bp;   				/* for our use in future pkg calls */
+ 									/* deal with the :include= capability */
+d257 1
+a257 1
+								name, newname);
+d276 1
+a276 1
+char   *id;		     					/* capability name */
+d283 1
+a283 1
+		retval = GS_FAIL; 				/* not found, or not numeric */
+d300 1
+a300 1
+char   *id;		     					/* capability name */
+d318 2
+a319 2
+char   *id;		     					/* capability name */
+char  **area;		     				/* pointer to output pointer */
+d321 3
+a323 3
+	char   *retval;	     				/* return value */
+	char   *p;	     					/* pointer into capability string */
+	unsigned sum;	     				/* for chars given in octal */
+d332 1
+a332 1
+				switch (*++p) {			/* special */
+d341 1
+a341 1
+					sum = ((p[0]-'0')<<6) + ((p[1]-'0')<<3) + (p[2]-'0');
+d355 1
+a355 1
+					break;						/* escape */
+d376 1
+a376 1
+				*(*area)++ = *++p - '@@';		/* control */
+d378 1
+a378 1
+				*(*area)++ = *p;				/* normal */
+d380 1
+a380 1
+		*(*area)++ = '\0';						/* NULL-terminate the string */
+d401 3
+a403 3
+static char buf[1024];	     			/* holds gstab entry */
+static char strbuf[512];     			/* for output of gs_cgetstr() */
+static char *strptr;	     			/* ptr to strbuf[] */
+d416 1
+a416 1
+	int     ac,len = 0;
+d419 4
+a422 4
+	char   *instr;	     				/* input string value */
+	char   *outstr;	     				/* string return value */
+	char   *htype;	     				/* host string */
+	char   *capability;  				/* capability name string */
+d433 1
+a433 1
+		exit (1);
+d437 1
+a437 1
+	if (cp ==NULL) {
+d452 2
+a453 2
+					htype = av[ac+1];
+					status = gs_cgetent(buf,htype);
+d465 2
+a466 2
+		printf("Entry %s not found in config file\n",htype);
+		exit (1);
+d469 1
+a469 1
+			htype,status,buf);
+d478 2
+a479 1
+			if (htype != NULL) break;
+d481 1
+a481 1
+			status = gs_cgetent(buf,htype);
+d487 2
+a488 2
+				printf("Entry %s not found in config file\n",htype);
+				exit (1);
+d491 1
+a491 1
+					htype,status,buf);
+d496 1
+a496 1
+							 				/* test gs_cgetflag() */
+d499 1
+a499 1
+			printf("\tgs_cgetflag(%s) returned %d\n",capability,status);
+d503 1
+a503 1
+							 				/* test gs_cgetnum() */
+d506 1
+a506 1
+			printf("\tgs_cgetnum(%s) returned %d\n",capability,status);
+d510 1
+a510 1
+							 				/* test gs_cgetstr() */
+d515 1
+a515 1
+					capability, &strptr, outstr);
+d536 1
+a536 1
+#endif			     					/* TEST */
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d113 1
+a113 1
+	if (name == NULL || namlen == 0 || fd <= 0) {
+@
+
+
+1.16
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d33 3
+a36 3
+#ifndef DEBUG
+#define	DEBUG	0
+#endif
+d39 1
+a39 1
+#define	BUFSIZE	1024
+a40 1
+
+a42 1
+
+d51 1
+a51 1
+char   *id;		     /* name of the capability to find */
+d53 1
+a53 1
+	char   *p;	     /* pointer into the entry buffer */
+d95 3
+a97 3
+int     fd;		     /* FileDescriptor for gstab file */
+char   *outbuf;		     /* where we put the entry */
+char   *name;		     /* host name we seek */
+d99 7
+a105 7
+	unsigned namlen;     /* # chars in name */
+	int     cnt;	     /* # unprocessed chars in inbuf[] */
+	char   *ip;	     /* pointer into input buffer */
+	char   *op;	     /* pointer into output buffer */
+	char   *ptmp;	     /* temporary pointer */
+	int     stat;	     /* status of read(), etc */
+	char    inbuf[BUFSIZE];	/* gstab file is read into here */
+a106 1
+/*   gs_log( "gs_getEntry(%d, %p, \"%s\")\n", fd, inbuf, name); */
+d109 9
+a117 2
+	cnt = read(fd, inbuf, BUFSIZE - 1);
+	if (cnt == -1)
+d119 4
+a122 1
+	inbuf[cnt] = '\0';   /* maintain inbuf[] as a string */
+a123 1
+/*gs_log( "cnt=%d, ip='%.55s...'\n", cnt, ip); */
+a125 1
+/*	   gs_log( "skipping %d whitespace characters\n", stat); */
+a129 1
+		/* gs_log( "comment line '%.11s...'\n", ip); */
+d135 4
+a138 5
+/*	  gs_log( "gs_getEntry(): SUCCESS, ip = '%.22s...', cnt=%u\n", ip, cnt); */
+			ip = strchr(ip, (char) ':');	/* skip over namelist */
+/*	    gs_log( "gs_getEntry(): raw entry is: '%s'\n", ip); */
+		/* copy entry into output buffer */
+		/* eliminate non-space whitespace and continuation \ */
+a139 1
+/*	 gs_log( " %02x", *ip);*/
+d154 1
+a154 3
+/*	    gs_log( "gs_getEntry(): outbuf='%s'\n", outbuf); */
+/*	    gs_log( "gs_getEntry(): returning 1  [SUCCESS]\n"); */
+			return 1;
+d156 1
+a156 1
+		else {	     /* advance to next name in list */
+d158 1
+a158 1
+			ip = strpbrk(ip, "|:");	/* find name delimiter */
+d162 2
+a163 4
+			if (*ip != '|') {	/* at end of namelist for
+						 * entry */
+			/* dispose of entire entry */
+/*	 gs_log( "end of namelist, cnt=%d\n", cnt); */
+d166 4
+a169 6
+						((ip[-1] == '\r' && ip[-2] != '\\')
+							||
+							(ip[-1] != '\r' && ip[-1] != '\\'))
+						) {	/* skip to next entry in
+							 * file */
+					/* delete this entry from inbuf */
+d172 1
+a172 2
+						*ptmp = *ip;	/* string stopper
+								 * character */
+d176 2
+a177 1
+					/* fill inbuf with more characters */
+d190 2
+a191 4
+	outbuf[0] = '\0';    /* not found */
+ /* gs_log( "gs_getEntry(): outbuf='%s'\n", outbuf); */
+ /* gs_log( "gs_getEntry(): returning 0  [FAILURE]\n"); */
+	return 0;
+d200 1
+a200 1
+ * Returns -1 if it cannot open the gstab file, 0 if the host name
+d204 2
+a205 2
+char   *bp;		     /* pointer to user's buffer */
+char   *name;		     /* host name */
+d207 5
+a211 4
+	char    gstab[256];  /* pointer to string */
+	int     fd;	     /* File Descriptor, gstab file */
+	int     retval;	     /* return value */
+	char   *cp;
+d213 1
+a213 2
+	GSGBL_t *pcm;
+	int     status = GS_SUCCESS;
+d215 18
+a232 4
+
+	cp = gs_cf_name(NULL);
+	if (cp != (char *) 0) {
+		strcpy(gstab, cp);
+a233 4
+	else {
+		cp = gs_home(NULL);
+		sprintf(gstab, "%s/gstab", cp);
+	}
+a234 6
+	if (stat(gstab, &statbuf)) {
+		gs_log("Cannot locate config file %s", gstab);
+		return (GS_FAIL);
+	}
+
+
+d237 1
+a237 1
+		retval = -1;
+d242 4
+a245 5
+	if (retval == 1)
+		ebuf = bp;   /* for our use in future pkg calls */
+
+ /* deal with the :tc= capability */
+	bp = gs_findCap("tc");
+a248 1
+/*  gs_log( "gs_cgetent(): :tc found at %p, is '%s'\n", &bp[-3], &bp[-3]); */
+d254 3
+a256 2
+			gs_log("gs_cgetent(%s): can't open :tc file '%s'\n", name, newname);
+			retval = -1;
+d259 1
+a259 1
+			retval = gs_getEntry(fd, &bp[-2], newname);
+a263 1
+ /* gs_log( "gs_cgetent(): returning %d\n", retval); */
+d270 1
+a270 1
+ * Gets the numeric value of capability id, returning -1 if it is not given
+d274 1
+a274 1
+char   *id;		     /* capability name */
+a278 1
+ /* gs_log( "gs_cgetnum(\"%s\")\n", id); */
+d281 1
+a281 1
+		retval = -1; /* not found, or not numeric */
+a286 1
+/*     gs_log( "gs_cgetnum(): returning %d\n", retval); */
+d298 1
+a298 1
+char   *id;		     /* capability name */
+a302 1
+ /* gs_log( "gs_cgetflag(\"%s\")\n", id); */
+a304 1
+ /* gs_log( "gs_cgetflag(): returning %d\n", retval); */
+d316 2
+a317 2
+char   *id;		     /* capability name */
+char  **area;		     /* pointer to output pointer */
+d319 3
+a321 3
+	char   *retval;	     /* return value */
+	char   *p;	     /* pointer into capability string */
+	unsigned sum;	     /* for chars given in octal */
+a322 1
+ /* gs_log( "gs_cgetstr(\"%s\", %p): *area=%p\n", id, area, *area); */
+a328 1
+/*	    gs_log( "p=%p,  *p=%02x\n", p, *p); */
+d330 1
+a330 1
+				switch (*++p) {	/* special */
+d339 1
+a339 3
+					sum = (p[0] - '0') << 6 +
+						(p[1] - '0') << 3 +
+						(p[2] - '0');
+d353 1
+a353 1
+					break;	/* escape */
+d374 1
+a374 1
+				*(*area)++ = *++p - '@@';	/* control */
+d376 1
+a376 1
+				*(*area)++ = *p;	/* normal */
+d378 1
+a378 1
+		*(*area)++ = '\0';	/* NULL-terminate the string */
+d380 1
+a380 12
+ /* gs_log( "gs_cgetstr(): returning "); */
+	if (retval == NULL) {/* these must be here for print() */
+/* gs_log( "NULL"); */
+	}		     /* these must be here for print() */
+	else {
+/* gs_log( "%p  [", retval); */
+/*	for (p = retval; p != *area; ++p) */
+/*	    gs_log( " %02x", (unsigned) *p); */
+/* gs_log( "]"); */
+	}
+/*    gs_log( ",  *area=%p\n", *area); */
+	return retval;
+d388 2
+a389 5
+static char buf[1024];	     /* holds gstab entry */
+static char strbuf[512];     /* for output of gs_cgetstr() */
+static char *strptr;	     /* ptr to strbuf[] */
+
+/*
+d392 20
+a411 8
+ *	1st is host name, defaulted to "snuffy".
+ *	2nd is name of numeric capability
+ *	3rd is name of boolean capability
+ *	4th is name of string capability
+ */
+int     main(ac, av)
+int     ac;
+char  **av;
+d413 11
+a423 5
+	int     stat;	     /* integer return value */
+	char   *instr;	     /* input string value */
+	char   *outstr;	     /* string return value */
+	char   *htype;	     /* host string */
+	char   *capability;  /* capability name string */
+d425 3
+d429 4
+a432 7
+ /* test gs_cgetent() */
+	htype = (ac < 2) ? "snuffy" : av[1];
+	stat = gs_cgetent(buf, htype);
+	gs_log("main: gs_cgetent(buf, \"%s\") returned %d\n", htype, stat);
+	gs_log("buf=%s\n", buf);
+	if (stat != 1)
+		exit(99);
+d434 5
+a438 4
+ /* test gs_cgetnum() */
+	capability = (ac < 3) ? "co" : av[2];
+	stat = gs_cgetnum(capability);
+	gs_log("main: gs_cgetnum(%s) returned %d\n", capability, stat);
+d440 2
+a441 4
+ /* test gs_cgetflag() */
+	capability = (ac < 4) ? "bs" : av[3];
+	stat = gs_cgetflag(capability);
+	gs_log("main: gs_cgetflag(%s) returned %d\n", capability, stat);
+d443 2
+a444 9
+ /* test gs_cgetstr() */
+	capability = (ac < 5) ? "so" : av[4];
+	strptr = strbuf;
+	outstr = gs_cgetstr(capability, &strptr);
+	gs_log("main: gs_cgetstr(%s, 0x%lx) returned '%s'  [strbuf=0x%lx, strptr=0x%lx]\n", capability, &strptr, outstr, strbuf, strptr);
+	if (strcmp(capability, "so") == 0) {
+		strptr = strbuf;
+		gs_cgetstr("se", &strptr);
+		gs_log(strbuf);
+d446 80
+a525 1
+	return 0;
+d528 6
+a533 1
+#endif			     /* TEST */
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d55 3
+a57 3
+    char   *p;		     /* pointer into the entry buffer */
+    register char *p1;
+    register int i;
+d59 4
+a62 4
+    if (ebuf == NULL)
+	return NULL;
+    if (id == (char *) 0 || id[0] == '\0')
+	return NULL;
+d64 13
+a76 12
+    for (p = ebuf; *p; ++p) {
+	if (p[0] == ':' && p[1]) {
+	    for (p1 = p + 1, i = 0; id[i]; i++) {
+		if (p1[i] == '\0' || id[i] != p1[i])
+		    break;
+	    }
+	    if (id[i])
+		continue;
+	    else {
+		p = p1 + i;
+		break;
+	    }
+d78 3
+a80 4
+    }
+    if (!*p)
+	p = NULL;
+    return p;
+d101 7
+a107 7
+    unsigned namlen;	     /* # chars in name */
+    int     cnt;	     /* # unprocessed chars in inbuf[] */
+    char   *ip;		     /* pointer into input buffer */
+    char   *op;		     /* pointer into output buffer */
+    char   *ptmp;	     /* temporary pointer */
+    int     stat;	     /* status of read(), etc */
+    char    inbuf[BUFSIZE];  /* gstab file is read into here */
+d110 7
+a116 7
+    op = outbuf;
+    namlen = strlen(name);
+    cnt = read(fd, inbuf, BUFSIZE - 1);
+    if (cnt == -1)
+	gs_log("gs_getEntry(): file is empty\n");
+    inbuf[cnt] = '\0';	     /* maintain inbuf[] as a string */
+    for (ip = inbuf; 0 < cnt; ++ip, --cnt) {
+d118 2
+a119 2
+	stat = strspn(ip, "\r\n \t\b\f");
+	if (0 < stat) {
+d121 10
+a130 10
+	    ip = &ip[--stat];
+	    cnt -= stat;
+	}
+	else if (*ip == '#') {
+	/* gs_log( "comment line '%.11s...'\n", ip); */
+	    ptmp = ip;
+	    ip = strchr(ip, (char) '\n');
+	    cnt -= (ip == NULL) ? cnt : (int) (ip - ptmp);
+	}
+	else if (strncmp(name, ip, namlen) == 0) {
+d132 1
+a132 1
+	    ip = strchr(ip, (char) ':');	/* skip over namelist */
+d134 3
+a136 3
+	/* copy entry into output buffer */
+	/* eliminate non-space whitespace and continuation \ */
+	    for (op = outbuf; ip != NULL && *ip != '\0'; ++ip) {
+d138 14
+a151 14
+		if (ip[0] == '\\' && ip[1] == '\r' && ip[2] == '\n')
+		    ip = &ip[2];
+		else if (ip[0] == '\\' && ip[1] == '\n')
+		    ++ip;
+		else if (strchr("\t\r\b\f", *ip) != NULL)
+		    continue;
+		else if (*ip == '\n')
+		    break;
+		else
+		    *op++ = *ip;
+	    }
+	    if (*ip != '\n')
+		gs_log("gs_getEntry(): entry too long\n");
+	    *op = '\0';
+d154 11
+a164 10
+	    return 1;
+	}
+	else {		     /* advance to next name in list */
+	    ptmp = ip;
+	    ip = strpbrk(ip, "|:");	/* find name delimiter */
+	    if (ip == NULL)
+		gs_log("gs_getEntry(): bad format\n");
+	    cnt -= ip - ptmp;
+	    if (*ip != '|') {/* at end of namelist for entry */
+	    /* dispose of entire entry */
+d166 25
+a190 18
+		for (++ip, --cnt; 0 < cnt; ++ip, --cnt)
+		    if (ip[0] == '\n' &&
+			((ip[-1] == '\r' && ip[-2] != '\\')
+			    ||
+			    (ip[-1] != '\r' && ip[-1] != '\\'))
+			) {  /* skip to next entry in file */
+		    /* delete this entry from inbuf */
+			for (ptmp = inbuf; *ip != '\0'; ++ptmp, ++ip)
+			    *ptmp = *ip;
+			*ptmp = *ip;	/* string stopper character */
+			ip = inbuf;
+			if (strlen(ip) != cnt)
+			    gs_log("gs_getEntry(): bad strlen(ip)\n");
+		    /* fill inbuf with more characters */
+			stat = read(fd, ptmp, BUFSIZE - cnt - 1);
+			if (0 < stat) {
+			    cnt += stat;
+			    inbuf[cnt] = '\0';
+d192 1
+a192 5
+			break;
+		    }
+		if (cnt <= 0)
+		    gs_log("gs_getEntry(): entry too long!\n");
+	    }
+d194 1
+a194 2
+    }
+    outbuf[0] = '\0';	     /* not found */
+d197 1
+a197 1
+    return 0;
+d213 7
+a219 7
+    char    gstab[256];	     /* pointer to string */
+    int     fd;		     /* File Descriptor, gstab file */
+    int     retval;	     /* return value */
+    char   *cp;
+    struct stat statbuf;
+    GSGBL_t *pcm;
+    int     status = GS_SUCCESS;
+d222 8
+a229 8
+    cp = gs_cf_name(NULL);
+    if (cp != (char *) 0) {
+	strcpy(gstab, cp);
+    }
+    else {
+	cp = gs_home(NULL);
+	sprintf(gstab, "%s/gstab", cp);
+    }
+d231 4
+a234 4
+    if (stat(gstab, &statbuf)) {
+	gs_log("Cannot locate config file %s", gstab);
+	return (GS_FAIL);
+    }
+d237 9
+a245 9
+    fd = open(gstab, O_RDONLY);
+    if (fd == -1)
+	retval = -1;
+    else {
+	retval = gs_getEntry(fd, bp, name);
+	close(fd);
+    }
+    if (retval == 1)
+	ebuf = bp;	     /* for our use in future pkg calls */
+d248 3
+a250 3
+    bp = gs_findCap("tc");
+    if (bp != NULL) {
+	char    newname[88];
+d253 12
+a264 7
+	strncpy(newname, &bp[1], sizeof newname);
+	if (strchr(newname, (char) ':') != NULL)
+	    *(strchr(newname, (char) ':')) = '\0';
+	fd = open(gstab, O_RDONLY);
+	if (fd == -1) {
+	    gs_log("gs_cgetent(%s): can't open :tc file '%s'\n", name, newname);
+	    retval = -1;
+a265 5
+	else {
+	    retval = gs_getEntry(fd, &bp[-2], newname);
+	    close(fd);
+	}
+    }
+d268 1
+a268 1
+    return retval;
+d280 2
+a281 2
+    int     retval;
+    char   *p;
+d284 8
+a291 8
+    p = gs_findCap(id);
+    if (p == NULL || *p != '#')
+	retval = -1;	     /* not found, or not numeric */
+    else {
+	retval = 0;
+	for (++p; *p != ':'; ++p)
+	    retval = (retval * 10) + (*p - '0');
+    }
+d293 1
+a293 1
+    return retval;
+d306 2
+a307 2
+    int     retval;
+    char   *p;
+d310 2
+a311 2
+    p = gs_findCap(id);
+    retval = (p != NULL && *p == ':');
+d313 1
+a313 1
+    return retval;
+d327 3
+a329 3
+    char   *retval;	     /* return value */
+    char   *p;		     /* pointer into capability string */
+    unsigned sum;	     /* for chars given in octal */
+d332 6
+a337 6
+    p = gs_findCap(id);
+    if (p == NULL || *p != '=')
+	retval = NULL;
+    else {
+	retval = *area;
+	for (++p; *p != ':'; ++p) {
+d339 50
+a388 45
+	    if (*p == '\\')
+		switch (*++p) {	/* special */
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		    sum = (p[0] - '0') << 6 +
+			(p[1] - '0') << 3 +
+			(p[2] - '0');
+		    ++p;
+		    ++p;
+		    *(*area)++ = (char) (sum & 0377);
+		/** will \200 really end up as \000 like it should ? **/
+		    break;
+		case '^':
+		    *(*area)++ = '^';
+		    break;
+		case '\\':
+		    *(*area)++ = '\\';
+		    break;
+		case 'E':
+		    *(*area)++ = '\033';
+		    break;   /* escape */
+		case 'b':
+		    *(*area)++ = '\b';
+		    break;
+		case 'f':
+		    *(*area)++ = '\f';
+		    break;
+		case 'n':
+		    *(*area)++ = '\n';
+		    break;
+		case 'r':
+		    *(*area)++ = '\r';
+		    break;
+		case 't':
+		    *(*area)++ = '\t';
+		    break;
+		default:
+		    *(*area)++ = *p;
+		    break;
+d390 1
+a390 4
+	    else if (*p == '^')
+		*(*area)++ = *++p - '@@';	/* control */
+	    else
+		*(*area)++ = *p;	/* normal */
+a391 2
+	*(*area)++ = '\0';   /* NULL-terminate the string */
+    }
+d393 1
+a393 1
+    if (retval == NULL) {    /* these must be here for print() */
+d395 2
+a396 2
+    }			     /* these must be here for print() */
+    else {
+d401 1
+a401 1
+    }
+d403 1
+a403 1
+    return retval;
+d427 5
+a431 5
+    int     stat;	     /* integer return value */
+    char   *instr;	     /* input string value */
+    char   *outstr;	     /* string return value */
+    char   *htype;	     /* host string */
+    char   *capability;	     /* capability name string */
+d435 6
+a440 6
+    htype = (ac < 2) ? "snuffy" : av[1];
+    stat = gs_cgetent(buf, htype);
+    gs_log("main: gs_cgetent(buf, \"%s\") returned %d\n", htype, stat);
+    gs_log("buf=%s\n", buf);
+    if (stat != 1)
+	exit(99);
+d443 3
+a445 3
+    capability = (ac < 3) ? "co" : av[2];
+    stat = gs_cgetnum(capability);
+    gs_log("main: gs_cgetnum(%s) returned %d\n", capability, stat);
+d448 3
+a450 3
+    capability = (ac < 4) ? "bs" : av[3];
+    stat = gs_cgetflag(capability);
+    gs_log("main: gs_cgetflag(%s) returned %d\n", capability, stat);
+d453 1
+a453 5
+    capability = (ac < 5) ? "so" : av[4];
+    strptr = strbuf;
+    outstr = gs_cgetstr(capability, &strptr);
+    gs_log("main: gs_cgetstr(%s, 0x%lx) returned '%s'  [strbuf=0x%lx, strptr=0x%lx]\n", capability, &strptr, outstr, strbuf, strptr);
+    if (strcmp(capability, "so") == 0) {
+d455 8
+a462 4
+	gs_cgetstr("se", &strptr);
+	gs_log(strbuf);
+    }
+    return 0;
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d42 1
+a42 3
+extern unsigned strlen(), strspn();
+extern int strcmp(), strncmp(), open();
+extern char *strncpy(), *strchr(), *strpbrk(), *getenv();
+@
+
+
+1.13
+log
+@.
+@
+text
+@d16 2
+a17 2
+		:xx=yyyyy:
+	where xx is a two character field identifier, and yyyy is a string
+a37 5
+#define		bool		int
+#define		abs(x)		( (x < 0) ? (-(x)) : (x) )
+#define		YES		1
+#define		NO		0
+#define		error(s)	{perror(s);  exit(99);}
+a38 1
+
+a40 5
+/* external variables (supplied by user) required by this package */
+extern char PC;		     /* pad char, default ^@@ */
+extern char BC;		     /* backspace char if not ^H */
+extern char UP;		     /* char for Upline (cursor up) */
+extern char ospeed;	     /* output speed, see stty(3) */
+d49 1
+a49 1
+/*+		f i n d C a p
+d87 1
+a87 1
+/*+		g e t E n t r y
+d92 1
+a92 1
+ * Call error() on any irregularities.
+d116 1
+a116 1
+	error("gs_getEntry(): file is empty\n");
+d152 1
+a152 1
+		error("gs_getEntry(): entry too long\n");
+d162 1
+a162 1
+		error("gs_getEntry(): bad format\n");
+d179 1
+a179 1
+			    error("gs_getEntry(): bad strlen(ip)\n");
+d189 1
+a189 1
+		    error("gs_getEntry(): entry too long!\n");
+d201 1
+a201 1
+/*+		t g e t e n t
+d272 1
+a272 1
+/*+		t g e t n u m
+d297 1
+a297 1
+/*+		t g e t f l a g
+d317 1
+a317 1
+/*+		t g e t s t r
+a409 5
+char    PC;		     /* pad char, default ^@@ */
+char    BC;		     /* backspace char if not ^H */
+char    UP;		     /* char for Upline (cursor up) */
+char    ospeed = 13;	     /* output speed, see stty(3) */
+
+d414 1
+a414 12
+
+/*+		o c
+ * Tiny test routine to simulate putting out a character.
+ */
+static void oc(c)
+char    c;
+{
+    putc(c, stdout);
+}
+
+
+/*+		m a i n
+d418 3
+a420 3
+ *	2nd is name of numeric capability, default "co".
+ *	3rd is name of boolean capability, default "bs".
+ *	4th is name of string capability, default "so".
+d429 1
+a429 1
+    char   *ttype;	     /* host string */
+a431 4
+ /* setup */
+    PC = '@@';
+    BC = 'H';
+    UP = 'B';
+d434 3
+a436 3
+    ttype = (ac < 2) ? "snuffy" : av[1];
+    stat = gs_cgetent(buf, ttype);
+    gs_log("main: gs_cgetent(buf, \"%s\") returned %d\n", ttype, stat);
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d74 1
+a74 1
+    if (id == (char *)0 || id[0] == '\0')
+d79 10
+a88 10
+		for (p1=p+1,i=0; id[i]; i++) {
+			if (p1[i] == '\0' || id[i] != p1[i])
+				break;
+		}
+		if (id[i])
+			continue;
+		else {
+			p = p1+i;
+			break;
+		}
+d228 2
+a229 2
+   GSGBL_t *pcm;
+   int status = GS_SUCCESS;
+d231 2
+a232 2
+    
+    cp =  gs_cf_name(NULL);
+d242 2
+a243 2
+        gs_log("Cannot locate config file %s", gstab);
+        return (GS_FAIL);
+a495 1
+
+@
+
+
+1.11
+log
+@allow long entry names.
+@
+text
+@d231 4
+a234 10
+    pcm = (GSGBL_t *)malloc(sizeof (GSGBL_t) +1);
+
+    status = gs_initconfig(pcm->homedir,pcm->config_file,&pcm->debug);
+    if (pcm->config_file != (char *) 0) {
+	if (stat(pcm->config_file, &statbuf)) {
+	    gs_log("Cannot locate config file %s", gstab);
+	}
+	else {
+	    strcpy(gstab, pcm->config_file);
+	}
+d237 2
+a238 1
+	sprintf(gstab, "%s/gstab", pcm->homedir);
+d241 4
+d246 1
+a246 2
+    gs_log("Config file is %s", gstab);
+    gs_log("gs_cgetent: Opening config file %s", gstab);
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d69 2
+d74 3
+d78 11
+a88 3
+	if ((p[0] == ':') && (p[1] == id[0]) && (p[2] == id[1])) {
+	    p = &p[3];
+	    break;
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d29 1
+a29 1
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d220 1
+a220 1
+    status = gs_initconfig(pcm);
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d216 1
+d218 1
+a218 1
+    pcm = (GSGBL_t *)malloc(sizeof (GSGBL_T) +1);
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@a45 6
+#if !TEST
+extern GSGBL_t *pcm;
+#else
+static GSGBL_t CM, *pcm = &CM;
+#endif
+
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d221 1
+d223 1
+d225 1
+d237 2
+a239 1
+
+a490 53
+int     gs_initconfig(pcm)
+GSGBL_t *pcm;
+{
+    char   *cp;
+    struct stat statbuf;
+    char    text[256];
+    int     status = GS_SUCCESS;
+
+ /* Init the error logging facility. */
+    status = gs_init_log();
+
+    if (pcm == (GSGBL_t *) 0) {
+	gs_log("gs_initconfig: Null CM object pointer passed..");
+	return (GS_FAIL);
+    }
+    strcpy(pcm->config_file, "gstab");
+    pcm->debug = 0;
+
+/*
+ Figure out where the GeoShare home directory is,
+ if it is not specified anywhere then set it to /tmp.
+*/
+    if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	strcpy(pcm->homedir, cp);
+    }
+    else {
+	strcpy(pcm->homedir, GSDEFAULTHOME);
+    }
+
+ /* Check if whatever we got exists... */
+    if (stat(pcm->homedir, &statbuf)) {
+	gs_log("Can't locate path: %s\n", pcm->homedir);
+	strcpy(pcm->homedir, "/tmp");
+	gs_log("Using %s as CM home directory.", pcm->homedir);
+    }
+
+ /* Check for permission to work in here... */
+    if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+	gs_log("Directory %s is not r/w accessible. Using /tmp",
+	    pcm->homedir);
+	strcpy(pcm->homedir, "/tmp");
+    }
+
+    if (stat(pcm->config_file, &statbuf)) {
+	sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+	strcpy(pcm->config_file, text);
+	if (stat(pcm->config_file, &statbuf)) {
+	    gs_log("Error!!! Cannot find configuration file: %s\n",
+		pcm->config_file);
+	}
+    }
+return (GS_SUCCESS);
+}
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d1 3
+a3 2
+/*
+	GeoShare library routines...
+d5 2
+a6 1
+	These routines manage the gstab configuration file.
+d8 3
+a10 1
+	Julian
+d12 19
+a30 1
+*/
+d32 1
+a32 4
+#define TEST 0
+#else
+#undef TEST
+#define TEST 1
+d34 1
+d36 1
+a37 7
+#if DEBUG
+#define	MAJOR	'L'	     /* major module identifier */
+#define	MINOR	'T'	     /* minor module identifier */
+#include	<gen.h>	     /* my all-purpose include file */
+#else			     /* DEBUG */
+#include	<stdio.h>
+#include	<fcntl.h>
+d40 2
+a41 2
+#define		YES			1
+#define		NO			0
+a43 1
+#endif			     /* DEBUG */
+d46 1
+a46 1
+
+d48 3
+d59 3
+a61 21
+#ifdef __STDC__
+extern char *getenv(char *id);
+extern int open(char *name, unsigned mode);
+extern unsigned strlen(char *str);
+extern unsigned strspn(char *str1, char *str2);
+extern int strcmp(char *str1, char *str2);
+extern int strncmp(char *str1, char *str2, unsigned n);
+extern char *strncpy(char *buf, char *str, unsigned n);
+extern char *strchr(char *string, char ch);
+extern char *strpbrk(char *string, char *delimiters);
+#else			     /* __STDC__ */
+extern char *getenv();
+extern int open();
+extern unsigned strlen();
+extern unsigned strspn();
+extern int strcmp();
+extern int strncmp();
+extern char *strncpy();
+extern char *strchr();
+extern char *strpbrk();
+#endif			     /* __STDC__ */
+d63 1
+a63 3
+/* milliseconds per character, for each of the possible baud rates of ospeed */
+/* here multiplied by 10 for computational convenience */
+/* remember where user's host entry buffer is */
+a65 2
+
+
+d220 1
+d222 1
+d486 54
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+/* 
+d21 1
+a21 1
+#else	/* DEBUG */
+d30 1
+a30 1
+#endif	/* DEBUG */
+d34 3
+d53 1
+a53 1
+#else	/* __STDC__ */
+d63 1
+a63 1
+#endif	/* __STDC__ */
+a66 18
+static unsigned delayFactor[] = {
+    0,			     /* B0 *//* hang up dataphone */
+    1920,		     /* B50 */
+    1280,		     /* B75 */
+    872,		     /* B110 */
+    730,		     /* B134 */
+    640,		     /* B150 */
+    480,		     /* B200 */
+    320,		     /* B300 */
+    160,		     /* B600 */
+    80,			     /* B1200 */
+    50,			     /* B1800 */
+    40,			     /* B2400 */
+    20,			     /* B4800 */
+    10,			     /* B9600 */
+    5,			     /* EXTA (19200 here) */
+    2,			     /* EXTB (34800 here) */
+};
+d68 1
+a68 1
+static char *ebuf = NULL;     /* pointer to entry buffer */
+a81 1
+    /*printf( "gs_findCap(\"%s\"), ebuf=%p\n", id, ebuf);*/
+a84 1
+	/*printf( " %02x", *p);*/
+a85 1
+/*	    printf( "gs_findCap(): SUCCESS, p=%.15s...\n", p);*/
+a91 1
+/*    printf( "gs_findCap(): returning %p (%.11s...)\n", p, p); */
+d121 1
+a121 1
+/*    printf( "gs_getEntry(%d, %p, \"%s\")\n", fd, inbuf, name); */
+d129 1
+a129 1
+/*	printf( "cnt=%d, ip='%.55s...'\n", cnt, ip); */
+d132 1
+a132 1
+/*	    printf( "skipping %d whitespace characters\n", stat); */
+d137 1
+a137 1
+	    /*printf( "comment line '%.11s...'\n", ip);*/
+d143 1
+a143 1
+/*	  printf( "gs_getEntry(): SUCCESS, ip = '%.22s...', cnt=%u\n", ip, cnt); */
+d145 1
+a145 1
+/*	    printf( "gs_getEntry(): raw entry is: '%s'\n", ip); */
+d149 1
+a149 1
+/*		printf( " %02x", *ip);*/
+d164 2
+a165 2
+/*	    printf( "gs_getEntry(): outbuf='%s'\n", outbuf); */
+/*	    printf( "gs_getEntry(): returning 1  [SUCCESS]\n"); */
+d176 1
+a176 1
+/*		printf( "end of namelist, cnt=%d\n", cnt); */
+d204 2
+a205 2
+ /*   printf( "gs_getEntry(): outbuf='%s'\n", outbuf); */
+  /*  printf( "gs_getEntry(): returning 0  [FAILURE]\n"); */
+d218 1
+a218 1
+ int gs_cgetent(bp, name)
+d222 1
+a222 1
+    char   *gstab;	     /* pointer to string */
+d225 1
+d227 4
+a230 17
+/*    printf( "gs_cgetent(%p, \"%s\")\n", bp, name); */
+    gstab = getenv("GSCONFIG");
+    if (gstab != NULL && gstab[0] != '/' &&
+	strcmp(name, getenv("GSHOST")) == 0) {	/* use $GSHOST as the entry */
+	printf( "gs_cgetent(): using contents of $EXINIT\n");
+	strncpy(bp, gstab, (BUFSIZE - 1));
+	bp[BUFSIZE] = '\0';
+	gstab = "/etc/gstab";	/* in case :tc capability found */
+	retval = 1;
+    }
+    else {		     /* look for entry in gstab file */
+	if (gstab[0] != '/')
+	    gstab = "/etc/gstab";	/* use default gstab file */
+	printf( "gs_cgetent(): opening file %s\n", gstab);
+	fd = open(gstab, O_RDONLY);
+	if (fd == -1)
+	    retval = -1;
+d232 1
+a232 2
+	    retval = gs_getEntry(fd, bp, name);
+	    close(fd);
+d235 13
+d256 1
+a256 1
+/*  printf( "gs_cgetent(): :tc found at %p, is '%s'\n", &bp[-3], &bp[-3]); */
+d262 1
+a262 1
+	    printf( "gs_cgetent(%s): can't open :tc file '%s'\n", name, newname);
+d271 1
+a271 1
+    /*  printf( "gs_cgetent(): returning %d\n", retval); */
+d281 1
+a281 1
+ int gs_cgetnum(id)
+d287 1
+a287 1
+  /*   printf( "gs_cgetnum(\"%s\")\n", id); */
+d296 1
+a296 1
+/*     printf( "gs_cgetnum(): returning %d\n", retval); */
+d307 1
+a307 1
+ int gs_cgetflag(id)
+d313 1
+a313 1
+    /* printf( "gs_cgetflag(\"%s\")\n", id); */
+d316 1
+a316 1
+   /*  printf( "gs_cgetflag(): returning %d\n", retval); */
+d327 1
+a327 1
+char *gs_cgetstr(id, area)
+d335 1
+a335 1
+ /*   printf( "gs_cgetstr(\"%s\", %p): *area=%p\n", id, area, *area); */
+d342 1
+a342 1
+/*	    printf( "p=%p,  *p=%02x\n", p, *p); */
+d396 1
+a396 1
+  /*  printf( "gs_cgetstr(): returning "); */
+d398 1
+a398 1
+/*	printf( "NULL"); */
+d401 1
+a401 1
+/*	printf( "%p  [", retval); */
+d403 2
+a404 2
+/*	    printf( " %02x", (unsigned) *p); */
+/*	printf( "]"); */
+d406 1
+a406 1
+/*    printf( ",  *area=%p\n", *area); */
+d413 1
+a413 1
+#if		TEST
+d415 4
+a418 4
+ char PC;		     /* pad char, default ^@@ */
+ char BC;		     /* backspace char if not ^H */
+ char UP;		     /* char for Upline (cursor up) */
+ char ospeed = 13;     /* output speed, see stty(3) */
+d421 1
+a421 1
+static char strbuf[512];	     /* for output of gs_cgetstr() */
+d443 1
+a443 1
+int main(ac, av)
+d461 2
+a462 2
+    printf("main: gs_cgetent(buf, \"%s\") returned %d\n", ttype, stat); 
+    printf("buf=%s\n",buf);
+d469 1
+a469 1
+    printf("main: gs_cgetnum(%s) returned %d\n", capability, stat); 
+d474 1
+a474 1
+    printf("main: gs_cgetflag(%s) returned %d\n", capability, stat);
+d480 1
+a480 1
+    printf("main: gs_cgetstr(%s, 0x%lx) returned '%s'  [strbuf=0x%lx, strptr=0x%lx]\n", capability, &strptr, outstr, strbuf, strptr); 
+d484 1
+a484 1
+	printf(strbuf); 
+d489 1
+a489 1
+#endif	/* TEST */
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d9 1
+d11 4
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d9 1
+a9 1
+#define TEST 1
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d59 1
+a59 1
+local unsigned delayFactor[] = {
+d78 1
+a78 1
+local char *ebuf = NULL;     /* pointer to entry buffer */
+d87 1
+a87 1
+local char *gs_findCap(id)
+d122 1
+a122 1
+local int gs_getEntry(fd, outbuf, name)
+d434 3
+a436 3
+local char buf[1024];	     /* holds gstab entry */
+local char strbuf[512];	     /* for output of gs_cgetstr() */
+local char *strptr;	     /* ptr to strbuf[] */
+d442 1
+a442 1
+local void oc(c)
+@

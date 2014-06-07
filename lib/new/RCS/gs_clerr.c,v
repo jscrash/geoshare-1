@@ -1,0 +1,541 @@
+head	1.7;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.7
+date	91.05.03.23.02.03;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.20.12.28.46;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.19.22.11.41;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.19.20.08.23;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.19.19.49.34;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.17.58.17;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_clerr.c.
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@#include "gs.h"
+#include <varargs.h>
+#include "systype.h"
+
+/****************************************************************************
+Module: GS_CLERR
+
+Description:
+	This module contains the client side error handling routines.
+	These are intended to provide a regular method of logging and
+	handling errors at runtime.
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+*****************************************************************************/
+
+#define CLIENT 1
+#ifdef SERVER
+#undef SERVER
+#endif
+
+#ifndef NULL
+#define NULL ((void *)0)
+#endif
+
+char   *pname = NULL;
+
+#ifdef CLIENT
+
+/*
+ * Fatal error.  Print a message and terminate.
+ * Don't dump core and don't print the system's errno value.
+ *
+ *      gs_err_quit(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_quit(va_alist)
+va_dcl
+{
+	va_list args;
+	char   *fmt;
+
+	va_start(args);
+	if (pname != NULL) {
+		fprintf(stderr, "%s: ", pname);
+	}
+	fmt = va_arg(args, char *);
+	vfprintf(stderr, fmt, args);
+	fputc('\n', stderr);
+	va_end(args);
+
+	exit(1);
+}
+
+/*
+ * Fatal error related to a system call.  Print a message and terminate.
+ * Don't dump core, but do print the system's errno value and its
+ * associated message.
+ *
+ *      gs_err_sys(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_sys(va_alist)
+va_dcl
+{
+	va_list args;
+	char   *fmt;
+
+	va_start(args);
+	if (pname != NULL) {
+		fprintf(stderr, "%s: ", pname);
+	}
+	fmt = va_arg(args, char *);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+
+	my_perror();
+
+	exit(1);
+}
+
+/*
+ * Recoverable error.  Print a message and return to caller.
+ *
+ *      gs_err_ret(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_ret(va_alist)
+va_dcl
+{
+	va_list args;
+	char   *fmt;
+
+	va_start(args);
+	if (pname != NULL) {
+		fprintf(stderr, "%s: ", pname);
+	}
+	fmt = va_arg(args, char *);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+
+	my_perror();
+
+	fflush(stdout);
+	fflush(stderr);
+
+	return;
+
+}
+
+/*
+ * Fatal error.  Print a message, dump core, (for debugging) and terminate.
+ *
+ *      gs_err_dump(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_dump(va_alist)
+va_dcl
+{
+	va_list args;
+	char   *fmt;
+
+	va_start(args);
+	if (pname != NULL) {
+		fprintf(stderr, "%s: ", pname);
+	}
+	fmt = va_arg(args, char *);
+	vfprintf(stderr, fmt, args);
+	va_end(args);
+
+	my_perror();
+
+	fflush(stdout);
+	fflush(stderr);
+
+	abort();
+	exit(1);
+
+}
+
+/*
+ * Print the UNIX errno value
+ */
+
+my_perror()
+{
+	perror();
+}
+
+
+#endif			     /* CLIENT */
+@
+
+
+1.6
+log
+@Reformat to indentation 8 for readability
+@
+text
+@@
+
+
+1.5
+log
+@.
+@
+text
+@d43 2
+a44 2
+    va_list args;
+    char   *fmt;
+d46 8
+a53 8
+    va_start(args);
+    if (pname != NULL) {
+	fprintf(stderr, "%s: ", pname);
+    }
+    fmt = va_arg(args, char *);
+    vfprintf(stderr, fmt, args);
+    fputc('\n', stderr);
+    va_end(args);
+d55 1
+a55 1
+    exit(1);
+d72 2
+a73 2
+    va_list args;
+    char   *fmt;
+d75 7
+a81 7
+    va_start(args);
+    if (pname != NULL) {
+	fprintf(stderr, "%s: ", pname);
+    }
+    fmt = va_arg(args, char *);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+d83 1
+a83 1
+    my_perror();
+d85 1
+a85 1
+    exit(1);
+d100 2
+a101 2
+    va_list args;
+    char   *fmt;
+d103 7
+a109 7
+    va_start(args);
+    if (pname != NULL) {
+	fprintf(stderr, "%s: ", pname);
+    }
+    fmt = va_arg(args, char *);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+d111 1
+a111 1
+    my_perror();
+d113 2
+a114 2
+    fflush(stdout);
+    fflush(stderr);
+d116 1
+a116 1
+    return;
+d132 2
+a133 2
+    va_list args;
+    char   *fmt;
+d135 7
+a141 7
+    va_start(args);
+    if (pname != NULL) {
+	fprintf(stderr, "%s: ", pname);
+    }
+    fmt = va_arg(args, char *);
+    vfprintf(stderr, fmt, args);
+    va_end(args);
+d143 1
+a143 1
+    my_perror();
+d145 2
+a146 2
+    fflush(stdout);
+    fflush(stderr);
+d148 2
+a149 2
+    abort();
+    exit(1);
+d159 1
+a159 1
+    perror();
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d11 1
+a11 1
+	handling errors at runtime.  
+d26 1
+a26 1
+char *pname = NULL;
+d40 1
+a40 1
+gs_err_quit (va_alist)
+d42 1
+a42 1
+    {
+d44 5
+a48 13
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    fputc ('\n', stderr);
+    va_end (args);
+    
+    exit (1);
+d50 4
+d55 3
+d69 1
+a69 1
+gs_err_sys (va_alist)
+d71 1
+a71 1
+    {
+d73 5
+a77 14
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    exit (1);
+d79 3
+d83 5
+d97 1
+a97 1
+gs_err_ret (va_alist)
+d99 1
+a99 1
+    {
+d101 5
+a105 18
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    fflush (stdout);
+    fflush (stderr);
+    
+    return;
+    
+d107 3
+d111 9
+d129 1
+a129 1
+gs_err_dump (va_alist)
+d131 1
+a131 1
+    {
+d133 5
+a137 19
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    fflush (stdout);
+    fflush (stderr);
+    
+    abort ();
+    exit (1);
+    
+d139 3
+d143 10
+d157 2
+a158 2
+my_perror ()
+    {
+d160 1
+a160 1
+    }
+d163 1
+a163 1
+#endif                              /* CLIENT */
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d163 1
+a163 3
+    char *sys_err_str ();
+    
+    fprintf (stderr, " %s\n", sys_err_str ());
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d5 12
+a19 6
+#endif
+
+#ifndef CLIENT
+#ifndef SERVER
+#define CLIENT 1
+#endif
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+#ifdef CLIENT
+d7 1
+a7 2
+cant define both CLIENT and SERVER
+#endif
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d1 1
+a1 11
+/*
+ *
+ * Error handling routines
+ * W Richard Stevens, 1990, Unix Network Programming
+ * Prentice Hall, Englewood Cliffs, N. J. 07632
+ * 
+ * Appendix A.3
+ *
+ */
+
+#include <stdio.h>
+d29 1
+a29 1
+ *      err_quit(str, arg1, arg2, ...)
+d35 1
+a35 1
+err_quit (va_alist)
+d59 1
+a59 1
+ *      err_sys(str, arg1, arg2, ...)
+d65 1
+a65 1
+err_sys (va_alist)
+d88 1
+a88 1
+ *      err_ret(str, arg1, arg2, ...)
+d94 1
+a94 1
+err_ret (va_alist)
+d121 1
+a121 1
+ *      err_dump(str, arg1, arg2, ...)
+d127 1
+a127 1
+err_dump (va_alist)
+@

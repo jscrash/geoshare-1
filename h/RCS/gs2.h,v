@@ -1,0 +1,58 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    vince:1.1; strict;
+comment  @ * @;
+
+
+1.1
+date     91.05.05.10.56.09;  author vince;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/* extra include file for My stuff... Since Julian has gs.h locked. */
+
+#define GSMalloc  malloc
+#define GSFree    free
+#define GSRealloc realloc
+
+#include "prototypes.h"
+
+typedef char **GSTCP_t;
+
+enum
+{
+  GS_STRUCT_WELL_HDR = 9000
+} ;
+
+enum
+{
+  GSE_NO_WELL_IDENTIFIER,
+  GSE_INVALID_STRING_FORMAT
+} ;
+
+/* the following is a proposed change to GSContextInformation_t */
+
+typedef struct
+{
+  GSString_t keyword;
+  GSString_t value;
+} GSContextValue_t;
+
+typedef struct
+{
+  GSVector_t context_value;
+} GSContextInfo_t ;
+@

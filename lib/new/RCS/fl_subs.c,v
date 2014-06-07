@@ -1,0 +1,178 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.19.10.05.16;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of fl_subs.c.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@/*
+
+FLPUT	test program
+
+	This program implements the fl_put side of a FinderLink
+	Internet connection protocol.  It is meant to provide 
+	an environment to interactivly 'talk' to the remote 
+	host's in.fld server which is automatically started by
+	connecting to its port (well-known-address).
+
+	The body of this program will become the basic elements 
+	of a fl_put talker subroutine.
+
+
+Julian	-	Mon Feb 25 02:32:18 PST 1991
+
+*/
+
+#define FINDERLINKPORT  1526
+#ifndef SUN4
+#define SUN4
+#endif
+#include <sys/types.h>
+#include <stdio.h>
+#include <pwd.h>
+#include <sys/socket.h>
+#include <sys/ioctl.h>
+#include <netinet/in.h>
+#ifdef SUN4
+#include <sys/filio.h>
+#else
+#define	FD_SET(n, s)	(((s)->fds_bits[0]) |= (1 << n))
+#define	FD_CLR(n, s)	(((s)->fds_bits[0]) &= ~(1 << n))
+#define	FD_ZERO(s)	bzero((char *)(s), sizeof (*(s)))
+#define	FD_ISSET(n, s)	(((s)->fds_bits[0]) & (1 << n))
+#include <sys/ioctl.h>
+#endif /* SUN4 */
+#include <setjmp.h>
+#include <netdb.h>
+#include <signal.h>
+#include <string.h>
+
+struct sockaddr_in	sin;
+struct sockaddr_in	udp_sin;
+struct servent		*sp;
+jmp_buf			sdied;
+
+done()
+{
+	fprintf(stderr, "broken pipe\n");
+	longjmp(sdied);
+}
+
+main(ac, av)
+register int	ac;
+register char	**av;
+{
+	register struct hostent	*host = (struct hostent *) NULL;
+	struct passwd	*pwent;
+	int	s;
+	char	*h, *p;
+	char	hostname[80];	/* The finderlink-server-machine */
+	char	*display;
+	struct servent	*sp;
+	extern struct servent	*getservbyname();
+	extern char	*getenv();
+
+	p = strrchr(av[0], '/');
+	if (p == (char *) NULL)
+		p = av[0];
+	if (ac != 2)
+		usage(p);
+
+	pwent = getpwuid(getuid());
+	if (pwent == (struct passwd *) NULL) {
+		printf("Who are you?\n");
+		exit(2);
+	}
+
+	h = av[1];
+	sin.sin_addr.s_addr = inet_addr(h);
+	if (sin.sin_addr.s_addr != -1) {
+		sin.sin_family = AF_INET;
+		(void) strcpy(hostname, h);
+	} else {
+		host = gethostbyname(h);
+		if (host) {
+			sin.sin_family = host->h_addrtype;
+			bcopy(host->h_addr, (caddr_t) &sin.sin_addr,
+				host->h_length);
+			strcpy(hostname, host->h_name, strlen(host->h_name));
+		} else {
+			printf("%s: unknown host\n", h);
+			exit(1);
+		}
+	}
+	sin.sin_port = FINDERLINKPORT;
+
+	signal(SIGPIPE, done);
+	s = socket(AF_INET, SOCK_STREAM, 0);
+	if (s < 0) {
+		perror("socket");
+		exit(1);
+	}
+	if (connect(s, (struct sockaddr *) &sin, sizeof (sin)) < 0) {
+		perror("connect");
+		(void) close(s);
+		exit(1);
+	}
+	if (setjmp(sdied) == 0)
+		startup(s, pwent->pw_name);
+	exit(0);
+}
+
+startup(s, l)
+register int	s;
+register char	*l;
+{
+	char	buf[80];
+	int	n = 1;
+
+	/* 
+	Write protocol header to server:
+
+		application:user:context:date:batchflag
+
+	before sending data...
+	*/	
+	write(s, "fl", 2);			/* protocol init */
+	n = 2; write(s, (int *)&n,sizeof(n));	/* num msgs to follow */
+	
+	n = 11; write(s, (int *)&n,sizeof(n));	/*class: app server*/
+	write(s,"flsrv",sizeof("flsrv"));
+
+	n = 10; write(s, (int *)&n,sizeof(n));	/*class: args*/
+	write(s,"-p test",sizeof("-p test"));
+
+	fflush(stdout);
+	while ((n = read(s, buf, sizeof buf)) >= 0) {
+		if (n <= 0) {
+			write(s, "DONE\n", 5);	/* Does this cause SIGPIPE? */
+		} else
+			write(fileno(stdout), buf, n);
+	}
+	return 1;
+}
+
+usage(p)
+register char	*p;
+{
+	printf("Usage: %s <destination-host>\n", p);
+	exit(1);
+}
+@

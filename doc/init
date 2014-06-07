@@ -1,0 +1,17 @@
+FUNCTION
+GS_handle_t	GS_initialize (char *destination, GS_contextinfo context)
+
+ASSERTIONS
+	Input:	destination	- Name of the data receiver to start
+		context		- Argument string for receiver
+				  command line
+
+	Output: NONE	
+
+DESCRIPTION
+Initialize a connection to the named receiver program.  This will
+send a protocol request to the connection manager running on the
+current host and have it start the named program.  The name of the
+program may be an alias that requires translation by the connection
+manager process.
+

@@ -1,0 +1,67 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.19.11.50.59;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of ptypes.h.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+
+
+/* api.c */
+
+/* fl_subs.c */
+int done P_((void));
+int main P_((int ac, char **av));
+int startup P_((int s, char *l));
+int usage P_((char *p));
+
+/* flopen.c */
+
+/* flput.c */
+int done P_((void));
+int main P_((int ac, char **av));
+int startup P_((int s, char *l));
+int usage P_((char *p));
+
+/* flsrv.c */
+int done P_((void));
+int main P_((int argc, char *argv[]));
+
+/* gs_alloc.c */
+void *gs_alloc P_((int size, GSSHMKEY_t key));
+void gs_free P_((void *ptr));
+
+/* in.fld.c */
+int main P_((int argc, char **argv));
+int getstr P_((char *buf, int cnt, char *err));
+int error P_((char *fmt, int a1, int a2, int a3));
+
+/* in_fld.c */
+int main P_((int argc, char **argv));
+int getstr P_((char *buf, int cnt, char *err));
+int error P_((char *fmt, int a1, int a2, int a3));
+
+#undef P_
+@

@@ -1,0 +1,2503 @@
+head	1.59;
+access;
+symbols;
+locks
+	julian:1.59; strict;
+comment	@ * @;
+
+
+1.59
+date	91.05.20.19.13.40;	author julian;	state Exp;
+branches;
+next	1.58;
+
+1.58
+date	91.05.20.04.44.23;	author julian;	state Exp;
+branches;
+next	1.57;
+
+1.57
+date	91.05.20.03.30.27;	author julian;	state Exp;
+branches;
+next	1.56;
+
+1.56
+date	91.05.15.01.29.29;	author julian;	state Exp;
+branches;
+next	1.55;
+
+1.55
+date	91.05.15.01.25.40;	author julian;	state Exp;
+branches;
+next	1.54;
+
+1.54
+date	91.05.15.00.42.42;	author julian;	state Exp;
+branches;
+next	1.53;
+
+1.53
+date	91.05.14.21.31.58;	author julian;	state Exp;
+branches;
+next	1.52;
+
+1.52
+date	91.05.14.15.09.10;	author julian;	state Exp;
+branches;
+next	1.51;
+
+1.51
+date	91.05.14.14.23.47;	author julian;	state Exp;
+branches;
+next	1.50;
+
+1.50
+date	91.05.14.12.39.16;	author julian;	state Exp;
+branches;
+next	1.49;
+
+1.49
+date	91.05.14.10.25.37;	author julian;	state Exp;
+branches;
+next	1.48;
+
+1.48
+date	91.05.14.09.45.48;	author julian;	state Exp;
+branches;
+next	1.47;
+
+1.47
+date	91.05.14.08.07.03;	author julian;	state Exp;
+branches;
+next	1.46;
+
+1.46
+date	91.05.14.03.38.02;	author julian;	state Exp;
+branches;
+next	1.45;
+
+1.45
+date	91.05.12.03.49.54;	author julian;	state Exp;
+branches;
+next	1.44;
+
+1.44
+date	91.05.12.01.43.26;	author julian;	state Exp;
+branches;
+next	1.43;
+
+1.43
+date	91.05.09.07.57.06;	author julian;	state Exp;
+branches;
+next	1.42;
+
+1.42
+date	91.05.09.04.45.42;	author julian;	state Exp;
+branches;
+next	1.41;
+
+1.41
+date	91.05.09.04.00.49;	author julian;	state Exp;
+branches;
+next	1.40;
+
+1.40
+date	91.05.08.22.59.49;	author julian;	state Exp;
+branches;
+next	1.39;
+
+1.39
+date	91.05.07.21.20.36;	author julian;	state Exp;
+branches;
+next	1.38;
+
+1.38
+date	91.05.07.07.18.37;	author julian;	state Exp;
+branches;
+next	1.37;
+
+1.37
+date	91.05.07.06.22.39;	author julian;	state Exp;
+branches;
+next	1.36;
+
+1.36
+date	91.05.07.03.05.44;	author julian;	state Exp;
+branches;
+next	1.35;
+
+1.35
+date	91.05.07.01.26.07;	author julian;	state Exp;
+branches;
+next	1.34;
+
+1.34
+date	91.05.06.22.52.25;	author julian;	state Exp;
+branches;
+next	1.33;
+
+1.33
+date	91.05.06.17.42.18;	author julian;	state Exp;
+branches;
+next	1.32;
+
+1.32
+date	91.05.06.15.52.34;	author julian;	state Exp;
+branches;
+next	1.31;
+
+1.31
+date	91.05.06.04.35.15;	author julian;	state Exp;
+branches;
+next	1.30;
+
+1.30
+date	91.05.05.11.30.15;	author julian;	state Exp;
+branches;
+next	1.29;
+
+1.29
+date	91.05.04.00.22.46;	author julian;	state Exp;
+branches;
+next	1.28;
+
+1.28
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.27;
+
+1.27
+date	91.05.03.20.26.57;	author julian;	state Exp;
+branches;
+next	1.26;
+
+1.26
+date	91.05.03.18.58.26;	author julian;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	91.05.03.18.12.01;	author julian;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	91.05.03.15.54.30;	author julian;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	91.05.03.15.53.15;	author julian;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	91.05.03.14.28.38;	author julian;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	91.05.03.13.53.17;	author julian;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	91.05.03.13.26.30;	author julian;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	91.05.03.13.02.29;	author julian;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	91.05.03.12.02.06;	author julian;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	91.05.03.11.14.26;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.04.30.09.48.36;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.04.30.08.13.52;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.04.30.04.10.18;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.04.30.02.51.28;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.04.29.10.45.43;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.04.28.17.40.16;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.04.25.06.39.33;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.04.25.03.45.47;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.04.24.23.35.43;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.24.22.36.14;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.24.18.13.36;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.24.16.32.42;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.24.16.14.41;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.24.14.21.44;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.23.09.42.25;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.23.09.20.35;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_test.c.
+@
+
+
+1.59
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <signal.h>
+#include <varargs.h>
+#include <ctype.h>
+
+/***********************************************************
+*  GS_TEST  - Test harness for GeoShare library routines.
+*
+* Julian    Wed May  1 01:25:26 PDT 1991
+***********************************************************/
+
+static void msg();
+static void gs_cleanup();
+static int silent = FALSE;
+static int debug = FALSE;
+
+extern char *sys_errlist[];
+extern char *gs_poolhead;
+extern key_t gs_poolkey;
+extern char *optarg;
+extern int optind;
+extern int putenv();
+
+
+void main(argc, argv)
+int     argc;
+char  **argv;
+{
+	register int i, j;
+	int     status = GS_SUCCESS;
+	int     len = 0;
+	int     gotit = 0;
+	int     done = FALSE;
+	char    context[256];
+	char    text[512];
+	char    recname[256];
+	char   *cp = NULL;
+	char   *cp2 = NULL;
+	char  **tcp = (char **) 0;
+	GSHandle_t *rech;
+	GSContextRequirements_t **cr;
+	char    c;
+	GSMessage_t result;
+	GSTCB_t *ptcb;
+	unsigned int count = 0;
+
+	errno = 0;
+	debug = FALSE;
+	silent = FALSE;
+
+
+	while ((c = getopt(argc, argv, "dsh:")) != -1) {
+		switch (c) {
+		case 'd':
+			debug = TRUE;
+			break;
+
+		case 'h':
+			sprintf(text,"GSHOME=%s",optarg);
+			putenv(text);
+			break;
+
+		case 's':
+			silent = TRUE;
+			break;
+
+		case '?':
+			msg("Usage:\n\t%s [-d]\n", argv[0]);
+			exit(1);
+		default:
+			msg("Impossible argument parsing in getopt.i\n");
+			exit(1);
+		}
+	}
+
+	cp = gs_home(NULL);
+	if (cp == NULL) {
+		msg("Error: GSHOME not defined.\n");
+		msg("You must 'setenv GSHOME /j/fl/lib' before running this.\n");
+		exit(1);
+	}
+
+	if (debug) {
+		msg(" \n");
+		msg(" 		GS_TEST - test geoshare library\n");
+		msg(" \n");
+		msg("This test program inquires all of the available data receivers\n");
+		msg("known to the Connection Manager and lets you select one.\n");
+		msg("The context arguments for that receiver are inquired from the\n");
+		msg("Connection Manager and you are prompted to fill them in.\n");
+		msg("The selected receiver is started with the arguments given.\n");
+		msg(" \n");
+	}
+
+	signal(SIGINT,gs_cleanup);
+	signal(SIGHUP,SIG_IGN);
+	if (debug) {
+		msg("Looking for Connection Manager Daemon...\n");
+		if (check_cm() == GS_SUCCESS) {
+			msg("Shutting down current connection manager process.\n");
+			term_cm();
+		}
+		msg("Starting connection manager process....\n");
+		start_cm();
+	}
+/*
+* Call GS_INQUIRE_DESTINATIONS to get list of all receivers.
+*/
+	status = gs_inquire_destinations(&tcp,&count);
+	if (status != GS_SUCCESS) {
+		msg("Test: Error from gs_inquire_destinations. %d\n", status);
+		msg("  --- Is the Connection Manager (gs_cm) running?\n");
+		msg(" To start the connection manager, type:  gs_cm\n\n");
+		exit(1);
+	}
+
+	msg("%u destinations available \n",count);
+	done = FALSE;
+	while (!done) {
+		msg("\n\nThe following data receivers are available:\n");
+		len = gs_tcp_len(tcp);
+		for (j = 0; j < len; j++) {
+			if (tcp[j] != NULL) {
+				msg("\t\t%s\n", tcp[j]);
+			}
+		}
+		text[0] = '\0';
+		msg("Select a receiver to start: (<RETURN> or <q> to quit) ");
+		gets(recname);
+		if (!strlen(recname) || !strcmp(recname, "q")) {
+			done = TRUE;
+			continue;
+		}
+
+		cp = recname;
+		while (!isalnum(*cp))
+			cp++;
+
+		cp2 = cp;
+		while (isalnum(*cp2))
+			cp2++;
+		*cp2 = '\0'; /* Trim off trailing blanks */
+		if (cp != recname) {
+			len = strlen(cp);
+			if (len != 0) {
+				memcpy(recname, cp, len + 1);
+			}
+			else {
+				msg("Invalid receiver name.\n");
+				continue;
+			}
+		}
+		gotit = FALSE;
+
+/*
+* Find the input name in the list of recievers..
+*/
+		len = gs_tcp_len(tcp);
+		for (j = 0; j < len; j++) {
+			if (tcp[j] != NULL) {
+				if (strcmp(tcp[j], recname) == 0) {
+					gotit = TRUE;
+					break;
+				}
+			}
+		}
+		if (!gotit) {
+			msg("\n%s is not a valid choice.\n", recname);
+			continue;
+		}
+
+/*
+* Call  GS_INQUIRE_CONTEXT to get needed arguments for receiver
+*/
+		text[0] = '\0';
+		status = gs_inquire_context(recname, &cr,&count);
+		if (status != GS_SUCCESS) {
+			msg("test: inq context failed %d\n", status);
+		}
+		else if (count > 0) {
+
+/*
+* For each context arg given, prompt the user for value and assign it.
+*/
+			msg("%u context args \n",count);
+			gotit = TRUE;
+			len = 0;
+			cp = text;
+			for (i = 0; cr[i]; i++) {
+				context[0] = '\0';
+				msg("\tEnter %s: ",
+					cr[i]->prompt.vector_pointer);
+				gets(context);
+				if (strlen(context) == 0) {
+					msg("All arguments must be entered.... Aborting.\n");
+					gotit = FALSE;
+					break;
+				}
+
+				sprintf(cp, " %s %s",
+					cr[i]->cmdline_tag.vector_pointer,
+					context);
+				cp += strlen(cp);
+			}
+			if (!gotit) {
+				msg("\n");
+				continue;
+			}
+		}
+/*
+* Execute the receiver program
+*/
+		gs_init_pool(0,0);
+		msg("\nStarting:  %s %s\n", recname, text);
+		rech = gs_initialize(recname, text,&status);
+		if (rech == (GSHandle_t *)0 || status != GS_SUCCESS) {
+			switch(status) {
+			case GSERR_NOCONNECT:
+				msg("Error:  Connect attempt failed.\n");
+				break;
+			case GSERR_MSGTYPE:
+				msg("Error: Unknown Message Type from CM. Connect failed.\n");
+				break;
+			case GSERR_CM_NOTINIT:
+				msg("Error: Connection Manager not initialized.\n");
+				break;
+			default:
+				msg("Error starting receiver ... Check %s for details\n",
+					gs_cf_name(NULL));
+				break;
+			}
+			continue;
+		}
+
+		ptcb = (GSTCB_t *)gs_alloc(sizeof(GSTCB_t));
+		ptcb->BlockNum = 1;
+		printf("calling send.\n");
+		gs_send(rech,ptcb,&result);
+
+		ptcb = (GSTCB_t *)gs_alloc(sizeof(GSTCB_t));
+		ptcb->BlockNum = 2;
+		printf("calling send again.\n");
+		gs_send(rech,ptcb,&result);
+
+		printf("calling sendstr.\n");
+		gs_sendstr(rech,  "This is a test");
+
+		printf("calling sendstr.\n");
+		gs_sendstr(rech, "This is also test");
+
+		printf("calling sendstr.\n");
+		gs_sendstr(rech, "This is the final test");
+		printf("calling terminate.\n");
+		gs_terminate(rech);
+		gs_term_pool();
+		sleep(0);
+		errno = 0;
+	}
+#if 0
+	gs_detach_slot(rech->cmslot);
+	gs_term_pool();
+#endif
+	if (debug) {
+		msg("\nShutting down Connection Manager Daemon.\n");
+		term_cm();
+	}
+	msg("Done.\n");
+	exit(0);
+	/*NOTREACHED*/
+}
+
+
+
+int     start_cm()
+{
+	int     status = GS_SUCCESS;
+
+	errno = 0;
+	status = system("gs_cm");
+	if (status) {
+		msg("Error starting Connection Manager\n");
+		status = GS_FAIL;
+	}
+	else {
+		msg("Connection Manager Daemon Started.\n");
+		status = GS_SUCCESS;
+	sleep(1);
+	}
+	return (status);
+}
+
+int     term_cm()
+{
+	int     status = GS_SUCCESS;
+	system("kill -HUP `ps ax | grep gs_cm | grep -v grep | awk '{print $1}'`");
+	status = system("ps ax | grep gs_cm | grep -v grep >/dev/null");
+	if (status == 0) {
+		msg("Warning: Cannot kill Connection Manager Daemon. (gs_cm)\n");
+		exit(1);
+	}
+	status = GS_SUCCESS;
+	sleep(1);
+	return (status);
+}
+
+int     check_cm()
+{
+	int     status = GS_SUCCESS;
+	errno = 0;
+	status = system("ps ax | grep gs_cm | grep -v grep >/dev/null");
+	if (status == 0) {
+		status = GS_SUCCESS;
+	}
+	else {
+		status = GS_FAIL;
+	}
+	return (status);
+}
+
+
+
+
+/*VARARGS1*/
+static void msg(va_alist) va_dcl
+{
+	va_list args;
+	char   *fmt;
+	int     myerrno = 0;
+
+	myerrno = errno;
+
+	va_start(args);
+	fmt = va_arg(args, char *);
+	if (!silent || (silent && errno)) {
+		vfprintf(stderr, fmt, args);
+		if (myerrno != 0) {
+			fprintf(stderr, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+			errno = 0;
+		}
+		fflush(stderr);
+	}
+	va_end(args);
+}
+
+
+
+static void gs_cleanup()
+{
+static int first = TRUE;
+int status = 0;
+	signal(SIGHUP,SIG_IGN);
+	signal(SIGINT,gs_cleanup);
+
+	if (first == TRUE) {
+		printf("\nCleaning up...\n");
+		first = FALSE;
+		signal(SIGALRM,gs_cleanup);
+		alarm(2);
+		gs_terminate((GSHandle_t *)gs_get_handle());
+	}
+	else {
+		printf("\nCleaning up. (Brute force this time)\n");
+		status = gs_delete_slot(((GSHandle_t *) gs_get_handle())->slot);
+	}
+	alarm(0);
+	gs_term_pool();
+	exit(0);
+}
+@
+
+
+1.58
+log
+@Update
+@
+text
+@d4 1
+@
+
+
+1.57
+log
+@Update
+@
+text
+@a212 2
+		printf("Pool initialized to %lu  with key %lu\n",
+				gs_poolhead,gs_poolkey);
+a251 1
+		sleep(0);
+@
+
+
+1.56
+log
+@Update
+@
+text
+@d261 2
+d264 1
+@
+
+
+1.55
+log
+@Update
+@
+text
+@d261 1
+a261 3
+	status = gs_detach_slot(((GSHandle_t *) gs_get_handle())->cmslot);
+	if (status != GS_SUCCESS)
+		gs_log("test: error detaching cmslot");
+@
+
+
+1.54
+log
+@Update
+@
+text
+@d21 1
+d23 1
+a211 1
+		msg("\nRunning:  %s %s\n", recname, text);
+d215 1
+d263 1
+a263 1
+		(void)gs_log((int)"test: error detaching cmslot");
+d265 1
+a265 1
+		(void)msg("\nShutting down Connection Manager Daemon.\n");
+d270 1
+d288 1
+d303 1
+d341 1
+d345 3
+@
+
+
+1.53
+log
+@Update
+@
+text
+@d93 1
+a93 1
+	signal(SIGHUP,gs_cleanup);
+d172 1
+d177 1
+a177 1
+		else {
+a183 1
+			text[0] = '\0';
+d206 1
+a206 1
+
+d210 20
+a229 8
+			msg("\nRunning:  %s %s\n", recname, text);
+			gs_init_pool(0,0);
+			printf("Pool initialized to %lu  with key %lu\n",
+					gs_poolhead,gs_poolkey);
+			rech = gs_initialize(recname, text);
+			if (rech == (GSHandle_t *)0) {
+				msg("Error initializing receiver process..\n");
+				continue;
+d231 2
+d234 4
+a237 4
+			ptcb = (GSTCB_t *)gs_alloc(sizeof(GSTCB_t));
+			ptcb->BlockNum = 1;
+			printf("calling send.\n");
+			gs_send(rech,ptcb,&result);
+d239 4
+a242 4
+			ptcb = (GSTCB_t *)gs_alloc(sizeof(GSTCB_t));
+			ptcb->BlockNum = 2;
+			printf("calling send again.\n");
+			gs_send(rech,ptcb,&result);
+d244 2
+a245 2
+			printf("calling sendstr.\n");
+			gs_sendstr(rech,  "This is a test");
+d247 2
+a248 2
+			printf("calling sendstr.\n");
+			gs_sendstr(rech, "This is also test");
+d250 8
+a257 9
+			printf("calling sendstr.\n");
+			gs_sendstr(rech, "This is the final test");
+			sleep(0);
+			printf("calling terminate.\n");
+			gs_terminate(rech);
+			gs_term_pool();
+			sleep(0);
+			errno = 0;
+		}
+@
+
+
+1.52
+log
+@Update
+@
+text
+@d12 1
+a12 1
+
+d19 2
+a21 1
+
+d49 1
+a49 1
+	while ((c = getopt(argc, argv, "ds")) != -1) {
+d55 5
+d73 1
+a73 1
+	cp = getenv("GSHOME");
+d80 1
+a80 1
+	if (!debug) {
+d91 4
+a94 1
+	if (!debug) {
+d249 1
+a249 1
+	if (!debug) {
+d325 22
+@
+
+
+1.51
+log
+@Update
+@
+text
+@d222 1
+a222 1
+			gs_sendstr(rech, rech->slot, "This is a test");
+d225 1
+a225 1
+			gs_sendstr(rech, rech->slot, "This is also test");
+d228 1
+a228 1
+			gs_sendstr(rech, rech->slot, "This is the final test");
+@
+
+
+1.50
+log
+@Update
+@
+text
+@a202 1
+			ptcb = (GSTCB_t *)gs_alloc(sizeof(GSTCB_t));
+d210 2
+a212 1
+			sleep(0);
+d215 6
+d223 1
+d226 1
+a232 5
+#if 0
+			sleep(0);
+			printf("calling delete slot.\n");
+			gsz_delete_slot(rech->slot);
+#endif
+@
+
+
+1.49
+log
+@Update
+@
+text
+@d41 1
+a42 1
+
+d97 1
+a97 1
+	status = gs_inquire_destinations(&tcp);
+d105 1
+d163 1
+a163 1
+		status = gs_inquire_context(recname, &cr);
+d172 1
+@
+
+
+1.48
+log
+@Update
+@
+text
+@d209 1
+@
+
+
+1.47
+log
+@Update
+@
+text
+@d17 2
+d39 2
+d42 1
+d200 4
+d210 2
+d221 1
+@
+
+
+1.46
+log
+@Update
+@
+text
+@d210 1
+d214 1
+d221 1
+a221 1
+		(void)gs_log((int)"test: error detaching cmslog");
+@
+
+
+1.45
+log
+@*** empty log message ***
+@
+text
+@d196 4
+@
+
+
+1.44
+log
+@Update
+@
+text
+@a10 1
+static void cleanup();
+a16 1
+extern int sys_nerr;
+d19 1
+a19 1
+main(argc, argv)
+a25 1
+	int     cnt = 0;
+a27 1
+	char    prompt[256];
+a28 1
+	char    cmdline_tag[256];
+d34 1
+a34 1
+	GSHandle_t *h, *rech;
+a224 5
+static void cleanup()
+{
+	signal(SIGINT, SIG_IGN);
+	exit(0);
+}
+a277 1
+	int     len;
+@
+
+
+1.43
+log
+@Update
+@
+text
+@d220 1
+a220 1
+		gs_log("test: error detaching cmslog");
+d222 1
+a222 1
+		msg("\nShutting down Connection Manager Daemon.\n");
+@
+
+
+1.42
+log
+@Update
+@
+text
+@d39 1
+a39 1
+	GSHandle_t *h,*rech;
+a45 1
+	
+d47 1
+d200 16
+a215 16
+	    rech  = gs_initialize(recname, text);
+		sleep(0);
+		printf("calling sendstr.\n");
+		gs_sendstr(rech,rech->slot,"This is a test");
+		printf("calling sendstr.\n");
+		gs_sendstr(rech,rech->slot,"This is also test");
+		printf("calling sendstr.\n");
+		gs_sendstr(rech,rech->slot,"This is the final test");
+		sleep(0);
+		printf("calling terminate.\n");
+		gs_terminate(rech);
+		sleep(0);
+		printf("calling delete slot.\n");
+		gsz_delete_slot(rech->slot);
+		sleep(0);
+	    errno = 0;	
+d218 1
+a218 1
+	status = gs_detach_slot(((GSHandle_t *)gs_get_handle())->cmslot);
+@
+
+
+1.41
+log
+@Update
+@
+text
+@a93 1
+	sleep(1);
+@
+
+
+1.40
+log
+@Update
+@
+text
+@d219 3
+@
+
+
+1.39
+log
+@Update
+@
+text
+@d202 1
+a202 1
+		sleep(2);
+d209 1
+a209 1
+		sleep(3);
+d212 1
+a212 1
+		sleep(2);
+d215 2
+a216 2
+		sleep(2);
+		
+d254 2
+a255 2
+	system("kill -HUP `ps ax | grep cm | grep -v grep | awk '{print $1}'`");
+	status = system("ps ax | grep cm | grep -v grep >/dev/null");
+d268 1
+a268 1
+	status = system("ps ax | grep cm | grep -v grep >/dev/null");
+@
+
+
+1.38
+log
+@Update
+@
+text
+@d202 1
+a202 1
+		sleep(0);
+d209 1
+d212 1
+a212 1
+		sleep(0);
+d215 1
+a215 1
+		sleep(0);
+@
+
+
+1.37
+log
+@Update
+@
+text
+@d202 1
+a202 1
+		sleep(2);
+a208 1
+		sleep(2);
+d211 1
+a211 1
+		sleep(2);
+@
+
+
+1.36
+log
+@Update
+@
+text
+@d214 1
+a214 1
+		gs_delete_slot(rech->slot);
+@
+
+
+1.35
+log
+@Update
+@
+text
+@d203 1
+d205 1
+d207 1
+d210 1
+d213 1
+@
+
+
+1.34
+log
+@Update
+@
+text
+@d203 4
+a206 2
+		gs_sendstr(rech,rech->slot,"this is a test");
+		sleep(5);
+d208 1
+a208 1
+		sleep(1);
+d210 1
+a210 1
+
+d249 1
+a249 1
+	system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f2 -d' '`");
+@
+
+
+1.33
+log
+@Update
+@
+text
+@d202 1
+d205 2
+@
+
+
+1.32
+log
+@Update
+@
+text
+@d202 1
+@
+
+
+1.31
+log
+@Update
+@
+text
+@d202 1
+@
+
+
+1.30
+log
+@Update
+@
+text
+@d39 1
+a39 1
+	GSHandle_t *h;
+d46 1
+d201 4
+a204 1
+/*	    gs_initialize(recname, text); */
+@
+
+
+1.29
+log
+@Update
+@
+text
+@d238 1
+a238 1
+	system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f1 -d' '`");
+@
+
+
+1.28
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d93 1
+a93 1
+
+d222 1
+a228 1
+		sleep(1);
+d251 1
+a251 1
+
+d271 1
+a271 1
+	int     myerrno;
+a272 1
+	va_start(args);
+d275 1
+@
+
+
+1.27
+log
+@*** empty log message ***
+@
+text
+@d25 17
+a41 17
+    register int i, j;
+    int     status = GS_SUCCESS;
+    int     len = 0;
+    int     cnt = 0;
+    int     gotit = 0;
+    int     done = FALSE;
+    char    prompt[256];
+    char    context[256];
+    char    cmdline_tag[256];
+    char    text[512];
+    char    recname[256];
+    char   *cp = NULL;
+    char   *cp2 = NULL;
+    char  **tcp = (char **) 0;
+    GSHandle_t *h;
+    GSContextRequirements_t **cr;
+    char    c;
+d43 3
+a45 3
+    errno = 0;
+    debug = FALSE;
+    silent = FALSE;
+d47 5
+a51 5
+    while ((c = getopt(argc, argv, "ds")) != -1) {
+	switch (c) {
+	case 'd':
+	    debug = TRUE;
+	    break;
+d53 3
+a55 3
+	case 's':
+	    silent = TRUE;
+	    break;
+d57 7
+a63 6
+	case '?':
+	    msg("Usage:\n\t%s [-d]\n", argv[0]);
+	    exit(1);
+	default:
+	    msg("Impossible argument parsing in getopt.i\n");
+	    exit(1);
+a64 1
+    }
+d66 6
+a71 6
+    cp = getenv("GSHOME");
+    if (cp == NULL) {
+	msg("Error: GSHOME not defined.\n");
+	msg("You must 'setenv GSHOME /j/fl/lib' before running this.\n");
+	exit(1);
+    }
+d73 10
+a82 16
+    if (!debug) {
+	msg(" \n");
+	msg(" 		GS_TEST - test geoshare library\n");
+	msg(" \n");
+	msg("This test program inquires all of the available data receivers\n");
+	msg("known to the Connection Manager and lets you select one.\n");
+	msg("The context arguments for that receiver are inquired from the\n");
+	msg("Connection Manager and you are prompted to fill them in.\n");
+	msg("The selected receiver is started with the arguments given.\n");
+	msg(" \n");
+    }
+    if (!debug) {
+	msg("Looking for Connection Manager Daemon...\n");
+	if (check_cm() == GS_SUCCESS) {
+	    msg("Shutting down current connection manager process.\n");
+	    term_cm();
+d84 9
+a92 3
+	msg("Starting connection manager process....\n");
+	start_cm();
+    }
+d97 6
+a102 16
+    status = gs_inquire_destinations(&tcp);
+    if (status != GS_SUCCESS) {
+	msg("Test: Error from gs_inquire_destinations. %d\n", status);
+	msg("  --- Is the Connection Manager (gs_cm) running?\n");
+	msg(" To start the connection manager, type:  gs_cm\n\n");
+	exit(1);
+    }
+
+    done = FALSE;
+    while (!done) {
+	msg("\n\nThe following data receivers are available:\n");
+	len = gs_tcp_len(tcp);
+	for (j = 0; j < len; j++) {
+	    if (tcp[j] != NULL) {
+		msg("\t\t%s\n", tcp[j]);
+	    }
+a103 7
+	text[0] = '\0';
+	msg("Select a receiver to start: (<RETURN> or <q> to quit) ");
+	gets(recname);
+	if (!strlen(recname) || !strcmp(recname, "q")) {
+	    done = TRUE;
+	    continue;
+	}
+d105 16
+a120 3
+	cp = recname;
+	while (!isalnum(*cp))
+	    cp++;
+d122 3
+a124 15
+	cp2 = cp;
+	while (isalnum(*cp2))
+	    cp2++;
+	*cp2 = '\0';	     /* Trim off trailing blanks */
+	if (cp != recname) {
+	    len = strlen(cp);
+	    if (len != 0) {
+		memcpy(recname, cp, len + 1);
+	    }
+	    else {
+		msg("Invalid receiver name.\n");
+		continue;
+	    }
+	}
+	gotit = FALSE;
+d126 16
+d145 8
+a152 6
+	len = gs_tcp_len(tcp);
+	for (j = 0; j < len; j++) {
+	    if (tcp[j] != NULL) {
+		if (strcmp(tcp[j], recname) == 0) {
+		    gotit = TRUE;
+		    break;
+d154 4
+a157 6
+	    }
+	}
+	if (!gotit) {
+	    msg("\n%s is not a valid choice.\n", recname);
+	    continue;
+	}
+d162 5
+a166 5
+	status = gs_inquire_context(recname, &cr);
+	if (status != GS_SUCCESS) {
+	    msg("test: inq context failed %d\n", status);
+	}
+	else {
+d171 14
+a184 14
+	    gotit = TRUE;
+	    text[0] = '\0';
+	    len = 0;
+	    cp = text;
+	    for (i = 0; cr[i]; i++) {
+		context[0] = '\0';
+		msg("\tEnter %s: ",
+		    cr[i]->prompt.vector_pointer);
+		gets(context);
+		if (strlen(context) == 0) {
+		    msg("All arguments must be entered.... Aborting.\n");
+		    gotit = FALSE;
+		    break;
+		}
+d186 9
+a194 9
+		sprintf(cp, " %s %s",
+		    cr[i]->cmdline_tag.vector_pointer,
+		    context);
+		cp += strlen(cp);
+	    }
+	    if (!gotit) {
+		msg("\n");
+		continue;
+	    }
+d199 1
+a199 1
+	    msg("\nRunning:  %s %s\n", recname, text);
+d201 1
+d203 6
+a208 7
+    }
+    if (!debug) {
+	msg("\nShutting down Connection Manager Daemon.\n");
+	term_cm();
+    }
+    msg("Done.\n");
+    exit(0);
+d214 2
+a215 2
+    signal(SIGINT, SIG_IGN);
+    exit(0);
+d220 1
+a220 1
+    int     status = GS_SUCCESS;
+d222 11
+a232 11
+    status = system("gs_cm");
+    if (status) {
+	msg("Error starting Connection Manager\n");
+	status = GS_FAIL;
+    }
+    else {
+	sleep(1);
+	msg("Connection Manager Daemon Started.\n");
+	status = GS_SUCCESS;
+    }
+    return (status);
+d237 9
+a245 9
+    int     status = GS_SUCCESS;
+    system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f1 -d' '`");
+    status = system("ps ax | grep cm | grep -v grep >/dev/null");
+    if (status == 0) {
+	msg("Warning: Cannot kill Connection Manager Daemon. (gs_cm)\n");
+	exit(1);
+    }
+    status = GS_SUCCESS;
+    return (status);
+d250 1
+a250 1
+    int     status = GS_SUCCESS;
+d252 8
+a259 8
+    status = system("ps ax | grep cm | grep -v grep >/dev/null");
+    if (status == 0) {
+	status = GS_SUCCESS;
+    }
+    else {
+	status = GS_FAIL;
+    }
+    return (status);
+d268 4
+a271 4
+    va_list args;
+    char   *fmt;
+    int     len;
+    int     myerrno;
+d273 2
+a274 2
+    va_start(args);
+    myerrno = errno;
+d276 7
+a282 6
+    fmt = va_arg(args, char *);
+    if (!silent || (silent && errno)) {
+	vfprintf(stderr, fmt, args);
+	if (myerrno != 0) {
+	    fprintf(stderr, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+	    errno = 0;
+d284 1
+a284 2
+    }
+    va_end(args);
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@a1 2
+#include <string.h>
+#include "errno.h"
+d3 1
+d5 5
+a10 1
+extern int errno;
+d12 1
+d14 2
+d17 2
+d20 1
+a26 1
+    int     debug = FALSE;
+d36 3
+a38 3
+    char    *cp = NULL;
+    char    *cp2 = NULL;
+    char    **tcp = (char **) 0;
+a39 2
+    GSMessage_t msg;
+    GSMessage_t reply;
+d41 1
+d43 3
+d47 19
+d68 2
+a69 2
+	printf("Error: GSHOME not defined.\n");
+	printf("You must 'setenv GSHOME /j/fl/lib' before running this.\n");
+d73 10
+a82 14
+    printf(" \n");
+    printf(" 		GS_TEST - test geoshare library\n");
+    printf(" \n");
+    printf("This is a test program that inquires all of the available data\n");
+    printf("recievers from the connection manager and lets you select one.\n");
+    printf("The context arguments for that receiver are inquired from the\n");
+    printf("Connection Manager and you are prompted to fill them in.\n");
+    printf("The selected receiver is started with the arguments given.\n");
+    printf(" \n");
+
+    printf("Looking for Connection Manager Daemon...\n");
+    if (check_cm() == GS_SUCCESS) {
+	printf("Shutting down current connection manager process.\n");
+	term_cm();
+d84 9
+a93 2
+    printf("Starting connection manager process....\n");
+    start_cm();
+d99 3
+a101 3
+	printf("Test: Error from gs_inquire_destinations. %d\n", status);
+	printf("  --- Is the Connection Manager (gs_cm) running?");
+	printf(" To start the connection manager, type:  gs_cm\n\n");
+d107 1
+a107 1
+	printf("\n\nThe following data receivers are available:\n");
+d111 1
+a111 1
+		printf("\t\t%s\n", tcp[j]);
+d115 1
+a115 1
+	printf("Select a receiver to start: (<RETURN> or <q> to quit) ");
+d117 1
+a117 1
+	if (!strlen(recname) || !strcmp(recname,"q")){
+d136 1
+a136 1
+		printf("Invalid receiver name.\n");
+d155 1
+a155 1
+	    printf("\n%s is not a valid choice.\n", recname);
+d164 1
+a164 1
+	    printf("test: inq context failed %d\n", status);
+d177 1
+a177 1
+		printf("\tEnter %s: ",
+d181 1
+a181 1
+		    printf("All arguments must be entered.... Aborting.\n");
+d192 1
+a192 1
+		printf("\n");
+d199 1
+a199 1
+	    printf("\nRunning:  %s %s\n", recname, text);
+d203 5
+a207 4
+
+    printf("\nShutting down Connection Manager Daemon.\n");
+    term_cm();
+    printf("Done.\n");
+d214 1
+a214 1
+    signal(SIGINT,SIG_IGN);
+d218 1
+a218 1
+int start_cm()
+d220 1
+a220 1
+int status = GS_SUCCESS;
+d224 1
+a224 1
+	printf("Error starting Connection Manager\n");
+d229 1
+a229 1
+	printf("Connection Manager Daemon Started.\n");
+d232 1
+a232 1
+return (status);
+d235 1
+a235 1
+int term_cm()
+d237 9
+a245 9
+int status = GS_SUCCESS;
+	system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f1 -d' '`");
+	status = system("ps ax | grep cm | grep -v grep >/dev/null");
+	if (status == 0) {
+	    printf("Warning: Cannot kill Connection Manager Daemon. (gs_cm)\n");
+	    exit(1);
+	}
+	status = GS_SUCCESS;
+return (status);
+d248 1
+a248 1
+int check_cm()
+d250 1
+a250 1
+int status = GS_SUCCESS;
+d259 26
+a284 1
+return (status);
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@a6 2
+
+
+d10 2
+d16 1
+d19 4
+a22 1
+    register int i, j;
+d28 3
+a30 5
+    char   *cp, *cp2;
+    char  **tcp = (char **) 0;
+    int     len, cnt = 0;
+    int     gotit, done;
+
+d32 2
+a33 1
+    GSMessage_t msg, reply;
+a35 13
+	signal(SIGINT, cleanup);
+	system("clear");
+    printf(" \n");
+    printf(" 			GS_TEST - test geoshare library\n");
+    printf(" \n");
+    printf("This is a test program that inquires all of the available \n");
+    printf("data recievers from the connection manager and lets you \n");
+    printf("choose one of them.  The context arguments for the receiver\n");
+    printf("chosen are then inquired from the connection manager\n");
+    printf("and you are prompted to fill them in.\n");
+    printf(" \n");
+    printf("The receiver is then run with the command line arguments\n");
+    printf("that you have entered.\n\n");
+d44 12
+a55 3
+    printf("Checking for connection manager\n");
+    status = system("ps ax | grep cm | grep -v grep >/dev/null");
+    if (status == 0) {
+d57 1
+a57 6
+	system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f1 -d' '`");
+	status = system("ps ax | grep cm | grep -v grep >/dev/null");
+	if (status == 0) {
+	    printf("Cannot kill old gs_cm.\n");
+	    exit(1);
+	}
+d59 1
+d61 1
+a61 12
+    status = system("gs_cm");
+    if (status) {
+	printf("Error starting new connection manager\n");
+    }
+    else {
+	printf("Connection Manager Started.\n");
+    }
+
+	printf("	- PRESS RETURN TO CONTINUE - ");
+	gets(text);
+	printf("\n");
+	sleep(1);
+d75 1
+a75 2
+	system("clear");
+	printf("\n\n\nThe following data receivers are available:\n\n");
+d83 1
+a83 1
+	printf("\nEnter name of receiver to start: (<RETURN> or <q> to quit) ");
+d85 3
+a87 3
+	if (strlen(recname) == 0 || strcmp(recname,"q")==0) {
+	    printf("\nDone.\n");
+	    exit(0);
+d89 1
+a90 1
+	cp2 = recname;
+a167 1
+	    sleep(3);
+d172 4
+a175 1
+    exit(1);
+d183 44
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@a2 2
+#include <sys/ipc.h>
+#include <sys/shm.h>
+d4 1
+d7 2
+d10 1
+d33 2
+d47 6
+d74 4
+a77 1
+    sleep(1);
+d91 2
+a92 1
+	printf("\n\n\nThe following data receivers are available:\n");
+d100 1
+a100 1
+	printf("Enter name of receiver to start: (<RETURN> to quit) ");
+d102 1
+a102 1
+	if (strlen(recname) == 0) {
+d185 1
+d191 1
+d194 4
+a197 72
+
+    cp = getenv("GSHOME");
+    if (cp == NULL) {
+	printf("Error: GSHOME not defined.\n");
+	exit(1);
+    }
+
+    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+
+    h->init = TRUE;
+    status = gs_initconfig(h->homedir, h->cfgfile, &h->debug);
+    if (status != GS_SUCCESS) {
+	printf("Error from initconfig.\n");
+	exit(1);
+    }
+    h->key = gs_ipc_key(h->cfgfile);
+
+    if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	gs_log("error creating/attaching slot.\n");
+	exit(1);
+    }
+
+
+    msg.MsgType = InqAllReceivers;
+    msg.MsgBuf[0] = '\0';
+    msg.MsgLen = 0;
+
+    status = gs_talk(h, &msg, &reply);
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+    }
+    else {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+    msg.MsgType = Executive;
+    strcpy(msg.MsgBuf, "ciao");
+    msg.MsgLen = strlen(msg.MsgBuf);
+
+    status = gs_talk(h, &msg, &reply);
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+    }
+    else {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+    msg.MsgType = Executive;
+    strcpy(msg.MsgBuf, "Hello");
+    msg.MsgLen = strlen(msg.MsgBuf);
+
+    status = gs_talk(h, &msg, &reply);
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+    }
+    else {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+    msg.MsgType = Executive;
+    strcpy(msg.MsgBuf, "ciao");
+    msg.MsgLen = strlen(msg.MsgBuf);
+
+    status = gs_talk(h, &msg, &reply);
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+    }
+    else {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+    gs_sem_close(h->slot->msgsem);
+    gs_sem_close(h->slot->cmsem);
+    gs_sem_close(h->slot->locksem);
+    gs_free(h->slot);
+
+@
+
+
+1.23
+log
+@*** empty log message ***
+@
+text
+@d171 1
+a171 1
+	    gs_initialize(recname, text);
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@d14 2
+a15 2
+    int     	status = GS_SUCCESS;
+    int     	debug = FALSE;
+d17 9
+a25 9
+    char    	prompt[256];
+    char    	context[256];
+    char    	cmdline_tag[256];
+    char    	text[512];
+    char    	recname[256];
+    char   	*cp,*cp2;
+    char  	**tcp = (char **) 0;
+    int     	len, cnt = 0;
+    int     	gotit, done;
+d27 1
+a27 1
+    GSHandle_t 	*h;
+a30 22
+
+printf("Checking for connection manager\n");
+status  = system("ps ax | grep cm | grep -v grep >/dev/null");
+if (status == 0 ) {
+	printf("Shutting down current connection manager process.\n");
+	system("kill -HUP `ps ax | grep cm | grep -v grep | cut -f1 -d' '`");
+	status  = system("ps ax | grep cm | grep -v grep >/dev/null");
+	if (status == 0) {
+	printf("Cannot kill old gs_cm.\n");
+	exit(1);
+	}
+}
+printf("Starting connection manager process....\n");
+status = system("gs_cm");
+if (status) {
+	printf("Error starting new connection manager\n");
+}
+else {
+	printf("Connection Manager Started.\n");
+}	
+
+sleep(1);
+d43 22
+d94 2
+a95 2
+	while(!isalnum(*cp))
+		cp++;
+d102 8
+a109 8
+		len = strlen(cp);
+		if (len != 0) {
+			memcpy(recname,cp,len+1);
+		}
+		else {
+			printf("Invalid receiver name.\n");
+			continue;
+		}
+d113 1
+a113 1
+/* 
+d129 1
+a129 1
+	
+d167 1
+a167 1
+/* 
+d171 1
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d32 19
+d52 1
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@d45 3
+a47 1
+
+d92 4
+d109 4
+a112 1
+
+d118 4
+d146 4
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d14 12
+a25 1
+    int     status = GS_SUCCESS;
+d27 1
+a27 11
+    char    home[256];
+    char    prompt[256];
+    char    context[256];
+    char    cmdline_tag[256];
+    char    text[512];
+    char    recname[512];
+    char    cf[256];
+    char    log[256];
+    char   *cp;
+    int     debug = FALSE;
+    GSHandle_t *h;
+a28 3
+    char  **tcp = (char **)0;
+    register int i,j;
+    int   len,cnt = 0;
+a29 1
+    int gotit,done;
+a31 5
+    if (argc == 1) 
+	cnt = 10;
+    else
+	cnt = atoi(argv[1]);
+	
+d33 29
+a61 5
+        status = gs_inquire_destinations(&tcp);
+	if (status != GS_SUCCESS) {
+		printf("Test: Error from gs_inquire_destinations. %d\n",status);
+		printf("  --- Is the Connection Manager (gs_cm) running?");
+		exit (1);
+d63 11
+d75 8
+a82 8
+	done = FALSE;
+	while (!done) {
+		printf("\n\n\nThe following data receivers are available:\n");
+		len = gs_tcp_len(tcp);
+		for ( j = 0; j < len; j++) {
+		    if (tcp[j] != NULL) {
+			 printf("\t%s\n",tcp[j]);
+		    }
+d84 2
+a85 25
+		text[0] = '\0';	
+		printf("Enter name of receiver to start: (<RETURN> to quit) ");
+		gets(recname);
+		if (strlen(recname) == 0 ) {
+			printf("\nDone.\n");
+			exit(0);
+		}
+		cp = recname;
+
+		while( isalnum(*cp)) 
+			cp++;
+		*cp = '\0';	/* Trim off trailing blanks */
+			
+		gotit = FALSE;
+		len = gs_tcp_len(tcp);
+		for ( j = 0; j < len; j++) {
+		    if (tcp[j] != NULL) {
+			if (strcmp(tcp[j],recname) ==0) {
+				gotit = TRUE;
+				break;
+			}
+		    }
+		}
+		if (!gotit) {
+			printf("\n%s is not a valid choice.\n",recname);
+d88 8
+a95 4
+		
+		status = gs_inquire_context(recname,&cr);
+		if (status != GS_SUCCESS) {
+			printf("test: inq context failed %d\n",status);
+d97 6
+a102 15
+		else {
+			gotit = TRUE;
+			text[0]='\0';
+			len =0;
+			cp = text;
+			for ( i = 0;cr[i]; i++) {
+				context[0] = '\0';
+				printf("\tEnter %s: ",
+					cr[i]->prompt.vector_pointer);
+				gets(context);
+				if (strlen(context) ==0) {
+					printf("All arguments must be entered.... Aborting.\n");
+					gotit = FALSE;
+					break;
+				}
+d104 18
+a121 10
+				sprintf(cp," %s %s",
+					cr[i]->cmdline_tag.vector_pointer,
+					context);
+				cp += strlen(cp);
+			}
+			if (!gotit) {
+				printf ("\n");
+				continue;			
+			}
+			printf("\nRunning:  %s %s\n",recname,text);		
+d123 11
+d135 1
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d2 1
+d50 1
+a50 1
+		printf("\nThe following data receivers are available:\n");
+d58 1
+a58 1
+		printf("Enter name of receiver to start: (<RETURN> to quit)");
+d64 6
+d90 1
+d96 1
+a96 1
+				printf("\n\tEnter %s ",
+d101 1
+a101 1
+					done = TRUE;
+d108 1
+a108 1
+				cp += strlen(text);
+d110 5
+a114 3
+			if (done)
+				break;			
+			printf("%s %s\n",recname,text);		
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d16 5
+d31 1
+a38 11
+    status = gs_inquire_context("finder",&cr);
+    if (status != GS_SUCCESS) {
+	printf("test: inq context failed %d\n",status);
+    }
+    else {
+    	for ( i = 0;cr[i]; i++) {
+		printf("cr%d: type=%d, prompt=%s,arg=%s\n",
+			i,cr[i]->type,cr[i]->prompt.vector_pointer,
+			cr[i]->cmdline_tag.vector_pointer);
+	}	
+    }
+a39 1
+    for ( i = 0; i < cnt; i++) {
+d41 1
+a41 1
+	if (status != GS_SUCCESS)
+d43 7
+a49 1
+	else {
+a50 1
+		printf("%d items:  { ",len);
+d53 1
+a53 2
+			 printf("%s ",tcp[j]);
+			 free(tcp[j]);
+d56 50
+a105 2
+		free(tcp);
+		printf("}\n");
+d107 1
+a107 1
+    }
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@d25 1
+d33 1
+a33 1
+    status = gs_inquire_context("finder",(GSContextRequirements_t *)0);
+d36 7
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d31 5
+d38 1
+a38 1
+        status = gs_inq_destinations(&tcp);
+d40 1
+a40 1
+		printf("Test: Error from gs_inq_destinations. %d\n",status);
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d22 3
+a24 2
+    char  **tcp;
+    register int i,cnt = 0;
+d27 1
+a27 1
+    if (argc == 0) 
+d32 17
+a48 2
+    for ( i = 0; i < cnt; i++)
+        gs_inq_destinations(&tcp);
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d23 1
+d25 8
+a32 16
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+    gs_inq_destinations(&tcp);
+d34 3
+@
+
+
+1.12
+log
+@.
+@
+text
+@d28 12
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d9 3
+a11 3
+main(argc,argv)
+int argc;
+char **argv;
+d13 1
+a13 1
+int status = GS_SUCCESS;
+d15 8
+a22 8
+char home[256];
+char cf[256];
+char log[256];
+char *cp;
+int debug = FALSE;
+GSHandle_t *h;
+GSMessage_t msg,reply;
+char **tcp;
+d24 10
+a33 10
+	gs_inq_destinations(&tcp);
+	gs_inq_destinations(&tcp);
+	gs_inq_destinations(&tcp);
+	gs_inq_destinations(&tcp);
+	exit (1);
+	cp = getenv("GSHOME");
+	if (cp == NULL) {
+		printf("Error: GSHOME not defined.\n");
+		exit (1);
+	}
+d35 1
+a35 1
+	h = (GSHandle_t *)malloc(sizeof(GSHandle_t)+4);
+d37 7
+a43 7
+	h->init = TRUE;	
+	status = gs_initconfig(h->homedir,h->cfgfile,&h->debug);
+	if (status != GS_SUCCESS) {
+		printf("Error from initconfig.\n");
+		exit (1);
+	}
+	h->key = gs_ipc_key(h->cfgfile);
+d45 4
+a48 4
+	if (gs_attach_slot(h->key,&h->slot) != GS_SUCCESS) {
+		gs_log("error creating/attaching slot.\n");
+		exit (1);
+	}
+d51 3
+a53 3
+	msg.MsgType = InqAllReceivers;
+	msg.MsgBuf[0]='\0';
+	msg.MsgLen =0;
+d55 10
+a64 10
+	status = gs_talk(h,&msg,&reply);
+	if (reply.MsgType == Status) {
+		printf("test: Reply is Status %d\n",(int)reply.MsgBuf[0]);
+	}
+	else {
+		printf("test: Message is %s\n",reply.MsgBuf);
+	}
+	msg.MsgType = Executive;
+	strcpy(msg.MsgBuf,"ciao");
+	msg.MsgLen = strlen(msg.MsgBuf);
+d66 10
+a75 10
+	status = gs_talk(h,&msg,&reply);
+	if (reply.MsgType == Status) {
+		printf("test: Reply is Status %d\n",(int)reply.MsgBuf[0]);
+	}
+	else {
+		printf("test: Message is %s\n",reply.MsgBuf);
+	}
+	msg.MsgType = Executive;
+	strcpy(msg.MsgBuf,"Hello");
+	msg.MsgLen = strlen(msg.MsgBuf);
+d77 10
+a86 10
+	status = gs_talk(h,&msg,&reply);
+	if (reply.MsgType == Status) {
+		printf("test: Reply is Status %d\n",(int)reply.MsgBuf[0]);
+	}
+	else {
+		printf("test: Message is %s\n",reply.MsgBuf);
+	}
+	msg.MsgType = Executive;
+	strcpy(msg.MsgBuf,"ciao");
+	msg.MsgLen = strlen(msg.MsgBuf);
+d88 11
+a98 11
+	status = gs_talk(h,&msg,&reply);
+	if (reply.MsgType == Status) {
+		printf("test: Reply is Status %d\n",(int)reply.MsgBuf[0]);
+	}
+	else {
+		printf("test: Message is %s\n",reply.MsgBuf);
+	}
+	gs_sem_close(h->slot->msgsem);
+	gs_sem_close(h->slot->cmsem);
+	gs_sem_close(h->slot->locksem);
+	gs_free(h->slot);
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d25 3
+d38 1
+a38 1
+	status = gs_initconfig(h->homedir,h->config_file,&h->debug);
+d43 1
+a43 1
+	h->key = gs_ipc_key(h->config_file);
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d22 1
+d24 2
+a25 1
+
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d46 3
+a48 3
+	msg.MsgType = Executive;
+	strcpy(msg.MsgBuf,"Hello");
+	msg.MsgLen = strlen(msg.MsgBuf);
+d51 1
+a51 1
+	if (reply.MsgType = Status) {
+d62 1
+a62 1
+	if (reply.MsgType = Status) {
+d73 1
+a73 1
+	if (reply.MsgType = Status) {
+d84 1
+a84 1
+	if (reply.MsgType = Status) {
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d26 1
+a26 1
+		printf("Error: GSHOME not defined.");
+d35 1
+a35 1
+		printf("Error from initconfig.");
+d41 1
+a41 1
+		gs_log("error creating/attaching slot.");
+d51 6
+a56 1
+	printf("test: Message is %s",reply.MsgBuf);
+d62 6
+a67 1
+	printf("test: Message is %s",reply.MsgBuf);
+d73 6
+a78 1
+	printf("test: Message is %s",reply.MsgBuf);
+d84 6
+a89 1
+	printf("test: Message is %s",reply.MsgBuf);
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d71 1
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d51 19
+a69 1
+	gs_log("test: Message is %s",reply.MsgBuf);
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d40 1
+a40 1
+	if (gs_create_slot(h->config_file,&h->slot) != GS_SUCCESS) {
+d51 4
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d40 1
+a40 1
+	if (gs_create_slot(h->config_file,&h->cmslot) != GS_SUCCESS) {
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d30 4
+a33 1
+	status = gs_initconfig(home,cf,debug);
+d38 8
+a45 4
+	h = (GSHandle_t *)malloc(sizeof(GSHandle_t)+4);
+	h->init = TRUE;	
+	h->debug = debug;
+	h->key = gs_ipc_key(cf);
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d35 4
+a38 6
+	printf("Home = %s	ConfigFile=%s debug=%d\n", home,cf,debug);
+	h = gs_initialize("cm",0);	/* get cm handle */
+	if (h == (GSHandle_t *)0) {
+		printf("Error initializing handle to cm.\n");
+		exit (1);
+	}
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d19 3
+d23 1
+d30 1
+a30 1
+	status = gs_initconfig(home,cf,log);
+d35 11
+@

@@ -1,0 +1,46 @@
+Layers
+------
+The FinderLink system is implemented as a set of layered routines.
+Each layer of has a well defined interface to the layer below it,
+and does not does need to know how the layer below actually
+implements its functionality.
+
+The advantage of this layered model is that layers can be changed
+without adjacent layers being affected.
+
+The layers of are defined as:
+	User
+	  Data
+	    Application
+	      Interface
+	        Transport
+
+	* The User layer is where all the user interface support is
+	provided.  Programs such as the DataMover are implemented at
+	this level and provided methods for making data selections
+	interactively using a variety of selection strategies such
+	as SQL or graphical picking.
+
+	* The Data layer handles the task of actually fetching the
+	data requested at the User layer and storing it into data 
+	structures.
+
+	* The Application layer provides the interface routines that
+	application programmers call to invoke and control data transfers.
+	This layer supports the top level PUT & GET interface.
+
+	* The Interface layer is comprised of routines used to implement 
+	the application layer.  These routines are the bridge between the
+	application layer and the protocol specific, and generally system
+	dependant Transport layer.
+
+	* The Transport layer is where the communictions routines
+	are implemented.  The transport layer is where drivers for
+	various connection types are added.  The first driver to be
+	implemented will be a shared memory driver. 
+	 
+	
+
+This design covers the application,interface & transport layers only.  
+
+

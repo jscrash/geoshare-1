@@ -1,0 +1,80 @@
+Introduction
+------------
+
+The FinderLink facility allows transfer of data between applications
+belonging to different families and possibly running on different hosts of
+various architectures.
+
+Problems Addressed
+------------------
+
+The intention of this design is to address the problem of managing transfers
+of FinderLink data between applications in a way that is:
+
+        * Portable
+        * Robust
+        * Easily Maintainable
+
+while providing:
+
+        * Flexibility
+        * Expandability
+        * Network Compatibility
+        * Application independance
+
+
+
+Additionally, there is the problem of delivery time.  The initial version of
+FinderLink is expected to be delivered by April 15, 1991.  The April version
+is only required to provide connection of applications running on the same
+host; a requirement intended to make the deadline achievable.
+
+This design provides a path to that initial functionality that is both
+portable and fast to implement, while allowing easy modular growth to the
+full network-based/multi-architecture scenario.
+
+
+System Overview
+---------------
+
+FinderLink is composed of several different services working together, these
+are:
+
+        * A PUT data service
+            This service processes interface datastructures data streams.
+            It is implemented as a standalone subroutine linked into each
+            application that uses FinderLink.
+
+        * A GET data service.
+            This service processes a data stream into an interface
+            datastructure.  It is implemented as a standalone subroutine
+            that is called by each application specific data server.
+
+        * A Traffic Manager service.
+            The TM service is responsible for recieving & dispatching data
+            to and from other TM services in an appropriate manner.
+            It is implemented as a standalone process that runs on each host
+            configured with FinderLink.  The TM process handles incoming
+            and outgoing data traffic for all applications on a given host.
+
+
+An application wishing to send data to another application does so in the
+following manner:
+
+App_1 --> App_2
+
+        * App_1 stores the data to be transferred into an interface
+        structure and calls fl_put with the host, user, application_name &
+        any context information needed by the destination application's
+        server (i.e. a database login and project name).
+
+        * The fl_put calls a routine that opens a channel to a server
+	program that will recieve data transfers for the type of 
+	application named in the fl_put argument list.  The server program 
+	that recieves the data is started by the call to fl_put.
+
+        * The fl_get routine is called within the data reciever server and
+        the data is read from the stream and reassembled into an interface
+        structure.
+
+

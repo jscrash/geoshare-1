@@ -1,0 +1,23 @@
+THE GEOLINK SERVER
+------------------
+
+Each host in a Geolink system has a server process that manages the
+connection of application processes.  The server that will be used
+in the first release of Geolink, as described in this document, will
+only be used to supply connection information.  
+
+The server process is always running as a background task.  It
+creates a shared memory region when it starts up and allows other
+processes to map this region into their address space as needed. 
+
+It is through this shared memory section that application processes
+connect with their host server.
+
+When an application wishes to send data, it first may request from
+the server a list of all available destination data services that
+are capable of receiving the data.  This request is sent by the
+calling application to the server in the form of an executive
+request.  This is a special kind of structure sent via the FLPUT routine
+that is recognized by the server as a non-data request.  This
+interaction with the server is as follows:
+

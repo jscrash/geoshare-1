@@ -1,0 +1,50 @@
+
+	A) locked/unlocked/available
+	B) target - CM,CL,RC,free
+	C) Buffer Size
+	D) Message Length
+	E) Message Buffer
+
+
+The sequence for placing a message in a process slot is the same for
+all processes, and is as follows:
+
+	* Processes only access a slot when its lock flag indicates
+	that the slot is unlocked.
+
+	* The target flag is checked and if the state indicates Free
+	then a message is written into the message buffer and the target
+	for the message is written into the target flag.
+	If the target flag does not indicate that the slot is Free 
+	and the target is not the current process then the process 
+	abandons the slot and waits again for the slot to be unlocked.
+
+	* The lock flag is waited upon until it indicates that the
+	slot is unlocked.
+
+	* The busy flag is checked, and if set the process waits
+	until it is cleared.
+
+	* The busy flag is set.
+
+	* The message is written to the message buffer.
+
+	* the length of the message is placed in the message length
+	member of the slot.
+
+	* The direction flag is set to indicate the recipient of the
+	message.
+
+	* The busy flag is unset.
+	
+When a process wants to place a message in its slot it must first
+wait until the busy flag is unset, it then sets the busy flag as
+well as the flag indicating which direction the message is going.
+Finally, the busy flag is cleared.  The connection manager scans the
+process slots in a circular fashion checking for slots that do not
+indicate a busy state and which have a direction flag indicating
+CMREAD.  The connection manager places a reply message by setting
+the busy flag, writing the message in the message buffer, setting
+the direction flag to the direction indicating the intended reader
+of the message and finally unsetting the busy flag.
+

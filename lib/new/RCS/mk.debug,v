@@ -1,0 +1,351 @@
+head     1.2;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @@;
+
+
+1.2
+date     91.05.14.15.26.15;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.05.14.15.26.10;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@.SUFFIX       = .e: .i: .l: .p: .r: .s: .y:   
+
+.SUFFIXES: .pc .c .pfo .f .F
+
+DBGFLAG       = -g3
+
+CFLAGS        = $(DBGFLAG) -I. -I../h -L../lib
+
+CPPFLAGS      = $(LCFLAGS)
+
+TARGET_ARCH   = -sun4
+
+FFLAGS        = -c
+
+HOSTLIBS      = -Bstatic
+
+LDFLAGS       = $(HOSTLIBS)
+
+CC            = /usr/5bin/cc
+
+FC            = f77
+
+PCC           = pcc
+
+PCCINC        = $(ORACLE_HOME)/c/lib
+
+PCCFLAGS      = include=$(PCCINC) ireclen=132 oreclen=132 rebind=yes \
+                select_error=no ltype=none
+
+PFC           = pcc
+
+PFCINC        = $(ORACLE_HOME)/fortran/lib
+
+PFCFLAGS      = include=$(PFCINC) ireclen=132 oreclen=132 rebind=yes \
+                select_error=no ltype=none
+GENDEST       = .
+
+DEST          = .
+
+INSTALLGROUP  = tpi
+
+INSTALLOWNER  = julian
+
+EXTHDRS       =
+
+HDRS          = ../h/gs.h \
+		../h/gs_err.h \
+		../h/geoscience.h
+
+LIBRARY	      = libgs2.a
+.PRECIOUS:    libgs2.a
+
+MAKEFILE      = Makefile
+
+OBJS          = gs_alloc.o \
+		gs_faccess.o \
+		gs_chk_debug.o \
+		gs_config.o \
+		gs_cf_name.o \
+		gs_cm_do_exec.o \
+		gs_connect.o \
+		gs_get_handle.o \
+		gs_slot.o \
+		gs_home.o \
+		gs_init.o \
+		gs_ipc_key.o \
+		gs_log_init.o \
+		gs_log.o \
+		gs_logfile.o \
+		gs_inq_ctxt.o \
+		gs_inq_dest.o \
+		gs_receive.o \
+		gs_semlib.o \
+		gs_send.o \
+		gs_sendstr.o \
+		gs_subs.o \
+		gs_talk.o \
+		gs_terminate.o
+
+OBJLIB        = .
+
+OBJECTS       = $(OBJLIB)/*.o
+
+PRINT         = lpr
+
+SRCS          = gs_alloc.c \
+		gs_faccess.c \
+		gs_chk_debug.c \
+		gs_connect.c \
+		gs_cm_do_exec.c \
+		gs_config.c \
+		gs_cf_name.c \
+		gs_get_handle.c \
+		gs_slot.c \
+		gs_home.c \
+		gs_init.c \
+		gs_ipc_key.c \
+		gs_log.c \
+		gs_logfile.c \
+		gs_log_init.c \
+		gs_inq_ctxt.c \
+		gs_inq_dest.c \
+		gs_receive.c \
+		gs_semlib.c \
+		gs_send.c \
+		gs_sendstr.c \
+		gs_subs.c \
+		gs_talk.c \
+		gs_finder_rec.c \
+		gs_terminate.c \
+		gs_cm.c \
+		gs_test.c
+
+GSLIBS        = -lgs2
+
+all:	library gs_cm gs_test gs_finder_rec gs_alloc
+
+library:	$(LIBRARY)($(OBJS)) ranlib
+		@@rm -f $(OBJS)
+
+world:	clean rmlib all
+
+new:;	-touch $(SRCS) gs_cm.c gs_test.c gs_config.c gs_finder_rec.c
+
+rmlib:;		rm -f $(LIBRARY)
+
+ranlib:	$(LIBRARY)
+		ranlib $(LIBRARY)
+	
+prod:;	make DBGFLAG=-O
+
+__.SYMDEF:;  ranlib $(LIBRARY) 
+
+gslock: ${LIBC}
+	${CC} -o $@@ ${CFLAGS} $@@.c ${GSLIBS}
+
+gs_cm:  $(SRCS) $(HDRS) gs_cm.c
+	${CC} -o $@@2 ${CFLAGS} -DSERVER $@@.c ${GSLIBS}
+
+gs_test: $(SRCS) $(HDRS) gs_test.c
+	${CC} -o $@@2 ${CFLAGS} -DSERVER $@@.c ${GSLIBS}
+
+gs_finder_rec: $(SRCS) $(HDRS) gs_finder_rec.c
+	${CC} -o $@@2 ${CFLAGS} $@@.c ${GSLIBS}
+
+gs_alloc: gs_alloc.c
+	${CC} -o $@@ ${CFLAGS} -DTEST $@@.c ${GSLIBS}
+
+gs_config: gs_config.c
+	${CC} -o $@@ ${CFLAGS} -DTEST $@@.c ${GSLIBS}
+
+clean:; rm -f core $(OBJS)
+
+cleandir: clean
+	rm -f ${MAN} tags .depend
+
+depend: ${SRCS}
+	mkdep -p ${CFLAGS} ${SRCS}
+
+id:     midb
+
+ptypes:   proto
+   
+proto:;   mkptypes $(SRCS) | sed "s/int va_alist/char *vargs,.../" | grep -v ' main ' > gs_ptypes.h
+
+midb:;  -@@midb >/dev/null 2>&1 && echo "ID database created."
+
+install:
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 gslock ${DESTDIR}/bin/gslock
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 gs_cm ${DESTDIR}/bin/gs_cm
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 test ${DESTDIR}/bin/cm
+
+lint: ${SRCS}
+	lint ${CFLAGS} ${SRCS}
+
+tags: ${SRCS}
+	ctags ${SRCS}
+
+depend:;	mkmf -f $(MAKEFILE)
+
+extract:;	ar xo $(DEST)/$(LIBRARY)
+		@@rm -f __.SYMDEF
+
+index:;		ctags -wx $(HDRS) $(SRCS)
+
+link:;          $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $(LDFLAGS) \
+		$(LCFLAGS) $(GENDEST)/$*.c -o $(DESTDIR)/$* $(OBJLIB)/$*.o
+
+install:	$(LIBRARY)
+		install $(INSTALLGROUP) $(INSTALLOWNER) $(LIBRARY) $(DEST)
+		ranlib -t $(DEST)/$(LIBRARY)
+
+print:;		$(PRINT) $(HDRS) $(SRCS)
+
+tags:           $(HDRS) $(SRCS); ctags $(HDRS) $(SRCS)
+
+update:         $(DEST)/$(LIBRARY)
+
+.pc.c:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+
+.pc.a:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.c -o $(OBJLIB)/$*.o
+
+.pc:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.c -o $(OBJLIB)/$*.o
+
+.pfo.a:;	$(PFC) $(PFCFLAGS) iname=$< oname=$(GENDEST)/$*.f
+		$(FC)  $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.f -o $(OBJLIB)/$*.o
+
+.c.a:;		$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $(OBJLIB)/$*.o
+		ar crul $(LIBRARY) $(OBJLIB)/$*.o
+
+.f.a:;		$(FC)  $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $< -o $(OBJLIB)/$*.o
+
+.F.a:;		$(FC)  $(CFLAGS) $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $< -o $(OBJLIB)/$*.o
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+gs_alloc.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_alloc.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_alloc.o: /usr/include/sys/sysmacros.h /usr/include/fcntl.h
+gs_alloc.o: /usr/include/sys/fcntlcom.h /usr/include/sys/stat.h
+gs_alloc.o: /usr/include/sys/ipc.h /usr/include/sys/shm.h
+gs_alloc.o: /usr/include/sys/param.h /usr/include/machine/param.h
+gs_alloc.o: /usr/include/sys/signal.h /usr/include/vm/faultcode.h
+gs_alloc.o: /usr/include/machine/mmu.h /usr/include/debug/debug.h
+gs_alloc.o: /usr/include/mon/sunromvec.h /usr/include/mon/openprom.h
+gs_alloc.o: /usr/include/machine/romvec.h
+gs_clerr.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_clerr.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_clerr.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_clerr.o: ../h/systype.h
+gs_cm.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_cm.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_cm.o: /usr/include/sys/sysmacros.h /usr/include/string.h
+gs_cm.o: /usr/include/sys/stat.h /usr/include/sys/wait.h
+gs_cm.o: /usr/include/sys/param.h /usr/include/machine/param.h
+gs_cm.o: /usr/include/sys/signal.h /usr/include/vm/faultcode.h
+gs_cm.o: /usr/include/sys/ipc.h /usr/include/sys/shm.h
+gs_cm.o: /usr/include/machine/mmu.h /usr/include/debug/debug.h
+gs_cm.o: /usr/include/mon/sunromvec.h /usr/include/mon/openprom.h
+gs_cm.o: /usr/include/machine/romvec.h /usr/include/signal.h
+gs_cm.o: /usr/include/errno.h /usr/include/sys/errno.h /usr/include/math.h
+gs_cm.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+gs_cm.o: /usr/include/sys/file.h /usr/include/sys/fcntlcom.h
+gs_cm.o: /usr/include/sys/ioctl.h /usr/include/sys/ttychars.h
+gs_cm.o: /usr/include/sys/ttydev.h /usr/include/sys/ttold.h
+gs_cm.o: /usr/include/sys/ioccom.h /usr/include/sys/ttycom.h
+gs_cm.o: /usr/include/sys/filio.h /usr/include/sys/sockio.h
+gs_cm.o: /usr/include/varargs.h /usr/include/syslog.h
+gs_config.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_config.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_config.o: /usr/include/sys/sysmacros.h /usr/include/sys/stat.h
+gs_config.o: /usr/include/fcntl.h /usr/include/sys/fcntlcom.h
+gs_connect.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_connect.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_connect.o: /usr/include/sys/sysmacros.h
+gs_error.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_error.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_error.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_error.o: ../h/systype.h
+gs_faccess.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_faccess.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_faccess.o: /usr/include/sys/sysmacros.h /usr/include/string.h
+gs_faccess.o: /usr/include/pwd.h /usr/include/sys/stat.h
+gs_finder_rec.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_finder_rec.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_finder_rec.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+gs_init.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_init.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_init.o: /usr/include/sys/sysmacros.h
+gs_initconfig.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_initconfig.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_initconfig.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+gs_initconfig.o: /usr/include/sys/stat.h
+gs_inq_ctxt.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_inq_ctxt.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_inq_ctxt.o: /usr/include/sys/sysmacros.h
+gs_inq_dest.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_inq_dest.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_inq_dest.o: /usr/include/sys/sysmacros.h
+gs_log.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_log.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_log.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_log.o: /usr/include/sys/stat.h ../h/systype.h /usr/include/errno.h
+gs_log.o: /usr/include/sys/errno.h
+gs_log_init.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_log_init.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_log_init.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_log_init.o: /usr/include/sys/stat.h ../h/systype.h
+gs_receive.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_receive.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_receive.o: /usr/include/sys/sysmacros.h
+gs_semlib.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_semlib.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_semlib.o: /usr/include/sys/sysmacros.h /usr/include/sys/ipc.h
+gs_semlib.o: /usr/include/sys/sem.h /usr/include/errno.h
+gs_semlib.o: /usr/include/sys/errno.h
+gs_send.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_send.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_send.o: /usr/include/sys/sysmacros.h
+gs_subs.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_subs.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_subs.o: /usr/include/sys/sysmacros.h
+gs_talk.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_talk.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_talk.o: /usr/include/sys/sysmacros.h
+gs_terminate.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_terminate.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_terminate.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@@

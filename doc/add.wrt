@@ -1,0 +1,465 @@
+104 pgscriptver 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (Times-Roman) DefTypeFace ENGLISH DefLanguage 12 DefPointSize 
+USE_POINTSIZE DefSetSize (@default) DefTypeResource 
+
+LEFT DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 540 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*default) DefParaResource 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResource 
+
+0 DefPageDimensions 12240 DefPageWidth 15840 DefPageHeight 1440 
+DefInsideMargin 1080 DefOutsideMargin 1080 DefTopMargin 1080 
+DefBottomMargin 0 DefOrientation 0 DefPageStyle 1 DefColumns 360 
+DefGutter (%default) DefMasterPage ResDefEnd 
+
+0 DefFirstLeft 0 DefDocSetup 1 DefNumPages 1 AutoPage 1 
+DefStartPageNum () DefPageNumPrefix 1 DefGraphicLocation document 
+
+1 DefAutoPage 
+0 (%default) 1 DefPage 
+1 DefAutoPage 
+0 (%default) 2 DefPage 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK POLY_COLUMN | |  DefSLinksFlags 0 DefStreamSucc 0 
+DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (%default) 0 1 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 4 DefStreamSucc 0 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 2 TextPolygon 
+
+3 asciitextstream 
+<14 cs><(NewCenturySchlbk) cf ><ON bo><JUSTIFYLEFT align><0 46 TAB_LEFT 720 1 0
+ 46 TAB_LEFT 900 1 0 46 TAB_LEFT 3600 1 0 46 TAB_LEFT 5040 1 0 46 TAB_LEFT 6480
+ 1 0 46 TAB_LEFT 7920 1 0 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEF
+T 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24
+480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TA
+B_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 
+0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LE
+FT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 4
+8 51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 900 1 0 46 TAB_LEFT 3600 1 0 46 T
+AB_LEFT 5040 1 0 46 TAB_LEFT 6480 1 0 46 TAB_LEFT 7920 1 0 46 TAB_LEFT 9360 1 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 244
+80 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB
+_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0
+ 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEF
+T 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 
+900 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LEFT 5040 1 0 46 TAB_LEFT 6480 1 0 46 TAB_L
+EFT 7920 1 0 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24
+480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TA
+B_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 
+0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LE
+FT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0
+ 46 TAB_LEFT 540 1 0 46 TAB_LEFT 900 1 0 46 TAB_LEFT 1440 1 0 46 TAB_LEFT 1980 
+1 0 46 TAB_LEFT 6480 1 0 46 TAB_LEFT 7920 1 0 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 244
+80 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB
+_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0
+ 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEF
+T 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 48 51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 1080 1 0 46 T
+AB_LEFT 1440 1 0 46 TAB_LEFT 1980 1 0 46 TAB_LEFT 6480 1 0 46 TAB_LEFT 7920 1 0
+ 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0 46 TAB_LEFT
+ 540 1 0 46 TAB_LEFT 1080 1 0 46 TAB_LEFT 1620 1 0 46 TAB_LEFT 1980 1 0 46 TAB_
+LEFT 6480 1 0 46 TAB_LEFT 7920 1 0 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24
+480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TA
+B_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 
+0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LE
+FT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 48 51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 1080 1 0 46 TAB_LEFT 162
+0 1 0 46 TAB_LEFT 2160 1 0 46 TAB_LEFT 6480 1 0 46 TAB_LEFT 7920 1 0 46 TAB_LEF
+T 9360 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 244
+80 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB
+_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0
+ 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEF
+T 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24
+480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TA
+B_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 
+0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LE
+FT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0 46 TAB_LEFT 540 1 0 46
+ TAB_LEFT 1080 1 0 46 TAB_LEFT 1620 1 0 46 TAB_LEFT 2160 1 0 46 TAB_LEFT 4320 1
+ 0 46 TAB_LEFT 7920 1 0 46 TAB_LEFT 9360 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46
+ TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 244
+80 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB
+_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0
+ 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEF
+T 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 
+51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 1080 1 0 46 TAB_LEFT 1620 1 0 46 TA
+B_LEFT 2160 1 0 46 TAB_LEFT 4320 1 0 46 TAB_LEFT 5760 1 0 46 TAB_LEFT 9360 1 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 
+24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 
+TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2448
+0 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_
+LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 
+0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT
+ 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0 46 TAB_LEFT 540 1 0 46 TAB_LEFT 1
+080 1 0 46 TAB_LEFT 1620 1 0 46 TAB_LEFT 2160 1 0 46 TAB_LEFT 4320 1 0 46 TAB_L
+EFT 5760 1 0 46 TAB_LEFT 7200 1 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 4
+6 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24
+480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TA
+B_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 
+0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LE
+FT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 
+46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 2
+4480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 T
+AB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480
+ 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_L
+EFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0
+ 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 0 46 TAB_LEFT 24480 0 48 51 ruler><0
+ RightIndent>GeoShare Installation<eop>
+<eop>
+<BO type_rev>When the GeoShare system is shipped it will include (at least):<eo
+p>
+<inp>·<inp><ON it>A Connection Manager<IT type_rev><eop>
+<inp>·<inp><ON it>At least one data receiver service: The FINDER receiver<IT ty
+pe_rev><eop>
+<inp>·<inp><ON it>A toolbox for writing data receivers and application senders<
+IT type_rev><eop>
+<eop>
+<ON it>Configuration<IT type_rev><eop>
+<inp>When the GeoShare system is initially installed, it is necessary to create
+ the Connection Manager control file: GSTAB.  This file is owned by the system 
+account, and maintained by the system administrator. An entry must be made for 
+each data receiver service that is to be installed in this GeoShare system and 
+known to the Connection Manager.   See the section titled <ON it>Configuration 
+File<IT type_rev> for a full description of the <ON it>gstab<IT type_rev> file.
+  Each time the Connection Manager starts up, the <ON it>gstab<IT type_rev> con
+figuration file is read and the data receiver services are registered as valid 
+data destinations.<eop>
+<eop>
+<ON it>Privileges<IT type_rev><eop>
+<inp>The GeoShare connection manager needs to be run in a privileged account, o
+n UNIX systems for instance, it would be run as <ON bo>root<BO type_rev>.  This
+ is because the connection manager requires the ability to start jobs that run 
+as other users.  Data Receivers  are expected to run under the same user id as 
+the Client Application.<eop>
+<eop>
+<ON it>Starting The Connection Manager<IT type_rev><eop>
+<inp>The connection manager should always be running.  It is recommended that t
+he connection manager be started as part of the system boot procedure.  On UNIX
+ systems, this would mean adding an entry in the system boot file <ON it>/etc/r
+c.local.<IT type_rev><eop>
+<eop>
+<ON it><pe>Adding or Installing Data Receivers<IT type_rev><eop>
+<inp>The Data Receivers that will be available to the GeoShare connection manag
+er should be installed in the GeoShare home directory.   An environment variabl
+e <ON it>GSHOME<IT type_rev> is used on UNIX systems to identify this directory
+.   New data receivers may be added to a GeoShare installation simply by instal
+ling the new receiver program in the <ON it>GSHOME<IT type_rev> directory and a
+dding an entry for the receiver in the <ON it>gstab <IT type_rev>configuration 
+file.<eop>
+<eop>
+<ON bo><pe>Client - Server Communication<eop>
+<BO type_rev><inp>This section describes how the connections between the variou
+s GeoShare processes operate.  The following topics are discussed:<eop>
+<eop>
+<inp>·<inp>Connection Management - Application / Server / Service<eop>
+<inp>·<inp>Communications - shared memory, protocol requests and responses.<eop
+>
+<inp>·<inp>Protocols used for Client-Server-Service<eop>
+<inp>·<inp>Message sending & receiving<eop>
+<eop>
+<inp>Client applications connect to the local CM using shared memory.  The memo
+ry region is identified by using a well known address scheme for publishing the
+ key.  In UNIX a file name, such as the GeoShare home directory, can be used to
+ implement a public shared memory key.  On VMS, the shared memory key can be pu
+blished using job or system logical names.<eop>
+<eop>
+<inp>The Connection Manager assigns a section of its shared memory region (a Sl
+ot) to the connecting application.  This slot is used to pass messages between 
+the client and the Connection Manager, as well as between the client & data rec
+eiver service if the client has started one.  A description of Connection Manag
+er slots is in the Connection Manager section of this document.<eop>
+<eop>
+<ON it>Message Passing<eop>
+<IT type_rev><inp>Communications between clients & servers or services is accom
+plished by passing messages through shared buffers. The CM arbitrates the acces
+ses to the process slots that connect the sender application to its destination
+ data receiver.  <eop>
+<eop>
+<inp>Messages and their destinations are written into the connection slot, and 
+a flag is set which indicates that the slot has been written to.  An example of
+ this interaction can be found in Appendix A - Slot Usage.<eop>
+<eop>
+<pe><inp>Messages come in two types:  <ON it>Data<IT type_rev> or <ON it>Execut
+ive<IT type_rev>.  Data messages  are used to transfer data from the Client to 
+the receiver.  Executive  messages are used to perform other communications wit
+h either the Connection Manager or the data receiver.  <eop>
+<eop>
+<inp>Both Data and Executive messages use the GS_MESSAGE structure defined as f
+ollows:<eop>
+<eop>
+<SIZE type_rev><
+(Courier) cf ><inp><inp><inp>typedef enum {<eop>
+<inp><inp><inp><inp>Data = 1,<eop>
+<inp><inp><inp><inp>Executive = 2<eop>
+<inp><inp><inp>} gs_msgtype_t;<eop>
+<eop>
+<inp><inp><inp>typedef struct gs_message {<eop>
+<inp><inp><inp><inp>gs_msgtype_t MsgType;<eop>
+<inp><inp><inp><inp>unsigned int MsgLen;<eop>
+<inp><inp><inp><inp>unsigned char MsgBuf[GSMAXMESSAGE];<eop>
+<inp><inp><inp>} GS_MESSAGE;<eop>
+<eop>
+<14 cs><(NewCenturySchlbk) cf ><inp>The  <ON it>MsgType<IT type_rev> field is s
+et to either <ON bo>Data<BO type_rev> or <ON bo>Executive<BO type_rev> dependin
+g on the type of message structure being passed in the <ON it>MsgBuf<IT type_re
+v> field.  The size of the message object being passed in the buffer is stored 
+in the <ON it>MsgLen<IT type_rev> field.<eop>
+<eop>
+<ON it>Connection Manager Message Arbitration<eop>
+<IT type_rev><inp>Message writing is arbitrated by the Connection Manager using
+ semaphores.  These allow control over the synchronization of buffer reads & wr
+ites among several processes as described below.  The Connection Manager watche
+s the state of active process slots by waiting for semaphore state changes trig
+gered by message writes by either client or receiver processes.<eop>
+<eop>
+<inp>When the Connection Manager is not servicing a Client or Data Receiver req
+uest, it sleeps until there is a state change on one of the message control sem
+aphores that it is watching.<eop>
+<eop>
+<ON it><pe>Message Synchronization<eop>
+<IT type_rev><inp>Semaphore operations are used to synchronize access to messag
+e slots, and thus avoid buffer access collisions.  A process that wishes to wri
+te a message into a slot first waits until the slots' buffer-free semaphore ind
+icates that it is not in use.  The process sleeps until the semaphore it is wai
+ting for clears.  The process then sets the semaphore immediately to indicate t
+hat the buffer is busy.  When this is done, the message and its destination add
+ress are written into the slot.<eop>
+<eop>
+<inp>It is important that the semaphore implementation support atomic test/set 
+operations.  Atomic test/set operations let a process: <eop>
+<eop>
+        a)<inp>Check the state of a semaphore<eop>
+<eop>
+        b)<inp>Change the semaphores state if desired<eop>
+<eop>
+<inp>in one operation without interruption (i.e. to swap in another process). <
+eop>
+<eop>
+<inp>The implementation of the semaphores is not important as long as it suppor
+ts atomic test/set operations and process notification.  The UNIX semaphore imp
+lementation satisfies this requirement.  On VMS systems event flag clusters pro
+vide the required functionality. <eop>
+<eop>
+<ON bo><pe>Data Receiver <eop>
+<BO type_rev><inp>This section discusses the operation of the Data Receiver Ser
+vice including:<eop>
+<eop>
+        ·<inp>How receiver works - walk through.<eop>
+        ·<inp>Handling of repeat queries - repeated requests from client.<eop>
+        ·<inp>Receiver responses.<eop>
+        ·<inp>Timeout handling.<eop>
+        ·<inp>Interruptablility.<eop>
+        ·<inp>Error handling.<eop>
+<eop>
+<inp>The data receiver process gets started by the Connection Manager when the 
+Client application calls the gs_initialize library function.  The receiver star
+tup sequence is as follows:<eop>
+<eop>
+<inp>a)<inp>The Client application calls gs_initialize with the name of the rec
+eiver it wishes to send data to, as well as the context information required by
+ the receiver.<eop>
+<eop>
+<inp>b)<inp>The Connection Manager gets a service request generated by the appl
+ications call to gs_initialize.  The Connection Manager responds to the request
+ by taking the receiver name and context information passed in the request mess
+age and using it to build a command string with which the receiver is invoked.<
+eop>
+<eop>
+<inp>c)<inp>The receiver process starts up and connects to the Connection Manag
+er.  This is accomplished by a call to the function gs_connect Connection Manag
+er through the publicly known shared memory connection address described above 
+in the section 'Client - CM connectivity'.<eop>
+<eop>
+<inp>d)<inp>The Connection Manager assigns the receiver process a slot in its s
+hared memory region.<eop>
+<eop>
+<inp>e)<inp>The receiver waits for incoming messages by watching the message bu
+ffer control semaphore in its slot.<eop>
+<pe><inp>f)<inp>For each message that is received, an appropriate action is tak
+en to process the message.  If necessary, an acknowledge message is written bac
+k to the message sender.  The type of processing that a message receives is dep
+endant on the type of the message; Data messages are processed by an applicatio
+n dependant data storage method while Executive messages and processed as proto
+col requests.<eop>
+<eop>
+<inp>This step is repeated until an executive request arrives that terminates t
+he transfer.<eop>
+<eop>
+Executive messages include:<eop>
+<eop>
+        ·<inp>Perform orderly shutdown & termination of transfer<eop>
+        ·<inp>Abort transfer. <eop>
+<inp><inp>(Rollback processing is application dependant.)<eop>
+<eop>
+<ON bo><pe>Connection Manager Internal Services<BO type_rev><eop>
+<inp>The Connection Manager can process a number of protocol requests from the 
+application client without requiring the application client to initialize a con
+nection to a receiver.  These are useful for protocol requests that provide con
+nection information.  An application client may inquire a list of all known dat
+a receivers from the connection manager, for instance, and then use this inform
+ation when it makes its request to connect to a data receiver.<eop>
+<eop>
+The available Connection Manager internal services are as follows:<eop>
+<eop>
+<inp>·<inp>Inquire list of Data Receivers known to Connection Manager.<eop>
+<inp>·<inp>Inquire context information template for a specific receiver.<eop>
+<inp>·<inp>Inquire current Connection Manager status.<eop>
+<inp>·<inp>Flow of normal query processing - application view.<eop>
+<inp>·<inp>In sub lib. include detail of structures used in each func. list all
+ structures used.<eop>
+<inp>·<inp>On output assertions cover error conditions.<eop>
+<inp>·<inp>Implementation notes need to be included.<eop>
+<eop>
+<ON bo><18 cs>Deadline is <ON it>Tuesday<IT type_rev> evening !<eop>
+
+<textstream_end> 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 0 DefStreamSucc 2 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (2) 0 4 TextPolygon 
+
+BeginProfile 
+(Number of Pages) (8)  DefProfileString 
+(Language) (ENGLISH)  DefProfileString 
+(Version) (IslandWrite Version 2.3)  DefProfileString 
+(Creation Date) (julian March 25, 1991 11:48 AM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 5:34 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 5:33 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 5:27 PM)  DefProfileString 
+(Revision History) (vince 25 Mar, 1991 4:06 PM)  DefProfileString 
+(Revision History) (julian March 25, 1991 2:42 PM)  DefProfileString 
+(Revision History) (julian March 25, 1991 2:42 PM)  DefProfileString 
+(Revision History) (julian March 25, 1991 2:06 PM)  DefProfileString 
+(Revision History) (julian March 25, 1991 1:58 PM)  DefProfileString 
+(Text Formats) (default)  DefProfileString 
+(Container Formats) (default)  DefProfileString 
+(Page Formats) (default)  DefProfileString 
+(Fonts) (NewCenturySchlbk)  DefProfileString 
+(Fonts) (Courier)  DefProfileString 
+(Fonts) (Times-Roman)  DefProfileString 
+(File Path) ()  DefProfileString 
+(External Contents) ()  DefProfileString 
+(Title) ()  DefProfileString 
+(Status) ()  DefProfileString 
+(Distribution List) ()  DefProfileString 
+(Preparer) ()  DefProfileString 
+(Owner) ()  DefProfileString 
+(Author) ()  DefProfileString 
+(Superseded Documents) ()  DefProfileString 
+EndProfile 
+
+pgscriptdone 

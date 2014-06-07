@@ -1,0 +1,496 @@
+head     1.12;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.12; strict;
+comment  @ * @;
+
+
+1.12
+date     91.05.20.06.19.30;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.15.00.45.00;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.14.15.22.49;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.14.11.20.24;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.12.03.08.14;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.07.07.49.32;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.06.22.55.33;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.05.06.08.48.13;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.05.06.04.36.00;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.30.09.49.58;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.30.05.15.20;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.30.04.11.22;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.29.05.47.33;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_ptypes.h.
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+
+
+/* gs_alloc.c */
+char *gs_shm_alloc P_((u_int size, GSKey_t *key, int *mid));
+int gs_shm_free P_((char *ptr));
+int gs_shm_remove P_((int id));
+char *gs_alloc P_((unsigned nbytes));
+void gs_free P_((char *aptr));
+char *gs_init_pool P_((int size, key_t key));
+int gs_term_pool P_((void));
+
+/* gs_faccess.c */
+int gs_faccess P_((char *file, char *mode, char *arg));
+
+/* gs_chk_debug.c */
+int gs_chk_debug P_((void));
+int gs_set_debug P_((int mode));
+
+/* gs_connect.c */
+GSHandle_t *gs_connect P_((int *ac, char ***av));
+int gsz_attach_slot P_((GSKey_t *key, GSSlot_t **pslot));
+
+/* gs_cm_do_exec.c */
+int gs_cm_process_msg P_((GSGBL_t *pcm, GSMessage_t *pmsg, GSMessage_t *preplymsg));
+int gs_do_exec P_((GSMessage_t *pmsg, GSMessage_t *preply));
+int gs_cfgstr P_((char *entry, char *item, char *outbuf, int *outlen));
+int gs_cfgnum P_((char *entry, char *item, int *result));
+int gs_status_msg P_((GSMessage_t *pmsg, int status));
+int gs_data_msg P_((GSMessage_t *pmsg, char *data, int len));
+
+/* gs_config.c */
+int gs_cgetent P_((char *bp, char *name));
+int gs_cgetnum P_((char *id));
+int gs_cgetflag P_((char *id));
+char *gs_cgetstr P_((char *id, char **area));
+
+/* gs_cf_name.c */
+char *gs_cf_name P_((char *cfgfile));
+
+/* gs_get_handle.c */
+GSHandle_t *gs_get_handle P_((void));
+
+/* gs_slot.c */
+int gs_create_slot P_((GSKey_t *key, GSSlot_t **pslot));
+int gs_attach_slot P_((GSKey_t *key, GSSlot_t **pslot));
+int gs_detach_slot P_((GSSlot_t *pslot));
+int gs_delete_slot P_((GSSlot_t *pslot));
+
+/* gs_home.c */
+char *gs_home P_((char *homedir));
+
+/* gs_init.c */
+GSHandle_t *gs_initialize P_((char *dest, char *context, int *st));
+
+/* gs_ipc_key.c */
+GSKey_t *gs_ipc_key P_((char *file));
+
+/* gs_log.c */
+int gs_log P_((char *va_alist,...));
+
+/* gs_logfile.c */
+char *gs_logfile P_((char *logfile));
+
+/* gs_log_init.c */
+char *gs_log_init P_((char *errfile));
+
+/* gs_inq_ctxt.c */
+int gs_inquire_context P_((char *dest, GSContextRequirements_t ***context_req, unsigned int *count));
+
+/* gs_inq_dest.c */
+int gs_inquire_destinations P_((char ***dest_list, unsigned int *count));
+
+/* gs_receive.c */
+int gs_receive P_((GSHandle_t *h, GSTCB_t **tcb));
+
+/* gs_semlib.c */
+int gs_sem_create P_((key_t key, int initval));
+int gs_sem_open P_((key_t key));
+int gs_sem_rm P_((int id));
+int gs_sem_close P_((int id));
+int gs_sem_wait P_((int id));
+int gs_sem_signal P_((int id));
+int gs_sem_op P_((int id, int value));
+void gs_sem_dump P_((char *str, int id));
+
+/* gs_send.c */
+int gs_send P_((GSHandle_t *h, GSTCB_t *tcb, GSMessage_t *result));
+
+/* gs_sendstr.c */
+int gs_sendstr P_((GSHandle_t *h, char *str));
+
+/* gs_subs.c */
+int gsz_octal P_((char *str));
+int gs_semrm P_((int sid));
+int gs_semtran P_((int key));
+void gs_semcall P_((int sid, int op));
+void gs_semP P_((int sid));
+void gs_semV P_((int sid));
+int send_data P_((void));
+void gs_print_args P_((int argc, char **argv));
+GSString_t *gs_mk_string P_((char *string, GSString_t *pstring_t));
+GSVector_t *gs_mk_vector P_((char *data, unsigned int dsize, GSVectorType_t vtype, unsigned int len, GSVector_t *pvec));
+char *gs_strdup P_((char *cp));
+char **gs_tcp_append P_((char ***ptcp, char *cp));
+int gs_tcp_len P_((char **tcp));
+int gsz_delete_slot P_((GSSlot_t *pslot));
+int gsz_detach_slot P_((GSSlot_t *pslot));
+int getopt P_((int argc, char **argv, char *opts));
+
+/* gs_talk.c */
+int gs_talk P_((GSHandle_t *h, GSSlot_t *pslot, GSMessage_t *msg, GSMessage_t *reply));
+int gs_rec_talk P_((GSHandle_t *h, GSSlot_t *pslot, GSMessage_t *msg, GSMessage_t *reply));
+
+/* gs_finder_rec.c */
+
+/* gs_terminate.c */
+int gs_terminate P_((GSHandle_t *h));
+
+/* gs_cm.c */
+
+/* gs_test.c */
+int start_cm P_((void));
+int term_cm P_((void));
+int check_cm P_((void));
+
+#undef P_
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d64 1
+a64 1
+int gs_log P_((char *vargs,...));
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d31 4
+d58 1
+a58 1
+GSHandle_t *gs_initialize P_((char *dest, char *context));
+d113 1
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d69 1
+a69 1
+int gs_inquire_context P_((char *dest, GSContextRequirements_t ***context_req));
+d72 1
+a72 1
+int gs_inquire_destinations P_((char ***dest_list));
+d91 1
+a91 1
+int gs_sendstr P_((GSHandle_t *h, GSSlot_t *slot, char *str));
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d9 7
+a15 2
+char *gs_alloc P_((int size, GSKey_t *key));
+int gs_free P_((void *ptr));
+d29 1
+a29 1
+int gs_cm_process_msg P_((GSMessage_t *pmsg, GSMessage_t *preplymsg));
+d60 1
+a60 1
+int gs_log P_(());
+d75 1
+a75 1
+int gs_receive P_((GSHandle_t *h, GSTCB_t *tcb));
+d88 1
+a88 1
+int gs_send P_((GSHandle_t handle, GSTCB_t *tcb, GSMessage_t *result));
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@a31 1
+int main P_((int argc, char **argv));
+d34 1
+a34 1
+char *gs_cf_name P_((char **cfgfile));
+d46 1
+a46 1
+char *gs_home P_((char **homedir));
+d55 1
+a55 1
+int gs_log P_((int va_alist));
+d58 1
+a58 1
+char *gs_logfile P_((char **logfile));
+d80 1
+a86 1
+int gs_rec_talk P_((GSHandle_t *h, GSSlot_t *pslot, GSMessage_t *msg, GSMessage_t *reply));
+d89 1
+d107 1
+a109 1
+int main P_((int argc, char **argv));
+d113 7
+@
+
+
+1.6
+log
+@,.
+@
+text
+@d21 1
+d87 1
+d90 5
+d102 2
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d17 1
+d70 1
+a70 1
+int gs_receive P_((GSHandle_t handle, GSTCB_t *tcb));
+d84 3
+d103 1
+a103 1
+int gs_terminate P_((GSHandle_t handle));
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d12 2
+a13 2
+/* gs_cf_name.c */
+char *gs_cf_name P_((char **cfgfile));
+d18 2
+a19 2
+/* gs_cm.c */
+int main P_((int argc, char *argv[], char *envp[]));
+d30 1
+a30 1
+int main P_((int ac, char **av));
+d32 2
+a33 2
+/* gs_connect.c */
+GSHandle_t *gs_connect P_((int *ac, char ***av));
+a34 6
+/* gs_faccess.c */
+int gs_faccess P_((char *file, char *mode, char *arg));
+
+/* gs_finder_rec.c */
+int main P_((int argc, char **argv));
+
+d38 6
+a48 1
+GSHandle_t *gs_get_handle P_((void));
+a49 6
+/* gs_inq_ctxt.c */
+int gs_inquire_context P_((char *dest, GSContextRequirements_t ***context_req));
+
+/* gs_inq_dest.c */
+int gs_inquire_destinations P_((char ***dest_list));
+
+d56 3
+d62 2
+a63 2
+/* gs_logfile.c */
+char *gs_logfile P_((char **logfile));
+d65 3
+a82 10
+/* gs_slot.c */
+int gs_create_slot P_((GSKey_t *key, GSSlot_t **pslot));
+int gs_attach_slot P_((GSKey_t *key, GSSlot_t **pslot));
+int gs_detach_slot P_((GSSlot_t *pslot));
+int gs_delete_slot P_((GSSlot_t *pslot));
+
+/* gs_slotfile.c */
+int gs_slotfile P_((char *fname));
+GSHandle_t *gs_get_handle P_((void));
+
+d95 3
+a99 6
+
+/* gs_test.c */
+int main P_((int argc, char **argv));
+int start_cm P_((void));
+int term_cm P_((void));
+int check_cm P_((void));
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a11 3
+/* gs_at_slot.c */
+int gs_attach_slot P_((GSKey_t *key, GSSlot_t **pslot));
+
+d15 2
+a16 6
+/* gs_clerr.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+a19 1
+char *strdup P_((char *cp));
+a34 9
+/* gs_cr_slot.c */
+int gs_create_slot P_((GSKey_t *key, GSSlot_t **pslot));
+
+/* gs_def_handle.c */
+GSHandle_t *gs_def_handle P_((void));
+
+/* gs_dt_slot.c */
+int gs_detach_slot P_((GSSlot_t *pslot));
+
+d41 3
+d48 2
+a49 1
+GSHandle_t *gs_initialize P_((char *dest, GSContextInformation_t context));
+a50 3
+/* gs_initconfig.c */
+int gs_initconfig P_((char *homedir, char *cfgfile, int *debugflag));
+
+d52 1
+a52 1
+int gs_inquire_context P_((char *dest, GSContextRequirements_t *context_req));
+a55 2
+char **gs_tcp_append P_((char ***tcp, char *string));
+int gs_tcp_len P_((char **strings));
+a71 3
+/* gs_rm_slot.c */
+int gs_remove_slot P_((GSSlot_t *pslot));
+
+d84 10
+d96 6
+a101 2
+char *gs_next_word P_((char *line, char *token));
+char *gs_next_token P_((char *line, char *token, int terminator));
+d104 1
+a104 1
+int gs_talk P_((GSHandle_t *h, GSMessage_t *msg, GSMessage_t *reply));
+d111 3
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d71 3
+a73 1
+int gs_inq_destinations P_((char ***dest_list));
+d107 2
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d10 1
+a10 1
+void gs_free P_((void *ptr));
+d48 3
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d79 3
+@

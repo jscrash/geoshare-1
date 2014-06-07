@@ -1,0 +1,70 @@
+
+--- New run  Pid=8977 ---
+gs_inquire_destinations: Message is finder sierra terra printit
+Directory (null) not found or is inaccessible
+2 - No such file or directory
+gs_initialize: Deleting slot. Reply status msg=GS_FAIL
+
+--- New run  Pid=8989 ---
+Debug mode ON
+Config file is /ora/julian/julianc/gs/lib/gstab
+Home directory is /ora/julian/julianc/gs/lib
+cm:Deleting slot resources...
+cm:Sem error while waiting:77
+77 - Identifier removed
+
+--- New run  Pid=8983 ---
+cm:Sem error while waiting:77
+77 - Identifier removed
+
+--- New run  Pid=8987 ---
+cm:Sem error while waiting:77
+77 - Identifier removed
+
+--- New run  Pid=8988 ---
+Boris: cleaning up cm resources. (CM has died)
+
+--- New run  Pid=8953 ---
+Boris: cleaning up cm resources. (CM has died)
+
+--- New run  Pid=8984 ---
+Boris: cleaning up cm resources. (CM has died)
+
+--- New run  Pid=9002 ---
+Debug mode ON
+Config file is /ora/julian/julianc/gs/lib/gstab
+Home directory is /ora/julian/julianc/gs/lib
+  (CM)	locksem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	msgsem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	cmsem val:0  processes:9997  lock:0  lastpid=9002
+
+--- New run  Pid=9005 ---
+gs_inquire_destinations: Message is finder sierra terra printit
+  (CM)	locksem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	msgsem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	cmsem val:0  processes:9997  lock:0  lastpid=9002
+  (CM)	locksem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	msgsem val:0  processes:9997  lock:0  lastpid=9005
+  (CM)	cmsem val:0  processes:9997  lock:0  lastpid=9002
+Directory (null) not found or is inaccessible
+2 - No such file or directory
+gs_initialize: Deleting slot. Reply status msg=GS_FAIL
+cm:SIGUSR1 - Dumping states to logfile...
+cm:state is: Waiting for messages on CM semaphore...
+  (CM)	locksem val:1  processes:9998  lock:0  lastpid=9005
+  (CM)	msgsem val:1  processes:9998  lock:0  lastpid=9005
+  (CM)	cmsem val:0  processes:9998  lock:0  lastpid=9002
+Processes registered with cm: (type 1=CM, 0=Client)
+ pid:9002, type:1, shmid:500, key:1628910994 (61173592)
+cm:Sem error while waiting:77
+77 - Identifier removed
+cm:Deleting slot resources...
+
+--- New run  Pid=8997 ---
+cm:Sem error while waiting:77
+77 - Identifier removed
+Boris: cleaning up cm resources. (CM has died)
+cm:Deleting slot resources...
+
+--- New run  Pid=8998 ---
+Boris: cleaning up cm resources. (CM has died)

@@ -1,0 +1,346 @@
+head	1.3;
+access;
+symbols;
+locks
+	julian:1.3; strict;
+comment	@ * @;
+
+
+1.3
+date	91.05.05.14.23.58;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.05.04.00.22.43;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.05.03.21.32.11;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.05.03.21.03.47;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_slotfile.c.
+@
+
+
+1.3
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+/****************************************************************************
+Module: GS_SLOTFILE
+
+Description:
+	Create a file with a unique name under the GSHOME directory
+	that contains the keys for a slot and its semaphores.
+
+	This file is basically only used to generate a unique key
+	with ftok(), however it can also be used in cleanup operations
+	by the connection manager to identify orphaned IPC resources and
+	their ids.
+
+Usage:
+	status  = gs_slotfile(filename)
+	
+Parameters:
+	INPUT:
+		None
+	OUTPUT:
+		A pointer to a character array that contains the name of
+		the key file that was created. The character string
+		is allocated locally using malloc, the application is
+		responsible for freeing this memory when it is done.
+
+Status:
+	This routine returns GS_SUCCESS if the file was properly created, or
+	GS_FAIL if the file could not be created.
+
+Author:
+	Julian Carlisle 	 Fri May  3 13:57:27 PDT 1991
+*****************************************************************************/
+int     gs_slotfile(fname)
+char   *fname;
+{
+	int     status = GS_SUCCESS;
+	char    text[256];
+	GSHandle_t *h = (GSHandle_t *) 0;
+	GSMessage_t msg, reply;
+	int     i, len;
+	char   *cp = NULL;
+	char  **tcp = (char **) 0;
+	GSKey_t *appkey;
+	char    filename[512];
+	int     fd;
+
+
+
+
+ /* Create a local slot for communication with receiver. */
+	filename = tmpnam(NULL);
+	fd = open(filename, O_WRONLY | O_CREAT, 0644);
+	close(fd);
+
+	appkey = (GSKey_t *) gs_ipc_key(filename);
+	status = gs_create_slot(appkey, &h->slot);
+
+	msg.MsgType = Executive;
+	msg.MsgBuf[0] = StartReceiver;
+	sprintf(text, "%s:%s", dest, context);
+	len = strlen(text);
+	memcpy(&msg.MsgBuf[1], text, len + 1);
+	msg.MsgLen = len + 1;
+
+	reply.MsgType = 0;
+	reply.MsgLen = 0;
+	reply.MsgBuf[0] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+	status = gs_talk(h, &msg, &reply);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_inq_dest: talk status = %d\n", status);
+
+		if (gs_detach_slot(h->slot) == GS_SUCCESS)
+			h->init = FALSE;
+
+		return ((GSHandle_t *) 0);
+	}
+
+	return (status);
+
+}
+
+
+
+GSHandle_t *gs_get_handle()
+{
+	int     status = GS_SUCCESS;
+	char    log[256];
+	char   *cp;
+	static GSHandle_t *h = (GSHandle_t *) 0;
+	static int firsttime = TRUE;
+
+	if (h != (GSHandle_t *) 0) {
+		if (h->init == FALSE)
+			firsttime = TRUE;
+	}
+
+	if (firsttime == TRUE) {
+		if (h == (GSHandle_t *) 0) {
+			h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+		}
+
+		h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+
+		if ((cp = gs_home(0)) != NULL)
+			strcpy(h->homedir, cp);
+
+		if ((cp = gs_cf_name(0)) != NULL)
+			strcpy(h->cfgfile, cp);
+
+		if ((cp = gs_logfile(0)) != NULL)
+			strcpy(h->logfile, cp);
+
+		h->pid = getpid();
+
+		h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+		if (h->key == (GSKey_t *) 0) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_get_handle: Error generating shm key.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_get_handle: Error attaching to cm slot.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		h->init = TRUE;
+		firsttime = FALSE;
+	}
+	return ((GSHandle_t *) h);
+}
+@
+
+
+1.2
+log
+@Update
+@
+text
+@d92 1
+a92 1
+GSHandle_t *gs_def_handle()
+d127 1
+a127 1
+					"gs_def_handle: Error generating shm key.");
+d135 1
+a135 1
+					"gs_def_handle: Error attaching to cm slot.");
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d86 1
+a86 1
+	return (h);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d12 1
+a12 1
+	This file is basically only used to generate a unique key 
+d25 1
+a25 1
+		the key file that was created. The character string 
+d36 2
+a37 2
+int gs_slotfile(fname)
+char *fname;
+d39 10
+a48 10
+    int     status = GS_SUCCESS;
+    char  text[256];	
+    GSHandle_t *h = (GSHandle_t *)0;
+    GSMessage_t msg, reply;
+    int i,len;
+    char *cp = NULL;
+    char **tcp = (char **)0;
+    GSKey_t *appkey;
+    char filename[512];
+    int fd;
+d51 3
+a53 3
+	
+	
+	/* Create a local slot for communication with receiver.*/
+d55 1
+a55 1
+	fd =open(filename,O_WRONLY|O_CREAT,0644);
+d57 1
+a57 1
+	
+d59 1
+a59 1
+	status = gs_create_slot(appkey,&h->slot);
+d61 6
+a66 6
+    msg.MsgType = Executive;
+    msg.MsgBuf[0] = StartReceiver;
+	sprintf(text,"%s:%s",dest,context);
+	len  = strlen(text);
+	memcpy(&msg.MsgBuf[1],text,len+1);
+    msg.MsgLen = len + 1;
+d68 3
+a70 3
+    reply.MsgType = 0;
+    reply.MsgLen = 0;
+    reply.MsgBuf[0] = '\0';
+d75 4
+a78 4
+    status = gs_talk(h, &msg, &reply);
+    if (status != GS_SUCCESS) {
+	if (h->debug)
+	    gs_log("gs_inq_dest: talk status = %d\n", status);
+d80 2
+a81 2
+	if (gs_detach_slot(h->slot) == GS_SUCCESS)
+		h->init = FALSE;
+d83 2
+a84 2
+	return ((GSHandle_t *)0);
+    }
+d86 1
+a86 1
+    return (h);
+d94 5
+a98 5
+    int     status = GS_SUCCESS;
+    char    log[256];
+    char   *cp;
+    static GSHandle_t *h = (GSHandle_t *)0;
+    static int firsttime = TRUE;
+d100 3
+a102 8
+    if (h != (GSHandle_t *)0) {
+	if (h->init == FALSE )
+	   firsttime = TRUE;
+    }
+
+    if (firsttime == TRUE) {
+	if (h == (GSHandle_t *)0) {
+	    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+d105 4
+a108 1
+	h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+d110 1
+a110 2
+	if ((cp = gs_home(0)) != NULL)
+	    strcpy(h->homedir, cp);
+d112 2
+a113 2
+	if ((cp = gs_cf_name(0)) != NULL)
+	    strcpy(h->cfgfile, cp);
+d115 2
+a116 2
+	if ((cp = gs_logfile(0)) != NULL)
+	    strcpy(h->logfile, cp);
+d118 2
+a119 1
+	h->pid = getpid();
+d121 1
+a121 8
+	h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+	if (h->key == (GSKey_t *) 0) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error generating shm key.");
+	    }
+	    return ((GSHandle_t *) 0);
+	}
+d123 19
+a141 6
+	if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error attaching to cm slot.");
+	    }
+	    return ((GSHandle_t *) 0);
+d143 1
+a143 5
+
+	h->init = TRUE;
+	firsttime = FALSE;
+    }
+    return ((GSHandle_t *) h);
+@

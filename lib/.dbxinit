@@ -1,0 +1,8 @@
+alias s step
+alias l list
+alias p print
+alias n next
+alias b "stop in"
+
+use . ../h 
+

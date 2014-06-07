@@ -1,0 +1,67 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@# @;
+
+
+1.0
+date	91.04.29.23.15.12;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of funcs.lis.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@char   *gs_alloc(int size, GSKey_t *key);
+int     gs_attach_slot(GSKey_t *key, GSSlot_t **pslot);
+char   *gs_cf_name(char **cfgfile);
+int     gs_cgetent(char *bp, char *name);
+int     gs_cgetflag(char *id);
+char   *gs_cgetstr(char *id, char **area);
+int     gs_cgetnum(char *id);
+int     gs_cm_process_msg(GSMessage_t *pmsg, GSMessage_t *preplymsg);
+GSHandle_t *gs_connect(int *ac, char ***av);
+int     gs_create_slot(GSKey_t *key, GSSlot_t **pslot);
+GSHandle_t *gs_def_handle(void);
+int     gs_do_exec(GSMessage_t *pmsg, GSMessage_t *preply);
+int     gs_err_dump(int va_alist);
+int     gs_err_quit(int va_alist);
+int     gs_err_ret(int va_alist);
+int     gs_err_sys(int va_alist);
+int     gs_faccess(char *file, char *mode, char *arg);
+void    gs_free(void *ptr);
+char   *gs_home(char **homedir);
+int     gs_initconfig(char *homedir, char *cfgfile, int *debugflag);
+GSHandle_t *gs_initialize(char *dest, GSContextInformation_t context);
+int     gs_inq_destinations(char ***dest_list);
+int     gs_inquire_context(char *dest, GSContextRequirements_t * context_req);
+GSKey_t *gs_ipc_key(char *file);
+int     gs_log(int va_alist);
+char   *gs_log_init(char *errfile);
+char   *gs_logfile(char **logfile);
+int     gs_receive(GSHandle_t handle, GSTCB_t *tcb);
+int     gs_remove_slot(GSSlot_t *pslot);
+int     gs_sem_close(int id);
+int     gs_sem_create(key_t key, int initval);
+int     gs_sem_op(int id, int value);
+int     gs_sem_open(key_t key);
+int     gs_sem_rm(int id);
+int     gs_sem_signal(int id);
+int     gs_sem_wait(int id);
+int     gs_send(GSHandle_t handle, GSTCB_t *tcb, GSMessage_t *result);
+int     gs_talk(GSHandle_t *h, GSMessage_t *msg, GSMessage_t *reply);
+int     gs_terminate(GSHandle_t handle);
+int     my_perror(void);
+int     send_data(void);
+char   *strdup(char *cp);
+@

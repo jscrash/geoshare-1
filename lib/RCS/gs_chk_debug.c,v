@@ -1,0 +1,180 @@
+head     1.4;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.4; strict;
+comment  @ * @;
+
+
+1.4
+date     91.05.09.07.56.35;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.05.06.13.04.02;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.05.06.04.34.58;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.05.05.15.42.41;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.05.05.15.41.19;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_chk_debug.c.
+@
+
+
+1.4
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <sys/stat.h>
+
+/****************************************************************************
+Module: GS_CHK_DEBUG
+
+Description:
+	Check if debugging is turned on, and return TRUE if it is, FALSE
+	if is not.
+	This is agetenv jacket.
+
+Usage:
+	int debugflag;
+        debugflag = gs_chk_debug();
+
+Parameters:
+        INPUT:
+			None
+
+        OUTPUT:
+			debugflag		- The value of the function is a boolean;
+
+Author:
+        Julian Carlisle          Sun May  5 08:42:26 PDT 1991
+*****************************************************************************/
+extern char *getenv();
+
+static int debugflag = FALSE;
+
+ /*
+  * This is just to have a jacket around the getenv statement
+  */
+int     gs_chk_debug()
+{
+	static int firsttime = TRUE;
+
+	if (firsttime == TRUE) {
+		debugflag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+		firsttime = FALSE;
+	}
+	return (debugflag);
+}
+
+ /*
+  * set the debugging state, either TRUE or FALSE.  Returns the previous
+  * state of the debugflag.
+  */
+int     gs_set_debug(mode)
+int     mode;
+{
+	int     savedmode;
+
+	savedmode = debugflag;
+	debugflag = (mode == TRUE) ? TRUE : FALSE;
+	return (savedmode);
+}
+@
+
+
+1.3
+log
+@Update
+@
+text
+@d8 1
+a8 1
+	Check if debugging is turned on, and return TRUE if it is, FALSE 
+d33 1
+a33 1
+int   gs_chk_debug()
+d35 1
+a35 1
+static int firsttime = TRUE;
+d45 2
+a46 2
+  * set the debugging state, either TRUE or FALSE.  
+  * Returns the previous state of the debugflag.
+d48 2
+a49 2
+int gs_set_debug(mode)
+int mode;
+d51 1
+a51 1
+int savedmode;
+@
+
+
+1.2
+log
+@Update
+@
+text
+@d28 5
+d35 21
+a55 2
+	/* This is just to have a jacket around the getenv statement */
+	return((getenv("GSDEBUG") != NULL) ? TRUE : FALSE);
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d28 1
+a28 1
+char   *gs_chk_debug()
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@a7 1
+
+d10 1
+a13 1
+
+d18 1
+a18 1
+		None
+a22 1
+
+d24 1
+a24 1
+        Julian Carlisle          Fri Apr 20 06:09:42 PDT 1991
+a25 1
+
+a27 1
+
+a31 1
+
+@

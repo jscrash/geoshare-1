@@ -1,0 +1,1600 @@
+head	1.26;
+access;
+symbols;
+locks
+	julian:1.26; strict;
+comment	@ * @;
+
+
+1.26
+date	2012.10.17.20.35.48;	author julian;	state Exp;
+branches;
+next	1.25;
+
+1.25
+date	91.05.20.09.08.15;	author julian;	state Exp;
+branches;
+next	1.24;
+
+1.24
+date	91.05.20.04.27.11;	author julian;	state Exp;
+branches;
+next	1.23;
+
+1.23
+date	91.05.15.01.25.29;	author julian;	state Exp;
+branches;
+next	1.22;
+
+1.22
+date	91.05.14.23.36.07;	author julian;	state Exp;
+branches;
+next	1.21;
+
+1.21
+date	91.05.14.21.30.48;	author julian;	state Exp;
+branches;
+next	1.20;
+
+1.20
+date	91.05.14.03.37.47;	author julian;	state Exp;
+branches;
+next	1.19;
+
+1.19
+date	91.05.12.03.42.56;	author julian;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	91.05.12.03.08.00;	author julian;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	91.05.12.01.43.00;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.05.09.07.56.39;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.05.07.01.25.49;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.05.06.22.52.08;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.05.06.16.18.09;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.05.06.15.52.22;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.05.06.13.53.55;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.05.06.13.04.05;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.05.06.04.35.01;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.04.30.09.48.36;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.30.02.51.28;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.29.12.38.33;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.29.12.06.11;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.25.06.39.33;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.25.02.02.12;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.25.01.58.37;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_cm_do_exec.c.
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@#define SYSV 1
+#include "gs.h"
+#include <fcntl.h>
+
+
+/****************************************************************************
+Module: GS_CM_DO_EXEC
+
+Description:
+	Do executive command processing for connection manager.
+
+Usage:
+	This is a CM internal routine, it is called as follows:
+
+	GSMessage_t msg,reply;
+	status = gs_cm_do_exec(&msg,&reply);
+
+Parameters:
+	INPUT:
+		GSMessage_t 	msg	- Message from slot
+		GSMessage_t     reply	- Reply from cmd processor
+
+	OUTPUT:
+		None.
+Status:
+
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BUSY       - Requested data receiver is single
+			     - threaded, and already in use.
+
+	GSERR_SVC_MISMATCH   - The data type sent to the data
+			     - service is not supported.
+
+	GSERR_SVC_BADCONTEXT - The context args given to the
+			     - receiver are bad or unsupported.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Wed Apr 24 18:54:40 PDT 1991
+*****************************************************************************/
+#include  <string.h>
+#include  <sys/stat.h>
+#include  <sys/param.h>
+#include  <sys/ipc.h>
+#include <stdarg.h>
+#include "math.h"
+
+
+extern int errno;
+extern char *getcwd(), *getenv();
+extern char *index(), *malloc();
+
+static char cfbuf[2048];
+static char *cfptr;
+
+int     gs_cm_process_msg(pcm,pmsg, preplymsg)
+GSGBL_t *pcm;
+GSMessage_t *pmsg, *preplymsg;
+{
+	int     status = GS_SUCCESS;
+	int     cfd[3];
+	char    arglist[256];
+	char    text[512];
+	char    recname[MAXPATHLEN];
+	char    bindir[MAXPATHLEN];
+	char    argbuf[256];
+	char   *prec = NULL;
+	char   *cp = NULL;
+	int     i = 0;
+	int     pid = 0,*pint;
+	char  **tcp = (char **) 0;
+	struct stat statbuf;
+
+	pint = (int *)&preplymsg->MsgBuf[0];
+	cfd[0] = 0;
+	cfd[1] = 0;
+	cfd[2] = 0;
+
+	prec = recname;
+	cfptr = (char *) &cfbuf[0];
+
+	switch (pmsg->MsgBuf[0]) {
+	case InqAllReceivers:
+		status = gs_cfgstr("cm","all",(char *)preplymsg->MsgBuf,
+			(int *)&preplymsg->MsgLen);
+		preplymsg->MsgType = Data;
+		break;
+
+	case InqReceiverArgs:
+		pmsg->MsgBuf[pmsg->MsgLen] = '\0';
+		cp = (char *) &pmsg->MsgBuf[1];		
+		status = gs_cfgstr(cp,"context",(char *)preplymsg->MsgBuf,
+			(int *)&preplymsg->MsgLen);
+		preplymsg->MsgType = Data;
+		break;
+
+	case StartReceiver:
+		cp = (char *) &pmsg->MsgBuf[1];
+		cp[pmsg->MsgLen] = '\0';
+		prec = recname;
+		while (*cp != ':') {
+			*prec++ = *cp++;
+		}
+		*prec = '\0';
+		gs_tcp_append(&tcp, recname);
+		cp++;
+		strcpy(arglist, cp);
+		strcpy(argbuf, cp);
+		cp = strtok(arglist, " ");
+		for (i = 0; cp != NULL; cp = strtok(NULL, " "), i++) {
+			gs_tcp_append(&tcp, cp);
+		}
+		status = gs_cfgstr("cm","bindir",bindir,&i);
+		if (status != GS_SUCCESS) {
+			gs_log("cm:warning: No bindir entry found in gstab. Using GSHOME");
+			gs_home(bindir);
+		}
+
+		if (stat(bindir, &statbuf)) {
+			gs_log("Directory %s not found or is inaccessible", cp);
+			gs_status_msg(preplymsg,GSERR_SVC_UNAVAIL);
+			status = GS_FAIL;
+			break;
+		}
+
+		status = gs_cfgstr(recname,"program",text,&i);
+		if (status != GS_SUCCESS) {
+			gs_log("cm:no such receiver: (%s) ", recname);
+			gs_status_msg(preplymsg,status);
+			status = GS_FAIL;
+			break;
+		}
+		sprintf(recname, "%s/%s", bindir, text);
+		if (stat(recname, &statbuf)) {
+			gs_log("cm: Cannot find receiver program: %s", recname);
+			gs_status_msg(preplymsg,GSERR_SVC_UNAVAIL);
+			status = GS_FAIL;
+			break;
+		}
+		sprintf(text, "%s %s", recname, argbuf);
+		if (pcm->debug) 
+			gs_log("cm: %s", text);
+
+		if ((pid = fork()) == -1) {
+			gs_log("cm:Cannot create receiver process: %s", text);
+			status = GS_FAIL;
+			gs_status_msg(preplymsg,status);
+			break;
+		}
+		else if (pid == 0) {
+			cfd[1] = open("/tmp/rec.out", O_WRONLY | O_APPEND | O_CREAT, 0666);
+			close(1);
+			dup(cfd[1]);
+			close(2);
+			dup(cfd[1]);
+			close(0);
+/*		    dup(cfd[1]); */
+			for (i = 3; i < 20; i++)
+				close(i);
+			signal(SIGALRM, SIG_IGN);
+			signal(SIGHUP, SIG_IGN);
+			alarm(0);
+			execv(recname, tcp);
+			gs_log("Exec fail. %s ", recname);
+			exit(1);
+		}
+		else {
+			if (pmsg->pid != 0) {
+				gs_addproc(pmsg->pid,0,pmsg->shmid,pmsg->key);
+			}
+			if (pcm->debug)
+				gs_log("cm: child process is %d", pid);
+			gs_status_msg(preplymsg,pid);
+			status = GS_SUCCESS;
+		}
+		break;
+
+	case Executive:
+		status = gs_do_exec(pmsg, preplymsg);
+		break;
+
+	default:
+		status = GS_FAIL;
+		gs_status_msg(preplymsg,status);
+		gs_log("cm: Bad Executive request sent.");
+		break;
+	}
+	return (status);
+}
+
+int     gs_do_exec(pmsg, preply)
+GSMessage_t *pmsg, *preply;
+{
+	char    text[GSMAXMESSAGE];
+
+
+	memcpy(text, pmsg->MsgBuf, pmsg->MsgLen);
+	text[pmsg->MsgLen] = '\0';
+	gs_log("cm: Message is %s\n", text);
+
+	preply->MsgType = Status;
+	preply->MsgLen = sizeof(int);
+	preply->MsgBuf[0] = (int) GS_SUCCESS;
+
+	return GS_SUCCESS;
+}
+
+int gs_cfgstr(entry,item,outbuf,outlen)
+char *entry,*item,*outbuf;
+int *outlen;
+{
+	int status = GS_SUCCESS;
+	char ebuf[256];
+	char buf[2048];
+	char *bufp = buf,*cp;
+
+	if (outbuf == NULL || outlen == (int *)0 ||
+	    entry == NULL || item == NULL )
+		return (GS_FAIL);
+
+	*outlen = 0;
+	*outbuf = '\0';
+
+	strcpy(ebuf,entry);
+		
+	status = gs_cgetent(buf, ebuf);
+	switch(status) {
+	case 0:		/* not found */
+		status =GSERR_SVC_UNAVAIL;
+		break;
+
+	case 1:		/* found */
+		cp = gs_cgetstr(item,&bufp);
+		if (cp == NULL) {
+			status = GSERR_OPT_UNAVAIL;
+		}
+		else {
+			*outlen = strlen(cp);
+			strcpy(outbuf,cp);
+			status = GS_SUCCESS;
+		}
+		break;
+	
+	default:
+		status = GS_FAIL ;
+		break;
+	}
+	return (status);
+}
+
+
+int gs_cfgnum(entry,item,result)
+char *entry,*item;
+int *result;
+{
+	int status = GS_SUCCESS;
+	char ebuf[256];
+	char buf[2048];
+	int n = 0;
+
+	if (result == (int *)0 ||  entry == NULL || item == NULL )
+		return (GS_FAIL);
+
+	*result = 0;
+
+	strcpy(ebuf,entry);
+		
+	status = gs_cgetent(buf, ebuf);
+	switch(status) {
+	case 0:		/* not found */
+		status =GSERR_SVC_UNAVAIL;
+		break;
+
+	case 1:		/* found */
+		n = gs_cgetnum(item);
+		if (n == -1) {
+			status = GSERR_OPT_UNAVAIL;
+		}
+		else {
+			*result = n;
+			status = GS_SUCCESS;
+		}
+		break;
+	
+	default:
+		status = GS_FAIL ;
+		break;
+	}
+	return (status);
+}
+
+int gs_status_msg(pmsg,status)
+GSMessage_t *pmsg;
+int status;
+{
+register int *pint;
+
+	if (pmsg == (GSMessage_t *)0) 
+		return GS_FAIL;
+
+	pint = (int *)&pmsg->MsgBuf[0];
+	pmsg->MsgType = Status;
+	pmsg->MsgLen = sizeof(int);
+	*pint = status;
+	
+	return (GS_SUCCESS);
+}
+
+
+int gs_data_msg(pmsg,data,len)
+GSMessage_t *pmsg;
+char *data;
+int len;
+{
+	register char *pc;
+
+	if (data == NULL) 
+		return (GS_FAIL);
+
+	if (len == 0)
+		len = GSMAXMESSAGE;
+
+	pc = (char *)memccpy(pmsg->MsgBuf,data,'\0',len);
+	pmsg->MsgType = Data;
+	pmsg->MsgLen = (pc == NULL) ? len:(int)((pc-(char *)pmsg->MsgBuf)+(char)1);
+
+	return GS_SUCCESS;		
+}	
+@
+
+
+1.25
+log
+@Update
+@
+text
+@d51 1
+a51 1
+#include <varargs.h>
+@
+
+
+1.24
+log
+@Update
+@
+text
+@d174 3
+@
+
+
+1.23
+log
+@Update
+@
+text
+@a54 14
+#ifdef BSD
+/*
+ * Under BSD. these server routines use the syslog(3) facility.
+ * They don't append a newline, for example.
+ */
+#include <syslog.h>
+#else			     /* NOT BSD */
+/*
+ * There really ought to be a better way to handle server logging
+ * under System V.
+ */
+#define syslog(a, b)    fprintf(stderr, "%s\n", (b))
+#define openlog(a,b,c)  fprintf(stderr, "%s\n", (a))
+#endif			     /* BSD */
+@
+
+
+1.22
+log
+@Update
+@
+text
+@d104 2
+a105 1
+		status = gs_cfgstr("cm","all",preplymsg->MsgBuf,&preplymsg->MsgLen);
+d112 2
+a113 1
+		status = gs_cfgstr(cp,"context",preplymsg->MsgBuf,&preplymsg->MsgLen);
+a275 1
+	char *bufp = buf,*cp;
+d292 1
+a292 1
+		n = gs_cgetnum(item,&bufp);
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d104 2
+a105 22
+		strcpy(text, "cm");		 /* gs_cgetent overwrites buf on error */
+		status = gs_cgetent(cfbuf, text);
+		if (status != TRUE)  {
+			cfptr = NULL;
+		}
+		else {
+			status = GS_SUCCESS;
+			cfptr = (char *) &cfbuf[0];
+			cp = gs_cgetstr("all", &cfptr);
+		}
+
+		if (status == GS_SUCCESS && cp == NULL) {
+			preplymsg->MsgType = Data;
+			preplymsg->MsgLen = 0;
+			*pint = 0;
+			preplymsg->MsgBuf[0] = '\0';
+		}
+		else {
+			preplymsg->MsgLen = strlen(cp);
+			memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+		}
+d111 2
+a112 19
+		status = gs_cgetent(cfbuf, cp);
+		if (status != TRUE)
+			cfptr = NULL;
+		else {
+			status = GS_SUCCESS;
+			cfptr=cfbuf;
+			cp = gs_cgetstr("context", &cfptr);
+		}
+
+		if (cp == NULL) {
+			preplymsg->MsgLen = 0;
+			preplymsg->MsgBuf[0] = '\0';
+			preplymsg->MsgType = Data;
+		}
+		else {
+			preplymsg->MsgLen = strlen(cp);
+			memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+		}
+d131 2
+a132 5
+		strcpy(text, "cm");		/* gs_cgetent overwrites buf on error */
+		status = gs_cgetent(cfbuf, text);
+		cfptr=cfbuf;
+		cp = gs_cgetstr("bindir", &cfptr);
+		if (cp == NULL) {
+d134 1
+a134 1
+			cp = gs_home(NULL);
+d137 1
+a137 1
+		if (stat(cp, &statbuf)) {
+d139 1
+d143 3
+a145 5
+		strcpy(bindir,cp);
+		strcpy(text, recname);	/* gs_cgetent overwrites buf on error */
+		status = gs_cgetent(cfbuf, text);
+		if (status != TRUE) {
+			cfptr = NULL;
+d147 1
+d151 1
+a151 12
+		else {
+			status = GS_SUCCESS;
+			cfptr =cfbuf;
+			prec = gs_cgetstr("program", &cfptr);
+			if (prec == NULL) {
+				cfptr = NULL;
+				gs_log("cm:no program registered for receiver (%s)", recname);
+				status = GS_FAIL;
+				break;
+			}
+		}
+		sprintf(recname, "%s/%s", bindir, prec);
+d154 1
+d161 1
+d165 1
+d188 1
+a188 3
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			*pint = status;
+a190 5
+		if (cfptr == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			*pint = GS_FAIL;
+		}
+d199 1
+a199 3
+		preplymsg->MsgType = Status;
+		preplymsg->MsgLen = sizeof(int);
+		*pint = GS_FAIL;
+d307 38
+@
+
+
+1.20
+log
+@Update
+@
+text
+@d106 1
+a106 1
+		if (status != TRUE)
+d108 1
+d111 1
+d115 5
+a119 4
+		if (cp == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			*pint = GS_FAIL;
+d132 1
+a132 1
+		if (status == -1)
+d136 1
+d141 3
+a143 3
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			*pint = GS_FAIL;
+d278 85
+@
+
+
+1.19
+log
+@Update
+@
+text
+@d76 2
+a77 1
+int     gs_cm_process_msg(pmsg, preplymsg)
+d80 13
+a92 11
+    int     status = GS_SUCCESS;
+    int     cfd[3];
+    char    arglist[256];
+    char    text[512];
+    char    recname[256];
+    char    argbuf[256];
+    char   *prec = NULL;
+    char   *cp = NULL;
+    int     i = 0;
+    int     pid = 0;
+    char  **tcp = (char **) 0;
+d94 4
+a97 3
+    cfd[0] = 0;
+    cfd[1] = 0;
+    cfd[2] = 0;
+d99 2
+a100 2
+    prec = recname;
+    cfptr = (char *) &cfbuf[0];
+d102 10
+a111 9
+    switch (pmsg->MsgBuf[0]) {
+    case InqAllReceivers:
+	status = gs_cgetent(cfbuf, "cm");
+	if (status != TRUE)
+	    cfptr = NULL;
+	else {
+	    status = GS_SUCCESS;
+	    cp = gs_cgetstr("all", &cfptr);
+	}
+d113 11
+a123 11
+	if (cp == NULL) {
+	    preplymsg->MsgType = Status;
+	    preplymsg->MsgLen = sizeof(int);
+	    preplymsg->MsgBuf[0] = (int) GS_FAIL;
+	}
+	else {
+	    preplymsg->MsgLen = strlen(cp);
+	    memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+	    preplymsg->MsgType = Data;
+	}
+	break;
+d125 10
+a134 10
+    case InqReceiverArgs:
+	pmsg->MsgBuf[pmsg->MsgLen] = '\0';
+	cp = (char *) &pmsg->MsgBuf[1];
+	status = gs_cgetent(cfbuf, cp);
+	if (status == -1)
+	    cfptr = NULL;
+	else {
+	    status = GS_SUCCESS;
+	    cp = gs_cgetstr("context", &cfptr);
+	}
+d136 11
+a146 27
+	if (cp == NULL) {
+	    preplymsg->MsgType = Status;
+	    preplymsg->MsgLen = sizeof(int);
+	    preplymsg->MsgBuf[0] = (int) GS_FAIL;
+	}
+	else {
+	    preplymsg->MsgLen = strlen(cp);
+	    memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+	    preplymsg->MsgType = Data;
+	}
+	break;
+    case StartReceiver:
+	cp = (char *) &pmsg->MsgBuf[1];
+	cp[pmsg->MsgLen] = '\0';
+	prec = recname;
+	while (*cp != ':') {
+	    *prec++ = *cp++;
+	}
+	*prec = '\0';
+	gs_tcp_append(&tcp, recname);
+	cp++;
+	strcpy(arglist, cp);
+	strcpy(argbuf, cp);
+	cp = strtok(arglist, " ");
+	for (i = 0; cp != NULL; cp = strtok(NULL, " "), i++) {
+	    gs_tcp_append(&tcp, cp);
+	}
+d148 56
+a203 11
+	status = gs_cgetent(cfbuf, recname);
+	if (status != TRUE)
+	    cfptr = NULL;
+	else {
+	    status = GS_SUCCESS;
+	    prec = gs_cgetstr("program", &cfptr);
+	    if (prec == NULL) {
+		cfptr = NULL;
+	    }
+	    else {
+		strcpy(recname, prec);
+d205 2
+a206 2
+		gs_log("cm: %s", text);
+		signal(SIGCLD, SIG_IGN);
+d208 3
+a210 3
+		    gs_log("cm:Cannot create receiver process: %s", text);
+		    status = GS_FAIL;
+		    break;
+d213 6
+a218 6
+		    cfd[1] = open("/tmp/rec.out", O_WRONLY | O_APPEND | O_CREAT, 0666);
+		    close(1);
+		    dup(cfd[1]);
+		    close(2);
+		    dup(cfd[1]);
+		    close(0);
+d220 8
+a227 9
+		    for (i = 3; i < 20; i++)
+			close(i);
+		    signal(SIGALRM, SIG_IGN);
+		    signal(SIGHUP, SIG_IGN);
+		    signal(SIGCLD, SIG_IGN);
+		    alarm(0);
+		    execv(recname, tcp);
+		    gs_log("Exec fail. %s ", recname);
+		    exit(1);
+d230 6
+a235 5
+		    gs_log("cm: child process is %d", pid);
+		    preplymsg->MsgLen = sizeof(int);
+		    preplymsg->MsgType = Status;
+		    preplymsg->MsgBuf[0] = GS_SUCCESS;
+		    status = GS_SUCCESS;
+d237 6
+a242 8
+	    }
+	}
+	if (cfptr == NULL) {
+	    preplymsg->MsgType = Status;
+	    preplymsg->MsgLen = sizeof(int);
+	    preplymsg->MsgBuf[0] = (int) GS_FAIL;
+	}
+	break;
+d244 3
+a246 3
+    case Executive:
+	status = gs_do_exec(pmsg, preplymsg);
+	break;
+d248 9
+a256 9
+    default:
+	status = GS_FAIL;
+	preplymsg->MsgType = Status;
+	preplymsg->MsgLen = sizeof(int);
+	preplymsg->MsgBuf[0] = 77;	/* GSERR_MSGTYPE; */
+	gs_log("cm: Bad Exec req sent.");
+	break;
+    }
+    return (status);
+d262 1
+a262 1
+    char    text[GSMAXMESSAGE];
+d265 3
+a267 3
+    memcpy(text, pmsg->MsgBuf, pmsg->MsgLen);
+    text[pmsg->MsgLen] = '\0';
+    gs_log("cm: Message is %s\n", text);
+d269 3
+a271 3
+    preply->MsgType = Status;
+    preply->MsgLen = sizeof(int);
+    preply->MsgBuf[0] = (int) GS_SUCCESS;
+d273 1
+a273 1
+    return GS_SUCCESS;
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d185 1
+a185 1
+		    dup(cfd[1]);
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d79 11
+a89 11
+	int     status = GS_SUCCESS;
+	int     cfd[3];
+	char    arglist[256];
+	char    text[512];
+	char    recname[256];
+	char    argbuf[256];
+	char   *prec = NULL;
+	char   *cp = NULL;
+	int     i = 0;
+	int 	pid = 0;
+	char  **tcp = (char **) 0;
+d91 3
+a93 3
+	cfd[0] = 0;
+	cfd[1] = 0;
+	cfd[2] = 0;
+d95 2
+a96 2
+	prec = recname;
+	cfptr = (char *) &cfbuf[0];
+d98 9
+a106 9
+	switch (pmsg->MsgBuf[0]) {
+	case InqAllReceivers:
+		status = gs_cgetent(cfbuf, "cm");
+		if (status != TRUE)
+			cfptr = NULL;
+		else {
+			status = GS_SUCCESS;
+			cp = gs_cgetstr("all", &cfptr);
+		}
+d108 11
+a118 11
+		if (cp == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			preplymsg->MsgBuf[0] = (int) GS_FAIL;
+		}
+		else {
+			preplymsg->MsgLen = strlen(cp);
+			memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+		}
+		break;
+d120 10
+a129 10
+	case InqReceiverArgs:
+		pmsg->MsgBuf[pmsg->MsgLen] = '\0';
+		cp = (char *) &pmsg->MsgBuf[1];
+		status = gs_cgetent(cfbuf, cp);
+		if (status == -1)
+			cfptr = NULL;
+		else {
+			status = GS_SUCCESS;
+			cp = gs_cgetstr("context", &cfptr);
+		}
+d131 46
+a176 4
+		if (cp == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			preplymsg->MsgBuf[0] = (int) GS_FAIL;
+d178 17
+a194 4
+		else {
+			preplymsg->MsgLen = strlen(cp);
+			memcpy(preplymsg->MsgBuf, cp, preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+a195 21
+		break;
+	case StartReceiver:
+		cp = (char *) &pmsg->MsgBuf[1];
+		cp[pmsg->MsgLen] = '\0';
+		prec = recname;
+		while (*cp != ':') {
+			*prec++ = *cp++;
+		}
+		*prec = '\0';
+		gs_tcp_append(&tcp, recname);
+		cp++;
+		strcpy(arglist, cp);
+		strcpy(argbuf, cp);
+		cp = strtok(arglist, " ");
+		for (i = 0; cp != NULL; cp = strtok(NULL, " "), i++) {
+			gs_tcp_append(&tcp, cp);
+		}
+
+		status = gs_cgetent(cfbuf, recname);
+		if (status != TRUE)
+			cfptr = NULL;
+d197 5
+a201 41
+			status = GS_SUCCESS;
+			prec = gs_cgetstr("program", &cfptr);
+			if (prec == NULL) {
+				cfptr = NULL;
+			}
+			else {
+				strcpy(recname, prec);
+				sprintf(text, "%s %s", recname, argbuf);
+				gs_log("cm: %s", text);
+				signal(SIGCLD, SIG_IGN);
+				if ((pid = fork()) == -1) {
+					gs_log("cm:Cannot create receiver process: %s", text);
+					status = GS_FAIL;
+					break;
+				}
+				else if (pid == 0) {
+					cfd[1] = open("/tmp/rec.out", O_WRONLY | O_APPEND | O_CREAT, 0666);
+					close(1);
+					dup(cfd[1]);
+					close(2);
+					dup(cfd[1]);
+					close(0);
+					dup(cfd[1]);
+					for (i = 3; i < 20; i++)
+						close(i);
+					signal(SIGALRM, SIG_IGN);
+					signal(SIGHUP, SIG_IGN);
+					signal(SIGCLD, SIG_IGN);
+					alarm(0);
+					execv(recname, tcp);
+					gs_log("Exec fail. %s ", recname);
+					exit(1);
+				}
+				else {
+					gs_log("cm: child process is %d", pid);
+					preplymsg->MsgLen = sizeof(int);
+					preplymsg->MsgType = Status;
+					preplymsg->MsgBuf[0] = GS_SUCCESS;
+					status = GS_SUCCESS;
+				}
+			}
+d203 8
+a210 6
+		if (cfptr == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			preplymsg->MsgBuf[0] = (int) GS_FAIL;
+		}
+		break;
+d212 3
+a214 3
+	case Executive:
+		status = gs_do_exec(pmsg, preplymsg);
+		break;
+d216 9
+a224 9
+	default:
+		status = GS_FAIL;
+		preplymsg->MsgType = Status;
+		preplymsg->MsgLen = sizeof(int);
+		preplymsg->MsgBuf[0] = 77;	/* GSERR_MSGTYPE; */
+		gs_log("cm: Bad Exec req sent.");
+		break;
+	}
+	return (status);
+d230 1
+a230 1
+	char    text[GSMAXMESSAGE];
+d233 3
+a235 3
+	memcpy(text, pmsg->MsgBuf, pmsg->MsgLen);
+	text[pmsg->MsgLen] = '\0';
+	gs_log("cm: Message is %s\n", text);
+d237 3
+a239 3
+	preply->MsgType = Status;
+	preply->MsgLen = sizeof(int);
+	preply->MsgBuf[0] = (int) GS_SUCCESS;
+d241 1
+a241 1
+	return GS_SUCCESS;
+@
+
+
+1.16
+log
+@Update
+@
+text
+@a46 1
+#include  <sys/types.h>
+d51 1
+a51 1
+#include  <errno.h>
+a53 13
+#ifndef SYSV
+#ifdef SIGTSTP		     /* BSD */
+#ifndef BSD
+#define BSD 1
+#endif
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#endif			     /* SIGTSTP (BSD) */
+#else
+#ifdef BSD
+#undef BSD
+#endif			     /* ! SYSV */
+#endif			     /* ! SYSV */
+a54 2
+#include <varargs.h>
+
+a72 15
+
+/*
+* Receiver process dies - Handle child exit signal (SIGCLD)
+* This is not needed on SYSV systems like the Sun.
+*/
+static void sig_cm_reaper()
+{
+#ifdef BSD
+	int     pid;
+	union wait status;
+	while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0);
+#endif
+}
+
+
+a80 1
+	char   *cp;
+d85 4
+a88 2
+	char   *prec;
+	int     i, pid = 0;
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d111 1
+a111 1
+	int    cfd[3];
+d113 6
+a118 6
+	char  arglist[256];
+	char text[512];
+	char recname[256];
+	char argbuf[256];
+	char *prec;
+	int     i,pid = 0;
+d173 1
+a173 1
+		cp = (char *)&pmsg->MsgBuf[1];
+d182 2
+a183 2
+		strcpy(arglist,cp);	
+		strcpy(argbuf,cp);
+d199 6
+a204 6
+				strcpy(recname,prec);
+				sprintf(text,"%s %s",recname,argbuf);
+				gs_log("cm: %s",text);
+				signal(SIGCLD,SIG_IGN);
+				if((pid=fork()) == -1) {
+					gs_log("cm:Cannot create receiver process: %s",text);
+d208 2
+a209 2
+				else if(pid == 0) {
+					cfd[1] =open("/tmp/rec.out",O_WRONLY|O_APPEND|O_CREAT,0666);
+d211 1
+a211 1
+					dup (cfd[1]);
+d213 1
+a213 1
+					dup (cfd[1]);
+d216 1
+a216 1
+					for (i=3; i < 20; i++)
+d218 3
+a220 3
+					signal(SIGALRM,SIG_IGN);
+					signal(SIGHUP,SIG_IGN);
+					signal(SIGCLD,SIG_IGN);
+d222 2
+a223 2
+					execv(recname,tcp);
+					gs_log("Exec fail. %s ",recname);
+d227 1
+a227 1
+					gs_log("cm: child process is %d",pid);
+d241 1
+a241 1
+		
+d250 1
+a250 1
+		preplymsg->MsgBuf[0] = 77; /*GSERR_MSGTYPE; */
+a272 1
+
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d209 1
+a210 1
+					cfd[1] =open("/tmp/rec.out",O_WRONLY|O_APPEND|O_CREAT,0666);
+d215 3
+d221 1
+d223 1
+a223 1
+					gs_log("Exec fail.");
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d214 1
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d202 1
+d214 3
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d3 1
+d5 1
+d111 1
+d121 3
+a124 1
+
+d208 5
+@
+
+
+1.10
+log
+@Update
+@
+text
+@d113 1
+d115 2
+d119 1
+d175 1
+d178 6
+d195 1
+a195 1
+				sprintf(text,"%s %s",recname,arglist);
+d197 17
+a214 1
+
+a220 5
+		else {
+			preplymsg->MsgLen = strlen(cfbuf);
+			memcpy(preplymsg->MsgBuf, cfbuf, preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+		}
+d254 1
+@
+
+
+1.9
+log
+@Update
+@
+text
+@a83 1
+static void cm_mainloop();
+d110 1
+d112 2
+d116 1
+a116 1
+
+d122 1
+a122 1
+		if (status == -1)
+d126 1
+a126 1
+			gs_cgetstr("all", &cfptr);
+d129 1
+a129 1
+		if (cfptr == NULL) {
+d135 2
+a136 2
+			preplymsg->MsgLen = strlen(cfbuf);
+			memcpy(preplymsg->MsgBuf, cfbuf, preplymsg->MsgLen);
+d149 1
+a149 1
+			gs_cgetstr("context", &cfptr);
+d152 1
+a152 1
+		if (cfptr == NULL) {
+d158 2
+a159 2
+			preplymsg->MsgLen = strlen(cfbuf);
+			memcpy(preplymsg->MsgBuf, cfbuf, preplymsg->MsgLen);
+d166 9
+a174 3
+		cp = strtok(cp,":");
+		status = gs_cgetent(cfbuf, cp);
+		if (status == -1)
+a176 2
+			char progpath[256];
+
+d178 9
+a186 5
+			gs_cgetstr("program", &cfptr);
+			strcpy(progpath,cfbuf);
+			
+			sprintf(text,"%s %s",cfbuf,strtok(NULL,cp));
+			gs_log("cm: %s",text);
+d209 2
+a210 1
+		preplymsg->MsgBuf[0] = GSERR_MSGTYPE;
+@
+
+
+1.8
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d111 1
+d161 9
+d171 20
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d96 3
+a98 3
+    int     pid;
+    union wait status;
+    while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0);
+d109 2
+a110 2
+    int     status = GS_SUCCESS;
+    char *cp;
+d114 1
+a114 1
+    cfptr = (char *) &cfbuf[0];
+d116 9
+a124 9
+    switch (pmsg->MsgBuf[0]) {
+    case InqAllReceivers:
+	status = gs_cgetent(cfbuf, "cm");
+	if (status == -1)
+	    cfptr = NULL;
+	else {
+	    status = GS_SUCCESS;
+	    gs_cgetstr("all", &cfptr);
+	}
+d126 11
+a136 11
+	if (cfptr == NULL) {
+	    preplymsg->MsgType = Status;
+	    preplymsg->MsgLen = sizeof(int);
+	    preplymsg->MsgBuf[0] = (int) GS_FAIL;
+	}
+	else {
+	    preplymsg->MsgLen = strlen(cfbuf);
+	    memcpy(preplymsg->MsgBuf, cfbuf, preplymsg->MsgLen);
+	    preplymsg->MsgType = Data;
+	}
+	break;
+d138 10
+a147 10
+    case InqReceiverArgs:
+	pmsg->MsgBuf[pmsg->MsgLen] = '\0';
+	cp = (char *) &pmsg->MsgBuf[1];
+	status = gs_cgetent(cfbuf, cp);
+	if (status == -1)
+	    cfptr = NULL;
+	else {
+	    status = GS_SUCCESS;
+	    gs_cgetstr("context", &cfptr);
+	}
+d149 11
+a159 11
+	if (cfptr == NULL) {
+	    preplymsg->MsgType = Status;
+	    preplymsg->MsgLen = sizeof(int);
+	    preplymsg->MsgBuf[0] = (int) GS_FAIL;
+	}
+	else {
+	    preplymsg->MsgLen = strlen(cfbuf);
+	    memcpy(preplymsg->MsgBuf, cfbuf, preplymsg->MsgLen);
+	    preplymsg->MsgType = Data;
+	}
+	break;
+d161 3
+a163 3
+    case Executive:
+	status = gs_do_exec(pmsg, preplymsg);
+	break;
+d165 8
+a172 8
+    default:
+	status = GS_FAIL;
+	preplymsg->MsgType = Status;
+	preplymsg->MsgLen = sizeof(int);
+	preplymsg->MsgBuf[0] = GSERR_MSGTYPE;
+	break;
+    }
+    return (status);
+d178 1
+a178 1
+    char    text[GSMAXMESSAGE];
+d181 3
+a183 3
+    memcpy(text, pmsg->MsgBuf, pmsg->MsgLen);
+    text[pmsg->MsgLen] = '\0';
+    gs_log("cm: Message is %s\n", text);
+d185 3
+a187 3
+    preply->MsgType = Status;
+    preply->MsgLen = sizeof(int);
+    preply->MsgBuf[0] = (int) GS_SUCCESS;
+d189 1
+a189 1
+    return GS_SUCCESS;
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d110 1
+d112 2
+d115 1
+d124 23
+@
+
+
+1.5
+log
+@.
+@
+text
+@d112 1
+a112 1
+    switch (pmsg->MsgType) {
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d19 1
+a19 1
+		GSMessage_t     reply	- Reply from cmd processor	
+d22 1
+a22 1
+		None.	
+d54 3
+a56 3
+# ifdef SIGTSTP		     /* BSD */
+#  ifndef BSD
+#   define BSD 1
+d58 3
+a60 3
+# include  <sys/file.h>
+# include  <sys/ioctl.h>
+# endif			     /* SIGTSTP (BSD) */
+d62 2
+a63 3
+# ifdef BSD
+#  undef BSD
+# endif			     /* ! SYSV */
+d65 1
+d106 2
+a107 2
+int gs_cm_process_msg(pmsg,preplymsg)
+GSMessage_t *pmsg,*preplymsg;
+d109 1
+a109 1
+int status = GS_SUCCESS;
+d111 10
+a120 10
+	cfptr = (char *)&cfbuf[0];
+	switch (pmsg->MsgType) {
+	case InqAllReceivers:
+		status = gs_cgetent(cfbuf,"cm");
+		if (status == -1)
+			cfptr = NULL;
+		else {
+			status = GS_SUCCESS;
+			gs_cgetstr("all",&cfptr);
+		}
+d122 11
+a132 11
+		if (cfptr == NULL) {
+			preplymsg->MsgType = Status;
+			preplymsg->MsgLen = sizeof(int);
+			preplymsg->MsgBuf[0]  = (int) GS_FAIL;
+		}
+		else {
+			preplymsg->MsgLen = strlen(cfbuf);
+			memcpy(preplymsg->MsgBuf,cfbuf,preplymsg->MsgLen);
+			preplymsg->MsgType = Data;
+		}
+		break;
+d134 12
+a145 12
+	case Executive:
+		status = gs_do_exec( pmsg, preplymsg);	
+		break;
+	
+	default:
+		status = GS_FAIL;
+		preplymsg->MsgType = Status;
+		preplymsg->MsgLen = sizeof(int);
+		preplymsg->MsgBuf[0]  = GSERR_MSGTYPE;
+		break;
+	}	
+return (status);
+d148 2
+a149 2
+int gs_do_exec(pmsg,preply)
+GSMessage_t *pmsg,*preply;
+d151 1
+a151 1
+char text[GSMAXMESSAGE];
+d154 3
+a156 3
+memcpy(text,pmsg->MsgBuf, pmsg->MsgLen);
+text[pmsg->MsgLen] = '\0';
+gs_log("cm: Message is %s\n",text);
+d158 3
+a160 3
+preply->MsgType = Status;
+preply->MsgLen = sizeof (int);
+preply->MsgBuf[0] = (int) GS_SUCCESS;
+d162 1
+a162 1
+return GS_SUCCESS;
+a163 2
+
+
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d114 8
+a121 2
+		gs_cgetent(cfbuf,"cm");
+		gs_cgetstr("all",&cfptr);
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a116 1
+			status = GS_FAIL;
+d136 1
+a136 1
+		preplymsg->MsgBuf[0]  = (int) GSERR_MSGTYPE;
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d103 2
+d111 1
+d113 16
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d104 38
+@

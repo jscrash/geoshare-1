@@ -1,0 +1,133 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     91.05.14.15.23.26;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.11.51.03;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of systype.h.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@/*
+ * Figure out the type of system we're running on.
+ *
+ * W Richard Stevens, 1990, Unix Network Programming
+ * Prentice Hall, Englewood Cliffs, N. J. 07632
+ * 
+ * Appendix A.1
+ *
+ * Try to determine the environment automatically from the C compiler's
+ * predefined symbols.
+ * The following can be determined automatically:
+ * BSD, VAX, Pyramid, AT&T 3b1, AT&T 80386, Celerity and MS-DOS.
+ * If this doesn't work on some new system, ifdef this out and set it
+ * by hand.
+ */
+ 
+#ifdef unix
+ 
+#define UNIX 1
+
+#ifdef vax
+#define VAX 1
+#define BSD 1
+#else
+#ifdef pyr
+
+#define PYRAMID 1
+#define BSD 1
+#else
+#ifdef mc68k
+
+#define UNIXPC 1
+#define SYS5 1
+#else
+#ifdef i386
+
+#define IBMPC 1
+#define SYS5 1
+#else
+#ifdef accel
+
+#define CELERITY 1
+#define BSD 1
+#else
+#ifdef m68k
+#ifdef _AUX_SOURCE
+
+#define BSD 1
+#define AUX 1
+#else
+what type of unix system is this ???
+#endif	/* _AUX_SOURCE */
+#endif	/* m68k */
+#endif	/* accel */
+#endif	/* i386 */
+#endif	/* mc68k */
+#endif	/* pyr*/
+#endif	/* vax */
+
+#endif	/* unix */
+
+#ifdef M_XENIX
+#define UNIX 1
+#define XENIX 1
+#define SYS5 1
+#define IBMPC 1
+#endif	/* M_XENIX */
+
+#ifdef MSDOS
+#define IBMPC 1
+#define MICROSOFT 1
+#endif
+
+/*
+ * define replacement names for the BSD names that we use.
+ */
+ 
+#ifdef SYS5
+#define rindex strrchr
+#define index strchr
+#define u_char unchar
+#define u_short ushort
+#define u_int uint
+#define u_long ulong
+#endif
+
+#ifdef MICROSOFT
+#define rindex strrchr
+#define index strchr
+#define u_char unchar
+#define u_short ushort
+#define u_int uint
+#define u_long ulong
+#endif
+
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@@

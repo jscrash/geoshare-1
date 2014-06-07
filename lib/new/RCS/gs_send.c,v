@@ -1,0 +1,276 @@
+head     1.7;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.7; strict;
+comment  @ * @;
+
+
+1.7
+date     91.05.20.04.27.24;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.14.09.45.44;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.05.14.09.00.02;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.20.51.30;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.19.49.34;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.19.23.30;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_send.c.
+@
+
+
+1.7
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <string.h>
+
+/****************************************************************************
+Module: GS_SEND
+
+Description:
+	This routine transfers data stored in GSTCB_t format to the
+	destination indicated by the handle argument.  After successfully
+	transferring the data, a result structure is returned that indicates
+	the final disposition of the transfer.
+
+Usage:
+	status = gs_send(handle,tcb,&result);
+
+Parameters:
+	INPUT:
+		GSHandle_t handle	- Initialized communications handle
+		GSTCB_t  tcb		- tcb containing data to send
+
+	OUTPUT:
+		GSResult_t *result	- Result/status of transfer.
+
+Status:
+	This routine will return GS_SUCCESS upon successful completion of
+	the data transfer.  If an error occurrs, one of the following may be
+	returned:
+
+                GSERR_MSGTYPE        - Unknown message type.
+
+                GSERR_EXECTYPE       - Unknown Executive Request.
+
+                GSERR_SVC_BUSY       - Requested data receiver is single
+                                     - threaded, and already in use.
+
+                GSERR_SVC_MISMATCH   - The data type sent to the data.
+                                     - service is not supported.
+
+                GSERR_CM_NOTINIT     - The connection manager is not
+                                     - available, request is refused.
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 14:21:14 PDT 1991
+*****************************************************************************/
+
+extern key_t gs_poolkey;
+extern char *gs_poolhead;
+extern int gs_poolid;
+extern int gs_poolsize;
+
+int     gs_send(h, tcb, result)
+GSHandle_t *h;
+GSTCB_t *tcb;
+GSMessage_t *result;
+{
+	int     status = GS_SUCCESS;
+	GSMessage_t msg;
+	statusmsg *sp;
+	ptrmsg *pp;
+
+	pp = (ptrmsg *)&msg.MsgBuf[0];
+	msg.MsgType = Data;
+	pp->class = SharedPointer;
+	pp->key = gs_poolkey;
+	pp->address = gs_poolhead;
+	pp->id = gs_poolid;
+	pp->size = gs_poolsize;
+	pp->buf.uibuf[0] = (unsigned int)tcb;
+	msg.MsgLen = sizeof(GSTCB_t *);
+
+	result->MsgType = 0;
+	result->MsgLen = 0;
+	result->MsgBuf[0] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+
+	status = gs_rec_talk(h, h->slot, &msg, result);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_send: rec_talk status = %d\n", status);
+
+		/*return (status);*/
+	}
+
+
+ /*
+  * handle the various possible replies from the Connection Manager
+  */
+	switch (result->MsgType) {
+	case Status:
+		sp = (statusmsg *)&result->MsgBuf[0];
+		status = sp->buf.uibuf[0];
+		if (h->debug)
+			gs_log("gs_send: Reply is Status %d\n", status);
+		break;
+
+	default:
+		if (h->debug)
+			gs_log("gs_send: Msg Type:%d  Len:%d .\n",
+				result->MsgType, result->MsgLen);
+		status = GS_FAIL;
+		break;
+	}
+
+
+ /*
+  * Free up the temporary connection context we have established.
+  */
+	return (status);
+}
+@
+
+
+1.6
+log
+@Update
+@
+text
+@d101 1
+a101 1
+			fprintf(stderr,"gs_send: Msg Type:%d  Len:%d .\n",
+@
+
+
+1.5
+log
+@Update
+@
+text
+@d49 1
+d67 3
+a69 2
+	memcpy(pp->buf.uibuf,tcb, sizeof(GSTCB_t));
+	msg.MsgLen = sizeof(GSTCB_t);
+@
+
+
+1.4
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d2 1
+d46 6
+a51 2
+int     gs_send(handle, tcb, result)
+GSHandle_t handle;
+d55 55
+a109 1
+	return GS_SUCCESS;
+@
+
+
+1.3
+log
+@.
+@
+text
+@d50 1
+a50 1
+    return GS_SUCCESS;
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d30 1
+a30 1
+                GSERR_EXECTYPE       - Unknown Executive Request. 
+d32 8
+a39 8
+                GSERR_SVC_BUSY       - Requested data receiver is single 
+                                     - threaded, and already in use. 
+                
+                GSERR_SVC_MISMATCH   - The data type sent to the data. 
+                                     - service is not supported.  
+                
+                GSERR_CM_NOTINIT     - The connection manager is not 
+                                     - available, request is refused.  
+d45 1
+a45 1
+int gs_send(handle,tcb,result)
+d50 1
+a50 1
+return GS_SUCCESS;
+a51 1
+
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d3 42
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d3 1
+a3 1
+int gs_initialize(handle,tcb,result)
+d5 2
+a6 2
+GSTCB *tcb;
+GSMESSAGE_t *result;
+@

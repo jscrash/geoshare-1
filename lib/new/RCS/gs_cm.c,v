@@ -1,0 +1,4352 @@
+head     1.57;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.57; strict;
+comment  @ * @;
+
+
+1.57
+date     91.05.20.10.25.31;  author julian;  state Exp;
+branches ;
+next     1.56;
+
+1.56
+date     91.05.20.09.08.13;  author julian;  state Exp;
+branches ;
+next     1.55;
+
+1.55
+date     91.05.20.06.19.06;  author julian;  state Exp;
+branches ;
+next     1.54;
+
+1.54
+date     91.05.20.04.27.10;  author julian;  state Exp;
+branches ;
+next     1.53;
+
+1.53
+date     91.05.19.23.02.58;  author julian;  state Exp;
+branches ;
+next     1.52;
+
+1.52
+date     91.05.15.01.25.27;  author julian;  state Exp;
+branches ;
+next     1.51;
+
+1.51
+date     91.05.14.21.31.47;  author julian;  state Exp;
+branches ;
+next     1.50;
+
+1.50
+date     91.05.14.14.23.30;  author julian;  state Exp;
+branches ;
+next     1.49;
+
+1.49
+date     91.05.14.03.37.45;  author julian;  state Exp;
+branches ;
+next     1.48;
+
+1.48
+date     91.05.12.03.06.52;  author julian;  state Exp;
+branches ;
+next     1.47;
+
+1.47
+date     91.05.12.02.18.30;  author julian;  state Exp;
+branches ;
+next     1.46;
+
+1.46
+date     91.05.12.00.45.14;  author julian;  state Exp;
+branches ;
+next     1.45;
+
+1.45
+date     91.05.09.07.56.37;  author julian;  state Exp;
+branches ;
+next     1.44;
+
+1.44
+date     91.05.09.04.00.34;  author julian;  state Exp;
+branches ;
+next     1.43;
+
+1.43
+date     91.05.08.22.59.37;  author julian;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     91.05.06.22.52.06;  author julian;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     91.05.06.13.04.03;  author julian;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     91.05.06.04.34.59;  author julian;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     91.05.05.14.23.44;  author julian;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     91.05.04.00.22.30;  author julian;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     91.05.03.21.37.24;  author julian;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     91.05.03.10.57.17;  author julian;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     91.04.30.09.49.08;  author julian;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     91.04.30.05.05.58;  author julian;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     91.04.30.04.10.18;  author julian;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     91.04.30.02.51.28;  author julian;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     91.04.29.20.45.20;  author julian;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     91.04.29.12.06.11;  author julian;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     91.04.29.11.47.41;  author julian;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     91.04.29.10.45.53;  author julian;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     91.04.25.06.39.42;  author julian;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     91.04.25.03.45.39;  author julian;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     91.04.25.02.04.40;  author julian;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     91.04.25.01.17.50;  author julian;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     91.04.24.23.35.43;  author julian;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     91.04.24.22.36.14;  author julian;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     91.04.24.18.13.36;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.04.24.14.21.04;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.04.24.13.39.42;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.04.24.09.38.11;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.04.24.07.03.28;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.04.23.03.30.43;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.04.21.03.01.40;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.04.21.00.04.48;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.04.20.21.45.57;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.04.20.19.11.14;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.04.20.16.05.32;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.20.12.28.03;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.20.12.11.17;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.20.05.50.19;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.19.20.24.24;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.19.19.54.50;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.19.19.49.34;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.18.51.28;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.18.14.15;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.17.55.35;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_cm.c.
+@
+
+
+1.57
+log
+@Update
+@
+text
+@#ifndef SERVER
+#define SERVER 1
+#endif
+#define SYSV 1
+#include "gs.h"
+
+/****************************************************************************
+Module: GS_CM
+
+Description:
+	This is the GeoShare Connection Manager program for Unix based
+	systems.  This program runs continously in the background waiting
+	for messages to arrive in its message slot.
+
+	The connection manager is responsible for initiating connections
+	between Data senders and data receivers.  The application program
+	requests connection to a data receiver process by sending a special
+	message called an Executive Request, to the CM message slot.
+	Executive requests may be sent from either partie in a connection
+	during any point in the transfer process.  This is because the
+	Connection Manager maintains a seperate message area for Executive
+	Requests, and therefor does not have to worry about data collisions.
+
+	Application programs connect to the CM by utilizing the GeoShare
+	application programmer interface toolkit.  The API simplifies the
+	structure of sender & receiver programs by hiding the vagaries of
+	data transfer & synchronization.  Users simply call gs_initialize
+	and pass in the name of the receiver program to connect to, as well
+	as any arguments that program requires.  gs_initialize returns a
+	connection handle which can be used for calls to gs_send(), a
+	high-level interface for sending GeoScience.h data structures.
+
+	The operational aspects  of the CM is covered in the document
+	'GeoShare Software Design'.
+
+
+	INSTALLATION PRIVILEDGES
+	------------------------
+	Note:  This process needs to be run under the ROOT operating system
+	account so that it can have the priviledge to start processes under
+	various other user-ids other than its own.  This allows the user
+	wishing to send data to start up the receiver as himself and thus
+	avoid access problems.  If this program is not installed as set-uid
+	ROOT then it must be started by the root account, ideally during
+	system boot directly from the boot file /etc/rc.local.
+
+	If you choose not to install/use the CM program in a priveledged
+	account, you must atleast be sure that the programs and files
+	associated with GeoShare be stored in a directory that is not
+	accessible for writing by anyone other than the system administrator.
+
+	The connection manager does not allow arbitrary starting of
+	processes.  The programs that it can start for a calling application
+	are all defined in the configuration file.  Each program is given a
+	short name, or alias, that is used by applications when specifying a
+	receiver.  The full path of the receiver program is contained
+	withing the config file.  If this file is not protected from write
+	access by non-system users, an obvious security problem arises;
+	users can stick their own entries in this file and have their
+	programs executed as ROOT.
+
+
+	GARBAGE COLLECTION & TRAGEDY RECOVERY
+	-------------------------------------
+	This program performs regularly scheduled cleanup & monitoring tasks
+	by setting the SIGALRM signal and catching it.  The reason for this
+	is as follows:
+
+		* If either side of a connection suddenly exits without
+		  properly shutting down & releasing its resources the CM
+		  will notice this and provide for orderly cleanup.  If a
+		  process dies without freeing its semaphores, they will
+		  stay allocated until the system is re-booted.  A
+		  connection manager running as root can intercede and take
+		  over the orphaned resources.
+
+		* If a process gets jammed in a blocking operation, this
+		  will be noticed by the CM, which can in turn send the
+		  blocked process a signal that causes it to abort its read
+		  and try again.
+
+		* Changes and or additions to the CM configuration file
+		  gstab can be dynamically picked up  by periodically checking
+		  the modification timestamp on the configuration file and
+		  re-reading it whenver it shows an update.
+
+	
+	Application processes connect to the CM initially by locating and
+	attaching to the CM message slot by resolving its 'well-known-address'.
+	The CM message slot is a shared memory datastructure that is
+	addressable by building a key from the full path of the configuration
+	file gstab.  The gstab file is usually located in the directory
+	$GSHOME/gstab.
+
+
+	
+Status:
+
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BUSY       - Requested data receiver is single
+					     - threaded, and already in use.
+
+	GSERR_SVC_MISMATCH   - The data type sent to the data
+					     - service is not supported.
+
+	GSERR_SVC_BADCONTEXT - The context args given to the
+					     - receiver are bad or unsupported.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			   			 - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Sat Apr 19 01:23:17 PDT 1991
+*****************************************************************************/
+#include  <sys/types.h>
+#include  <string.h>
+#include  <sys/stat.h>
+#include  <sys/wait.h>
+#include  <sys/param.h>
+#include  <sys/ipc.h>
+#include  <sys/shm.h>
+#include  <signal.h>
+#include  <setjmp.h>
+#include  <errno.h>
+#include  <math.h>	     /* declare atoi for me. */
+#include  <varargs.h>
+
+#ifndef SYSV
+#ifdef SIGTSTP		     /* BSD */
+#ifndef BSD
+#define BSD 1
+#endif
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#endif			     /* SIGTSTP (BSD) */
+#else
+#ifdef BSD
+#undef BSD
+#endif			     /* ! SYSV */
+#endif			     /* ! SYSV */
+
+extern int wait3();
+extern int putenv();
+extern int chdir();
+
+#ifdef SERVER
+
+GSGBL_t CM, *pcm = &CM;
+
+#define GSIGORINTERVAL  10000/* seconds */
+#define WATCHDOGNAME "Boris - Watching %s %d"
+
+
+extern char *optarg;
+extern int optind, opterr;
+extern int errno;
+
+extern char *getcwd(), *getenv();
+extern char *index(), *malloc();
+static void usage();
+static void gs_igor();
+static void gs_hup();
+static void gs_cmtermvec();
+static void gs_cmintvec();
+static int gs_term_cm();
+static int gs_cm_mainloop();
+static int gs_init_cm();
+
+int     GsState = 0;
+
+enum states {
+	InitState = 0,
+	WaitcmsemState,
+	ProcessMsgState,
+	DoneState,
+	GarbageCollectState,
+	TimeoutState,
+	ChildWaitState
+	};
+struct {
+	enum states state;
+	char str[64];
+	}cmstatetbl[]  = {
+		InitState,			"Initializing",
+		WaitcmsemState,		"Waiting for messages on CM semaphore...",
+		ProcessMsgState,	"Processing Executing Request",
+		DoneState,			"Shutting down connection manager",
+		GarbageCollectState,	"Cleaning up dead/locked connections",
+		TimeoutState,		"Timed out - Cleaning up & exiting",
+		ChildWaitState,		"Waiting for child process to exit"
+		};
+
+
+static proc cmplist = {0,0,0,0,(proc *)0};
+
+
+proc *gs_findproc(pid)
+int pid;
+{
+	pproc pp;
+
+	for (pp=&cmplist; pp->next; pp=pp->next) {
+		if (pp->pid == pid)
+			return pp;
+		}
+	return ((proc *)0);
+}
+
+void gs_addproc(pid,type,key,shmid)
+int pid;
+int type;
+int shmid;
+key_t key;
+{
+	pproc pp;
+
+
+	
+	for (pp=&cmplist; pp->next ; pp=pp->next)
+		;
+
+	pp->next = (pproc)malloc(sizeof(proc));
+	pp->next->pid= pid;
+	pp->next->type  =type;
+	pp->next->key = key;
+	pp->next->shmid = shmid;
+	pp->next->next = (pproc)0;
+
+}
+
+void gs_delproc(pid)
+int pid;
+{
+pproc pp;
+
+	for (pp=&cmplist; pp->next; pp=pp->next) {
+		if (pp->next->pid == pid) {
+			pproc tp;
+			tp = pp->next->next;
+			free(pp->next);
+			pp->next = tp;
+		}
+	}
+
+}
+
+
+jmp_buf gs_cmreapenv;
+
+ /*
+  * catch SIGTERM signals.
+  */
+static void gs_cmtermvec()
+{
+	longjmp(gs_cmreapenv, 1);
+}
+
+ /*
+  * catch SIGINT signals.
+  */
+static void gs_cmintvec()
+{
+	longjmp(gs_cmreapenv, 1);
+}
+
+ /*
+  * Receiver process dies - Handle child exit signal (SIGCLD) This is not
+  * needed on SYSV systems like the Sun.
+  */
+#if defined(BSD) || defined(sun)
+static void gs_cm_sigcld()
+{
+	int     pid;
+	int status;
+	int oldstate;
+
+	oldstate = GsState;
+	GsState = ChildWaitState;
+	while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0)
+		gs_log("cm:Child %d has exited. Status was %lu",pid,status);
+	GsState = oldstate;
+	signal(SIGCLD,gs_cm_sigcld);
+}
+#endif
+
+
+
+
+ /*
+  * GS_IGOR - Interval Wakeup Task Handler
+  * 
+  * Perform connection monitoring & ipc resource cleanup chores every 5 seconds
+  * using SIGALRM.  Watch for sender & receiver processes that die for some
+  * reason while they are still holding locks on slot semaphores.  The CM is
+  * responsible for cleaning up and releasing resources that are abandoned by
+  * crashed clients.
+  * 
+  */
+static int cm_timeout = FALSE;
+static void gs_igor()
+{
+	static int nalarms = 0;
+	GsState = GarbageCollectState;
+
+	/* Check for dead connections... */
+	nalarms++;
+	if (nalarms > MAXTRYS) {
+		cm_timeout = TRUE;
+		GsState = TimeoutState;
+		nalarms = 0;
+	}
+}
+
+static void gs_hup()
+{
+	cm_timeout = TRUE;
+}
+
+static void gs_usr1()
+{
+int oldalrm;
+	pproc pp;
+oldalrm = alarm(0);
+	gs_log("cm:SIGUSR1 - Dumping states to logfile...");
+	gs_log("cm:state is: %s",cmstatetbl[GsState].str);
+	gs_sem_dump("  (CM)	locksem", pcm->cmslot->locksem);
+	gs_sem_dump("  (CM)	msgsem", pcm->cmslot->msgsem);
+	gs_sem_dump("  (CM)	cmsem", pcm->cmslot->cmsem);
+
+	gs_log("Processes registered with cm: (type 1=CM, 0=Client)");
+	for (pp=&cmplist; pp; pp=pp->next) {
+		gs_log(" pid:%lu, type:%u, shmid:%lu, key:%lu (%lx)",
+			pp->pid,pp->type,pp->shmid,pp->key,pp->key);
+	}
+signal(SIGUSR1,gs_usr1);
+alarm(oldalrm);
+}
+
+
+
+
+ /*------------------------------------------------------------------
+ *
+ *  Shutdown the Connection Manager & release its resources.
+ *  If this is not done here, then the shared memory segments
+ *  and semaphores we have allocated will stick around until
+ *  the system is rebooted.   This causes other problems as
+ *  well since ipc resources are extremely finite, so next time
+ *  we connect, we will not be able to grab the memory we expect.
+ *
+ *------------------------------------------------------------------*/
+static int gs_term_cm()
+{
+	int     status = GS_SUCCESS;
+	int id;
+
+	errno = 0;
+	if (pcm->cmslot == (GSSlot_t *) 0) {
+		gs_log("gs_delete_slot: Null slot pointer.");
+		return (GS_FAIL);
+	}
+	if(pcm->debug)
+		gs_log("cm:Deleting slot resources...");
+
+	gs_sem_rm(pcm->cmslot->locksem);
+	gs_sem_rm(pcm->cmslot->msgsem);
+	gs_sem_rm(pcm->cmslot->cmsem);
+
+	id = pcm->cmslot->id;
+
+	if (gs_shm_free((char *)pcm->cmslot) != GS_SUCCESS) {
+		gs_log("cm:gs_delete_slot:Cannot detach shared memory %d", pcm->cmslot);
+		status = GS_FAIL;
+	}
+	else {
+		shmctl(id, IPC_RMID, (struct shmid_ds *) 0);
+	}
+
+	return (status);
+}
+
+
+
+ /*
+ *-------------------------------------------------------------
+ * Create and initialize the connection manager datastructures
+ * such as the shared memory message slot and its semaphores.
+ * Also read the configuration file and configure as necessary
+ *-------------------------------------------------------------
+ */
+static int gs_init_cm()
+{
+	int     status;
+	char   *cp;
+
+	cp = getenv("GSCMKEY");
+	if (cp == (char *) 0) {
+	/* No CM slot key Env variable defined. */
+	/* Use the config file path instead. */
+		pcm->cm_key = gs_ipc_key(pcm->config_file);
+		if (pcm->cm_key->key == (key_t) - 1) {
+			gs_log("Error creating key with ftok()");
+			exit(1);
+		}
+	}
+	else {
+		pcm->cm_key->key = (key_t) atoi(cp);
+	}
+
+	status = gs_create_slot(pcm->cm_key, &(pcm->cmslot));
+	if (status != GS_SUCCESS) {
+		gs_log("gs_init_cm: Error creating slot.");
+	}
+
+	return (status);
+}
+
+static void usage()
+{
+
+	printf("/n Usage:\n");
+	printf("	gs_cm [-d] [-f <config file>]\n");
+	printf("    -d		- Debug mode. Run in foreground");
+	printf("    -f file	- Config file spec.  (def:$GSHOME/gstab");
+}
+
+
+static int gs_cm_mainloop()
+{
+	int     done = FALSE;
+	int     itr = 0;
+	int     status = GS_SUCCESS;
+	GSMessage_t rmsg;
+
+	GsState = InitState; /* Startup - Init state. */
+	errno = 0;
+	itr = 0;
+	cm_timeout = FALSE;
+	alarm(GSIGORINTERVAL);
+	signal(SIGALRM, gs_igor);
+	signal(SIGHUP, gs_hup);
+	while (!done) {
+		itr++;
+		do {
+			errno = 0;
+			if (cm_timeout == TRUE) {
+				gs_log("cm: timeout.");
+				done = TRUE;
+				break;
+			}
+
+			alarm(GSIGORINTERVAL);
+			signal(SIGALRM, gs_igor);
+			GsState = WaitcmsemState;
+			status = gs_sem_wait(pcm->cmslot->cmsem);
+			if (status == GS_SUCCESS) {
+				break;
+			}
+			else if (status == EINTR) {
+				continue;
+			}
+			else {
+				gs_log("cm:Sem error while waiting:%d", status);
+				done = TRUE;
+				break;
+			}
+		} while (1);
+
+		signal(SIGALRM, SIG_IGN);
+		if (done) {
+			GsState = DoneState;
+			do {
+				sleep(0);
+				errno = 0;
+				gs_sem_signal(pcm->cmslot->msgsem);
+			} while (errno == EINTR);
+
+			sleep(0);
+			break;
+		}
+		if (pcm->debug) {
+			gs_sem_dump("  (CM)	locksem", pcm->cmslot->locksem);
+			gs_sem_dump("  (CM)	msgsem", pcm->cmslot->msgsem);
+			gs_sem_dump("  (CM)	cmsem", pcm->cmslot->cmsem);
+		}
+
+
+		if (pcm->cmslot->msg.MsgLen >= 0 &&
+			pcm->cmslot->msg.MsgType == Executive &&
+			pcm->cmslot->msg.MsgLen <= GSMAXMESSAGE) {
+			rmsg.MsgType = 0;
+			rmsg.MsgLen = 0;
+			GsState = ProcessMsgState;
+			status = gs_cm_process_msg(pcm,&pcm->cmslot->msg, &rmsg);
+			if (status == GS_SUCCESS) {
+				memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+			}
+			else {
+				int *pint = (int *)&pcm->cmslot->msg.MsgBuf[0];
+				pcm->cmslot->msg.MsgType = Status;
+				pcm->cmslot->msg.MsgLen = sizeof status;
+				*pint  = status;
+			}
+		}
+
+		do {
+			errno = 0;
+			gs_sem_signal(pcm->cmslot->msgsem);
+		} while (errno == EINTR);
+		sleep(0);
+	}
+	return status;
+}
+
+
+/*ARGSUSED*/
+void    main(argc, argv, envp)
+int     argc;
+char   *argv[], *envp[];
+{
+	int     ppid = 0;
+	int     pid = 0;
+	int     errflag = 0;
+	char    c;
+	char    text[256];
+	char    pname[BUFSIZ];
+	int     status = GS_SUCCESS;
+	struct stat statbuf;
+	static char *hptr;
+
+	errno = 0;
+	pcm->config_file[0] = '\0';
+	pcm->debug = FALSE;
+	pcm->homedir[0] = '\0';
+	GsState = InitState;
+
+	while ((c = getopt(argc, argv, "dh:f:")) != -1) {
+		switch (c) {
+		case 'd':
+			pcm->debug = TRUE;
+			break;
+
+		case 'h':
+			hptr=(char *)malloc(strlen(optarg)+16);
+			sprintf(hptr,"GSHOME=%s",optarg);
+			putenv (hptr);
+			strcpy(pcm->homedir, optarg);
+			break;
+
+		case 'f':   /* turn on debugging */
+			strcpy(pcm->config_file, optarg);
+			break;
+
+		case '?':   /* bad argument */
+			errflag = TRUE;
+			break;
+
+		default:    /* this can't happen! */
+			fprintf(stderr, "%s: BAD RETURN FROM GETOPT (%d)!\n", c);
+			exit(1);
+		}
+	}
+	if (errflag == TRUE) {
+		usage();
+		exit(1);
+	}
+
+	if (pcm->homedir[0] == '\0') {
+		if (gs_home(pcm->homedir) == NULL) {
+			fprintf(stderr, "gs_cm: GSHOME not defined.\n");
+			exit(1);
+		}
+	}
+
+	if (stat(pcm->homedir, &statbuf)) {
+		fprintf(stderr, "Can't locate path: %s\n", pcm->homedir);
+		exit(1);
+	}
+	if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+		fprintf(stderr, "Directory %s is not r/w accessible.\n", pcm->homedir);
+		exit(1);
+	}
+
+	if (pcm->config_file[0] == '\0') {
+		sprintf(pcm->config_file, "%s/gstab", pcm->homedir);
+	}
+	if (stat(pcm->config_file, &statbuf)) {
+		sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+		strcpy(pcm->config_file, text);
+		if (stat(pcm->config_file, &statbuf)) {
+			fprintf(stderr, "Error!!! Cannot find configuration file: %s\n",
+				pcm->config_file);
+			exit(1);
+		}
+	}
+
+	if (pcm->debug) {
+		gs_log("Debug mode ON\n");
+		gs_log("Config file is %s\n", pcm->config_file);
+		gs_log("Home directory is %s\n", pcm->homedir);
+	}
+
+
+/*
+ * Ignore terminal signals if defined (BSD only)
+ */
+#ifdef SIGTTIN		     /* Ignore the tty read by background process */
+	signal(SIGTTIN, SIG_IGN);
+#endif
+
+#ifdef SIGTTOU		     /* Ignore the tty write by background process */
+	signal(SIGTTOU, SIG_IGN);
+#endif
+
+#ifdef SIGTSTP		     /* Ignore suspend signal. (^Z usually) */
+	signal(SIGTSTP, SIG_IGN);
+#endif
+
+
+/*
+ * If not in debug mode then run as a Daemon process. This involves:
+ * - fork child process & kill parent
+ * - Become leader of a new process group
+ * - disassociate the controlling terminal from this process.
+ */
+	if (!pcm->debug) {
+		if ((pid = fork()) < 0)
+			gs_log("Cannot fork.");
+		else if (pid > 0)
+			exit(0);
+
+#ifdef BSD		     /* BSD */
+		if (setpgrp(0, getpid()) == -1)	/* Become leader of new proc. group */
+			gs_log("Cant change process group");
+	/* Close process terminal */
+		if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+			ioctl(fd, TIOCNOTTY, (char *) 0);
+			close(fd);
+		}
+#else			     /* SYSV */
+		if (setpgrp() == -1)
+			gs_log("Can't change process group");
+		signal(SIGHUP, SIG_IGN);	/* Let child survive kill of
+						 * parent */
+		if ((pid = fork()) < 0)	/* fork child again to disassociate */
+			gs_log("Can't fork second child");
+		else if (pid > 0)
+			exit(0);
+#endif
+		/* Close descriptors in child process. */
+		{
+			int     f;
+			for (f = 0; f < NOFILE; f++)
+				(void) close(f);
+		}
+
+		umask(0);
+		chdir("/"); 		/* cd to a local (real) filesystem. */
+		errno = 0;
+	}
+
+/*
+ * Handle child process exit notification.
+ */
+					/* If BSD or sun, then handle SIGCLD */
+#if defined(BSD) || defined(sun)
+	signal(SIGCLD, gs_cm_sigcld);
+#else			     /* For SYSV, handler not necessary */
+	signal(SIGCLD, SIG_IGN);
+#endif
+
+	pcm->cm_pid = pid;
+	status = gs_init_cm();
+
+	if (status != GS_SUCCESS) {
+		gs_log("Failed to Initialize CM.");
+		exit(1);
+	}
+
+	strcpy(pname, argv[0]);
+	strncpy(argv[0], "Boris", strlen(argv[0]));
+
+ /* Fork so we can close connection & cleanup even if CM dies */
+	pid = fork();
+	if (setjmp(gs_cmreapenv)) {
+		gs_term_cm();
+		kill(pid, SIGKILL);
+		exit(0);
+	/* NOTREACHED */
+	}
+
+	(void) signal(SIGTERM, gs_cmtermvec);
+	(void) signal(SIGINT, gs_cmintvec);
+
+ /* If parent goes away, cleanup and exit */
+	if (pid == 0) {
+		ppid = getppid();
+#ifdef BSD		     /* BSD */
+		setpgrp(0, getpid());	/* Become leader of new proc. */
+#else
+		setpgrp();
+#endif
+		while (1) {
+			if (kill(ppid, 0) < 0) {
+				errno = 0;
+				gs_log("%s: cleaning up cm resources. (CM has died)",argv[0]);
+				gs_term_cm();
+				exit(0);
+			}
+			sleep(10);
+		}
+	}
+
+	strcpy(argv[0], pname);
+	signal(SIGUSR1,gs_usr1);
+	pcm->cm_pid = getpid();
+	cmplist.pid = pcm->cm_pid;
+	cmplist.type = 1;
+	cmplist.key = pcm->cm_key->key;
+	cmplist.shmid = pcm->cmslot->id;
+	cmplist.next = (proc *)0;
+	gs_cm_mainloop();
+	gs_term_cm();
+	exit(0);
+}
+
+#endif			     /* SERVER */
+@
+
+
+1.56
+log
+@Update
+@
+text
+@d198 1
+a199 7
+typedef struct pent {
+	int pid;		/* pid of this process entry */
+	int type;		/* type of process: APP or REC */
+	key_t key;		/* key of slot owned by process if type=APP */
+	int shmid;		/* shm id of slot owned by process if type=APP */
+	struct pent *next;	/* next process entry in list. */
+	} proc,*pproc;
+a200 3
+proc cmplist;
+
+
+a220 3
+	gs_log("adding %lu to proclist",pid);
+	for (pp=&cmplist; pp->next; pp=pp->next)
+			;
+d222 4
+d334 1
+d336 2
+a337 1
+		gs_log("client pid:%lu, shmid:%lu, key:%u",pp->pid,pp->shmid,pp->key);
+a676 1
+
+d714 1
+a714 1
+			sleep(15);
+d717 1
+d720 6
+@
+
+
+1.55
+log
+@Update
+@
+text
+@d202 2
+a203 2
+	GSKey_t *key;	/* key of slot owned by process if type=APP */
+	int slotid;		/* shm id of slot owned by process if type=APP */
+d207 1
+a207 1
+static proc cmplist;
+d210 1
+a210 1
+static proc *gs_findproc(pid)
+d222 1
+a222 1
+static void gs_addproc(pid,type,key,slotid)
+d225 1
+a226 1
+int slotid;
+d230 1
+d237 2
+a238 2
+	pp->next->key->key = key;
+	pp->next->slotid = slotid;
+d243 1
+a243 1
+static void gs_delproc(pid)
+d334 1
+d341 4
+@
+
+
+1.54
+log
+@Update
+@
+text
+@d154 4
+a197 2
+#define GSIGORINTERVAL  10000/* seconds */
+#define WATCHDOGNAME "Boris - Watching %s %d"
+d199 60
+a524 1
+	char   *cp = NULL;
+@
+
+
+1.53
+log
+@*** empty log message ***
+@
+text
+@a150 14
+#ifdef BSD
+/*
+ * Under BSD. these server routines use the syslog(3) facility.
+ * They don't append a newline, for example.
+ */
+#include <syslog.h>
+#else			     /* NOT BSD */
+/*
+ * There really ought to be a better way to handle server logging
+ * under System V.
+ */
+#define syslog(a, b)    fprintf(stderr, "%s\n", (b))
+#define openlog(a,b,c)  fprintf(stderr, "%s\n", (a))
+#endif			     /* BSD */
+a350 2
+	if (pcm->debug)
+		printf("Key is %d\n", pcm->cm_key->key);
+d512 2
+a513 5
+		if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+			strcpy(pcm->homedir, cp);
+		}
+		else {
+			fprintf(stderr, "gs_cm: No home directory specified.\n");
+d517 1
+@
+
+
+1.52
+log
+@Update
+@
+text
+@d198 7
+a204 7
+		InitState,"Initializing",
+		WaitcmsemState,"Waiting for messages on CM semaphore...",
+		ProcessMsgState,"Processing Executing Request",
+		DoneState,"Shutting down connection manager",
+		GarbageCollectState,"Cleaning up dead/locked connections",
+		TimeoutState,"Timed out - Cleaning up & exiting",
+		ChildWaitState,"Waiting for child process to exit"
+d298 1
+a298 1
+/*------------------------------------------------------------------
+d318 2
+d340 1
+a340 1
+/*
+@
+
+
+1.51
+log
+@Update
+@
+text
+@d146 3
+a182 1
+static int     debug = 0;
+d325 1
+a325 1
+	if (gs_shm_free(pcm->cmslot) != GS_SUCCESS) {
+a482 1
+	char    string[BUFSIZ];
+@
+
+
+1.50
+log
+@Update
+@
+text
+@d485 1
+d493 1
+a493 1
+	while ((c = getopt(argc, argv, "dhf:")) != -1) {
+d500 3
+@
+
+
+1.49
+log
+@Update
+@
+text
+@d309 1
+a309 1
+ /* Wrap it up... Detach shared memory segment. */
+d311 20
+a330 2
+ /* Wait for lock, then Free semaphores */
+	status = gs_delete_slot(pcm->cmslot);
+@
+
+
+1.48
+log
+@*** empty log message ***
+@
+text
+@a95 1
+Usage:
+a96 5
+Parameters:
+	INPUT:
+
+	OUTPUT:
+
+d104 1
+a104 1
+			     - threaded, and already in use.
+d107 1
+a107 1
+			     - service is not supported.
+d110 1
+a110 1
+			     - receiver are bad or unsupported.
+d113 1
+a113 1
+			     - available, request is refused.
+d117 1
+a117 1
+	Julian Carlisle 	 Fri Apr 18 02:52:38 PDT 1991
+d180 2
+a181 1
+int     debug = 0;
+d183 23
+d216 1
+a216 1
+    longjmp(gs_cmreapenv, 1);
+d224 1
+a224 1
+    longjmp(gs_cmreapenv, 1);
+d231 1
+a231 1
+#ifdef BSD
+d234 10
+a243 3
+    int     pid;
+    union wait status;
+    while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0);
+d263 2
+a264 1
+    static int nalarms = 0;
+d266 7
+a272 5
+    nalarms++;
+    if (nalarms > MAXTRYS) {
+	cm_timeout = TRUE;
+	nalarms = 0;
+    }
+d277 1
+a277 1
+    cm_timeout = TRUE;
+d280 12
+d294 2
+d308 1
+a308 1
+    int     status = GS_SUCCESS;
+d312 2
+a313 2
+    status = gs_delete_slot(pcm->cmslot);
+    return (status);
+d327 2
+a328 2
+    int     status;
+    char   *cp;
+d330 9
+a338 8
+    cp = getenv("GSCMKEY");
+    if (cp == (char *) 0) {
+    /* No CM slot key Env variable defined. */
+    /* Use the config file path instead. */
+	pcm->cm_key = gs_ipc_key(pcm->config_file);
+	if (pcm->cm_key->key == (key_t) - 1) {
+	    gs_log("Error creating key with ftok()");
+	    exit(1);
+d340 5
+a344 6
+    }
+    else {
+	pcm->cm_key->key = (key_t) atoi(cp);
+    }
+    if (pcm->debug)
+	printf("Key is %d\n", pcm->cm_key->key);
+d346 4
+a349 4
+    status = gs_create_slot(pcm->cm_key, &(pcm->cmslot));
+    if (status != GS_SUCCESS) {
+	gs_log("gs_init_cm: Error creating slot.");
+    }
+d351 1
+a351 1
+    return (status);
+d357 4
+a360 4
+    printf("/n Usage:\n");
+    printf("	gs_cm [-d] [-f <config file>]\n");
+    printf("    -d		- Debug mode. Run in foreground");
+    printf("    -f file	- Config file spec.  (def:$GSHOME/gstab");
+d363 1
+d366 4
+a369 4
+    int     done = FALSE;
+    int     itr = 0;
+    int     status = GS_SUCCESS;
+    GSMessage_t rmsg;
+d371 16
+a386 16
+
+    errno = 0;
+    itr = 0;
+    cm_timeout = FALSE;
+    alarm(GSIGORINTERVAL);
+    signal(SIGALRM, gs_igor);
+    signal(SIGHUP, gs_hup);
+    while (!done) {
+	itr++;
+	do {
+	    errno = 0;
+	    if (cm_timeout == TRUE) {
+		gs_log("cm: timeout.");
+		done = TRUE;
+		break;
+	    }
+d388 16
+a403 15
+	    alarm(GSIGORINTERVAL);
+	    signal(SIGALRM, gs_igor);
+	    status = gs_sem_wait(pcm->cmslot->cmsem);
+	    if (status == GS_SUCCESS) {
+		break;
+	    }
+	    else if (status == EINTR) {
+		continue;
+	    }
+	    else {
+		gs_log("cm:Sem error while waiting:%d", status);
+		done = TRUE;
+		break;
+	    }
+	} while (1);
+d405 8
+a412 7
+	signal(SIGALRM, SIG_IGN);
+	if (done) {
+	    do {
+		sleep(0);
+		errno = 0;
+		gs_sem_signal(pcm->cmslot->msgsem);
+	    } while (errno == EINTR);
+d414 8
+a421 8
+	    sleep(0);
+	    break;
+	}
+	if (pcm->debug) {
+	    gs_sem_dump("  (CM)	locksem", pcm->cmslot->locksem);
+	    gs_sem_dump("  (CM)	msgsem", pcm->cmslot->msgsem);
+	    gs_sem_dump("  (CM)	cmsem", pcm->cmslot->cmsem);
+	}
+d424 17
+a440 10
+	if (pcm->cmslot->msg.MsgLen >= 0 &&
+	    pcm->cmslot->msg.MsgType == Executive &&
+	    pcm->cmslot->msg.MsgLen <= GSMAXMESSAGE) {
+	    rmsg.MsgType = 0;
+	    rmsg.MsgLen = 0;
+	    status = gs_cm_process_msg(&pcm->cmslot->msg, &rmsg);
+	    if (status == GS_SUCCESS) {
+		memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+	    }
+	    else {
+d442 5
+a446 4
+		pcm->cmslot->msg.MsgType = Status;
+		pcm->cmslot->msg.MsgLen = sizeof status;
+		pcm->cmslot->msg.MsgBuf[0] = status;
+	    }
+d448 1
+a448 8
+
+	do {
+	    errno = 0;
+	    gs_sem_signal(pcm->cmslot->msgsem);
+	} while (errno == EINTR);
+	sleep(0);
+    }
+    return status;
+d457 10
+a466 10
+    char   *cp = NULL;
+    int     ppid = 0;
+    int     pid = 0;
+    int     errflag = 0;
+    char    c;
+    char    text[256];
+    char    string[BUFSIZ];
+    char    pname[BUFSIZ];
+    int     status = GS_SUCCESS;
+    struct stat statbuf;
+d468 5
+a472 4
+    errno = 0;
+    pcm->config_file[0] = '\0';
+    pcm->debug = FALSE;
+    pcm->homedir[0] = '\0';
+d474 5
+a478 5
+    while ((c = getopt(argc, argv, "dhf:")) != -1) {
+	switch (c) {
+	case 'd':
+	    pcm->debug = TRUE;
+	    break;
+d480 3
+a482 3
+	case 'h':
+	    strcpy(pcm->homedir, optarg);
+	    break;
+d484 3
+a486 3
+	case 'f':	     /* turn on debugging */
+	    strcpy(pcm->config_file, optarg);
+	    break;
+d488 3
+a490 3
+	case '?':	     /* bad argument */
+	    errflag = TRUE;
+	    break;
+d492 4
+a495 3
+	default:	     /* this can't happen! */
+	    fprintf(stderr, "%s: BAD RETURN FROM GETOPT (%d)!\n", c);
+	    exit(1);
+d497 4
+a500 5
+    }
+    if (errflag == TRUE) {
+	usage();
+	exit(1);
+    }
+d502 8
+a509 3
+    if (pcm->homedir[0] == '\0') {
+	if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	    strcpy(pcm->homedir, cp);
+d511 3
+a513 3
+	else {
+	    fprintf(stderr, "gs_cm: No home directory specified.\n");
+	    exit(1);
+d515 4
+a518 9
+    }
+    if (stat(pcm->homedir, &statbuf)) {
+	fprintf(stderr, "Can't locate path: %s\n", pcm->homedir);
+	exit(1);
+    }
+    if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+	fprintf(stderr, "Directory %s is not r/w accessible.\n", pcm->homedir);
+	exit(1);
+    }
+d520 3
+a522 6
+    if (pcm->config_file[0] == '\0') {
+	sprintf(pcm->config_file, "%s/gstab", pcm->homedir);
+    }
+    if (stat(pcm->config_file, &statbuf)) {
+	sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+	strcpy(pcm->config_file, text);
+d524 7
+a530 3
+	    fprintf(stderr, "Error!!! Cannot find configuration file: %s\n",
+		pcm->config_file);
+	    exit(1);
+a531 1
+    }
+d533 5
+a537 5
+    if (pcm->debug) {
+	gs_log("Debug mode ON\n");
+	gs_log("Config file is %s\n", pcm->config_file);
+	gs_log("Home directory is %s\n", pcm->homedir);
+    }
+d544 1
+a544 1
+    signal(SIGTTIN, SIG_IGN);
+d548 1
+a548 1
+    signal(SIGTTOU, SIG_IGN);
+d552 1
+a552 1
+    signal(SIGTSTP, SIG_IGN);
+d562 5
+a566 6
+    signal(SIGCLD, SIG_IGN);
+    if (!pcm->debug) {
+	if ((pid = fork()) < 0)
+	    gs_log("Cannot fork.");
+	else if (pid > 0)
+	    exit(0);
+d569 7
+a575 7
+	if (setpgrp(0, getpid()) == -1)	/* Become leader of new proc. group */
+	    gs_log("Cant change process group");
+    /* Close process terminal */
+	if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+	    ioctl(fd, TIOCNOTTY, (char *) 0);
+	    close(fd);
+	}
+d577 15
+a591 12
+	if (setpgrp() == -1)
+	    gs_log("Can't change process group");
+	signal(SIGHUP, SIG_IGN);	/* Let child survive kill of parent */
+	if ((pid = fork()) < 0)	/* fork child again to disassociate */
+	    gs_log("Can't fork second child");
+	else if (pid > 0)
+	    exit(0);
+	{
+	/* Close descriptors in child process. */
+	    int     f;
+	    for (f = 0; f < NOFILE; f++)
+		(void) close(f);
+d593 3
+a595 2
+	    umask(0);
+	/* chdir("/"); *//* cd to a local (real) filesystem. */
+a596 3
+#endif
+	errno = 0;
+    }
+d601 3
+a603 2
+#ifdef BSD		     /* If BSD then handle SIGCLD */
+    signal(SIGCLD, gs_cm_sigcld);
+d605 1
+a605 1
+    signal(SIGCLD, SIG_IGN);
+d608 1
+a608 1
+    pcm->cm_pid = pid;
+d610 1
+a610 1
+    status = gs_init_cm();
+d612 4
+a615 4
+    if (status != GS_SUCCESS) {
+	gs_log("Failed to Initialize CM.");
+	exit(1);
+    }
+d617 2
+a618 3
+    strcpy(pname, argv[0]);
+    sprintf(string, "Boris watching CM (%s)", argv[0]);
+    strncpy(argv[0], string, strlen(argv[0]));
+d621 7
+a627 7
+    pid = fork();
+    if (setjmp(gs_cmreapenv)) {
+	gs_term_cm();
+	kill(pid, SIGKILL);
+	exit(0);
+    /* NOTREACHED */
+    }
+d629 2
+a630 2
+    (void) signal(SIGTERM, gs_cmtermvec);
+    (void) signal(SIGINT, gs_cmintvec);
+d633 16
+a648 10
+    if (pid == 0) {
+	ppid = getppid();
+	setpgrp();
+	while (1) {
+	    if (kill(ppid, 0) < 0) {
+		gs_log("CMREAPER: cleaning up cm resources. (CM has died)");
+		gs_term_cm();
+		exit(0);
+	    }
+	    sleep(10);
+d650 5
+a654 6
+    }
+    strcpy(argv[0], pname);
+    pcm->cm_pid = pid;
+    gs_cm_mainloop();
+    gs_term_cm();
+    exit(0);
+@
+
+
+1.47
+log
+@Update
+@
+text
+@d177 1
+a177 1
+static void  usage();
+d188 1
+a188 1
+#define GSIGORINTERVAL  10000  /* seconds */
+d196 1
+a196 1
+static void    gs_cmtermvec()
+d198 1
+a198 1
+	longjmp(gs_cmreapenv, 1);
+d204 1
+a204 1
+static void    gs_cmintvec()
+d206 1
+a206 1
+	longjmp(gs_cmreapenv, 1);
+d216 3
+a218 3
+	int     pid;
+	union wait status;
+	while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0);
+a219 1
+sdfj
+d238 1
+a238 1
+	static int nalarms = 0;
+d240 5
+a244 5
+	nalarms++;
+	if (nalarms > MAXTRYS) {
+		cm_timeout = TRUE;
+		nalarms = 0;
+	}
+d249 1
+a249 1
+	cm_timeout = TRUE;
+d266 1
+a266 1
+int status = GS_SUCCESS;
+d270 2
+a271 2
+	status  = gs_delete_slot(pcm->cmslot);
+	return (status);
+d285 2
+a286 2
+	int     status;
+	char   *cp;
+d288 8
+a295 9
+	cp = getenv("GSCMKEY");
+	if (cp == (char *) 0) {
+	/* No CM slot key Env variable defined. */
+	/* Use the config file path instead. */
+		pcm->cm_key = gs_ipc_key(pcm->config_file);
+		if (pcm->cm_key->key == (key_t) - 1) {
+			gs_log("Error creating key with ftok()");
+			exit(1);
+		}
+d297 6
+a302 5
+	else {
+		pcm->cm_key->key = (key_t) atoi(cp);
+	}
+	if (pcm->debug)
+		printf("Key is %d\n", pcm->cm_key->key);
+d304 4
+a307 4
+	status = gs_create_slot(pcm->cm_key, &(pcm->cmslot));
+	if (status != GS_SUCCESS) {
+		gs_log("gs_init_cm: Error creating slot.");
+	}
+d309 1
+a309 1
+	return (status);
+d315 4
+a318 4
+	printf("/n Usage:\n");
+	printf("	gs_cm [-d] [-f <config file>]\n");
+	printf("    -d		- Debug mode. Run in foreground");
+	printf("    -f file	- Config file spec.  (def:$GSHOME/gstab");
+d323 4
+a326 4
+	int     done = FALSE;
+	int     itr = 0;
+	int     status = GS_SUCCESS;
+	GSMessage_t rmsg;
+d329 15
+a343 15
+	errno = 0;
+	itr = 0;
+	cm_timeout = FALSE;
+	alarm(GSIGORINTERVAL);
+	signal(SIGALRM, gs_igor);
+	signal(SIGHUP, gs_hup);
+	while (!done) {
+		itr++;
+		do {
+			errno = 0;
+			if (cm_timeout == TRUE) {
+				gs_log("cm: timeout.");
+				done = TRUE;
+				break;
+			}
+d345 15
+a359 15
+			alarm(GSIGORINTERVAL);
+			signal(SIGALRM, gs_igor);
+			status = gs_sem_wait(pcm->cmslot->cmsem);
+			if (status == GS_SUCCESS) {
+				break;
+			}
+			else if (status == EINTR) {
+				continue;
+			}
+			else {
+				gs_log("cm:Sem error while waiting:%d", status);
+				done = TRUE;
+				break;
+			}
+		} while (1);
+d361 7
+a367 7
+		signal(SIGALRM, SIG_IGN);
+		if (done) {
+			do {
+				sleep(0);
+				errno = 0;
+				gs_sem_signal(pcm->cmslot->msgsem);
+			} while (errno == EINTR);
+d369 8
+a376 8
+			sleep(0);
+			break;
+		}
+		if (pcm->debug) {
+			gs_sem_dump("  (CM)	locksem", pcm->cmslot->locksem);
+			gs_sem_dump("  (CM)	msgsem", pcm->cmslot->msgsem);
+			gs_sem_dump("  (CM)	cmsem", pcm->cmslot->cmsem);
+		}
+d379 10
+a388 10
+		if (pcm->cmslot->msg.MsgLen >= 0 &&
+			pcm->cmslot->msg.MsgType == Executive &&
+			pcm->cmslot->msg.MsgLen <= GSMAXMESSAGE) {
+			rmsg.MsgType = 0;
+			rmsg.MsgLen = 0;
+			status = gs_cm_process_msg(&pcm->cmslot->msg, &rmsg);
+			if (status == GS_SUCCESS) {
+				memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+			}
+			else {
+d390 5
+a394 5
+				pcm->cmslot->msg.MsgType = Status;
+				pcm->cmslot->msg.MsgLen = sizeof status;
+				pcm->cmslot->msg.MsgBuf[0] = status;
+			}
+		}
+d396 7
+a402 7
+		do {
+			errno = 0;
+			gs_sem_signal(pcm->cmslot->msgsem);
+		} while (errno == EINTR);
+		sleep(0);
+	}
+return status;
+d407 1
+a407 1
+void main(argc, argv, envp)
+d411 10
+a420 10
+	char   *cp = NULL;
+	int     ppid = 0;
+	int 	pid = 0;
+	int     errflag = 0;
+	char    c;
+	char    text[256];
+	char    string[BUFSIZ];
+	char    pname[BUFSIZ];
+	int     status = GS_SUCCESS;
+	struct stat statbuf;
+d422 4
+a425 4
+	errno = 0;
+	pcm->config_file[0] = '\0';
+	pcm->debug = FALSE;
+	pcm->homedir[0] = '\0';
+d427 5
+a431 5
+	while ((c = getopt(argc, argv, "dhf:")) != -1) {
+		switch (c) {
+		case 'd':
+			pcm->debug = TRUE;
+			break;
+d433 3
+a435 3
+		case 'h':
+			strcpy(pcm->homedir, optarg);
+			break;
+d437 3
+a439 3
+		case 'f':   /* turn on debugging */
+			strcpy(pcm->config_file, optarg);
+			break;
+d441 3
+a443 3
+		case '?':   /* bad argument */
+			errflag = TRUE;
+			break;
+d445 3
+a447 4
+		default:    /* this can't happen! */
+			fprintf(stderr, "%s: BAD RETURN FROM GETOPT (%d)!\n", c);
+			exit(1);
+		}
+d449 5
+a453 4
+	if (errflag == TRUE) {
+		usage();
+		exit(1);
+	}
+d455 3
+a457 8
+	if (pcm->homedir[0] == '\0') {
+		if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+			strcpy(pcm->homedir, cp);
+		}
+		else {
+			fprintf(stderr, "gs_cm: No home directory specified.\n");
+			exit(1);
+		}
+d459 3
+a461 3
+	if (stat(pcm->homedir, &statbuf)) {
+		fprintf(stderr, "Can't locate path: %s\n", pcm->homedir);
+		exit(1);
+d463 9
+a471 4
+	if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+		fprintf(stderr, "Directory %s is not r/w accessible.\n", pcm->homedir);
+		exit(1);
+	}
+d473 6
+a478 3
+	if (pcm->config_file[0] == '\0') {
+		sprintf(pcm->config_file, "%s/gstab", pcm->homedir);
+	}
+d480 3
+a482 7
+		sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+		strcpy(pcm->config_file, text);
+		if (stat(pcm->config_file, &statbuf)) {
+			fprintf(stderr, "Error!!! Cannot find configuration file: %s\n",
+				pcm->config_file);
+			exit(1);
+		}
+d484 1
+d486 5
+a490 5
+	if (pcm->debug) {
+		gs_log("Debug mode ON\n");
+		gs_log("Config file is %s\n", pcm->config_file);
+		gs_log("Home directory is %s\n", pcm->homedir);
+	}
+d497 1
+a497 1
+	signal(SIGTTIN, SIG_IGN);
+d501 1
+a501 1
+	signal(SIGTTOU, SIG_IGN);
+d505 1
+a505 1
+	signal(SIGTSTP, SIG_IGN);
+d515 6
+a520 5
+	if (!pcm->debug) {
+		if ((pid = fork()) < 0)
+			gs_log("Cannot fork.");
+		else if (pid > 0)
+			exit(0);
+d523 7
+a529 8
+		if (setpgrp(0, getpid()) == -1)	/* Become leader of new proc.
+						 * group */
+			gs_log("Cant change process group");
+	/* Close process terminal */
+		if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+			ioctl(fd, TIOCNOTTY, (char *) 0);
+			close(fd);
+		}
+d531 12
+a542 13
+		if (setpgrp() == -1)
+			gs_log("Can't change process group");
+		signal(SIGHUP, SIG_IGN);	/* Let child survive kill of
+						 * parent */
+		if ((pid = fork()) < 0)	/* fork child again to disassociate */
+			gs_log("Can't fork second child");
+		else if (pid > 0)
+			exit(0);
+		{
+		/* Close descriptors in child process. */
+			int     f;
+			for (f = 0; f < NOFILE; f++)
+				(void) close(f);
+d544 3
+a546 3
+			umask(0);
+		/* chdir("/"); *//* cd to a local (real) filesystem. */
+		}
+d548 2
+a549 2
+		errno = 0;
+	}
+d555 1
+a555 1
+	signal(SIGCLD, gs_cm_sigcld);
+d557 1
+a557 1
+	signal(SIGCLD, SIG_IGN);
+d560 1
+a560 1
+	pcm->cm_pid = pid;
+d562 1
+a562 1
+	status = gs_init_cm();
+d564 4
+a567 4
+	if (status != GS_SUCCESS) {
+		gs_log("Failed to Initialize CM.");
+		exit(1);
+	}
+d569 3
+a571 3
+	strcpy(pname, argv[0]);
+	sprintf(string, "Boris watching CM (%s)", argv[0]);
+	strncpy(argv[0], string, strlen(argv[0]));
+d574 7
+a580 7
+	pid = fork();
+	if (setjmp(gs_cmreapenv)) {
+		gs_term_cm();
+		kill(pid, SIGKILL);
+		exit(0);
+						/*NOTREACHED*/
+	}
+d582 2
+a583 2
+	(void) signal(SIGTERM, gs_cmtermvec);
+	(void) signal(SIGINT, gs_cmintvec);
+d586 10
+a595 11
+	if (pid == 0) {
+		ppid = getppid();
+		setpgrp();
+		while (1) {
+			if (kill(ppid, 0) < 0) {
+				gs_log("CMREAPER: cleaning up cm resources. (CM has died)");
+				gs_term_cm();
+				exit(0);
+			}
+			sleep(10);
+		}
+d597 6
+a602 5
+	strcpy(argv[0], pname);
+	pcm->cm_pid = pid;
+	gs_cm_mainloop();
+	gs_term_cm();
+	exit(0);
+@
+
+
+1.46
+log
+@*** empty log message ***
+@
+text
+@d220 1
+@
+
+
+1.45
+log
+@Update
+@
+text
+@d168 1
+d170 1
+d174 1
+a174 2
+static void endconfig(), cm_mainloop(), usage();
+static char *nextline(), *skip();
+d177 8
+a184 2
+static void sig_child(), gs_igor();
+static int gs_term_cm(), gs_init_cm();
+a186 1
+static struct stat statbuf;
+d188 1
+a188 1
+#define GSIGORINTERVAL  200  /* seconds */
+d196 1
+a196 1
+void    gs_cmtermvec()
+d204 1
+a204 1
+void    gs_cmintvec()
+d213 1
+a215 1
+#ifdef BSD
+d219 1
+a220 1
+}
+d266 1
+a266 1
+
+d270 2
+a271 1
+	gs_delete_slot(pcm->cmslot);
+d321 6
+d328 80
+a407 1
+main(argc, argv, envp)
+d411 3
+a413 5
+	char   *cp;
+	char    buf[50];
+	int     fd;
+	int     ppid, pid;
+	int     i;
+d420 1
+a420 1
+	struct sigvec sv;
+d580 1
+d601 1
+a601 1
+	cm_mainloop();
+a603 86
+}
+
+
+static void cm_mainloop()
+{
+	int     done = FALSE;
+	char    text[GSMAXMESSAGE];
+	int     itr = 0;
+	int     status = GS_SUCCESS;
+	GSMessage_t rmsg;
+
+
+	errno = 0;
+	itr = 0;
+	cm_timeout = FALSE;
+	alarm(GSIGORINTERVAL);
+	signal(SIGALRM, gs_igor);
+	signal(SIGHUP, gs_hup);
+	while (!done) {
+		itr++;
+		do {
+			errno = 0;
+			if (cm_timeout == TRUE) {
+				gs_log("cm: timeout.");
+				done = TRUE;
+				break;
+			}
+
+			alarm(GSIGORINTERVAL);
+			signal(SIGALRM, gs_igor);
+			status = gs_sem_wait(pcm->cmslot->cmsem);
+			if (status == GS_SUCCESS) {
+				break;
+			}
+			else if (status == EINTR) {
+				continue;
+			}
+			else {
+				gs_log("cm:Sem error while waiting:%d", status);
+				done = TRUE;
+				break;
+			}
+		} while (1);
+
+		signal(SIGALRM, SIG_IGN);
+		if (done) {
+			do {
+				sleep(0);
+				errno = 0;
+				gs_sem_signal(pcm->cmslot->msgsem);
+			} while (errno == EINTR);
+
+			sleep(0);
+			break;
+		}
+		if (pcm->debug) {
+			gs_sem_dump("  (CM)	locksem", pcm->cmslot->locksem);
+			gs_sem_dump("  (CM)	msgsem", pcm->cmslot->msgsem);
+			gs_sem_dump("  (CM)	cmsem", pcm->cmslot->cmsem);
+		}
+
+
+		if (pcm->cmslot->msg.MsgLen >= 0 &&
+			pcm->cmslot->msg.MsgType == Executive &&
+			pcm->cmslot->msg.MsgLen <= GSMAXMESSAGE) {
+			rmsg.MsgType = 0;
+			rmsg.MsgLen = 0;
+			status = gs_cm_process_msg(&pcm->cmslot->msg, &rmsg);
+			if (status == GS_SUCCESS) {
+				memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+			}
+			else {
+
+				pcm->cmslot->msg.MsgType = Status;
+				pcm->cmslot->msg.MsgLen = sizeof status;
+				pcm->cmslot->msg.MsgBuf[0] = status;
+			}
+		}
+
+		do {
+			errno = 0;
+			gs_sem_signal(pcm->cmslot->msgsem);
+		} while (errno == EINTR);
+		sleep(0);
+	}
+
+@
+
+
+1.44
+log
+@Update
+@
+text
+@d135 1
+a135 1
+#include  <math.h>		/* declare atoi for me. */
+d182 1
+a182 1
+#define GSIGORINTERVAL  200   /* seconds */
+d188 3
+a190 3
+ * catch SIGTERM signals.
+ */
+void gs_cmtermvec()
+d192 1
+a192 1
+  longjmp (gs_cmreapenv, 1);
+d194 1
+d196 3
+a198 3
+ * catch SIGINT signals.
+ */
+void gs_cmintvec()
+d200 1
+a200 1
+  longjmp (gs_cmreapenv, 1);
+d204 3
+a206 3
+ * Receiver process dies - Handle child exit signal (SIGCLD)
+ * This is not needed on SYSV systems like the Sun.
+ */
+d229 1
+a229 1
+static int     cm_timeout = FALSE;
+d319 2
+a320 2
+	char   *cp; 
+	char 	buf[50];
+d322 2
+a323 2
+	int     ppid,pid;
+	int 	i;
+d327 4
+a330 4
+	char 	string[BUFSIZ];
+	char 	pname[BUFSIZ];
+	int 	status = GS_SUCCESS;
+	struct 	sigvec sv;
+d343 1
+a343 1
+		case 'h':   
+d367 1
+a367 1
+		strcpy(pcm->homedir, cp);
+d370 2
+a371 2
+			fprintf(stderr,"gs_cm: No home directory specified.\n");
+			exit (1);
+d375 1
+a375 1
+		fprintf(stderr,"Can't locate path: %s\n", pcm->homedir);
+d379 1
+a379 1
+		fprintf(stderr,"Directory %s is not r/w accessible.\n", pcm->homedir);
+d390 1
+a390 1
+			fprintf(stderr,"Error!!! Cannot find configuration file: %s\n",
+d434 2
+a435 2
+		gs_log("Cant change process group");
+					/* Close process terminal */
+d456 1
+a456 1
+			/* chdir("/");*/	/* cd to a local (real) filesystem. */
+d480 3
+a482 3
+	strcpy(pname,argv[0]);
+	sprintf(string,"Boris watching CM (%s)",argv[0]); 
+	strncpy(argv[0],string,strlen(argv[0]));
+d484 1
+a484 1
+	/* Fork so we can close connection & cleanup even if CM dies */
+d486 4
+a489 4
+	if (setjmp (gs_cmreapenv)) {
+		gs_term_cm ();
+		kill (pid, SIGKILL);
+		exit (0);
+d492 2
+a493 2
+	(void)signal (SIGTERM, gs_cmtermvec);
+	(void)signal (SIGINT, gs_cmintvec);
+d495 1
+a495 1
+	/* If parent goes away, cleanup and exit */
+d497 2
+a498 2
+		ppid = getppid ();
+		setpgrp ();
+d500 1
+a500 1
+			if (kill (ppid, 0) < 0) {
+d502 2
+a503 2
+				gs_term_cm ();
+				exit (0);
+d505 1
+a505 1
+			sleep (10);
+d508 1
+a508 1
+	strcpy(argv[0],pname);
+d569 3
+a571 3
+			gs_sem_dump("  (CM)	locksem",pcm->cmslot->locksem);
+			gs_sem_dump("  (CM)	msgsem",pcm->cmslot->msgsem);
+			gs_sem_dump("  (CM)	cmsem",pcm->cmslot->cmsem);
+@
+
+
+1.43
+log
+@Update
+@
+text
+@d494 1
+a494 1
+	/* If parent goes away, remove message box and exit */
+d567 6
+@
+
+
+1.42
+log
+@Update
+@
+text
+@d133 1
+d135 2
+a136 1
+#include "math.h"
+a151 1
+#include <varargs.h>
+d183 1
+d185 6
+a190 5
+/*
+* Receiver process dies - Handle child exit signal (SIGCLD)
+* This is not needed on SYSV systems like the Sun.
+*/
+static void sig_child()
+d192 16
+d321 1
+a321 1
+	int     pid;
+d326 4
+a329 2
+	int status = GS_SUCCESS;
+	struct sigvec sv;
+d465 1
+a465 1
+	signal(SIGCLD, sig_child);
+d478 31
+@
+
+
+1.41
+log
+@Update
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  90   /* seconds */
+@
+
+
+1.40
+log
+@Update
+@
+text
+@d434 1
+a434 1
+			chdir("/");	/* cd to a local (real) filesystem. */
+d528 2
+a529 2
+				pcm->cmslot->msg.MsgLen = sizeof(int);
+				pcm->cmslot->msg.MsgBuf[0] = GS_FAIL;
+@
+
+
+1.39
+log
+@Update
+@
+text
+@d315 1
+a315 1
+	while ((c = getopt(argc, argv, "df:")) != -1) {
+@
+
+
+1.38
+log
+@Update
+@
+text
+@a265 1
+/* 	pcm->cm_key->key = (key_t) ftok(pcm->config_file, FTOKID); */
+@
+
+
+1.37
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d209 1
+a209 1
+int     cm_sem_timeout = FALSE;
+d216 1
+a216 1
+		cm_sem_timeout = TRUE;
+d223 1
+a223 1
+	cm_sem_timeout = TRUE;
+d244 1
+a244 9
+#if 1
+	gs_remove_slot(pcm->cmslot);
+#else
+	gs_sem_close(pcm->cmslot->locksem);
+	gs_sem_close(pcm->cmslot->msgsem);
+	gs_free(pcm->cmslot);
+	if (shmctl(pcm->cm_shmid, IPC_RMID, (struct shmid_ds *) 0) < 0)
+		gs_log("Failed to remove shared memory");
+#endif
+a277 1
+#if 1
+d283 1
+a283 20
+#else
+	pcm->cm_shmid = shmget(pcm->cm_key->key, sizeof(CMSlot_t), 0666 | IPC_CREAT);
+	if (pcm->cm_shmid < 0)
+		gs_log("Cannot alloc shared memory.");
+	pcm->cmslot = (CMSlot_t *) shmat(pcm->cm_shmid, (char *) 0, 0);
+	if (pcm->cmslot == (CMSlot_t *) - 1)
+		gs_log("Cannot attach shared memory.");
+	if (pcm->debug)
+		printf("Slot address is %d\n", (int) pcm->cmslot);
+
+	pcm->cmslot->locksem = gs_sem_create(pcm->cm_key->key, 0);
+	if (pcm->cmslot->locksem < 0)
+		gs_log("Cannot create lock semaphore");
+
+	pcm->cmslot->cmsem = gs_sem_create(pcm->cm_key->key + 1, 0);
+	if (pcm->cmslot->cmsem < 0)
+		gs_log("Cannot create cm semaphore");
+#endif
+
+	return 0;
+d300 2
+a301 1
+	char   *cp, buf[50];
+d303 2
+a304 2
+	int     pid, i;
+	struct sigvec sv;
+d308 2
+d311 1
+d313 2
+a314 1
+	pcm->debug = 0;
+d321 5
+d329 1
+d333 1
+d344 2
+a345 1
+	if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+d347 5
+a352 3
+	else {
+		strcpy(pcm->homedir, GSDEFAULTHOME);
+	}
+d354 2
+a355 3
+		gs_log("Can't locate path: %s\n", pcm->homedir);
+		strcpy(pcm->homedir, "/tmp");
+		gs_log("Using %s as CM home directory.", pcm->homedir);
+d358 2
+a359 3
+		gs_log("Directory %s is not r/w accessible. \
+			\nUsing /tmp", pcm->homedir);
+		strcpy(pcm->homedir, "/tmp");
+d369 1
+a369 1
+			gs_log("Error!!! Cannot find configuration file: %s\n",
+d371 1
+d383 1
+a383 1
+ * Ignore terminal signals if defined (BSD) (BSD only)
+d413 2
+a414 2
+			gs_log("Cant change process group");
+	/* Close process * terminal */
+d452 1
+d454 2
+a455 2
+	if (gs_init_cm() != 0) {
+		gs_log("Failed to create CM slot.");
+a459 1
+	gs_log("cm: Terminating.");
+d475 1
+a475 1
+	cm_sem_timeout = FALSE;
+d483 1
+a483 1
+			if (cm_sem_timeout == TRUE) {
+a540 1
+/* you can check out, but you can never leave */
+a541 2
+
+
+@
+
+
+1.36
+log
+@*** empty log message ***
+@
+text
+@d190 3
+a192 3
+    int     pid;
+    union wait status;
+    while ((pid = wait3(&status, WNOHANG, (struct rusage *) 0)) > 0);
+d212 1
+a212 1
+    static int nalarms = 0;
+d214 5
+a218 5
+    nalarms++;
+    if (nalarms > MAXTRYS) {
+	cm_sem_timeout = TRUE;
+	nalarms = 0;
+    }
+d223 1
+a223 1
+    cm_sem_timeout = TRUE;
+d245 1
+a245 1
+    gs_remove_slot(pcm->cmslot);
+d247 5
+a251 5
+    gs_sem_close(pcm->cmslot->locksem);
+    gs_sem_close(pcm->cmslot->msgsem);
+    gs_free(pcm->cmslot);
+    if (shmctl(pcm->cm_shmid, IPC_RMID, (struct shmid_ds *) 0) < 0)
+	gs_log("Failed to remove shared memory");
+d266 2
+a267 2
+    int     status;
+    char   *cp;
+d269 5
+a273 5
+    cp = getenv("GSCMKEY");
+    if (cp == (char *) 0) {
+    /* No CM slot key Env variable defined. */
+    /* Use the config file path instead. */
+	pcm->cm_key = gs_ipc_key(pcm->config_file);
+d275 4
+a278 3
+	if (pcm->cm_key->key == (key_t) - 1) {
+	    gs_log("Error creating key with ftok()");
+	    exit(1);
+d280 5
+a284 6
+    }
+    else {
+	pcm->cm_key->key = (key_t) atoi(cp);
+    }
+    if (pcm->debug)
+	printf("Key is %d\n", pcm->cm_key->key);
+d287 4
+a290 4
+    status = gs_create_slot(pcm->cm_key, &(pcm->cmslot));
+    if (status != GS_SUCCESS) {
+	gs_log("gs_init_cm: Error creating slot.");
+    }
+d293 8
+a300 8
+    pcm->cm_shmid = shmget(pcm->cm_key->key, sizeof(CMSlot_t), 0666 | IPC_CREAT);
+    if (pcm->cm_shmid < 0)
+	gs_log("Cannot alloc shared memory.");
+    pcm->cmslot = (CMSlot_t *) shmat(pcm->cm_shmid, (char *) 0, 0);
+    if (pcm->cmslot == (CMSlot_t *) - 1)
+	gs_log("Cannot attach shared memory.");
+    if (pcm->debug)
+	printf("Slot address is %d\n", (int) pcm->cmslot);
+d302 3
+a304 3
+    pcm->cmslot->locksem = gs_sem_create(pcm->cm_key->key, 0);
+    if (pcm->cmslot->locksem < 0)
+	gs_log("Cannot create lock semaphore");
+d306 3
+a308 3
+    pcm->cmslot->cmsem = gs_sem_create(pcm->cm_key->key + 1, 0);
+    if (pcm->cmslot->cmsem < 0)
+	gs_log("Cannot create cm semaphore");
+d311 1
+a311 1
+    return 0;
+d317 4
+a320 4
+    printf("/n Usage:\n");
+    printf("	gs_cm [-d] [-f <config file>]\n");
+    printf("    -d		- Debug mode. Run in foreground");
+    printf("    -f file	- Config file spec.  (def:$GSHOME/gstab");
+d328 7
+a334 7
+    char   *cp, buf[50];
+    int     fd;
+    int     pid, i;
+    struct sigvec sv;
+    int     errflag = 0;
+    char    c;
+    char    text[256];
+d336 2
+a337 2
+    pcm->config_file[0] = '\0';
+    pcm->debug = 0;
+d339 15
+a353 14
+    while ((c = getopt(argc, argv, "df:")) != -1) {
+	switch (c) {
+	case 'd':
+	    pcm->debug = TRUE;
+	    break;
+	case 'f':	     /* turn on debugging */
+	    strcpy(pcm->config_file, optarg);
+	    break;
+	case '?':	     /* bad argument */
+	    errflag = TRUE;
+	    break;
+	default:	     /* this can't happen! */
+	    fprintf(stderr, "%s: BAD RETURN FROM GETOPT (%d)!\n", c);
+	    exit(1);
+d355 4
+a358 5
+    }
+    if (errflag == TRUE) {
+	usage();
+	exit(1);
+    }
+d360 13
+a372 13
+    if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	strcpy(pcm->homedir, cp);
+    }
+    else {
+	strcpy(pcm->homedir, GSDEFAULTHOME);
+    }
+    if (stat(pcm->homedir, &statbuf)) {
+	gs_log("Can't locate path: %s\n", pcm->homedir);
+	strcpy(pcm->homedir, "/tmp");
+	gs_log("Using %s as CM home directory.", pcm->homedir);
+    }
+    if (gs_faccess(pcm->homedir, (char *) "rw", (char *) 0)) {
+	gs_log("Directory %s is not r/w accessible. \
+d374 2
+a375 2
+	strcpy(pcm->homedir, "/tmp");
+    }
+d377 3
+a379 6
+    if (pcm->config_file[0] == '\0') {
+	sprintf(pcm->config_file, "%s/gstab", pcm->homedir);
+    }
+    if (stat(pcm->config_file, &statbuf)) {
+	sprintf(text, "%s/%s", pcm->homedir, pcm->config_file);
+	strcpy(pcm->config_file, text);
+d381 6
+a386 2
+	    gs_log("Error!!! Cannot find configuration file: %s\n",
+		pcm->config_file);
+a387 1
+    }
+d389 5
+a393 5
+    if (pcm->debug) {
+	gs_log("Debug mode ON\n");
+	gs_log("Config file is %s\n", pcm->config_file);
+	gs_log("Home directory is %s\n", pcm->homedir);
+    }
+d400 1
+a400 1
+    signal(SIGTTIN, SIG_IGN);
+d404 1
+a404 1
+    signal(SIGTTOU, SIG_IGN);
+d408 1
+a408 1
+    signal(SIGTSTP, SIG_IGN);
+d418 5
+a422 5
+    if (!pcm->debug) {
+	if ((pid = fork()) < 0)
+	    gs_log("Cannot fork.");
+	else if (pid > 0)
+	    exit(0);
+d425 8
+a432 7
+	if (setpgrp(0, getpid()) == -1)	/* Become leader of new proc. group */
+	    gs_log("Cant change process group");
+    /* Close process * terminal */
+	if ((fd = open("/dev/tty", O_RDWR)) >= 0) {
+	    ioctl(fd, TIOCNOTTY, (char *) 0);
+	    close(fd);
+	}
+d434 13
+a446 12
+	if (setpgrp() == -1)
+	    gs_log("Can't change process group");
+	signal(SIGHUP, SIG_IGN);	/* Let child survive kill of parent */
+	if ((pid = fork()) < 0)	/* fork child again to disassociate */
+	    gs_log("Can't fork second child");
+	else if (pid > 0)
+	    exit(0);
+	{
+	/* Close descriptors in child process. */
+	    int     f;
+	    for (f = 0; f < NOFILE; f++)
+		(void) close(f);
+d448 5
+a452 2
+	    umask(0);
+	    chdir("/");	     /* cd to a local (real) filesystem. */
+a453 3
+#endif
+	errno = 0;
+    }
+d459 1
+a459 1
+    signal(SIGCLD, sig_child);
+d461 1
+a461 1
+    signal(SIGCLD, SIG_IGN);
+d464 1
+a464 1
+    pcm->cm_pid = pid;
+d467 8
+a474 8
+    if (gs_init_cm() != 0) {
+	gs_log("Failed to create CM slot.");
+	exit(1);
+    }
+    cm_mainloop();
+    gs_term_cm();
+    gs_log("cm: Terminating.");
+    exit(0);
+d480 5
+a484 5
+    int     done = FALSE;
+    char    text[GSMAXMESSAGE];
+    int     itr = 0;
+    int     status = GS_SUCCESS;
+    GSMessage_t rmsg;
+d487 15
+a501 15
+    errno = 0;
+    itr = 0;
+    cm_sem_timeout = FALSE;
+    alarm(GSIGORINTERVAL);
+    signal(SIGALRM, gs_igor);
+    signal(SIGHUP, gs_hup);
+    while (!done) {
+	itr++;
+	do {
+	    errno = 0;
+	    if (cm_sem_timeout == TRUE) {
+		gs_log("cm: timeout.");
+		done = TRUE;
+		break;
+	    }
+d503 15
+a517 15
+	    alarm(GSIGORINTERVAL);
+	    signal(SIGALRM, gs_igor);
+	    status = gs_sem_wait(pcm->cmslot->cmsem);
+	    if (status == GS_SUCCESS) {
+		break;
+	    }
+	    else if (status == EINTR) {
+		continue;
+	    }
+	    else {
+		gs_log("cm:Sem error while waiting:%d", status);
+		done = TRUE;
+		break;
+	    }
+	} while (1);
+d519 7
+a525 7
+	signal(SIGALRM, SIG_IGN);
+	if (done) {
+	    do {
+		sleep(0);
+		errno = 0;
+		gs_sem_signal(pcm->cmslot->msgsem);
+	    } while (errno == EINTR);
+d527 3
+a529 3
+	    sleep(0);
+	    break;
+	}
+d531 10
+a540 10
+	if (pcm->cmslot->msg.MsgLen >= 0 &&
+	    pcm->cmslot->msg.MsgType == Executive &&
+	    pcm->cmslot->msg.MsgLen <= GSMAXMESSAGE) {
+	    rmsg.MsgType = 0;
+	    rmsg.MsgLen = 0;
+	    status = gs_cm_process_msg(&pcm->cmslot->msg, &rmsg);
+	    if (status == GS_SUCCESS) {
+		memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+	    }
+	    else {
+d542 11
+a552 4
+		pcm->cmslot->msg.MsgType = Status;
+		pcm->cmslot->msg.MsgLen = sizeof(int);
+		pcm->cmslot->msg.MsgBuf[0] = GS_FAIL;
+	    }
+a553 7
+
+	do {
+	    errno = 0;
+	    gs_sem_signal(pcm->cmslot->msgsem);
+	} while (errno == EINTR);
+	sleep(0);
+    }
+@
+
+
+1.35
+log
+@*** empty log message ***
+@
+text
+@d223 1
+a223 1
+cm_sem_timeout = TRUE;
+@
+
+
+1.34
+log
+@*** empty log message ***
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  30   /* seconds */
+d221 4
+d227 1
+d490 1
+a556 16
+
+char   *strdup(cp)
+char   *cp;
+{
+    char   *new;
+
+    if (cp == NULL)
+	cp = "";
+    new = malloc((unsigned) (strlen(cp) + 1));
+    if (new == (char *) 0) {
+	gs_log("Out of memory.");
+	exit(-1);
+    }
+    strcpy(new, cp);
+    return (new);
+}
+@
+
+
+1.33
+log
+@*** empty log message ***
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  10   /* seconds */
+@
+
+
+1.32
+log
+@*** empty log message ***
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  300   /* seconds */
+@
+
+
+1.31
+log
+@*** empty log message ***
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  60   /* seconds */
+@
+
+
+1.30
+log
+@.
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  30   /* seconds */
+d524 1
+a524 1
+	    pcm->cmslot->msg.MsgType > 0 &&
+@
+
+
+1.29
+log
+@*** empty log message ***
+@
+text
+@d137 3
+a139 3
+# ifdef SIGTSTP		     /* BSD */
+#  ifndef BSD
+#   define BSD 1
+d141 3
+a143 3
+# include  <sys/file.h>
+# include  <sys/ioctl.h>
+# endif			     /* SIGTSTP (BSD) */
+d145 2
+a146 3
+# ifdef BSD
+#  undef BSD
+# endif			     /* ! SYSV */
+d148 1
+d181 1
+a181 1
+#define GSIGORINTERVAL  30		/* seconds */
+d209 1
+a209 1
+int cm_sem_timeout = FALSE;
+d240 1
+a240 1
+	gs_remove_slot(pcm->cmslot);
+d282 4
+a285 4
+	status = gs_create_slot(pcm->cm_key, &(pcm->cmslot));
+	if (status != GS_SUCCESS) {
+		gs_log("gs_init_cm: Error creating slot.");
+	}
+d373 1
+a373 1
+	    sprintf(pcm->config_file,"%s/gstab", pcm->homedir);
+d384 5
+a388 5
+if (pcm->debug) {
+    gs_log("Debug mode ON\n");
+    gs_log("Config file is %s\n", pcm->config_file);
+    gs_log("Home directory is %s\n", pcm->homedir);
+}
+d445 1
+a445 1
+	 errno = 0;
+d473 5
+a477 5
+int     done = FALSE;
+char text[GSMAXMESSAGE];
+int itr = 0;
+int status = GS_SUCCESS;
+GSMessage_t rmsg;
+d480 14
+a493 14
+	errno = 0;
+	itr =0;
+	cm_sem_timeout  = FALSE;
+	alarm(GSIGORINTERVAL);
+	signal(SIGALRM,gs_igor);
+    	while (!done) {
+		itr++;
+		do {
+		    	errno = 0;
+		    	if (cm_sem_timeout == TRUE) {
+				gs_log("cm: timeout.");
+				done=TRUE;
+				break;
+		    	}	
+d495 15
+a509 15
+			alarm(GSIGORINTERVAL);
+			signal(SIGALRM,gs_igor);
+			status = gs_sem_wait(pcm->cmslot->cmsem);
+			if (status == GS_SUCCESS) {
+				break;
+			}
+			else if (status == EINTR) {
+				continue;
+			}
+			else {
+				gs_log("cm:Sem error while waiting:%d",status);
+				done = TRUE;
+				break;
+			}
+		} while (1);	
+d511 7
+a517 7
+		signal(SIGALRM,SIG_IGN);
+		if (done) {
+			do {	
+				sleep(0);
+				errno = 0;
+				gs_sem_signal(pcm->cmslot->msgsem);
+			} while (errno == EINTR);
+d519 3
+a521 3
+			sleep(0);
+			break;
+		}
+d523 10
+a532 10
+		if (pcm->cmslot->msg.MsgLen >= 0 &&
+		    pcm->cmslot->msg.MsgType >0 &&
+		    pcm->cmslot->msg.MsgLen <=GSMAXMESSAGE) {
+			rmsg.MsgType = 0;
+			rmsg.MsgLen = 0;
+			status = gs_cm_process_msg(&pcm->cmslot->msg,&rmsg);
+			if (status == GS_SUCCESS) {
+				memcpy(&pcm->cmslot->msg, &rmsg, sizeof rmsg);
+			}
+			else {
+d534 4
+a537 11
+				pcm->cmslot->msg.MsgType = Status;
+				pcm->cmslot->msg.MsgLen = sizeof(int);
+				pcm->cmslot->msg.MsgBuf[0] = GS_FAIL;
+			}	
+		}
+
+		do {	
+			errno = 0;
+			gs_sem_signal(pcm->cmslot->msgsem);
+		} while (errno == EINTR);
+		sleep(0);
+d540 7
+a568 1
+
+@
+
+
+1.28
+log
+@*** empty log message ***
+@
+text
+@d526 2
+a527 1
+
+@
+
+
+1.27
+log
+@*** empty log message ***
+@
+text
+@d495 2
+a501 2
+				alarm(GSIGORINTERVAL);
+				signal(SIGALRM,gs_igor);
+d529 1
+a529 9
+				if (rmsg.MsgLen >= 0 && rmsg.MsgType != 0) 
+					memcpy(&pcm->cmslot->msg,
+					       &rmsg,
+						sizeof rmsg);
+				else {
+					pcm->cmslot->msg.MsgType = Status;
+					pcm->cmslot->msg.MsgLen = sizeof(int);
+					pcm->cmslot->msg.MsgBuf[0] = GS_SUCCESS;
+				}
+a539 1
+			sleep(0);
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@d483 2
+a493 1
+		    	errno = 0;
+a494 3
+			alarm(GSIGORINTERVAL);
+			signal(SIGALRM,gs_igor);
+
+d500 2
+d529 1
+a529 1
+				if (rmsg.MsgLen > 0 && rmsg.MsgType != 0) 
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@d181 1
+a181 1
+#define GSIGORINTERVAL  40		/* seconds */
+a332 1
+    gs_log_init();
+d513 6
+a518 1
+			gs_sem_signal(pcm->cmslot->msgsem);
+d522 1
+d547 2
+a548 1
+		do {
+d550 2
+a551 10
+			if (gs_sem_signal(pcm->cmslot->msgsem) == GS_SUCCESS) {
+				break;
+			}
+			else {
+				if (errno != EINTR) {
+					gs_log("cm: error from gs_sem_signal");
+					break;
+				}
+			}
+		} while (1);
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@d518 1
+a518 1
+		if (pcm->cmslot->msg.MsgLen > 0 &&
+@
+
+
+1.23
+log
+@*** empty log message ***
+@
+text
+@a485 1
+		if (itr > 100) break;
+d499 1
+a499 1
+			if (status == GS_SUCCESS)
+d501 1
+d512 1
+d519 21
+a539 2
+			pcm->cmslot->msg.MsgLen <=GSMAXMESSAGE) {
+			gs_cm_process_msg(&pcm->cmslot->msg,&rmsg);
+a540 3
+		pcm->cmslot->msg.MsgType =1;
+		strcpy(pcm->cmslot->msg.MsgBuf,"bye");
+		pcm->cmslot->msg.MsgLen = strlen(pcm->cmslot->msg.MsgBuf);
+d542 12
+a553 1
+		gs_sem_signal(pcm->cmslot->msgsem);
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@a549 39
+
+int gs_cm_process_msg(pmsg,preplymsg)
+GSMessage_t *pmsg,*preplymsg;
+{
+int status = GS_SUCCESS;
+
+	switch (pmsg->MsgType) {
+	case Executive:
+		status = gs_do_exec( (GSMessage_t *)pmsg->MsgBuf,
+					(GSMessage_t *)preplymsg);	
+		break;
+	
+	default:
+		status = GS_FAIL;
+		preplymsg->MsgType = Status;
+		preplymsg->MsgLen = sizeof(int);
+		preplymsg->MsgBuf[0]  = (int) GSERR_MSGTYPE;
+		break;
+	}	
+return (status);
+}
+
+int gs_do_exec(pmsg,preply)
+GSMessage_t *pmsg,*preply;
+{
+char text[GSMAXMESSAGE];
+
+
+memcpy(text,pmsg->MsgBuf, pmsg->MsgLen);
+text[pmsg->MsgLen] = '\0';
+gs_log("cm: Message is %s\n",text);
+
+preply->MsgType = Status;
+preply->MsgLen = sizeof (int);
+preply->MsgBuf[0] = (int) GS_SUCCESS;
+
+return GS_SUCCESS;
+}
+
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d478 1
+a516 1
+
+d518 2
+a519 6
+			pcm->cmslot->msg.MsgLen < GSMAXMESSAGE) {
+
+			memcpy(text,pcm->cmslot->msg.MsgBuf,
+				pcm->cmslot->msg.MsgLen);
+			text[pcm->cmslot->msg.MsgLen] = '\0';
+			gs_log("cm: Message is %s\n",text);
+d550 39
+d590 1
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@d513 1
+d530 1
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+
+a176 1
+int     nalarms = 0;
+d181 1
+a181 1
+#define GSIGORINTERVAL  20		/* seconds */
+a216 2
+	sighold(SIGALRM);
+	gs_log("processed %d timeouts...", nalarms);
+a217 1
+	sigrelse(SIGALRM);
+a218 2
+
+    signal(SIGALRM,gs_igor);
+d385 1
+d389 1
+d420 1
+a420 1
+#ifdef SIGTSTP		     /* BSD */
+d452 1
+a452 1
+#ifdef SIGTSTP		     /* If BSD then handle SIGCLD */
+a464 1
+    gs_log("terminal is %s\n",ctermid(NULL));
+d477 1
+a480 3
+	alarm(0);
+    	signal(SIGALRM, gs_igor);
+	gs_log("cm: Mainloop started.");
+d482 1
+d485 1
+a485 1
+		if (itr > 50) break;
+d487 7
+a493 8
+		    errno = 0;
+		    alarm(GSIGORINTERVAL);
+		    if (cm_sem_timeout == TRUE) {
+			gs_log("cm: timeout.");
+			done=TRUE;
+			break;
+		    }	
+		} while (gs_sem_wait(pcm->cmslot->msgsem) == EINTR);	
+d495 15
+a509 1
+		alarm(0);
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a6 1
+
+a124 1
+#include  <stdio.h>
+d137 3
+a139 3
+#ifdef SIGTSTP		     /* BSD */
+#ifndef BSD
+#define BSD 1
+d141 7
+a147 3
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#endif			     /* SIGTSTP (BSD) */
+d182 1
+a182 1
+#define GSIGORINTERVAL  15		/* seconds */
+d481 1
+d483 1
+d488 1
+d490 2
+d502 1
+a502 1
+		if (done) break;
+d504 5
+a510 4
+			gs_log("cm:Message type received: %d",
+				pcm->cmslot->msg.MsgType);
+			gs_log("cm:Message Length received: %d",
+				pcm->cmslot->msg.MsgLen);
+d517 5
+a521 1
+	gs_sem_signal(pcm->cmslot->msgsem);
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d271 3
+a273 2
+	pcm->cm_key.key = (key_t) ftok(pcm->config_file, FTOKID);
+	if (pcm->cm_key.key == (key_t) - 1) {
+d279 1
+a279 1
+	pcm->cm_key.key = (key_t) atoi(cp);
+d282 1
+a282 1
+	printf("Key is %d\n", pcm->cm_key.key);
+d285 1
+a285 1
+	status = gs_create_slot(&pcm->cm_key, &(pcm->cmslot));
+d291 1
+a291 1
+    pcm->cm_shmid = shmget(pcm->cm_key.key, sizeof(CMSlot_t), 0666 | IPC_CREAT);
+d300 1
+a300 1
+    pcm->cmslot->locksem = gs_sem_create(pcm->cm_key.key, 0);
+d304 1
+a304 1
+    pcm->cmslot->cmsem = gs_sem_create(pcm->cm_key.key + 1, 0);
+d334 1
+a334 1
+    strcpy(pcm->config_file, "gstab");
+d376 3
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@a178 1
+#define MAXTRYS 5
+d207 1
+d214 1
+d220 2
+a221 3
+    else {
+	alarm(GSIGORINTERVAL);
+    }
+d236 1
+a236 1
+static int term_cm()
+d242 3
+d246 1
+a246 1
+    gs_sem_close(pcm->cmslot->cmsem);
+d250 1
+d262 1
+a262 1
+static int init_cm()
+d283 5
+d289 1
+d306 1
+d458 1
+a458 1
+    if (init_cm() != 0) {
+d464 3
+d472 1
+a472 1
+int     done = 0;
+d476 1
+d478 1
+a478 1
+    	alarm(GSIGORINTERVAL);
+a479 1
+		errno = 0;
+d481 8
+a488 3
+			errno = 0;
+			gs_sem_wait(pcm->cmslot->cmsem);
+		} while (errno == EINTR);	
+d490 2
+d504 1
+a504 1
+	gs_sem_signal(pcm->cmslot->cmsem);
+a508 1
+
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d446 1
+d451 1
+a451 1
+
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d6 1
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d179 1
+d219 1
+a219 2
+	alarm(10);
+	gs_log("Resetting alarm for 10 seconds.");
+d456 2
+a457 1
+    int     done = 0;
+d459 26
+a484 7
+    errno = 0;
+    signal(SIGALRM, gs_igor);
+    alarm(10);
+    while (!done) {
+	done = 1;
+	gs_sem_wait(pcm->cmslot->cmsem);
+    }
+d486 1
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@a166 1
+static FILE *inconfig();
+a261 1
+    inconfig();
+a426 1
+	    errno = 0;
+d431 1
+a450 2
+
+
+d458 1
+a463 1
+	fopen("/tmp/gotsem", "w+");
+a467 63
+static FILE *inconfig()
+{
+
+    if (pcm->config_fp != NULL) {
+	fseek(pcm->config_fp, 0L, L_SET);
+	return (pcm->config_fp);
+    }
+    pcm->config_fp = fopen(pcm->config_file, "r");
+    return (pcm->config_fp);
+}
+
+static void endconfig()
+{
+
+    if (pcm->config_fp == NULL)
+	return;
+    fclose(pcm->config_fp);
+    pcm->config_fp = NULL;
+}
+
+
+static char *skip(cpp)
+char  **cpp;
+{
+    register char *cp = *cpp;
+    char   *start;
+
+again:
+    while (*cp == ' ' || *cp == '\t')
+	cp++;
+    if (*cp == '\0') {
+	char    c;
+
+	c = getc(pcm->config_fp);
+	ungetc(c, pcm->config_fp);
+	if (c == ' ' || c == '\t')
+	    if (cp = nextline(pcm->config_fp))
+		goto again;
+	*cpp = (char *) 0;
+	return ((char *) 0);
+    }
+    start = cp;
+    while (*cp && *cp != ' ' && *cp != '\t')
+	cp++;
+    if (*cp != '\0')
+	*cp++ = '\0';
+    *cpp = cp;
+    return (start);
+}
+
+static char *nextline(fd)
+FILE   *fd;
+{
+    char    line[256];
+    char   *cp;
+
+    if (fgets(line, sizeof(line), fd) == NULL)
+	return ((char *) 0);
+    cp = index(line, '\n');
+    if (cp)
+	*cp = '\0';
+    return (line);
+}
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@a461 3
+    if (signal(SIGALRM, SIG_IGN) != SIG_IGN) {
+	signal(SIGALRM, gs_igor);
+    }
+d463 1
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d325 1
+a325 1
+    gs_init_log();
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d7 1
+a7 1
+Module: GS_CM 
+d10 1
+a10 1
+	This is the GeoShare Connection Manager program for Unix based 
+d12 1
+a12 1
+	for messages to arrive in its message slot.  
+d19 1
+a19 1
+	during any point in the transfer process.  This is because the 
+d59 1
+a59 1
+	programs executed as ROOT.  
+d74 1
+a74 1
+		  over the orphaned resources.  
+d92 1
+a92 1
+	$GSHOME/gstab.  
+d108 1
+a108 1
+	GSERR_SVC_BUSY       - Requested data receiver is single 
+d111 2
+a112 2
+	GSERR_SVC_MISMATCH   - The data type sent to the data 
+			     - service is not supported.  
+d114 2
+a115 2
+	GSERR_SVC_BADCONTEXT - The context args given to the 
+			     - receiver are bad or unsupported. 
+d117 2
+a118 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d122 1
+a122 1
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+d137 1
+a137 1
+#ifdef SIGTSTP			/* BSD */
+d143 2
+a144 2
+#endif 				/* SIGTSTP (BSD) */
+#endif 					/* ! SYSV */
+d155 1
+a155 1
+#else                               /* NOT BSD */
+d162 1
+a162 1
+#endif                              /* BSD */
+d164 11
+a174 11
+extern  char  *optarg;
+extern  int   optind, opterr;
+extern  int   errno;
+static  FILE  *inconfig();
+static  void  endconfig(), cm_mainloop(),usage();
+static  char  *nextline(), *skip();
+extern  char  *getcwd(),   *getenv();
+extern  char  *index(),    *malloc();
+static void   sig_child(), gs_igor();
+static int    gs_term_cm(), gs_init_cm();
+int nalarms = 0;
+d176 1
+a176 1
+int debug = 0;
+d179 2
+d188 1
+a188 1
+    int pid;
+d198 9
+a206 9
+ * GS_IGOR - Interval Wakeup Task Handler
+ *
+ * Perform connection monitoring & ipc resource cleanup chores
+ * every 5 seconds using SIGALRM.  Watch for sender & receiver
+ * processes that die for some reason while they are still holding 
+ * locks on slot semaphores.  The CM is responsible for cleaning
+ * up and releasing resources that are abandoned by crashed clients. 
+ *
+ */
+d209 1
+a209 1
+static int nalarms = 0;
+d211 11
+a221 11
+	nalarms ++;
+	if (nalarms > MAXTRYS) {
+		sighold(SIGALRM);
+		gs_log("processed %d timeouts...",nalarms);
+		nalarms = 0;
+		sigrelse(SIGALRM);
+	}
+	else {
+		alarm(10);
+		gs_log("Resetting alarm for 10 seconds.");
+	}
+d231 1
+a231 1
+ *  the system is rebooted.   This causes other problems as 
+d239 1
+a239 1
+    /* Wrap it up... Detach shared memory segment. */
+d241 1
+a241 1
+    /* Wait for lock, then Free semaphores */
+d245 1
+a245 1
+    if (shmctl(pcm->cm_shmid,IPC_RMID,(struct shmid_ds *)0) < 0)
+d260 2
+a261 2
+    int status;
+    char *cp;
+d263 9
+a271 12
+	inconfig();	
+	cp = getenv("GSCMKEY");
+	if ( cp == (char *)0 ) {
+		/* No CM slot key Env variable defined. */
+		/* Use the config file path instead. */
+		pcm->cm_key.key = (key_t)ftok(pcm->config_file, FTOKID);
+		if (pcm->cm_key.key == (key_t) -1) {
+			gs_log("Error creating key with ftok()");
+			exit(1);
+			}
+	} else {
+		pcm->cm_key.key = (key_t) atoi(cp);
+d273 6
+a278 2
+	if (pcm->debug)
+		printf("Key is %d\n",pcm->cm_key.key);
+a279 9
+	
+	pcm->cm_shmid = shmget(pcm->cm_key.key,sizeof (CMSlot_t), 0666 | IPC_CREAT);
+	if (pcm->cm_shmid < 0)
+		gs_log("Cannot alloc shared memory.");
+	pcm->cmslot = (CMSlot_t *)shmat(pcm->cm_shmid, (char *)0,0);
+	if (pcm->cmslot == (CMSlot_t *)-1)
+		gs_log("Cannot attach shared memory.");
+	if (pcm->debug)
+		printf("Slot address is %d\n",(int)pcm->cmslot);
+d281 18
+a298 9
+	pcm->cmslot->locksem=gs_sem_create(pcm->cm_key.key,0);
+	if (pcm->cmslot->locksem < 0 ) 
+		gs_log("Cannot create lock semaphore");
+	
+	pcm->cmslot->cmsem=gs_sem_create(pcm->cm_key.key+1,0);
+	if (pcm->cmslot->cmsem < 0 ) 
+		gs_log("Cannot create cm semaphore");
+	
+      return 0;
+d306 2
+a307 2
+	printf("    -d		- Debug mode. Run in foreground");
+	printf("    -f file	- Config file spec.  (def:$GSHOME/gstab");
+d312 2
+a313 2
+int argc;
+char *argv[], *envp[];
+d315 3
+a317 3
+    char *cp, buf[50];
+    int fd;
+    int pid, i;
+d319 3
+a321 3
+    int errflag = 0;
+    char c;
+    char text[256];
+d348 16
+a363 16
+	if ((cp = (char *) getenv("GSHOME")) != (char *)0) {
+		strcpy(pcm->homedir,cp);
+	} 
+	else {
+		strcpy(pcm->homedir,GSDEFAULTHOME);
+	}
+	if (stat(pcm->homedir,&statbuf)) {
+		gs_log("Can't locate path: %s\n",pcm->homedir);
+		strcpy(pcm->homedir,"/tmp");
+		gs_log("Using %s as CM home directory.",pcm->homedir);
+	}
+	if (gs_faccess(pcm->homedir,(char *)"rw",(char *)0)) {
+		gs_log("Directory %s is not r/w accessible. \
+			\nUsing /tmp",pcm->homedir);
+		strcpy(pcm->homedir,"/tmp");
+	}	
+d365 6
+a370 7
+	if (stat(pcm->config_file,&statbuf)) {
+		sprintf(text,"%s/%s",pcm->homedir,pcm->config_file);
+		strcpy(pcm->config_file,text);
+		if (stat(pcm->config_file,&statbuf)) {
+			gs_log("Error!!! Cannot find configuration file: %s\n",
+				pcm->config_file);
+		}
+d372 1
+d374 3
+a376 3
+	gs_log("Debug mode ON\n");
+	gs_log("Config file is %s\n", pcm->config_file);
+	gs_log("Home directory is %s\n",pcm->homedir);
+d410 2
+a411 2
+					/* Close process * terminal */
+	if ((fd = open("/dev/tty", O_RDWR)) >= 0) {	
+d424 2
+a425 2
+				/* Close descriptors in child process. */
+	    int f;
+d427 1
+a427 1
+		(void) close(f);	
+d429 3
+a431 3
+	errno = 0;
+	umask(0);
+	chdir("/");	     /* cd to a local (real) filesystem. */
+d445 1
+a445 1
+	pcm->cm_pid = pid;
+d460 1
+a460 1
+int done=0;
+d462 4
+a465 4
+if (signal(SIGALRM,SIG_IGN) != SIG_IGN) {
+	signal(SIGALRM,gs_igor);
+}
+signal(SIGALRM, gs_igor);
+d469 2
+a470 2
+		fopen("/tmp/gotsem", "w+");
+    }	
+d485 1
+a485 1
+static void  endconfig()
+d496 1
+a496 1
+char **cpp;
+d499 1
+a499 1
+    char *start;
+d505 1
+a505 1
+	char c;
+d525 1
+a525 1
+FILE *fd;
+d527 2
+a528 2
+    char line[256];
+    char *cp;
+d538 2
+a539 2
+char *strdup(cp)
+char *cp;
+d541 1
+a541 1
+    char *new;
+d554 1
+a554 2
+#endif                              /* SERVER */
+
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d2 1
+a2 1
+#define SERVER
+d6 118
+d172 3
+a175 1
+
+d181 1
+d193 105
+d355 1
+a355 1
+		}
+a360 2
+	if (pcm->debug)
+		gs_log("Home directory is %s\n",pcm->homedir);
+d365 4
+a370 1
+    if (pcm->debug) {
+d373 1
+a373 1
+    }
+a375 1
+
+a424 2
+	}
+#endif
+d429 2
+d452 1
+a453 1
+    /* Wrap it up... Detach shared memory segment. */
+a454 8
+    /* Wait for lock, then Free semaphores */
+    gs_sem_close(pcm->cmslot->locksem);
+    gs_sem_close(pcm->cmslot->cmsem);
+    gs_free(pcm->cmslot);
+    if (shmctl(pcm->cm_shmid,IPC_RMID,(struct shmid_ds *)0) < 0)
+	gs_log("Failed to remove shared memory");
+}
+
+d459 4
+a463 1
+	sleep(15);
+a469 42
+static int init_cm()
+{
+    int status;
+
+
+    char *cp;
+	inconfig();	
+	cp = getenv("GSCMKEY");
+	if ( cp == (char *)0 ) {
+		/* No CM slot key Env variable defined. */
+		/* Use the config file path instead. */
+		pcm->cm_key.key = (key_t)ftok(pcm->config_file, FTOKID);
+		if (pcm->cm_key.key == (key_t) -1) {
+			gs_log("Error creating key with ftok()");
+			exit(1);
+			}
+	} else {
+		pcm->cm_key.key = (key_t) atoi(cp);
+	}
+	if (pcm->debug)
+		printf("Key is %d\n",pcm->cm_key.key);
+
+	
+	pcm->cm_shmid = shmget(pcm->cm_key.key,sizeof (CMSlot_t), 0666 | IPC_CREAT);
+	if (pcm->cm_shmid < 0)
+		gs_log("Cannot alloc shared memory.");
+	pcm->cmslot = (CMSlot_t *)shmat(pcm->cm_shmid, (char *)0,0);
+	if (pcm->cmslot == (CMSlot_t *)-1)
+		gs_log("Cannot attach shared memory.");
+	if (pcm->debug)
+		printf("Slot address is %d\n",(int)pcm->cmslot);
+
+	pcm->cmslot->locksem=gs_sem_create(pcm->cm_key.key,0);
+	if (pcm->cmslot->locksem < 0 ) 
+		gs_log("Cannot create lock semaphore");
+	
+	pcm->cmslot->cmsem=gs_sem_create(pcm->cm_key.key+1,0);
+	if (pcm->cmslot->cmsem < 0 ) 
+		gs_log("Cannot create cm semaphore");
+	
+      return 0;
+}
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d119 6
+a124 8
+	cp = getenv("GSHOME");
+	if (cp != (char *)0)
+		strcpy(pcm->homedir, cp);
+	else 
+		if (getcwd(pcm->homedir, sizeof pcm->homedir) == (char *)0)
+			gs_log("Cannot get current working directory.");
+	
+
+d127 2
+d130 5
+d136 1
+a136 1
+		printf("Home directory is %s\n",pcm->homedir);
+d138 4
+a141 2
+	sprintf(text,"%s/%s",pcm->homedir,pcm->config_file);
+	strcpy(pcm->config_file,text);
+d144 2
+a145 2
+	printf("Debug mode ON\n");
+	printf("Config file is %s\n", pcm->config_file);
+a372 2
+
+
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d124 1
+a124 1
+			gs_err_sys("Cannot get current working directory.");
+d128 1
+a128 1
+		gs_err_sys("Can't locate path: %s\n",pcm->homedir);
+d167 1
+a167 1
+	    gs_err_sys("Cannot fork.");
+d173 1
+a173 1
+	    gs_err_sys("Cant change process group");
+d181 1
+a181 1
+	    gs_err_sys("Can't change process group");
+d184 1
+a184 1
+	    gs_err_sys("Can't fork second child");
+a210 2
+    openlog("cm", LOG_PID | LOG_NOWAIT, LOG_DAEMON);
+
+d212 1
+a212 1
+	gs_err_sys("Failed to create CM slot.");
+d227 1
+a227 1
+	gs_err_sys("Failed to remove shared memory");
+d255 1
+a255 1
+			gs_err_sys("Error creating key with ftok()");
+d267 1
+a267 1
+		gs_err_sys("Cannot alloc shared memory.");
+d270 1
+a270 1
+		gs_err_sys("Cannot attach shared memory.");
+d276 1
+a276 1
+		gs_err_sys("Cannot create lock semaphore");
+d280 1
+a280 1
+		gs_err_sys("Cannot create cm semaphore");
+d358 1
+a358 1
+	syslog(LOG_ERR, "Out of memory.");
+a364 130
+char emsgstr[255] = 
+    {
+    0
+    };
+
+
+
+/*
+ * identify ourself, for syslog() messages
+ *
+ * LOG_PID is an option that says prepend each message with out PID.
+ * LOG_CONS is an option that says write to console if unable to send
+ * the message to syslogd.
+ * LOG_DAEMON is our facility
+ */
+
+static int gs_err_init (ident)
+char *ident;
+    {
+    openlog (ident, (LOG_PID | LOG_CONS), LOG_DAEMON);
+    }
+
+/*
+ * Fatal error.  Print a message and terminate.
+ * Don't dump core and don't print the system's errno value.
+ *
+ *      gs_err_quit(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+static int gs_err_quit (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    fmt = va_arg (args, char *);
+    vsprintf (emsgstr, fmt, args);
+    va_end (args);
+    
+    syslog (LOG_ERR, emsgstr);
+    
+    exit (1);
+    }
+
+/*
+ * Fatal error related to a system call.  Print a message and terminate.
+ * Don't dump core, but do print the system's errno value and its
+ * associated message.
+ *
+ *      gs_err_sys(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+static int gs_err_sys (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    fmt = va_arg (args, char *);
+    vsprintf (emsgstr, fmt, args);
+    va_end (args);
+    
+    perror ();
+    syslog (LOG_ERR, emsgstr);
+    
+    exit (1);
+    }
+
+/*
+ * Recoverable error.  Print a message and return to caller.
+ *
+ *      gs_err_ret(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+static int gs_err_ret (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    fmt = va_arg (args, char *);
+    vsprintf (emsgstr, fmt, args);
+    va_end (args);
+    
+    perror ();
+    syslog (LOG_ERR, emsgstr);
+    
+    return;
+    
+    }
+
+/*
+ * Fatal error.  Print a message, dump core, (for debugging) and terminate.
+ *
+ *      gs_err_dump(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+static int gs_err_dump (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    fmt = va_arg (args, char *);
+    vsprintf (emsgstr, fmt, args);
+    va_end (args);
+    
+    perror ();
+    syslog (LOG_ERR, emsgstr);
+    
+    abort ();
+    exit (1);
+    
+    }
+a365 1
+
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@a54 5
+int gs_err_init();
+int gs_err_quit();
+int gs_err_sys();
+int gs_err_ret();
+int gs_err_dump();
+d76 3
+a78 1
+    printf("	gscm [-d] [-f <config file>]\n");
+d96 1
+a96 1
+    gs_err_init(argv[0]);
+d383 1
+a383 1
+int gs_err_init (ident)
+d399 1
+a399 1
+int gs_err_quit (va_alist)
+d426 1
+a426 1
+int gs_err_sys (va_alist)
+d452 1
+a452 1
+int gs_err_ret (va_alist)
+d479 1
+a479 1
+int gs_err_dump (va_alist)
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d45 1
+a45 1
+CM_GBL CM, *pcm = &CM;
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d55 5
+a59 5
+int err_init();
+int err_quit();
+int err_sys();
+int err_ret();
+int err_dump();
+d99 1
+a99 1
+    err_init(argv[0]);
+d127 1
+a127 1
+			err_sys("Cannot get current working directory.");
+d131 1
+a131 1
+		err_sys("Can't locate path: %s\n",pcm->homedir);
+d170 1
+a170 1
+	    err_sys("Cannot fork.");
+d176 1
+a176 1
+	    err_sys("Cant change process group");
+d184 1
+a184 1
+	    err_sys("Can't change process group");
+d187 1
+a187 1
+	    err_sys("Can't fork second child");
+d217 1
+a217 1
+	err_sys("Failed to create CM slot.");
+d232 1
+a232 1
+	err_sys("Failed to remove shared memory");
+d260 1
+a260 1
+			err_sys("Error creating key with ftok()");
+d272 1
+a272 1
+		err_sys("Cannot alloc shared memory.");
+d275 1
+a275 1
+		err_sys("Cannot attach shared memory.");
+d281 1
+a281 1
+		err_sys("Cannot create lock semaphore");
+d285 1
+a285 1
+		err_sys("Cannot create cm semaphore");
+d386 1
+a386 1
+int err_init (ident)
+d396 1
+a396 1
+ *      err_quit(str, arg1, arg2, ...)
+d402 1
+a402 1
+int err_quit (va_alist)
+d423 1
+a423 1
+ *      err_sys(str, arg1, arg2, ...)
+d429 1
+a429 1
+int err_sys (va_alist)
+d449 1
+a449 1
+ *      err_ret(str, arg1, arg2, ...)
+d455 1
+a455 1
+int err_ret (va_alist)
+d476 1
+a476 1
+ *      err_dump(str, arg1, arg2, ...)
+d482 1
+a482 1
+int err_dump (va_alist)
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d270 1
+a270 1
+	pcm->cm_shmid = shmget(pcm->cm_key.key,sizeof (CMSlot), 0666 | IPC_CREAT);
+d273 2
+a274 2
+	pcm->cmslot = (CMSlot *)shmat(pcm->cm_shmid, (char *)0,0);
+	if (pcm->cmslot == (CMSlot *)-1)
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d45 1
+a45 1
+
+d258 2
+a259 2
+		pcm->cm_key = (key_t)ftok(pcm->config_file, FTOKID);
+		if (pcm->cm_key == (key_t) -1) {
+d264 1
+a264 1
+		pcm->cm_key = (key_t) atoi(cp);
+d267 1
+a267 1
+		printf("Key is %d\n",pcm->cm_key);
+d270 1
+a270 1
+	pcm->cm_shmid = shmget(pcm->cm_key,sizeof (CMSlot), 0666 | IPC_CREAT);
+d279 1
+a279 1
+	pcm->cmslot->locksem=gs_sem_create(pcm->cm_key,0);
+d283 1
+a283 1
+	pcm->cmslot->cmsem=gs_sem_create(pcm->cm_key+1,0);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d242 2
+a243 1
+	/* gs_sem_wait(pcm->cmsem); */
+@

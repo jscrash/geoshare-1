@@ -1,0 +1,1437 @@
+head     1.19;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.19; strict;
+comment  @ * @;
+
+
+1.19
+date     91.05.20.04.44.13;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.05.20.04.27.07;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.14.11.20.36;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.14.09.45.34;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.14.08.59.53;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.13.00.49.08;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.12.13.52.26;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.12.13.38.20;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.12.11.22.59;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.12.11.19.59;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.12.10.50.21;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.12.09.34.21;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.30.05.05.30;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.29.21.58.06;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.19.21.24.56;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.19.20.09.56;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.18.45.07;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.15.18.10;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.12.36.33;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_alloc.c.
+@
+
+
+1.19
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <fcntl.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+/****************************************************************************
+    GeoShare Subroutine Library -  Shared Memory Tools.
+
+Module: GS_SHM_ALLOC
+
+Description:
+	Allocate a region of shared memory and return a pointer to it.
+	The region is created to be at least as big as the size given in the
+	parameter list.
+
+	A key is given in the parameter list that is used to identify the
+	shared memory segment created.  This key can then be used by other
+	programs to attach to the shared memory region.
+
+Usage:
+	int id;
+	int nbytes;
+	GSKey_t *key;
+	ptr = gs_shm_alloc(nbytes, key,&id);
+
+	
+Parameters:
+	INPUT:
+		int  nbytes		- Minimum size in bytes
+		GSKey_t key		- Memory identifier key.
+		int *id			- output id for segment created.
+
+	OUTPUT:
+		char *ptr		- Pointer to region allocated.
+
+Status:
+
+	This routine returns a null pointer if an error occurrs while trying
+	to create/attach the memory.
+
+Author:
+	Julian Carlisle 	 Sun May 12 03:21:10 PDT 1991
+*****************************************************************************/
+#define GSPOOLSIZE  ((size_t)(1024*1024))
+#define GSPOOLKEY  ((key_t)0x06214961)
+#define SLOP	(sizeof(int *))
+
+static char *GsFreeend = (char *) 0x3FFFFFFF;
+static unsigned int Lastbrk = (unsigned) 0;
+int gs_poolid = 0;
+int gs_poolsize = 0;
+char *gs_poolhead = NULL;
+key_t gs_poolkey = 0;
+
+struct fb {
+	unsigned int f_size;
+	char   *f_next;
+};
+
+static struct fb GsFreelist = {
+	0,
+	(char *) 0x3FFFFFFF,
+};
+
+ /* Create if necessary & attach to a shared memory segment */
+ /* at least as large as <size>, use the key identifier given */
+ /* in key->key */
+char   *gs_shm_alloc(size, key, mid)
+u_int   size;
+GSKey_t *key;
+int    *mid;
+{
+	char   *mp;
+
+	errno = 0;
+	*mid = shmget(key->key, size, (IPC_CREAT | 0666));
+	if (*mid < 0) {
+		fprintf(stderr,"Error: shmget returned %d, errno=%d\n", *mid, errno);
+		return (NULL);
+	}
+	mp = (char *) shmat(*mid, NULL, 0);
+	if (mp == (char *) -1) {
+		fprintf(stderr,"Error: shmat returned -1, errno=%d\n", errno);
+		return (NULL);
+	}
+	return (mp);
+}
+
+/* Detach the shared memory segment pointed to by ptr */
+int     gs_shm_free(ptr)
+char   *ptr;
+{
+	int     status = GS_SUCCESS;
+	errno = 0;
+	status = shmdt(ptr);
+	return ((status == 0) ? 0 : errno);
+}
+
+int     gs_shm_remove(id)
+int     id;
+{
+	int     status = GS_SUCCESS;
+	errno = 0;
+	status = shmctl(id, IPC_RMID, NULL);
+	return ((status == 0) ? 0 : errno);
+}
+
+
+ /*
+  * gs_alloc returns the address of an allocated area in shared memory on
+  * success, & NULL if an error occurrs. gs_pool_init must be called prior to
+  * calling either gs_alloc or gs_free.
+  */
+char   *gs_alloc(nbytes)
+unsigned nbytes;
+{
+	register unsigned usize;
+	register struct fb *np, *cp;
+
+	if (gs_poolhead == NULL || Lastbrk == 0) {
+		fprintf(stderr,"Error: gs_alloc: pool not initialized. Call gs_init_pool()\n");
+		return (0);
+	}
+
+	if ((usize = nbytes) == 0)
+		return (NULL);
+	usize += 2 * sizeof(int *) - 1;
+	usize &= ~(sizeof(int *) - 1);
+	cp = &GsFreelist;
+	while ((np = (struct fb *) cp->f_next) != (struct fb *) GsFreeend) {
+		if (np->f_size >= usize) {
+
+		/*
+		 * Don't break the block up if it is not more than SLOP
+		 * bigger than the amount needed.
+		 */
+			if (usize + SLOP >= np->f_size)
+				cp->f_next = np->f_next;
+
+		/*
+		 * Break the block into 2 pieces.
+		 */
+			else {
+				cp = (struct fb *) (cp->f_next = (char *) (((int) np) + usize));
+				cp->f_size = np->f_size - usize;
+				cp->f_next = np->f_next;
+				np->f_size = usize;
+			}
+			return ((char *) &np->f_next);
+		}
+		cp = np;
+	}
+
+ /*
+  * Nothing on the free list is big enough;
+  */
+	fprintf(stderr,"Error: gs_alloc: Out of memory in shared memory pool.\n");
+	return (NULL);
+}
+
+ /*
+  * Free memory allocated by gs_alloc and return it to the freelist.
+  */
+void     gs_free(aptr)
+char   *aptr;
+{
+	register struct fb *ptr, *cp, *np;
+
+	if (aptr && aptr < (char *) Lastbrk) {
+		ptr = (struct fb *) ((unsigned) aptr - sizeof(int *));
+		cp = &GsFreelist;
+		while ((np = (struct fb *) cp->f_next) < ptr)
+			cp = np;
+
+	/*
+	 * Try to coalesce with the following block.
+	 */
+		if (((int) ptr) + ptr->f_size == ((int) np)) {
+			ptr->f_size += np->f_size;
+			ptr->f_next = np->f_next;
+			np = ptr;
+		}
+		else
+			ptr->f_next = (char *) np;
+
+	/*
+	 * Try to coalesce with the preceding block.
+	 */
+		if (((int) cp) + cp->f_size == ((int) ptr)) {
+			cp->f_size += ptr->f_size;
+			cp->f_next = ptr->f_next;
+		}
+		else
+			cp->f_next = (char *) ptr;
+	}
+}
+
+
+ /*
+  * This routine creates the shared memory pool for gs_alloc.  You give a
+  * size and key for the region to create & initialize.  if size is 0 then
+  * the region is created as large as possible.  If the key is 0 then a
+  * default key is used.
+  */
+char *gs_init_pool(size, key)
+int     size;
+key_t   key;
+{
+	GSKey_t shmkey;
+
+	register struct fb *cp, *np;
+	if (size <= 0 || size > GSPOOLSIZE)
+		size = GSPOOLSIZE;
+
+	if (key == (key_t) 0) {
+		key = GSPOOLKEY;
+	}
+	shmkey.key = key;
+	gs_poolkey = key;
+	gs_poolsize = size;
+	gs_poolhead = gs_shm_alloc(GSPOOLSIZE, &shmkey, &gs_poolid);
+	Lastbrk = (unsigned) gs_poolhead;
+	cp = &GsFreelist;
+	cp->f_size = GSPOOLSIZE;
+	cp->f_next = (char *) Lastbrk;
+	Lastbrk += GSPOOLSIZE - SLOP;
+	np = (struct fb *) cp->f_next;
+	np->f_size = GSPOOLSIZE;
+	np->f_next = GsFreeend;
+
+	return (gs_poolhead);
+}
+
+int     gs_term_pool()
+{
+	int     status = GS_SUCCESS;
+
+	gs_shm_free(gs_poolhead);
+	status = gs_shm_remove(gs_poolid);
+	if (status == GS_SUCCESS) {
+		gs_poolid = 0;
+	}
+	return (status);
+}
+
+
+
+#ifdef TEST
+void    main()
+{
+	char   *cp,*cp1,*cp2,*cp3;
+
+	gs_init_pool(0, 0);  /* get max size pool with default key (6214961) */
+
+	printf("InitPool: poolhead = %lu\n", gs_poolhead);
+
+	cp = gs_alloc(5000);
+	printf("ptr1 = %lu 		-- should be same as poolhead + 4bytes\n",cp);
+	printf("\tFreeing ptr1..\n");
+	gs_free(cp);
+	cp = gs_alloc(5000);
+	printf("ptr2 = %lu 		-- should be same as pointer 1.\n", cp);
+	printf("\tFreeing ptr2..\n");
+	gs_free(cp);
+
+	cp = gs_alloc(1000);
+	printf("ptr = %lu 		-- should be same as pointer 2.\n", cp);
+
+	cp1 = gs_alloc(500000);
+	printf("ptr = %lu		-- should be 1000 + last ptr + 4bytes\n",cp1);
+
+	cp2 = gs_alloc(1000);
+	printf("ptr = %lu		-- should be 500000 + last ptr + 4bytes\n", cp2);
+
+	cp3 = gs_alloc(100000);
+	printf("ptr = %lu		-- should be 1000 + last ptr + 4bytes\n",cp3);
+
+	cp = gs_alloc(1000);
+	printf("ptr = %lu		-- should be 100000 + last ptr + 4bytes\n", cp);
+
+	printf("Freeing 500000.. \n");
+	gs_free(cp1);
+
+	printf("Freeing 100000.. \n");
+	gs_free(cp3);
+
+	printf("allocating 500000.. \n");
+	cp = gs_alloc(500000);
+	printf("ptr = %lu		-- ptr to 500000 byte region.\n",cp);
+
+	gs_free(cp);
+	gs_free(cp2);
+	gs_term_pool();
+
+}
+#endif
+@
+
+
+1.18
+log
+@Update
+@
+text
+@a230 1
+	gs_free((char *)&np->f_next);
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d78 1
+a78 1
+		printf("Error: shmget returned %d, errno=%d\n", *mid, errno);
+d83 1
+a83 1
+		printf("Error: shmat returned -1, errno=%d\n", errno);
+d121 1
+a121 1
+		printf("Error: gs_alloc: pool not initialized. Call gs_init_pool()\n");
+d157 1
+a157 1
+	printf("Error: gs_alloc: Out of memory in shared memory pool.\n");
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d49 1
+a49 1
+static unsigned Lastbrk = (unsigned) 0;
+d55 2
+a56 2
+static struct fb {
+	unsigned f_size;
+d164 1
+a164 1
+int     gs_free(aptr)
+d205 1
+a205 1
+int     gs_init_pool(size, key)
+d211 1
+a211 1
+	register struct fb *ptr, *cp, *np;
+d230 3
+a232 1
+	gs_free(&np->f_next);
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d51 1
+d220 1
+a220 1
+
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d50 3
+a52 2
+static int gs_poolid = 0;
+static char *poolhead = NULL;
+d119 1
+a119 1
+	if (poolhead == NULL || Lastbrk == 0) {
+d218 1
+d220 2
+a221 2
+	poolhead = gs_shm_alloc(GSPOOLSIZE, &shmkey, &gs_poolid);
+	Lastbrk = (unsigned) poolhead;
+d236 1
+a236 1
+	gs_shm_free(poolhead);
+d253 1
+a253 1
+	printf("InitPool: poolhead = %lu\n", poolhead);
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d247 1
+a247 1
+	char   *cp;
+d265 2
+a266 2
+	cp = gs_alloc(100000);
+	printf("ptr = %lu		-- should be 1000 + last ptr + 4bytes\n",cp);
+d268 6
+d277 7
+d285 1
+a285 1
+	printf("ptr = %lu		-- should be 1000 + last ptr + 4bytes\n",cp);
+d287 2
+a288 3
+	cp = gs_alloc(1000);
+	printf("ptr = %lu		-- should be 500000 + last ptr + 4bytes\n", cp);
+
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d1 5
+d9 1
+a9 1
+Module: GS_ALLOC
+d21 4
+a24 1
+	ptr = gs_shm_alloc(nbytes, key);
+d31 1
+a43 6
+
+#include "gs.h"
+#include <fcntl.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+d46 4
+d54 2
+a55 2
+    unsigned f_size;
+    char   *f_next;
+d59 2
+a60 2
+    0,
+    (char *) 0x3FFFFFFF,
+d63 3
+a65 9
+static char   *GsFreeend = (char *) 0x3FFFFFFF;
+#define SLOP	(sizeof(int *))
+static unsigned Lastbrk = (unsigned) 0;
+
+
+
+/* Create if necessary & attach to a shared memory segment */
+/*   at least as large as <size>, use the key identifier given */
+/* in key->key */
+d71 1
+a71 1
+    char   *mp;
+d73 12
+a84 12
+    errno = 0;
+    *mid = shmget(key->key, size, (IPC_CREAT | 0666));
+    if (*mid < 0) {
+	printf("Error: shmget returned %d, errno=%d\n", *mid, errno);
+	return (NULL);
+    }
+    mp = (char *) shmat(*mid, NULL, 0);
+    if (mp == (char *) -1) {
+	printf("Error: shmat returned -1, errno=%d\n", errno);
+	return (NULL);
+    }
+    return (mp);
+d91 4
+a94 4
+    int     status = GS_SUCCESS;
+    errno = 0;
+    status = shmdt(ptr);
+    return ((status == 0) ? 0 : errno);
+d100 4
+a103 4
+    int     status = GS_SUCCESS;
+    errno = 0;
+    status = shmctl(id, IPC_RMID, NULL);
+    return ((status == 0) ? 0 : errno);
+d108 3
+a110 2
+  * gs_alloc returns the address of the allocated area on success, & 0 on
+  * fail.
+d115 2
+a116 2
+    register unsigned usize;
+    register struct fb *np, *cp;
+d118 4
+a121 4
+    if (poolhead == NULL || Lastbrk == 0) {
+	printf("Error: gs_alloc: pool not initialized. Call gs_init_pool()\n");
+	return (0);
+    }
+d123 7
+a129 7
+    if ((usize = nbytes) == 0)
+	return (NULL);
+    usize += 2 * sizeof(int *) - 1;
+    usize &= ~(sizeof(int *) - 1);
+    cp = &GsFreelist;
+    while ((np = (struct fb *) cp->f_next) != (struct fb *) GsFreeend) {
+	if (np->f_size >= usize) {
+d131 6
+a136 6
+	/*
+	 * Don't break the block up if it is not more than SLOP bigger than
+	 * the amount needed.
+	 */
+	    if (usize + SLOP >= np->f_size)
+		cp->f_next = np->f_next;
+d138 12
+a149 10
+	/*
+	 * Break the block into 2 pieces.
+	 */
+	    else {
+		cp = (struct fb *) (cp->f_next = (char *) (((int) np) + usize));
+		cp->f_size = np->f_size - usize;
+		cp->f_next = np->f_next;
+		np->f_size = usize;
+	    }
+	    return ((char *) &np->f_next);
+d151 6
+a156 7
+	cp = np;
+    }
+/*
+	Nothing on the free list is big enough;
+*/
+    printf("Error: gs_alloc: Out of memory in shared memory pool.\n");
+    return (NULL);
+d159 3
+a161 1
+
+d165 1
+a165 1
+    register struct fb *ptr, *cp, *np;
+d167 5
+a171 5
+    if (aptr && aptr < (char *) Lastbrk) {
+	ptr = (struct fb *) ((unsigned) aptr - sizeof(int *));
+	cp = &GsFreelist;
+	while ((np = (struct fb *) cp->f_next) < ptr)
+	    cp = np;
+d173 10
+a182 10
+    /*
+     * Try to coalesce with the following block.
+     */
+	if (((int) ptr) + ptr->f_size == ((int) np)) {
+	    ptr->f_size += np->f_size;
+	    ptr->f_next = np->f_next;
+	    np = ptr;
+	}
+	else
+	    ptr->f_next = (char *) np;
+d184 9
+a192 6
+    /*
+     * Try to coalesce with the preceding block.
+     */
+	if (((int) cp) + cp->f_size == ((int) ptr)) {
+	    cp->f_size += ptr->f_size;
+	    cp->f_next = ptr->f_next;
+a193 3
+	else
+	    cp->f_next = (char *) ptr;
+    }
+d196 7
+d207 1
+a207 1
+    GSKey_t shmkey;
+d209 3
+a211 3
+    register struct fb *ptr, *cp, *np;
+    if (size <= 0 || size > GSPOOLSIZE)
+	size = GSPOOLSIZE;
+d213 4
+a216 4
+    if (key == (key_t) 0) {
+	key = GSPOOLKEY;
+    }
+    shmkey.key = key;
+d218 10
+a227 10
+    poolhead = gs_shm_alloc(GSPOOLSIZE, &shmkey, &gs_poolid);
+    Lastbrk = (unsigned) poolhead;
+    cp = &GsFreelist;
+    cp->f_size = GSPOOLSIZE;
+    cp->f_next = (char *) Lastbrk;
+    Lastbrk += GSPOOLSIZE - SLOP;
+    np = (struct fb *) cp->f_next;
+    np->f_size = GSPOOLSIZE;
+    np->f_next = GsFreeend;
+    gs_free(&np->f_next);
+d232 1
+a232 1
+    int     status = GS_SUCCESS;
+d234 6
+a239 6
+    gs_shm_free(poolhead);
+    status = gs_shm_remove(gs_poolid);
+    if (status == GS_SUCCESS) {
+	gs_poolid = 0;
+    }
+    return (status);
+d247 1
+a247 1
+    char   *cp;
+d249 1
+a249 1
+    gs_init_pool(0, 0);	     /* get max size pool with default key (6214961) */
+d251 1
+a251 1
+    printf("InitPool: poolhead = %lu\n", poolhead);
+d253 8
+a260 8
+    cp = gs_alloc(5000);
+    printf("ptr1 = %lu 		-- should be same as poolhead + slop (4bytes)\n", cp);
+    printf("\tFreeing ptr1..\n");
+    gs_free(cp);
+    cp = gs_alloc(5000);
+    printf("ptr2 = %lu 		-- should be same as pointer 1.\n", cp);
+    printf("\tFreeing ptr2..\n");
+    gs_free(cp);
+d262 2
+a263 8
+    cp = gs_alloc(1000);
+    printf("ptr = %lu 		-- should be same as pointer 2.\n", cp);
+    cp = gs_alloc(100000);
+    printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n", cp);
+    cp = gs_alloc(1000);
+    printf("ptr = %lu		-- should be 100000 + last ptr + slop (4bytes)\n", cp);
+    cp = gs_alloc(500000);
+    printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n", cp);
+d265 2
+a266 2
+    cp = gs_alloc(1000);
+    printf("ptr = %lu		-- should be 500000 + last ptr + slop (4bytes)\n", cp);
+d268 10
+a277 1
+    gs_term_pool();
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@a0 2
+
+
+d46 16
+a109 17
+
+struct fb {
+    unsigned f_size;
+    char   *f_next;
+};
+
+struct fb GsFreelist = {
+    0,
+    (char *) 0x3FFFFFFF,
+};
+
+char   *GsFreeend = (char *) 0x3FFFFFFF;
+
+#define SLOP	(sizeof(int *))
+unsigned Lastbrk = (unsigned) 0;
+
+
+d252 1
+a252 1
+    cp = gs_alloc(1000);
+d255 2
+d258 1
+d260 1
+a260 1
+    printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n", cp);
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d35 1
+a35 1
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+d52 1
+a52 1
+u_int     size;
+d54 1
+a54 1
+int *mid;
+d56 1
+a56 1
+	char     *mp;
+d58 12
+a69 12
+	errno = 0;
+	*mid = shmget(key->key, size, (IPC_CREAT | 0666));
+	if (*mid < 0 ) {
+		printf("Error: shmget returned %d, errno=%d\n",*mid,errno);
+		return (NULL);
+	}
+	mp = (char *)shmat(*mid,NULL,0);
+	if (mp == (char *)-1) {
+		printf("Error: shmat returned -1, errno=%d\n",errno);
+		return(NULL);
+	}
+	return(mp);
+d76 4
+a79 4
+	int status = GS_SUCCESS;
+	errno = 0;
+	status =  shmdt(ptr);
+	return((status == 0)?0 : errno);
+d82 2
+a83 2
+int gs_shm_remove(id)
+int id;
+d85 4
+a88 4
+	int status = GS_SUCCESS;
+	errno = 0;	
+	status = shmctl(id,IPC_RMID,NULL);
+	return((status == 0)?0 : errno);
+d91 1
+a91 1
+ 
+d93 3
+a95 3
+	gs_alloc returns the address of the allocated area on success,
+	& 0 on fail.
+ */
+d98 2
+a99 2
+	unsigned	f_size;
+	char		*f_next;
+d102 3
+a104 3
+struct fb GsFreelist={
+	0,
+	(char *)0x3FFFFFFF,
+d107 1
+a107 1
+char *GsFreeend = (char *)0x3FFFFFFF;
+d110 1
+a110 1
+unsigned Lastbrk = (unsigned)0;
+d113 1
+a113 1
+char *gs_alloc(nbytes)
+d116 2
+a117 2
+	register unsigned usize;
+	register struct fb *np, *cp;
+d119 4
+a122 4
+	if ( poolhead == NULL || Lastbrk == 0) {
+		printf("Error: gs_alloc: pool not initialized. Call gs_init_pool()\n");
+		return(0);
+	}
+d124 25
+a148 26
+	if((usize = nbytes) == 0)
+		return(NULL);
+	usize += 2*sizeof(int *) -1;
+	usize &= ~(sizeof(int *) -1);
+	cp = &GsFreelist;
+	while((np = (struct fb *)cp->f_next) != (struct fb *)GsFreeend) {
+		if(np->f_size>=usize) {
+		/*
+			Don't break the block up if it
+			is not more than SLOP bigger than the
+			amount needed.
+		*/
+			if(usize+SLOP >= np->f_size)
+				cp->f_next = np->f_next;
+		/*
+			Break the block into 2 pieces.
+		*/
+			else {
+				cp = (struct fb *)(cp->f_next = (char *)(((int)np)+usize));
+				cp->f_size = np->f_size - usize;
+				cp->f_next = np->f_next;
+				np->f_size = usize;
+			}
+			return((char *)&np->f_next);
+		}
+		cp = np;
+d150 2
+d155 2
+a156 2
+	printf("Error: gs_alloc: Out of memory in shared memory pool.\n");
+	return (NULL);
+d160 2
+a161 2
+int gs_free(aptr)
+char *aptr;
+d163 1
+a163 1
+	register struct fb *ptr, *cp, *np;
+d165 13
+a177 22
+	if (aptr && aptr < (char *)Lastbrk) {
+		ptr = (struct fb *) ((unsigned)aptr - sizeof(int *));
+		cp = &GsFreelist;
+		while((np = (struct fb *)cp->f_next) < ptr)
+			cp = np;
+	/*
+		Try to coalesce with the following block.
+	*/
+		if(((int)ptr) + ptr->f_size == ((int)np)) {
+			ptr->f_size += np->f_size;
+			ptr->f_next = np->f_next;
+			np = ptr;
+		} else
+			ptr->f_next = (char *)np;
+	/*
+		Try to coalesce with the preceding block.
+	*/
+		if(((int)cp) + cp->f_size == ((int)ptr)) {
+			cp->f_size += ptr->f_size;
+			cp->f_next = ptr->f_next;
+		} else
+			cp->f_next = (char *)ptr;
+d179 13
+d194 3
+a196 3
+int gs_init_pool(size,key)
+int size;
+key_t key;
+d198 1
+a198 1
+GSKey_t shmkey;
+d200 3
+a202 3
+	register struct fb *ptr, *cp, *np;
+	if (size <= 0 || size > GSPOOLSIZE)
+		size = GSPOOLSIZE;
+d204 15
+a218 15
+	if (key == (key_t)0) {
+		key = GSPOOLKEY;
+	}
+	shmkey.key = key;
+	
+	poolhead = gs_shm_alloc(GSPOOLSIZE,&shmkey,&gs_poolid);
+	Lastbrk  = (unsigned)poolhead;
+	cp  = &GsFreelist;
+	cp->f_size  = GSPOOLSIZE;
+	cp->f_next = (char *)Lastbrk;
+	Lastbrk += GSPOOLSIZE-SLOP;
+	np = (struct fb *)cp->f_next;
+	np->f_size = GSPOOLSIZE;
+	np->f_next = GsFreeend;
+	gs_free(&np->f_next);
+d221 1
+a221 1
+int gs_term_pool()
+d223 1
+a223 1
+	int status = GS_SUCCESS;
+d225 6
+a230 6
+	gs_shm_free(poolhead);
+	status = gs_shm_remove(gs_poolid);
+	if (status == GS_SUCCESS) {
+		gs_poolid = 0;
+	}
+	return (status);
+a231 1
+	
+d234 1
+d236 3
+a238 2
+void main () {
+char *cp;
+d240 1
+a240 1
+gs_init_pool(0,0);  /* get max size pool with default key (6214961) */
+d242 1
+a242 1
+printf("InitPool: poolhead = %lu\n",poolhead);
+d244 8
+a251 8
+cp = gs_alloc(5000);
+printf("ptr1 = %lu 		-- should be same as poolhead + slop (4bytes)\n",cp);
+printf("\tFreeing ptr1..\n");
+gs_free(cp);
+cp = gs_alloc(5000);
+printf("ptr2 = %lu 		-- should be same as pointer 1.\n",cp);
+printf("\tFreeing ptr2..\n");
+gs_free(cp);
+d253 8
+a260 8
+cp = gs_alloc(1000);
+printf("ptr = %lu 		-- should be same as pointer 2.\n",cp);
+cp = gs_alloc(1000);
+printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n",cp);
+cp = gs_alloc(1000);
+printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n",cp);
+cp = gs_alloc(1000);
+printf("ptr = %lu		-- should be 1000 + last ptr + slop (4bytes)\n",cp);
+d262 1
+a262 1
+gs_term_pool();
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d93 1
+a93 1
+	gsalloc returns the address of the allocated area on success,
+d102 1
+a102 1
+struct fb Freelist={
+d107 1
+a107 1
+char *Freeend = (char *)0x3FFFFFFF;
+a108 2
+#define SIZINCRO	10
+#define MAX_PAGE	65535 - 8000
+d110 1
+a110 5
+extern caddr_t sbrk();
+extern int brk();
+extern	end;
+unsigned Lastbrk = (unsigned)&end;
+static caddr_t xsbrk();
+a111 2
+void gsfree(),gs_freeall();
+int gsalloc();
+d113 2
+a114 2
+static caddr_t xsbrk(size) 
+u_int size;
+a115 8
+printf("calling sbrk with %d \n",size);
+return (sbrk(size));
+}
+
+
+int gsalloc(asize)
+unsigned asize;
+{
+a117 4
+	int	tot = 0;
+	long	asizel = 0;
+	long	lastbrkl = 0;
+	char	*xcp;
+d119 2
+a120 1
+	if((usize = asize) == 0)
+d122 4
+d128 18
+a145 21
+	for(;;) {
+		cp = &Freelist;
+		while((np = (struct fb *)cp->f_next) != (struct fb *)Freeend) {
+			if(np->f_size>=usize) {
+			/*
+				Don't break the block up if it
+				is not more than SLOP bigger than the
+				amount needed.
+			*/
+				if(usize+SLOP >= np->f_size)
+					cp->f_next = np->f_next;
+			/*
+				Break the block into 2 pieces.
+			*/
+				else {
+					cp = (struct fb *)(cp->f_next = (char *)(((int)np)+usize));
+					cp->f_size = np->f_size - usize;
+					cp->f_next = np->f_next;
+					np->f_size = usize;
+				}
+				return((int)&np->f_next);
+d147 1
+a147 1
+			cp = np;
+d149 1
+a149 32
+	/*
+		Nothing on the free list is big enough;
+		get more core from the operating system.
+	*/
+		asize = usize<1024? 1024: usize;
+		asize = (asize+511) & (~511);
+		asizel = asize;
+		lastbrkl = Lastbrk;
+		if(((asizel + lastbrkl) > MAX_PAGE) ||
+			(cp = (struct fb *)xsbrk(asize)) == (struct fb *)-1) {
+			xcp = (char *)xsbrk(SIZINCRO);
+			while(((cp = (struct fb *)xsbrk(SIZINCRO)) != (struct fb *)-1) &&
+				(xcp != (char *)-1)) {
+				tot += SIZINCRO;
+				lastbrkl = Lastbrk = ((int) cp) + SIZINCRO;
+				if((SIZINCRO + lastbrkl) > MAX_PAGE) {
+					break;
+				}
+			}
+			if((!tot) || (xcp == (char *)-1))
+				return(0);
+			cp = (struct fb *)xcp;
+			cp->f_size = tot + SIZINCRO;
+		}
+		else {
+			Lastbrk = ((int)cp) + asize;
+			cp->f_size = asize;
+		}
+	/*
+		Add new piece to free list.
+	*/
+		gsfree(&cp->f_next);
+d151 5
+d159 1
+a159 1
+void gsfree(aptr)
+d166 1
+a166 1
+		cp = &Freelist;
+d206 1
+a206 1
+	cp  = &Freelist;
+d212 2
+a213 2
+	np->f_next = Freeend;
+	gsfree(&np->f_next);
+d216 1
+a216 1
+gs_term_pool()
+a228 7
+void gs_freeall()
+{
+	brk(&end);
+	Lastbrk = (unsigned)&end;
+	Freelist.f_size = 0;
+	Freelist.f_next = Freeend;
+}
+d232 1
+a232 1
+int cp;
+d238 1
+a238 1
+cp = gsalloc(5000);
+d241 2
+a242 2
+gsfree(cp);
+cp = gsalloc(5000);
+d245 1
+a245 1
+gsfree(cp);
+d247 1
+a247 1
+cp = gsalloc(1000);
+d249 1
+a249 1
+cp = gsalloc(1000);
+d251 1
+a251 1
+cp = gsalloc(1000);
+d253 1
+a253 1
+cp = gsalloc(1000);
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d43 4
+d51 1
+a51 1
+char   *gs_shm_alloc(size, key)
+d54 1
+a55 1
+	int     mid;
+d59 3
+a61 3
+	mid = shmget(key->key, size, (IPC_CREAT | 0666));
+	if (mid < 0 ) {
+		printf("Error: shmget returned %d, errno=%d\n",mid,errno);
+d64 1
+a64 1
+	mp = (char *)shmat(mid,NULL,0);
+d76 4
+a79 1
+	return (shmdt(ptr));
+d82 9
+d233 3
+a235 2
+#define GSPOOLSIZE  ((size_t)(1024*1024))
+int gs_init_pool()
+d240 2
+d243 4
+a246 1
+	shmkey.key = 8365;
+d248 2
+a249 2
+	Lastbrk = (unsigned)gs_shm_alloc(GSPOOLSIZE,&shmkey);
+	printf("InitPool: Lastbrk = %lu\n",Lastbrk);
+d260 13
+d285 1
+a285 1
+gs_init_pool();
+d287 2
+d290 2
+a292 2
+printf(" 1st ptr = %lu\n",cp);
+
+d294 2
+a296 1
+printf(" 2nd ptr = %lu\n",cp);
+d299 1
+a299 1
+printf("ptr = %lu\n",cp);
+d301 1
+a301 1
+printf("ptr = %lu\n",cp);
+d303 1
+a303 1
+printf("ptr = %lu\n",cp);
+d305 3
+a307 2
+printf("ptr = %lu\n",cp);
+gsfree(cp);
+@
+
+
+1.7
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d18 1
+a18 1
+	ptr = gs_alloc(nbytes, key);
+a39 1
+#include <sys/types.h>
+d47 2
+a48 2
+char   *gs_alloc(size, key)
+int     size;
+d52 3
+d56 10
+a65 1
+	return ((void *) shmat(mid, (char *) 0, 0));
+d69 2
+a70 2
+int     gs_free(ptr)
+void   *ptr;
+d74 198
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d52 3
+a54 3
+    int     mid;
+    mid = shmget(key->key, size, (IPC_CREAT | 0666));
+    return ((void *) shmat(mid, (char *) 0, 0));
+d58 1
+a58 1
+int    gs_free(ptr)
+d61 1
+a61 1
+    return( shmdt(ptr));
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d58 1
+a58 1
+void    gs_free(ptr)
+d61 1
+a61 1
+    shmdt(ptr);
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d48 2
+a49 2
+char *gs_alloc(size, key)
+int size;
+d52 3
+a54 3
+int mid;
+	mid = shmget(key->key,size,(IPC_CREAT | 0666));
+	return ((void *)shmat(mid,(char *)0,0));
+d58 2
+a59 2
+void gs_free(ptr)
+void *ptr;
+d61 1
+a61 1
+	shmdt(ptr);
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a1 8
+/* 
+*
+*    GeoShare Subroutine Library
+*
+*    Shared Memory Tools.
+*
+* Julian Carlisle	 Fri Apr 19 11:57:27 PDT 1991
+*/
+d3 34
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@a0 2
+/* Function Description -----------------------------------------------------
+Description:
+d2 8
+a9 1
+	I'll get back to you on this.
+d12 1
+a12 20
+Prototype:
+    publicdef void *gs_alloc(size, key)
+    publicdef void gs_free(ptr)
+
+Parameters:	    (indicate (I)/(O)/(M) for input/output/input-and-modified)
+    (I) arg	- description
+
+Return Value/Status:
+
+
+Scope:
+    PUBLIC
+
+Limitations/Assumptions:
+
+Julian Carlisle 	-	Wed Mar 13 15:48:48 PST 1991
+-----------------------------------------------------------------------------*/
+
+#ifdef sun
+#include <stdio.h>
+a17 1
+#define GSSHMKEY_t key_t
+d19 4
+a22 2
+
+void *gs_alloc(size, key)
+d24 1
+a24 1
+GSSHMKEY_t *key;
+d31 1
+a36 1
+#endif
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@@
+
+
+1.0
+log
+@Initial
+@
+text
+@d37 1
+a37 1
+GSSHMKEY_t key;
+d40 1
+a40 1
+	mid = shmget(key,size,(IPC_CREAT | 0666));
+@

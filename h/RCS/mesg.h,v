@@ -1,0 +1,54 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.29.06.22.55;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.11.51.01;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of mesg.h.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@/*
+* Definition of "our" message.
+* You may have to change the 4096 to a smaller value, if message queues
+* on your system were configured with "msgmax" less than 4096.
+*/
+
+#define MAXMESGDATA     (4096-16)
+                                /* we don't want sizeof(Mesg) > 4096 */
+
+#define MESGHDRSIZE     (sizeof(Mesg) - MAXMESGDATA)
+                                /* length of mesg len and mesg type */
+
+typedef struct {
+  int mesg_len;         /* #bytes in mesg data, can be O or > O */
+  long mesg_type;       /* message type, must be > O */
+  char mesg_data[MAXMESGDATA];
+} Mesg;
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@@

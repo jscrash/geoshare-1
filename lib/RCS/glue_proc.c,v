@@ -1,0 +1,246 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.19.12.36.14;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of glue_proc.c.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct {
+	int arg_flag;
+	char *type;
+	char *name;
+	} arg_t;
+
+
+main(int argc, char **argv)
+	{
+	FILE *infile;
+	FILE *hfile;
+	FILE *cfile;
+	char *ptoken;
+	char buffer[1024];
+	char *function_name;
+	char *function_type;
+	int nargs;
+	int i;
+	int func;
+	arg_t *parg, *arguments;
+	
+	infile = fopen(argv[1], "r");
+	
+	hfile = fopen("dlis.h","w");
+	cfile = fopen("dlis.c","w");
+	
+	fprintf(cfile,"#include \"dlis.h\"\n");	
+	fprintf(cfile,"#include \"esi_glue.h\";\n\n");	
+	fprintf(hfile,"#include \"esi_gl_defs.h\";\n");	
+	fprintf(hfile,"typedef int bool;\n");	
+	fprintf(hfile,"typedef char byte;\n");	
+	fprintf(hfile,"typedef int (*int_function_ptr)();\n");	
+	
+	while (fgets(buffer, sizeof buffer, infile) != NULL)
+		{
+		/* fetch data type */
+		function_type = strtok(buffer, "\t");
+		/* fetch function name */
+		function_name = strtok(NULL, "\t");
+		func = strcmp("void",function_type) != 0;
+		fprintf(cfile,"\
+/*****************************************************************************/\n");
+		fprintf(cfile,"#if USE_PROTOTYPES\npublicdef %s dlg_%s (",
+			function_type, function_name);
+
+		fprintf(hfile,"extern %s dlg_%s (", function_type, function_name);
+		
+		/* fetch number of arguments */
+		ptoken = strtok(NULL, "\t");
+		nargs = atoi(ptoken);
+		arguments = (arg_t *)malloc(nargs * sizeof (arg_t));
+		
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			/* fetch argument i/o */
+			ptoken = strtok(NULL, "\t\n");
+			parg -> arg_flag = ptoken[0];
+			
+			/* fetch argument type */
+			parg -> type = strtok(NULL, "\t\n");
+			if ( i == 0)
+				{
+				fprintf(hfile,"%s ", parg -> type);
+				fprintf(cfile,"%s ", parg -> type);
+				}
+			else
+				{
+				fprintf(hfile,", %s ", parg -> type);
+				fprintf(cfile,", %s ", parg -> type);
+				}
+
+			/* fetch argument name */
+			parg -> name = strtok(NULL, "\t\n");
+			fprintf(hfile,"%s", parg -> name);
+			fprintf(cfile,"%s", parg -> name);
+			}
+		fprintf(hfile,");\n");
+
+		/* Now do the pass to build the old-style calling args */
+		fprintf(cfile,")\n#else\npublicdef %s ", function_type);
+		
+		/* fetch function name */
+		fprintf(cfile,"dlg_%s (", function_name);
+
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			/* fetch argument name */
+			fprintf(cfile,"%s%s",  i ? ", " : "",parg -> name);
+			}
+
+		fprintf(cfile,")\n");
+		/* now get the formal aurgument list */
+		
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			/* fetch argument type */
+			fprintf(cfile,"%s %s;\n",  parg -> type, parg -> name);
+			}
+		fprintf(cfile,"#endif\n\t{\n");
+
+		/* begin vms specific processing */
+		fprintf(cfile,"#ifdef vms\n");
+		if (func)
+			{
+			if (strcmp("char *", function_type) == 0)
+				{
+				fprintf(cfile, "\tdsc$descriptor return_value;\n");
+				}
+			else
+				{
+				fprintf(cfile,"\t%s return_value;\n\n", function_type);
+				}
+			}
+			
+		/* now perform pre-call processing.  This entails moving descriptor
+		strings into C strings */
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (strcmp(parg -> type, "char *") == 0)
+				{
+				fprintf(cfile, "\tdsc$descriptor d%d_%s;\n", i+1, parg -> name);
+				}
+			}
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (strcmp(parg -> type, "char *") == 0)
+				{
+				fprintf(cfile, "\td%d_%s.b_type = D_STRING;\n", i+1, parg -> name);
+				fprintf(cfile, "\td%d_%s.b_class = STRING_CLASS;\n", i+1, parg -> name);
+				fprintf(cfile, "\td%d_%s.a_pointer = %s;\n", i+1, parg -> name, parg -> name);
+				fprintf(cfile, "\td%d_%s.l_length = strlen(%s);\n", i+1, parg -> name, parg -> name);
+				}
+			}
+		fprintf(cfile,"\n\t%s%s(", func ? "return_value = " : "", function_name);
+		/* prepare each individual argument.  VMS Fortran expects all scalars to
+		be passed by reference; all arrays by address and all character strings
+		by descriptor */
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (i > 0)
+				{
+				fprintf(cfile,", ");
+				}
+			if (strchr(parg -> type,'*') == NULL)
+				{
+				fprintf(cfile,"&%s", parg -> name);
+				}
+			else if (strcmp("char *", parg -> type) == 0)
+				{
+				fprintf(cfile,"&d%d_%s", i+1, parg -> name);
+				}
+			else
+				{
+				fprintf(cfile,"%s", parg -> name);
+				}
+			}
+		fprintf(cfile, ");\n");
+		/* now perform post-call processing.  This entails moving descriptor
+		strings into C strings */
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (parg -> arg_flag == 'o' && strcmp(parg -> type, "char *") == 0)
+				{
+				fprintf(cfile, "\t%s[d%d_%s.l_length] = 0;\n", parg -> name, i+1, parg -> name);
+				}
+			}
+		if (func)
+			{
+			if (strcmp("char *", function_type) == 0)
+				{
+				fprintf(cfile, "\treturn return_value.a_pointer;\n");
+				}
+			else
+				{
+				fprintf(cfile, "\treturn return_value;\n");
+				}
+			}
+			
+		fprintf(cfile, "\n#endif\t/* vms */\n\n");
+
+		/* begin unix specific processing */
+		fprintf(cfile,"#if UNIX\n");
+
+		fprintf(cfile,"\n\t%s%s_(", func ? "return " : "", function_name);
+
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (i > 0)
+				{
+				fprintf(cfile,", ");
+				}
+			if (strchr(parg -> type,'*') == NULL)
+				{
+				fprintf(cfile,"&%s", parg -> name);
+				}
+			else
+				{
+				fprintf(cfile,"%s", parg -> name);
+				}
+			}
+		/* Now add an argument indicating the size of each character array */
+		for (i = 0, parg = arguments; i < nargs; i++, parg++)
+			{
+			if (strcmp("char *", parg -> type) == NULL)
+				{
+				fprintf(cfile,", strlen(%s)", parg -> name);
+				}
+			}
+		fprintf(cfile, ");\n");
+		fprintf(cfile, "\n#endif\t/* unix */\n\n");
+
+		fprintf(cfile, "\t}\n\n");
+		free(arguments);
+		}
+
+	exit(EXIT_SUCCESS);
+	}
+@

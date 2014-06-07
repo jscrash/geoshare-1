@@ -1,0 +1,1107 @@
+head     1.21;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.21; strict;
+comment  @ * @;
+
+
+1.21
+date     91.05.20.09.08.24;  author julian;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     91.05.14.08.07.00;  author julian;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     91.05.09.07.57.03;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.05.09.04.00.47;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.07.08.14.25;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.07.04.23.59;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.07.03.05.42;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.05.11.30.13;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.04.30.04.10.18;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.04.30.02.51.28;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.04.29.12.39.31;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.29.10.47.18;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.25.06.40.17;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.24.23.35.43;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.24.22.36.14;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.24.18.13.36;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.23.08.24.25;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.23.00.42.07;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.20.12.28.03;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.20.10.03.27;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_talk.c.
+@
+
+
+1.21
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <errno.h>
+
+/****************************************************************************
+Module:	GS_TALK
+
+Description:
+	Perform synchronized message transactions with the connection
+	manager.  This routine performs the task of sending messages to the
+	connection manager via its message slot identified by a well known
+	address.  Synchronous access to the CM message buffer is acheived by
+	implementing a semaphore driven protocol.
+	
+	A message may optionally wait for a reply before returning.
+
+Usage:	gs_talk(handle,msg,&reply);
+
+	
+Parameters:
+	INPUT:
+		GSHandle_t handle	- Connection descriptor
+		GSMessage_t msg	- Message object
+
+	OUTPUT:
+		GSMessage_t *reply	- Addres of pointer for reply msg.
+
+Status:
+	This routine returns GS_SUCCESS upon successful completion of the
+	message transaction.  If an error occurrs during the transaction one
+	of the following error codes will be returned:
+
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BUSY       - Requested data receiver is single
+			     - threaded, and already in use.
+
+	GSERR_SVC_MISMATCH   - The data type sent to the data
+			     - service is not supported.
+
+	GSERR_SVC_BADCONTEXT - The context args given to the
+			     - receiver are bad or unsupported.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Fri Apr 20 03:12:45 PDT 1991
+*****************************************************************************/
+
+extern int errno;
+
+int     gs_talk(h, pslot, msg, reply)
+GSHandle_t *h;
+GSSlot_t *pslot;
+GSMessage_t *msg;
+GSMessage_t *reply;
+{
+	int     status = GS_SUCCESS;
+	int     semstat = 0;
+	errno = 0;
+
+	if (h == (GSHandle_t *) 0) {
+		gs_log("gs_talk: Null handle.");
+		return (GS_FAIL);
+	}
+
+	if (h->init != TRUE) {
+		gs_log("gs_talk: Handle not initialized.");
+		return (GS_FAIL);
+	}
+
+ /* Check the message length */
+	if (msg->MsgLen > GSMAXMESSAGE) {
+		gs_log("gs_talk: Message is too long.");
+		return (GS_FAIL);
+	}
+
+ /* wait for the Message Lock semaphore */
+ /* if semaphore comes back indicating that it was interrupted */
+ /* then repeat the operation. */
+	do {
+		errno = 0;
+		semstat = gs_sem_wait(pslot->locksem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:1 error waiting on locksem %d\n", semstat);
+		}
+	} while (semstat == EINTR);
+
+	do {
+		errno = 0;
+		semstat = gs_sem_wait(pslot->msgsem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:2 error waiting on msgsem %d\n", semstat);
+		}
+	} while (semstat == EINTR);
+
+
+	pslot->msg.MsgType = msg->MsgType;
+	pslot->msg.MsgLen = msg->MsgLen;
+	memcpy(pslot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen);
+	pslot->msg.pid = msg->pid;
+	pslot->msg.shmid = msg->shmid;
+	pslot->msg.key = msg->key;
+
+ /* signal CM to read message */
+	do {
+		errno = 0;
+		semstat = gs_sem_signal(pslot->cmsem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:3 error signalling  on cmsem %d\n", semstat);
+		}
+	} while (semstat == EINTR);
+
+#if 0
+	while (pslot->msg.MsgType == msg->MsgType) {
+		sleep(0);
+	}
+#else
+	sleep(0);
+#endif
+
+ /* wait for the cm semaphore and lock it */
+ /* if semaphore comes back indicating that it was interrupted */
+ /* then repeat the operation. */
+	do {
+		errno = 0;
+		semstat = gs_sem_wait(pslot->msgsem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:4 error waiting on msgsem %d\n", semstat);
+		}
+	} while (semstat == EINTR);
+
+ /* read reply */
+	if (pslot->msg.MsgType == 0) {
+		gs_log("gs_talk: Received Bad Message from cm.");
+		status = GS_FAIL;
+	}
+	else {
+		reply->MsgType = pslot->msg.MsgType;
+		reply->MsgLen = pslot->msg.MsgLen;
+		memcpy(reply->MsgBuf, pslot->msg.MsgBuf, pslot->msg.MsgLen);
+		reply->MsgBuf[reply->MsgLen] = '\0';
+		pslot->msg.MsgType = 0;
+		pslot->msg.MsgLen = 0;
+		pslot->msg.MsgBuf[0] = '\0';
+		pslot->msg.pid = 0;
+		pslot->msg.shmid = 0;
+		pslot->msg.key = (key_t)0;
+		status = GS_SUCCESS;
+	}
+ /* free the slot for other procs */
+	do {
+		errno = 0;
+		semstat = gs_sem_signal(pslot->msgsem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:5 error signalling msgsem %d\n", semstat);
+		}
+	} while (semstat == EINTR);
+	do {
+		errno = 0;
+		semstat = gs_sem_signal(pslot->locksem);
+		if (semstat != GS_SUCCESS) {
+			if (semstat != EINTR)
+				fprintf(stderr,"talk:6 error signalling locksem %d\n", semstat);
+		}
+		sleep(0);
+	} while (semstat == EINTR);
+
+	return (status);
+}
+
+ /*
+  * This is a version of talk that is used to talk to the receiver slot using
+  * the binary semaphores instead of the cluster semaphores.   This is the
+  * protocol complement to gs_receive.
+  * 
+  * Julian	 Tue May  7 01:10:42 PDT 1991
+  */
+int     gs_rec_talk(h, pslot, msg, reply)
+GSHandle_t *h;
+GSSlot_t *pslot;
+GSMessage_t *msg;
+GSMessage_t *reply;
+{
+	int     status = GS_SUCCESS;
+
+	errno = 0;
+
+	if (h == (GSHandle_t *) 0) {
+		gs_log("gs_rec_talk: Null handle.");
+		return (GS_FAIL);
+	}
+
+	if (h->init != TRUE) {
+		gs_log("gs_rec_talk: Handle not initialized.");
+		return (GS_FAIL);
+	}
+
+ /* Check the message length */
+	if (msg->MsgLen > GSMAXMESSAGE) {
+		gs_log("gs_rec_talk: Message is too long.");
+		return (GS_FAIL);
+	}
+
+ /* Get the send semaphore */
+	do {
+		errno = 0;
+		gs_semP(pslot->msgsem);
+		status = errno;
+		if (errno != 0)
+			fprintf(stderr,"rec_talk:2 error waiting on msgsem %d\n", errno);
+	} while (status == EINTR);
+
+ /* write message to slot */
+	pslot->msg.MsgType = msg->MsgType;
+	pslot->msg.MsgLen = msg->MsgLen;
+	memcpy(pslot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen+64);
+
+ /* signal partner to read message */
+	do {
+		errno = 0;
+		gs_semV(pslot->cmsem);
+		status = errno;
+		if (errno != 0)
+			fprintf(stderr,"rec_talk:3 error signalling  on cmsem %d\n", errno);
+	} while (status == EINTR);
+
+	sleep(0);
+
+	do {
+		errno = 0;
+		gs_semP(pslot->msgsem);
+		status = errno;
+		if (errno != 0)
+			fprintf(stderr,"rec_talk:4 error waiting on msgsem %d\n", errno);
+	} while (status == EINTR);
+
+ /* read reply */
+	if (pslot->msg.MsgType == 0) {
+		gs_log("gs_rec_talk: Received Bad Message from cm.");
+		status = GS_FAIL;
+	}
+	else {
+		reply->MsgType = pslot->msg.MsgType;
+		reply->MsgLen = pslot->msg.MsgLen;
+		memcpy(reply->MsgBuf, pslot->msg.MsgBuf, pslot->msg.MsgLen+64);
+		pslot->msg.MsgType = 0;
+		pslot->msg.MsgLen = 0;
+		pslot->msg.MsgBuf[0] = '\0';
+		status = GS_SUCCESS;
+	}
+ /* free the slot for other procs */
+
+	do {
+		errno = 0;
+		gs_semV(pslot->msgsem);
+		if (errno != 0)
+			fprintf(stderr,"rec_talk:5 error signalling msgsem %d\n", errno);
+	} while (errno == EINTR);
+
+	sleep(0);
+
+	return (status);
+}
+@
+
+
+1.20
+log
+@Update
+@
+text
+@d106 3
+d153 3
+@
+
+
+1.19
+log
+@Update
+@
+text
+@d89 1
+a89 1
+				printf("talk:1 error waiting on locksem %d\n", semstat);
+d98 1
+a98 1
+				printf("talk:2 error waiting on msgsem %d\n", semstat);
+d113 1
+a113 1
+				printf("talk:3 error signalling  on cmsem %d\n", semstat);
+d133 1
+a133 1
+				printf("talk:4 error waiting on msgsem %d\n", semstat);
+d158 1
+a158 1
+				printf("talk:5 error signalling msgsem %d\n", semstat);
+d166 1
+a166 1
+				printf("talk:6 error signalling locksem %d\n", semstat);
+d213 1
+a213 1
+			printf("rec_talk:2 error waiting on msgsem %d\n", errno);
+d219 1
+a219 1
+	memcpy(pslot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen);
+d227 1
+a227 1
+			printf("rec_talk:3 error signalling  on cmsem %d\n", errno);
+d237 1
+a237 1
+			printf("rec_talk:4 error waiting on msgsem %d\n", errno);
+d248 1
+a248 2
+		memcpy(reply->MsgBuf, pslot->msg.MsgBuf, pslot->msg.MsgLen);
+		reply->MsgBuf[reply->MsgLen] = '\0';
+d260 1
+a260 1
+			printf("rec_talk:5 error signalling msgsem %d\n", errno);
+@
+
+
+1.18
+log
+@Update
+@
+text
+@d55 1
+a55 1
+int     gs_talk(h, pslot,msg, reply)
+d62 1
+a62 1
+	int 	semstat = 0;
+d86 1
+a86 1
+		semstat = gs_sem_wait(pslot->locksem); 
+d95 1
+a95 1
+		semstat =  gs_sem_wait(pslot->msgsem);
+d118 1
+a118 1
+	while (pslot->msg.MsgType == msg->MsgType) {  
+d175 7
+a181 7
+ * This is a version of talk that is used to talk to the receiver 
+ * slot using the binary semaphores instead of the cluster 
+ * semaphores.   This is the protocol complement to gs_receive.
+ *
+ * Julian	 Tue May  7 01:10:42 PDT 1991
+ */
+int     gs_rec_talk(h, pslot,msg, reply)
+d207 1
+a207 1
+	/* Get the send semaphore */
+d216 1
+a216 1
+	/* write message to slot */
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d62 1
+a62 1
+
+d86 4
+a89 3
+		if (gs_sem_wait(pslot->locksem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:1 error waiting on locksem %d\n", errno);
+d91 1
+a91 1
+	} while (errno == EINTR);
+d95 4
+a98 3
+		if (gs_sem_wait(pslot->msgsem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:2 error waiting on msgsem %d\n", errno);
+d100 1
+a100 1
+	} while (errno == EINTR);
+d110 4
+a113 3
+		if (gs_sem_signal(pslot->cmsem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:3 error signalling  on cmsem %d\n", errno);
+d115 1
+a115 1
+	} while (errno == EINTR);
+d117 5
+d123 1
+d130 4
+a133 3
+		if (gs_sem_wait(pslot->msgsem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:4 error waiting on msgsem %d\n", errno);
+d135 1
+a135 1
+	} while (errno == EINTR);
+a152 1
+
+d155 4
+a158 3
+		if (gs_sem_signal(pslot->msgsem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:5 error signalling msgsem %d\n", errno);
+d160 1
+a160 3
+		sleep(0);
+	} while (errno == EINTR);
+
+d163 4
+a166 3
+		if (gs_sem_signal(pslot->locksem) != GS_SUCCESS) {
+			if (errno != EINTR)
+				printf("talk:6 error signalling locksem %d\n", errno);
+d169 1
+a169 2
+	} while (errno == EINTR);
+	sleep(0);
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d165 95
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d88 1
+a88 1
+				printf("talk: error waiting on locksem %d\n", errno);
+d96 1
+a96 1
+				printf("talk: error waiting on msgsem %d\n", errno);
+d110 1
+a110 1
+				printf("talk: error signalling  on cmsem %d\n", errno);
+d123 1
+a123 1
+				printf("talk: error waiting on msgsem %d\n", errno);
+d148 1
+a148 1
+				printf("talk: error signalling msgsem %d\n", errno);
+d157 1
+a157 1
+				printf("talk: error signalling locksem %d\n", errno);
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d88 1
+a88 1
+				printf("talk: error waiting on locksem %d", errno);
+d96 1
+a96 1
+				printf("talk: error waiting on msgsem %d", errno);
+d110 1
+a110 1
+				printf("talk: error signalling  on cmsem %d", errno);
+d114 1
+d123 1
+a123 1
+				printf("talk: error waiting on msgsem %d", errno);
+a144 1
+		sleep(0);
+d148 1
+a148 1
+				printf("talk: error signalling msgsem %d", errno);
+d150 1
+d157 1
+a157 1
+				printf("talk: error signalling locksem %d", errno);
+d159 1
+a159 1
+
+@
+
+
+1.13
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d55 1
+a55 1
+int     gs_talk(h, msg, reply)
+d57 1
+d86 1
+a86 1
+		if (gs_sem_wait(h->slot->locksem) != GS_SUCCESS) {
+d94 1
+a94 1
+		if (gs_sem_wait(h->slot->msgsem) != GS_SUCCESS) {
+d101 3
+a103 3
+	h->slot->msg.MsgType = msg->MsgType;
+	h->slot->msg.MsgLen = msg->MsgLen;
+	memcpy(h->slot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen);
+d108 1
+a108 1
+		if (gs_sem_signal(h->slot->cmsem) != GS_SUCCESS) {
+d120 1
+a120 1
+		if (gs_sem_wait(h->slot->msgsem) != GS_SUCCESS) {
+d127 1
+a127 1
+	if (h->slot->msg.MsgType == 0) {
+d132 3
+a134 3
+		reply->MsgType = h->slot->msg.MsgType;
+		reply->MsgLen = h->slot->msg.MsgLen;
+		memcpy(reply->MsgBuf, h->slot->msg.MsgBuf, h->slot->msg.MsgLen);
+d136 3
+a138 3
+		h->slot->msg.MsgType = 0;
+		h->slot->msg.MsgLen = 0;
+		h->slot->msg.MsgBuf[0] = '\0';
+d146 1
+a146 1
+		if (gs_sem_signal(h->slot->msgsem) != GS_SUCCESS) {
+d154 1
+a154 1
+		if (gs_sem_signal(h->slot->locksem) != GS_SUCCESS) {
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d60 1
+a60 1
+    int     status = GS_SUCCESS;
+d62 1
+a62 1
+    errno = 0;
+d64 4
+a67 4
+    if (h == (GSHandle_t *) 0) {
+	gs_log("gs_talk: Null handle.");
+	return (GS_FAIL);
+    }
+d69 4
+a72 4
+    if (h->init != TRUE) {
+	gs_log("gs_talk: Handle not initialized.");
+	return (GS_FAIL);
+    }
+d75 4
+a78 4
+    if (msg->MsgLen > GSMAXMESSAGE) {
+	gs_log("gs_talk: Message is too long.");
+	return (GS_FAIL);
+    }
+d83 7
+a89 7
+    do {
+	errno = 0;
+	if (gs_sem_wait(h->slot->locksem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error waiting on locksem %d",errno);
+	}
+    } while (errno == EINTR);
+d91 7
+a97 7
+    do {
+	errno = 0;
+	if (gs_sem_wait(h->slot->msgsem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error waiting on msgsem %d",errno);
+	}
+    } while (errno == EINTR);
+d100 3
+a102 3
+    h->slot->msg.MsgType = msg->MsgType;
+    h->slot->msg.MsgLen = msg->MsgLen;
+    memcpy(h->slot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen);
+d105 7
+a111 7
+    do {
+	errno = 0;
+	if (gs_sem_signal(h->slot->cmsem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error signalling  on cmsem %d",errno);
+	}
+    } while (errno == EINTR);
+d117 7
+a123 7
+    do {
+	errno = 0;
+	if (gs_sem_wait(h->slot->msgsem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error waiting on msgsem %d",errno);
+	}
+    } while (errno == EINTR);
+d126 14
+a139 14
+    if (h->slot->msg.MsgType == 0) {
+	gs_log("gs_talk: Received Bad Message from cm.");
+	status = GS_FAIL;
+    }
+    else {
+	reply->MsgType = h->slot->msg.MsgType;
+	reply->MsgLen = h->slot->msg.MsgLen;
+	memcpy(reply->MsgBuf, h->slot->msg.MsgBuf, h->slot->msg.MsgLen);
+	reply->MsgBuf[reply->MsgLen] = '\0';
+	h->slot->msg.MsgType = 0;
+	h->slot->msg.MsgLen = 0;
+	h->slot->msg.MsgBuf[0] = '\0';
+	status = GS_SUCCESS;
+    }
+d142 8
+a149 8
+    do {
+	sleep(0);
+	errno = 0;
+	if (gs_sem_signal(h->slot->msgsem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error signalling msgsem %d",errno);
+	}
+    } while (errno == EINTR);
+d151 6
+a156 6
+    do {
+	errno = 0;
+	if (gs_sem_signal(h->slot->locksem) != GS_SUCCESS) {
+		if (errno != EINTR )
+			printf("talk: error signalling locksem %d",errno);
+	}
+d158 2
+a159 2
+    } while (errno == EINTR);
+    sleep(0);
+d161 1
+a161 1
+    return (status);
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d91 7
+@
+
+
+1.10
+log
+@.
+@
+text
+@d85 4
+a88 1
+	gs_sem_wait(h->slot->locksem);
+d100 4
+a103 1
+	gs_sem_signal(h->slot->cmsem);
+d112 4
+a115 1
+	gs_sem_wait(h->slot->msgsem);
+d128 3
+d138 4
+a141 1
+	gs_sem_signal(h->slot->msgsem);
+d143 1
+d146 5
+a150 1
+	gs_sem_signal(h->slot->locksem);
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d12 1
+a12 1
+	implementing a semaphore driven protocol.  
+d14 1
+a14 1
+	A message may optionally wait for a reply before returning.  
+d36 1
+a36 1
+	GSERR_SVC_BUSY       - Requested data receiver is single 
+d39 2
+a40 2
+	GSERR_SVC_MISMATCH   - The data type sent to the data 
+			     - service is not supported.  
+d42 2
+a43 2
+	GSERR_SVC_BADCONTEXT - The context args given to the 
+			     - receiver are bad or unsupported. 
+d45 2
+a46 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d55 1
+a55 1
+int gs_talk(h,msg,reply)
+d60 1
+a60 3
+int status = GS_SUCCESS;
+	
+	errno = 0;
+d62 1
+a62 4
+	if (h == (GSHandle_t *)0) {
+		gs_log("gs_talk: Null handle.");
+		return (GS_FAIL);
+	}
+d64 4
+a67 4
+	if (h->init != TRUE) {
+		gs_log("gs_talk: Handle not initialized.");
+		return (GS_FAIL);
+	}
+d69 4
+a72 5
+	/* Check the message length */
+	if (msg->MsgLen > GSMAXMESSAGE) {
+		gs_log("gs_talk: Message is too long.");
+		return (GS_FAIL);
+	}
+d74 5
+a78 7
+	/* wait for the Message Lock semaphore */
+	/* if semaphore comes back indicating that it was interrupted */
+	/* then repeat the operation. */
+	do {
+		errno = 0;
+		gs_sem_wait(h->slot->locksem);
+	} while (errno == EINTR);
+d80 7
+a88 9
+	h->slot->msg.MsgType = msg->MsgType;
+	h->slot->msg.MsgLen = msg->MsgLen;
+	memcpy(h->slot->msg.MsgBuf,msg->MsgBuf,msg->MsgLen);
+	
+	/* signal CM to read message */
+	do {
+		errno = 0;
+		gs_sem_signal(h->slot->cmsem);
+	} while (errno == EINTR);
+d90 3
+d94 5
+a98 21
+	/* wait for the cm semaphore and lock it */
+	/* if semaphore comes back indicating that it was interrupted */
+	/* then repeat the operation. */
+	do {
+		errno = 0;
+		gs_sem_wait(h->slot->msgsem); 
+	} while (errno == EINTR);
+	
+	/* read reply */
+	if (h->slot->msg.MsgType == 0) {
+		gs_log("gs_talk: Received Bad Message from cm.");
+		status = GS_FAIL;
+	} 
+	else {
+		reply->MsgType = h->slot->msg.MsgType;
+		reply->MsgLen = h->slot->msg.MsgLen;
+		memcpy(reply->MsgBuf,h->slot->msg.MsgBuf,h->slot->msg.MsgLen);
+		reply->MsgBuf[reply->MsgLen] = '\0';
+		status = GS_SUCCESS;
+	} 
+			/* free the slot for other procs */
+d100 24
+a123 9
+	do {
+		sleep(0);
+		errno = 0;
+		gs_sem_signal(h->slot->msgsem);  
+	} while (errno == EINTR);
+	do {
+		errno = 0;
+		gs_sem_signal(h->slot->locksem);  
+	} while (errno == EINTR);
+d125 8
+d134 1
+a134 1
+	return (status);
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@a96 1
+		sleep(0);
+a99 1
+	/* this does nothing but pass control back to the scheduler */
+a104 1
+		sleep(0);
+a127 1
+	sleep(0);
+a128 1
+		sleep(0);
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d95 5
+a99 1
+	gs_sem_signal(h->slot->cmsem);
+a101 1
+	sleep(0);
+d107 1
+d126 12
+a137 2
+	gs_sem_signal(h->slot->msgsem);  
+	gs_sem_signal(h->slot->locksem);  
+a138 1
+	sleep(0);
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d109 1
+a109 1
+	if (h->slot->msg.MsgType == 0 || h->slot->msg.MsgLen == 0) {
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d97 3
+d125 1
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@a89 1
+	/* wait for lock on CM slot */
+d95 1
+a95 1
+	gs_sem_signal(h->slot->msgsem);
+d102 1
+a102 1
+		gs_sem_wait(h->slot->msgsem);
+d118 2
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a90 1
+	gs_sem_wait(h->slot->locksem);
+d96 1
+a96 1
+	gs_sem_signal(h->slot->cmsem);
+d103 1
+a103 1
+		gs_sem_wait(h->slot->cmsem);
+d115 1
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d56 1
+a56 1
+GSHandle_t h;
+d64 1
+a64 1
+	if (h == (GSHandle_t)0) {
+d85 1
+a85 1
+		sem_wait(h->cm->locksem);
+d91 4
+a94 4
+	sem_wait(h->cm->locksem);
+	h->cm->msg.MsgType = msg->MsgType;
+	h->cm->msg.MsgLen = msg->MsgLen;
+	memcpy(h->cm->msg.MsgBuf,msg->MsgBuf,msg->MsgLen);
+d97 1
+a97 1
+	sem_signal(h->cm->cmsem);
+d104 1
+a104 1
+		sem_wait(h->cm->cmsem);
+d108 1
+a108 1
+	if (h->cm->msg.MsgType == 0 || h->cm->msg.MsgLen == 0) {
+d113 3
+a115 3
+		reply->MsgType = h->cm->msg.MsgType;
+		reply->MsgLen = h->cm->msg.MsgLen;
+		memcpy(reply->MsgBuf,h->cm->msg.MsgBuf,h->cm->msg.MsgLen);
+d117 3
+a119 2
+	}
+	sem_signal(h->cm->locksem);	/* free the slot for other procs */
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d2 2
+d53 2
+d58 1
+a58 1
+GSMessage_t **reply;
+d61 2
+d64 57
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d20 1
+a20 1
+		GS_Message_t msg	- Message object
+d23 1
+a23 1
+		GS_Message_t *reply	- Addres of pointer for reply msg.
+d53 2
+a54 2
+GS_Message_t *msg;
+GS_Message_t **reply;
+@

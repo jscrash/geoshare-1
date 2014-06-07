@@ -1,0 +1,61 @@
+########################################################
+#
+#   GeoShare Connection Manager Configuration File
+#
+# This file is used to describe the configuration
+# of a GeoShare host.  It contains entries for all
+# Application Data Receivers installed on this host.
+#
+# Each entry starts with a list of aliases that 
+# may be used to refer to the entry.  
+# 
+#  See the GeoShare Design Document for more 
+# information about the syntax in this file.
+#
+#  Julian Carlisle  -  Mon Apr 22 20:28:44 PDT 1991
+######################################################## 
+#
+# Describe the Connection Manager.
+#
+cm|gs_cm:\
+	:debug:all=finder sierra terra printit:\
+	:logfile=gscm.log:homedir=/j/fl/lib:host=snuffy:\
+	:timeout#30:slotbuflen#16384:numactive#1:maxbuf#16384:\
+	:include=global:
+
+# This is the Finder data receiver.
+finder|gs_finder_rec|ftest:\
+	:program=gs_finder_rec:a0=gs_finder_rec:\
+	:context=Oracle Account/Password, ,CHAR|\
+	Project Name,-project,CHAR:\
+	:numactive#1:debug:maxbuf#4096:include=global:
+#
+# Sierra stratlog product receiver
+sierra|gs_sierra_rec|stratlog:\
+	:program=gs_sierra_rec:a0=gs_sierra_rec:\
+	:context=Stratlog Username,-user,CHAR|\
+	Prospect Name,-prospect,CHAR:\
+	:numactive#1:debug:maxbuf#1024:include=global:
+#
+# Terrascience 
+terra|gs_terra_rec|terrascience:\
+	:program=gs_terra_rec:a0=gs_terra_rec:\
+	:context=Terramap Account/Password,-user,CHAR|\
+	Map Name,-map,CHAR|\
+	Project Name,-proj,CHAR:\
+	:numactive#1:debug:maxbuf#1024:include=global:
+#
+# This is the Finder data receiver # 2 for testing.
+printit|gs_print_struct:\
+	:program=gs_print_struct:a0=gs_print_struct:\
+	:numactive#1:debug:maxbuf#4096:include=global:
+#
+global:\
+	:defaulthome=/j/fl/lib:bindir=/j/fl/lib:timeout#60:\
+	:host=snuffy:transport=shm:slotbuflen#16384:
+#
+#printit|gs_print_struct:\
+#	:program=gs_print_struct:a0=gs_print_struct:\
+#	:context=Output file,-file,CHAR:\
+#	:numactive#1:debug:maxbuf#4096:include=global:
+#

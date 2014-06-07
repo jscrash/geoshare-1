@@ -1,0 +1,242 @@
+ADDITIONS TO DOCUMENT        -         Mon Mar 25 1991
+
+
+
+* Installation - What are the S.A. tasks - creating/entering GSTAB.
+
+GeoShare Installation 
+
+When the GeoShare system is shipped it will include (at least):
+
+        * A Connection Manager
+        * At least one data receiver service: The FINDER receiver.
+        * A toolbox for writting data receivers & application senders.
+
+When the GeoShare system is initially installed, it is necessary to
+create the Connnection Manager control file: GSTAB.  This file is
+owned by the system account, and maintained by the system administrator.
+
+An entry must be made for each data receiver service that is to be
+installed in this GeoShare system and known to the Connection
+Manager.  Entries are of the form:
+
+                < Diagram Here >
+
+Each time the Connection Manager starts up, this configuration file is
+read and the data receiver services are registered as valid data
+destinations.
+
+
+
+Client - CM connectivity
+
+This section describes how the connections between the various
+GeoShare processes operate.  The following topics discussed:
+
+        * How does connection work.
+        * Application - describe highlevel connection  to CM.
+        * Communications - shared memory, protocol requests
+	  & possible responses.
+        * Describe protocols used - name them, describe. them.
+        * Message handling, sending, completion.
+
+
+Client applications connect to the local CM using shared memory.
+The memory region is identified by using a well known address
+scheme for publishing the key.  In UNIX a file name, such as the
+GeoShare home directory, can be used to implement a public shared
+memory key.  On VMS, the shared memory key can be published using
+job or system logical names.
+
+The Connection Manager assigns a section of its shared memory (a Slot)
+to the connecting application.  This slot is used to pass messages
+between the client and the Connection Manager, as well as between
+the client & data receiver service if the client has started one.
+A description of Connection Manager slots is in the Connection Manager 
+section of this document.
+
+
+
+Message Passing
+
+Communications between clients & servers or services is accomplished
+by passing messages through shared buffers. The CM arbitrates the
+accesses to the process slots that connect the sender application to
+its destination data receiver.  
+
+Messages and their destinations are written into the connection slot,
+and a flag is set which indicates that the slot has been written to.
+An example of this interaction can be found in Appendix A - Slot Usage.
+
+Messages come in two types: either Data or Executive.  Data messages 
+are used to transfer data from the Client to the receiver.  Executive 
+messages are used to perform other communications with either the 
+Connection Manager or the data receiver.  
+
+Both Data and Executive messages use the GS_MESSAGE structure
+defined as follows:
+
+
+                typedef enum {
+                    Data = 1,
+                    Executive = 2
+                } gs_msgtype_t;
+
+                typedef struct gs_message {
+                    gs_msgtype_t MsgType;
+                    unsigned int MsgLen;
+                    unsigned char MsgBuf[GSMAXMESSAGE];
+                }GS_MESSAGE;
+
+
+The <MsgType> field is set to eiter 'Data' or 'Executive' depending on
+the type of message structure being passed in the <MsgBuf> field.
+The size of the message object being passed in the buffer is stored
+in the <MsgLen> field.
+
+
+
+Connection Manager Message Arbitration
+
+Message writing is arbitrated by the Connection Manager using
+semaphores.  These allow control over the synchronization of buffer
+reads & writes among several processes as described below.
+The Connection Manager watches the state of active process slots by
+waiting for semaphore state changes triggerred by message writes by
+either client or receiver processes.
+
+When the Connection Manager is not servicing a Client or Data
+Receiver request, it sleeps until there is a state change on one of
+its message control semaphores.
+
+
+
+Message Synchronization
+
+Semaphore operations are used to synchronize access to message
+slots, and thus avoid buffer access collisions.  A process that
+wishes to write a message into a slot first waits until the
+slots' buffer-free semaphore indicates that it is not in use.
+The process sleeps until the semaphore clears and then immediatly
+sets it to indicate that the buffer is busy.  When this is done, the
+message and its destination address are written into the slot.
+
+It is important that the semaphore implementation support atomic test/set 
+operations.  Atomic test/set operations ensure that a process can: 
+
+        a) Check the state of a semaphore
+        b) Change the semaphores state if desired
+
+in one operation without being interrupted (i.e. to swap in another
+process). 
+
+As mentioned above, the process waiting on a semaphore is put to
+sleep until the semaphore changes state and the process gets
+signalled. 
+
+The implementation of the semaphores is not important as long
+as it supports atomic test/set operations and process notification.
+The UNIX semaphore implementation satisfies this requirement.  On 
+VMS systems event flag clusters provide the required functionality.  
+
+
+
+
+Data Receiver 
+
+This section discusses the operation of the Data Receiver Service.
+Including:
+
+        * How receiver works - walk through.
+        * Handling of repeat queries - repeated requests from client.
+        * Receiver responses.
+        * Timeout handling.
+        * Interruptablility.
+        * Error handling.
+
+
+The data receiver process gets started by the Connection Manager
+when the Client application calls the gs_initialize library
+function.  The receiver startup sequence is as follows:
+
+        a) The Client application calls gs_initialize with the name
+        of the receiver it wishes to send data to, as well as the
+        context information required by the receiver.  
+        
+        b) The Connection Manager gets a service request generated
+        by the applications call to gs_initialize.  The Connection
+        Manager responds to the request by taking the receiver name
+        and context information passed in the request message and 
+        using it to build a command string with which the receiver
+        is invoked.
+
+        c) The receiver process starts up and connects to the
+        Connection Manager.  This is accomplished by a call to the
+        function gs_connect from within the receiver program.
+        gs_connect will contact the Connection Manager through the
+        publicly known shared memory connection address described
+        above in the section 'Client - CM connectivity'.
+
+        d) The Connection Manager assigns the receiver process a
+        slot in its shared memory region.
+
+        e) The receiver waits for incoming messages by watching the
+        the message buffer control semaphore in its slot.
+
+        f) for each message that is received, an appropriate action is
+        taken to process the message.  If neccessary, an acknowledge
+        message is written back to the message sender.  The type of 
+        processing that a message receives is dependant on the type 
+        of the message; Data messages are processed by an application
+        dependant data storage method while Executive messages are 
+        processed as protocol requests.
+
+        This step is repeated until an executive request arrives
+        that terminates the transfer.
+
+
+Executive messages include:
+
+        * Perform orderly shutdown & termination of transfer
+
+        * Abort transfer. 
+          (Rollback processing is application dependant.)
+
+
+
+
+* Connection Manager Internal Services
+
+The Connection Manager can process a number of protocol requests
+from the application client without requiring the application client
+to initialize a connection to a receiver.  These are useful for
+protocol requests that provide connection information.  An
+application client may inquire a list of all known data receivers
+from the connection manager, for instance, and then use this
+information when it makes its request to connect to a data receiver.
+
+The available Connection Manager internal services is as follows:
+
+        * Inquire list of Data Receivers known to Connection
+          Manager.
+        * Inquire context information template for a specific
+          receiver.
+        * Inquire current Connection Manager status.
+
+
+
+
+* Flow of normal query processing - application view.
+
+
+* In sub lib. include detail of structures used in each func. 
+  list all structures used.
+* On output assertions cover error conditions.
+
+
+
+* Implementation notes.. need to be included.
+
+
+                ---- Deadline is tuesday evening ----
+

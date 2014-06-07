@@ -1,0 +1,190 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.24.22.42.14;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#include "gs.h"
+#include <varargs.h>
+#include "systype.h"
+
+/****************************************************************************
+Module: GS_ERROR
+
+Description:
+	This module contains error handling routines.
+	These are intended to provide a regular method of logging and
+	handling errors at runtime.  The method of error logging used
+	depends on whether or not the caller is a Connection Manager daemon
+	or a client process.
+
+	Connection Manager errors are logged to the $GSHOME/gserrors.log
+	file, while errors logged by client programs are sent as messages to
+	the Connection Manager where they are logged to the gserrors.log
+	file on behalf of the client.
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+*****************************************************************************/
+
+char *pname = NULL;
+
+#ifdef CLIENT
+
+/*
+ * Fatal error.  Print a message and terminate.
+ * Don't dump core and don't print the system's errno value.
+ *
+ *      gs_err_quit(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_quit (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    fputc ('\n', stderr);
+    va_end (args);
+    
+    exit (1);
+    }
+
+/*
+ * Fatal error related to a system call.  Print a message and terminate.
+ * Don't dump core, but do print the system's errno value and its
+ * associated message.
+ *
+ *      gs_err_sys(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_sys (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    exit (1);
+    }
+
+/*
+ * Recoverable error.  Print a message and return to caller.
+ *
+ *      gs_err_ret(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_ret (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    fflush (stdout);
+    fflush (stderr);
+    
+    return;
+    
+    }
+
+/*
+ * Fatal error.  Print a message, dump core, (for debugging) and terminate.
+ *
+ *      gs_err_dump(str, arg1, arg2, ...)
+ *
+ * The string "str" must specify the conversion specification for any args
+ */
+
+/*VARARGS1*/
+gs_err_dump (va_alist)
+va_dcl
+    {
+    va_list args;
+    char *fmt;
+    
+    va_start (args);
+    if (pname != NULL)
+        {
+        fprintf (stderr, "%s: ", pname);
+        }
+    fmt = va_arg (args, char *);
+    vfprintf (stderr, fmt, args);
+    va_end (args);
+    
+    my_perror ();
+    
+    fflush (stdout);
+    fflush (stderr);
+    
+    abort ();
+    exit (1);
+    
+    }
+
+/*
+ * Print the UNIX errno value
+ */
+
+my_perror ()
+    {
+    char *sys_err_str ();
+    
+    fprintf (stderr, " %s\n", sys_err_str ());
+    }
+
+
+#endif                              /* CLIENT */
+@

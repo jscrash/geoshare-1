@@ -1,0 +1,1557 @@
+head     1.34;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.34; strict;
+comment  @ * @;
+
+
+1.34
+date     91.05.20.09.08.58;  author julian;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     91.05.20.06.19.24;  author julian;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     91.05.20.05.18.17;  author julian;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     91.05.15.18.41.03;  author vince;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     91.05.14.10.41.36;  author julian;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     91.05.14.09.46.36;  author julian;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     91.05.14.08.07.10;  author julian;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     91.05.12.03.08.10;  author julian;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     91.05.09.02.16.14;  author julian;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     91.05.09.00.56.04;  author julian;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     91.05.06.22.53.56;  author julian;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     91.05.06.07.47.13;  author julian;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     91.05.06.04.35.53;  author julian;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     91.05.03.21.40.37;  author julian;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     91.04.30.09.50.05;  author julian;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     91.04.30.04.11.13;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.04.29.05.47.21;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.04.29.03.51.44;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.04.25.02.05.09;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.04.23.09.23.12;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.04.23.00.42.14;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.04.20.21.54.58;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.04.20.21.52.28;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.04.20.12.29.02;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.04.19.20.10.19;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.04.19.18.01.05;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.19.13.53.32;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.19.13.51.26;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.19.13.39.47;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.19.13.37.54;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.19.13.25.45;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.19.13.19.16;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.13.10.36;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.12.26.55;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.11.50.51;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs.h.
+@
+
+
+1.34
+log
+@*** empty log message ***
+@
+text
+@#ifndef _GS_H_DEFINED
+#define _GS_H_DEFINED
+/*------------------------------------------------------------------------
+
+Module:
+        gs.h  -  GeoShare System Header File.
+
+
+Description:
+        This file contains all of the definitions required by
+        GeoShare Application Programmer Interface library
+        routines.
+
+        Application programs only need to include this file
+        to include all the required defintions for using the
+        Geoshare library routines.
+
+
+History:
+       Mon Apr 8 03:21:53 PDT 1991 	- julian
+            - Initial Version -
+
+       Fri Apr 19 05:14:56 PDT 1991 	- julian
+           Add definitions for process slots and messages.
+
+------------------------------------------------------------------------*/
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <errno.h>
+
+#include "geoscience.h"
+#include "gs_err.h"
+
+#ifdef _TYPES_
+#   define __sys_types_h 1
+#endif
+
+#ifndef __sys_types_h
+#   include <sys/types.h>
+#endif
+
+#ifdef __STDC__
+   extern int abort();
+   extern int alarm();
+   extern int atoi();
+   extern int close();
+   extern int dup();
+   extern int execv();
+   extern void exit();
+   extern int fclose();
+   extern int fflush();
+   extern int fork();
+   extern int free();
+   extern int ftok();
+   extern int getopt();
+   extern int getpid();
+   extern int getppid();
+   extern char *memcpy();
+   extern char *mktemp();
+   extern int  putenv();
+   extern int read();
+   extern char *realloc();
+   extern void setbuf();
+   extern int setgid();
+   extern int setpgrp();
+   extern int setuid();
+   extern char *shmat();
+   extern int shmctl();
+   extern int shmdt();
+   extern int shmget();
+   extern void sleep();
+   extern int system();
+   extern mode_t umask();
+   extern int unlink();
+   extern char *memccpy();
+   extern int vfprintf();
+   extern int fprintf();
+   extern int sprintf();
+   extern int printf();
+#endif
+
+#define numeric(c)		(c >= '0' && c <= '9')
+#define max(a,b) 		(a<b ? b : a)
+#define min(a,b) 		(a>b ? b : a)
+#define abs(x)			(x>=0 ? x : -(x))
+
+#define copy(srce,dest)		cat(dest,srce,0)
+#define compare(str1,str2)	strcmp(str1,str2)
+#define equal(str1,str2)	!strcmp(str1,str2)
+#define length(str)		strlen(str)
+
+ /*
+  * Use: Debug(sum,d) which becomes fprintf(stderr,"sum = %d\n",sum)
+  * Remember: The connection manager process has no standard error 
+  *  so don't use this macro in that routine.
+  */
+#define Debug(variable,type)	fprintf(stderr,"variable = %type\n",variable)
+
+#define NONBLANK(p)		while (*p==' ' || *p=='\t') p++
+
+ /*
+  * A global null string.
+  */
+extern char Null[1];
+
+ /*
+  * A global error message string.
+  */
+extern char Error[128];
+
+#ifndef TRUE
+#   define TRUE            1
+#endif
+
+#ifndef FALSE
+#   define FALSE           0
+#endif
+
+#define GS_TERMINATE	254
+#define RETRYS          4
+#define MAXTRYS 	4
+#define GSSLOTBUFSIZE   32768
+#define GSMAXMESSAGE    16384
+#define GSMAXKEY        64
+#define GSDEFAULTHOME 	"/etc"
+
+#ifndef SUCCESS
+#   define SUCCESS         ((long)0)
+#endif
+
+#ifndef FAIL
+#   define FAIL            ((long)-1)
+#endif
+
+#ifndef EXIT_SUCCESS
+#   ifdef unix
+#      define EXIT_SUCCESS ((long)1)
+#   else
+#      define EXIT_SUCCESS ((long)0)
+#   endif
+#endif
+
+#ifndef EXIT_FAIL
+#   ifdef unix
+#      define EXIT_FAIL ((long)0)
+#   else
+#      define EXIT_FAIL ((long)-1)
+#   endif
+#endif
+
+#define GS_SUCCESS      SUCCESS	      /* Successful Completion      */
+#define GS_FAIL         FAIL          /* Operation Failed           */
+
+#define GS_EXIT_SUCCESS EXIT_SUCCESS  /* main Exit code for Success */
+#define GS_EXIT_FAIL    EXIT_FAIL     /* main Exit code for failure */
+
+ /*
+  * Send Error string to Connection Manager if handle is valid. Otherwise
+  * just write the string to the local error log in the GSHOME directory.
+  */
+
+void    Error_Handler();
+void    Process_executive();
+
+#define FTOKID ('a')	     /* Project code for cm & app sem/shm keys */
+
+extern int errno;
+extern char *getcwd(), *getenv();
+extern char *index(), *malloc();
+
+/*
+ * Message Definitions
+ */
+typedef enum {
+	Undefined = 0,
+	Data = 1,
+	Executive = 2,
+	Status = 3,
+	Terminate = 4,
+	ReceiverInq = 5
+} gs_msgtype_t;
+
+ /*
+ * Classes of Data messages
+ */
+ typedef enum {
+	String  = 64,
+	Pointer,
+	SharedPointer,
+	VectorStart,
+	VectorContinue,
+	VectorEnd
+	} gs_dataclass;
+/*
+ * Classes of Executive Request.
+ */
+typedef enum {
+	InqAllReceivers = 128,
+	InqCmStatus,
+	InqReceiverArgs,
+	InqReceiverMaxMem,
+	InqReceiverStatus,
+	SetReceiverArgs,
+	SetReceiverState,
+	StartReceiver,
+	StopReceiver
+}       gs_exectypes;
+
+
+
+typedef struct gs_message {
+	unsigned int MsgType;
+	unsigned int MsgLen;
+	unsigned int pid;
+	unsigned int shmid;
+	key_t key;
+	unsigned char MsgBuf[GSMAXMESSAGE+64];
+} GSMessage_t;
+
+
+typedef struct gs_datamsg{
+	gs_dataclass class;
+	union {
+		unsigned char 	cbuf[GSMAXMESSAGE];
+		unsigned int 	uibuf[GSMAXMESSAGE/4];
+		int 		ibuf[GSMAXMESSAGE/4];
+	} buf;
+	char end_of_data;
+} datamsg;
+
+typedef struct gs_ptrmsg {
+	gs_dataclass class;
+	key_t key;
+	char *address;
+	unsigned int id;
+	unsigned int size;
+
+	union {
+		unsigned char 	cbuf[GSMAXMESSAGE];
+		unsigned int 	uibuf[GSMAXMESSAGE/4];
+		int 		ibuf[GSMAXMESSAGE/4];
+	} buf;
+	char end_of_data;
+} ptrmsg;
+
+typedef struct gs_statusmsg{
+	union {
+		unsigned char 	cbuf[GSMAXMESSAGE];
+		unsigned int 	uibuf[GSMAXMESSAGE/4];
+		int 		ibuf[GSMAXMESSAGE/4];
+	} buf;
+	char end_of_status;
+} statusmsg;
+
+
+typedef struct {
+	int     id;
+	key_t   slotkey;
+	key_t   lockkey;
+	key_t   msgkey;
+	key_t   cmkey;
+	int     locksem;
+	int     msgsem;
+	int     cmsem;
+	GSMessage_t msg;
+} GSSlot_t;
+
+typedef struct {
+	int     id;
+	key_t   slotkey;
+	key_t   lockkey;
+	key_t   msgkey;
+	key_t   cmkey;
+	int     locksem;
+	int     msgsem;
+	int     cmsem;
+	GSMessage_t msg;
+}       CMSlot_t;
+
+/* Shared memory identifier key */
+typedef struct gs_key {
+	int     type;
+	key_t   key;
+	char   *str;
+	char key_ext;
+} GSKey_t;
+
+typedef struct {
+	int     debug;
+	int     cm_pid;
+	int     cm_shmid;
+	GSKey_t *cm_key;
+	GSSlot_t *cmslot;
+	FILE   *config_fp;
+	char    config_file[128];
+	char    pgm_name[128];
+	char    homedir[128];
+} GSGBL_t;
+
+
+/*
+ * Communications Handle Definition
+ */
+typedef struct {
+	int     init;		/* handl init state. Must be TRUE to use */
+	int     debug;		/* if =1 then log messages verbosly */	
+	int     pid;		/* Application program PID */
+	int     cmpid;		/* PID of connection manager */	
+	int     shmid;		/* shm id for CM slot shared mem segment */
+	char    cfgfile[128];	/* path+filename of gstab file */
+	char    pgmname[128];
+	char    homedir[128];	/* GSHOME directory */
+	char    logfile[128];	/* Log file written to by gs_log()	*/
+	GSKey_t *key;		/* ipc key for creating/attaching slot */	
+	GSKey_t *cmkey;		/* ipc key for creating/attaching cmslot */	
+	GSSlot_t *slot;		/* pointer to slot shared memory segment */
+	GSSlot_t *cmslot;	/* pointer to cmslot shared memory segment */
+	FILE   *config_fp;
+	uint    status;		/* Status of last operation using handle */
+} GSHandle_t;
+
+/*
+ *Transfer Control Block Structure
+ */
+typedef struct tcb_t {
+	char    id[4];
+	int     BlockNum;
+	int     LastBlock;
+	GSStructure_t data;
+} GSTCB_t;
+
+
+/*
+ * GeoShare API library prototypes.
+ *
+ * Julian 	April 16,1991
+*/
+#include <varargs.h>
+#include "gs_ptypes.h"
+#endif
+@
+
+
+1.33
+log
+@*** empty log message ***
+@
+text
+@d215 3
+@
+
+
+1.32
+log
+@*** empty log message ***
+@
+text
+@d61 1
+d75 2
+@
+
+
+1.31
+log
+@added exit_success/fail
+@
+text
+@d123 1
+a123 1
+#define GSDEFAULTHOME 	"/j/fl/lib"
+d253 4
+d265 4
+d280 1
+@
+
+
+1.30
+log
+@*** empty log message ***
+@
+text
+@d27 1
+a27 1
+#include  <stdio.h>
+d36 1
+a36 1
+#define __sys_types_h 1
+d38 1
+d40 1
+a40 1
+#include <sys/types.h>
+d44 34
+a77 34
+extern int abort();
+extern int alarm();
+extern int atoi();
+extern int close();
+extern int dup();
+extern int execv();
+extern void exit();
+extern int fclose();
+extern int fflush();
+extern int fork();
+extern int free();
+extern int ftok();
+extern int getopt();
+extern int getpid();
+extern int getppid();
+extern char *memcpy();
+extern char *mktemp();
+extern int read();
+extern char *realloc();
+extern void setbuf();
+extern int setgid();
+extern int setpgrp();
+extern int setuid();
+extern char *shmat();
+extern int shmctl();
+extern int shmdt();
+extern int shmget();
+extern void sleep();
+extern int system();
+extern mode_t umask();
+extern int vfprintf();
+extern int fprintf();
+extern int sprintf();
+extern int printf();
+d79 1
+d85 1
+a85 1
+#define copy(srce,dest)	cat(dest,srce,0)
+d110 1
+a110 1
+#define TRUE            1
+d112 1
+d114 1
+a114 1
+#define FALSE           0
+d124 1
+d126 1
+a126 1
+#define SUCCESS         ((long)0)
+d128 1
+d130 1
+a130 1
+#define FAIL            ((long)-1)
+d133 7
+a139 2
+#define GS_SUCCESS      SUCCESS	/* Successful Completion */
+#define GS_FAIL         FAIL /* Operation Failed */
+d141 13
+@
+
+
+1.29
+log
+@*** empty log message ***
+@
+text
+@d114 1
+@
+
+
+1.28
+log
+@*** empty log message ***
+@
+text
+@d191 1
+d202 14
+@
+
+
+1.27
+log
+@*** empty log message ***
+@
+text
+@d116 1
+a116 1
+#define GSSLOTBUFSIZE   16384
+d157 11
+a167 1
+
+d188 1
+a188 1
+	unsigned char MsgBuf[GSMAXMESSAGE];
+d191 9
+d201 11
+d252 6
+a257 6
+	int     init;
+	int     debug;
+	int     pid;
+	int     cmpid;
+	int     shmid;
+	char    cfgfile[128];
+d259 6
+a264 6
+	char    homedir[128];
+	char    logfile[128];
+	GSKey_t *key;
+	GSKey_t *cmkey;
+	GSSlot_t *slot;
+	GSSlot_t *cmslot;
+d266 1
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@d42 36
+d117 1
+a117 1
+#define GSMAXMESSAGE    1024
+d187 1
+a187 5
+	struct {
+		unsigned int MsgType;
+		unsigned int MsgLen;
+		unsigned char MsgBuf[GSSLOTBUFSIZE];
+	}       msg;
+d210 1
+a210 1
+	CMSlot_t *cmslot;
+d254 1
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@a41 1
+
+a50 1
+#define size(str)		(strlen(str) + 1)
+d53 1
+a53 1
+  * Use: DEBUG(sum,d) which becomes fprintf(stderr,"sum = %d\n",sum)
+d57 2
+a58 1
+#define DEBUG(variable,type)	fprintf(stderr,"variable = %type\n",variable)
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@d43 29
+a71 1
+ /* Local defines. */
+d118 2
+a119 1
+	Terminate = 4
+d194 1
+a194 1
+	int  	cmpid;
+@
+
+
+1.23
+log
+@*** empty log message ***
+@
+text
+@d89 2
+a90 1
+	Status = 3
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@d56 1
+a56 1
+#define GSDEFAULTHOME 	"/tmp"
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d164 1
+d171 1
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@d29 3
+d64 2
+a65 2
+#define GS_SUCCESS      SUCCESS	        /* Successful Completion */
+#define GS_FAIL         FAIL	        /* Operation Failed */
+d76 1
+a76 1
+#define FTOKID ('a')		/* Project code for cm & app sem/shm keys */
+d78 3
+a80 3
+extern  int   errno;
+extern  char  *getcwd(),   *getenv();
+extern  char  *index(),    *malloc();
+d86 4
+a89 4
+    Undefined = 0,
+    Data = 1,
+    Executive = 2,
+    Status = 3
+d93 1
+a93 1
+/* 
+d106 1
+a106 1
+} gs_exectypes;
+d111 3
+a113 3
+    unsigned int MsgType;
+    unsigned int MsgLen;
+    unsigned char MsgBuf[GSMAXMESSAGE];
+d118 9
+a126 9
+    int 	id;
+    int  	locksem;
+    int  	msgsem;
+    int 	cmsem;
+    struct {
+	    unsigned int MsgType;
+	    unsigned int MsgLen;
+	    unsigned char MsgBuf[GSSLOTBUFSIZE];
+	} msg;	
+d130 6
+a135 6
+    int 	id;
+    int  	locksem;
+    int  	msgsem;
+    int 	cmsem;
+    GSMessage_t msg;
+} CMSlot_t;
+d139 3
+a141 3
+    int     type;
+    key_t   key;
+    char    *str;
+d145 9
+a153 9
+    int 	debug;
+    int 	cm_pid;
+    int  	cm_shmid;
+    GSKey_t  	*cm_key;
+    CMSlot_t  	*cmslot;
+    FILE  	*config_fp;
+    char  	config_file[128];
+    char  	pgm_name[128];
+    char	homedir[128];
+d161 12
+a172 12
+    int  	init;
+    int 	debug;
+    int 	pid;
+    int  	shmid;
+    char  	cfgfile[128];
+    char  	pgmname[128];
+    char	homedir[128];
+    char	logfile[128];
+    GSKey_t  	*key;
+    GSSlot_t  	*slot;
+    GSSlot_t  	*cmslot;
+    FILE  	*config_fp;
+d179 5
+a183 5
+    char    id[4];
+    int     BlockNum;
+    int     LastBlock;
+    GSStructure_t data;
+}  GSTCB_t;
+d188 1
+a188 1
+ * 	
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d83 1
+d88 5
+d94 1
+a94 1
+	InqAllReceivers = 1,
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d156 1
+a156 1
+    char  	config_file[128];
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d182 1
+a182 5
+
+#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+a183 89
+
+
+/* gs_alloc.c */
+char *gs_alloc P_((int size, GSKey_t *key));
+void gs_free P_((void *ptr));
+
+/* gs_clerr.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+
+/* gs_cm.c */
+int main P_((int argc, char *argv[], char *envp[]));
+char *strdup P_((char *cp));
+
+/* gs_config.c */
+int gs_cgetent P_((char *bp, char *name));
+int gs_cgetnum P_((char *id));
+int gs_cgetflag P_((char *id));
+char *gs_cgetstr P_((char *id, char **area));
+int main P_((int ac, char **av));
+
+/* gs_connect.c */
+GSHandle_t *gs_connect P_((int *ac, char ***av));
+
+/* gs_error.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+
+/* gs_faccess.c */
+int gs_faccess P_((char *file, char *mode, char *arg));
+
+/* gs_finder_rec.c */
+int main P_((int argc, char **argv));
+
+/* gs_init.c */
+GSHandle_t *gs_initialize P_((char *dest, GSContextInformation_t context));
+
+/* gs_initconfig.c */
+int gs_initconfig P_((char *homedir, char *cfgfile, int *debugflag));
+
+/* gs_inq_ctxt.c */
+int gs_inquire_context P_((char *dest, GSContextRequirements_t *context_req));
+
+/* gs_inq_dest.c */
+int gs_inq_destinations P_((char ***dest_list));
+
+/* gs_log.c */
+int gs_log P_((int va_alist));
+
+/* gs_log_init.c */
+char *gs_log_init P_((char *errfile));
+
+/* gs_ipc_key.c */
+GSKey_t *gs_ipc_key P_((char *file));
+
+/* gs_receive.c */
+int gs_receive P_((GSHandle_t handle, GSTCB_t *tcb));
+
+/* gs_semlib.c */
+int gs_sem_create P_((key_t key, int initval));
+int gs_sem_open P_((key_t key));
+int gs_sem_rm P_((int id));
+int gs_sem_close P_((int id));
+int gs_sem_wait P_((int id));
+int gs_sem_signal P_((int id));
+int gs_sem_op P_((int id, int value));
+
+/* gs_send.c */
+int gs_send P_((GSHandle_t handle, GSTCB_t *tcb, GSMessage_t *result));
+
+/* gs_subs.c */
+int send_data P_((void));
+
+/* gs_talk.c */
+int gs_talk P_((GSHandle_t *h, GSMessage_t *msg, GSMessage_t *reply));
+
+/* gs_terminate.c */
+int gs_terminate P_((GSHandle_t handle));
+
+#undef P_
+#endif
+
+
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@a26 1
+#ifndef FILE
+d28 2
+a29 2
+#endif
+
+a30 1
+#include "geoscience.h"
+d50 1
+d87 11
+d99 2
+d102 1
+a102 1
+    gs_msgtype_t MsgType;
+d113 5
+a117 2
+    GSMessage_t msg;
+
+d238 1
+a238 1
+int *gs_inq_destinations P_((char ***dest_list));
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d51 1
+a51 1
+#define MAXTRYS 	5
+d85 2
+a86 1
+    Executive = 2
+d97 1
+d102 1
+d106 1
+d124 1
+a124 1
+    GSKey_t  	cm_key;
+d147 1
+a147 1
+    CMSlot_t  	*cmslot;
+d253 1
+a253 1
+int gs_talk P_((GSHandle_t h, GSMessage_t *msg, GSMessage_t **reply));
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d94 1
+d97 1
+d99 5
+d105 1
+d113 1
+a113 1
+    char    str;
+d133 14
+a146 3
+	int init;
+	CMSlot_t *cm;
+} *GSHandle_t;
+d226 3
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d124 4
+a127 2
+typedef unsigned char *GSHandle_t;
+
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@a30 1
+#include "gs_proto.h"
+d137 94
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d31 1
+a31 1
+#ifndef _GS_ERR_H
+a32 2
+#endif
+#ifndef _GEOSCIENCE_H_DEFINED
+a33 1
+#endif
+d52 1
+a52 1
+
+a137 68
+#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+
+
+/* gs_alloc.c */
+char *gs_alloc P_((int size, GSKey_t *key));
+void gs_free P_((void *ptr));
+
+/* gs_clerr.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+
+/* gs_cm.c */
+char *strdup P_((char *cp));
+
+/* gs_config.c */
+int gs_cgetent P_((char *bp, char *name));
+int gs_cgetnum P_((char *id));
+int gs_cgetflag P_((char *id));
+char *gs_cgetstr P_((char *id, char **area));
+
+/* gs_connect.c */
+GSHandle_t *gs_connect P_((int *ac, char ***av));
+
+/* gs_debug.c */
+int gs_debug P_((int va_alist));
+
+/* gs_faccess.c */
+int gs_access P_((char *file, char *mode, char *arg));
+
+
+/* gs_init.c */
+GSHandle_t *gs_initialize P_((char *dest, GSContextInformation_t context));
+
+/* gs_inq_ctxt.c */
+int gs_inquire_context P_((char *dest, GSContextRequirements_t *context_req));
+
+/* gs_inq_dest.c */
+int *gs_inq_destinations P_((char ***dest_list));
+
+/* gs_receive.c */
+int gs_receive P_((GSHandle_t handle, GSTCB_t *tcb));
+
+/* gs_semlib.c */
+int gs_sem_create P_((key_t key, int initval));
+int gs_sem_open P_((key_t key));
+int gs_sem_rm P_((int id));
+int gs_sem_close P_((int id));
+int gs_sem_wait P_((int id));
+int gs_sem_signal P_((int id));
+int gs_sem_op P_((int id, int value));
+
+/* gs_send.c */
+int gs_send P_((GSHandle_t handle, GSTCB_t *tcb, GSMessage_t *result));
+
+/* gs_subs.c */
+int gs_debug P_((char *str));
+
+/* gs_terminate.c */
+int gs_terminate P_((GSHandle_t handle));
+
+#undef P_
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d58 1
+a58 1
+
+d140 69
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d96 1
+a96 1
+} GS_MESSAGE;
+d102 2
+a103 2
+    GS_MESSAGE msg;
+} CMSlot;
+d105 7
+d116 2
+a117 2
+    key_t  	cm_key;
+    CMSlot  	*cmslot;
+d122 1
+a122 2
+} CM_GBL;
+CM_GBL CM, *pcm = &CM;
+a123 6
+/* Shared memory identifier key */
+typedef struct gs_key {
+    int     type;
+    key_t   key;
+    char    str;
+} GS_shmkey_t;
+a124 1
+
+d138 1
+a138 1
+}  TCB;
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d31 3
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@a71 3
+#ifndef sun
+void    Error_Handler(GSHandle_t h, char *str, int code);
+#else
+a72 7
+#endif
+
+ /* Process an Executive request message.  Return the          */
+ /* type of request processed in the request_type arg.         */
+#ifndef sun
+void    Process_executive(Structure_t data, DataStructureType_t * request_type);
+#else
+a73 1
+#endif
+a74 2
+
+
+d78 1
+a79 5
+extern  char  *getcwd(),   *getenv();
+
+int debug = 0;
+extern char *optarg;
+extern int optind, opterr;
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d27 1
+d29 1
+a41 17
+#include  <string.h>
+#include  <sys/ipc.h>
+#include  <sys/shm.h>
+#include  <signal.h>
+#include  <errno.h>
+#include "math.h"
+#ifndef SYSV
+#ifdef SIGTSTP			/* BSD */
+#ifndef BSD
+#define BSD 1
+#endif
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#else
+#define SYSV
+#endif 					/* ! SYSV */
+#endif
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d56 1
+d167 1
+a167 1
+    Structure_t data;
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d27 1
+d33 4
+a36 1
+#ifndef (__sys_types_h && _TYPES_)
+d40 17
+a100 9
+#ifndef SYSV
+#ifdef SIGTSTP			/* BSD */
+#ifndef BSD
+#define BSD 1
+#endif
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#endif 				/* SIGTSTP (BSD) */
+#endif 					/* ! SYSV */
+a101 1
+
+a108 1
+static struct stat statbuf;
+d170 2
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a58 6
+/* Shared memory identifier key */
+typedef struct gs_key {
+    int     type;
+    key_t   key;
+    char    str;
+} GS_shmkey_t;
+d60 4
+d65 5
+a69 4
+/*
+ * Communications Handle Definition
+ */
+typedef unsigned char *GSHandle_t;
+d71 7
+d79 23
+d114 1
+a114 1
+}       GS_MESSAGE;
+d116 36
+d157 1
+a157 22
+}       TCB;
+
+
+ /*
+  * Send Error string to Connection Manager if handle is valid. Otherwise
+  * just write the string to the local error log in the GSHOME directory.
+  */
+
+#ifndef sun
+void    Error_Handler(GSHandle_t h, char *str, int code);
+#else
+void    Error_Handler();
+#endif
+
+ /* Process an Executive request message.  Return the          */
+ /* type of request processed in the request_type arg.         */
+#ifndef sun
+void    Process_executive(Structure_t data, DataStructureType_t * request_type);
+#else
+void    Process_executive();
+#endif
+
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d32 3
+d36 11
+a46 1
+#define GSMAXMESSAGE         1024
+d50 1
+a50 1
+#define SUCCESS              ((long)0)
+d53 1
+a53 1
+#define FAIL                 ((long)-1)
+d56 2
+a57 2
+#define GS_SUCCESS           SUCCESS	/* Successful Completion */
+#define GS_FAIL              FAIL	/* Operation Failed */
+d61 4
+a64 5
+    int     key;
+    union {
+	key_t key;
+    char    key[GSMAXKEY];
+}       GS_shmkey_t;
+a113 9
+ /* Local defines. */
+#ifndef TRUE
+#define TRUE 1
+#endif
+#ifndef TRUE
+#define FALSE 2
+#endif
+
+#define RETRYS 4
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@a32 19
+/*
+ * STATUS CODES
+ */
+#define GS_SUCCESS              0	/* Successful Completion */
+#define GS_FAIL                 1	/* Operation Failed */
+
+#define GS_ERR_MSGTYPE          3	/* Unknown message type */
+#define GS_ERR_NOCONNECT        5	/* Connect attempt failed */
+#define GS_ERR_EXECTYPE         7	/* Unknown Executive Request */
+#define GSERR_SVC_UNAVAIL       9	/* Unknown data service */
+#define GSERR_SVC_BUSY          11	/* Requested data receiver is single */
+ /* threaded, and already in use */
+#define GSERR_SVC_MISMATCH      13	/* The data type sent to the data */
+ /* service is not supported.  */
+#define GSERR_SVC_BADCONTEXT    15	/* The context args given to the */
+ /* receiver are bad or unsupported. */
+#define GSERR_CM_NOTINIT        17	/* The connection manager is not */
+ /* available, request is refused.  */
+
+d36 10
+d47 4
+a50 2
+typedef struct shmkey {
+    int     keylen;
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d1 3
+a3 7
+ /*
+  * GeoShare system header file.
+  * 
+  * This file contains all of the definitions required by GeoShare interface
+  * library routines.
+  * 
+  */
+d5 2
+a6 2
+#ifndef GS_H
+#define GS_H 1
+d8 21
+a28 1
+#ifndef _GEOSCIENCE_H
+d33 5
+a37 5
+/*************************************************/
+/*                                               */
+/*      GEOSHARE LIBRARY HEADER                  */
+/*                                               */
+/*************************************************/
+d39 12
+a51 19
+ /*
+  * STATUS CODES
+  */
+#define GS_SUCCESS              0        /* Successful Completion */
+#define GS_FAIL                 1        /* Operation Failed */
+
+#define GS_ERR_MSGTYPE          3        /* Unknown message type */
+#define GS_ERR_NOCONNECT        5        /* Connect attempt failed */
+#define GS_ERR_EXECTYPE         7        /* Unknown Executive Request */
+#define GSERR_SVC_UNAVAIL       9        /* Unknown data service */
+#define GSERR_SVC_BUSY          11       /* Requested data receiver is single */
+                                         /* threaded, and already in use */
+#define GSERR_SVC_MISMATCH      13       /* The data type sent to the data */
+                                         /* service is not supported.  */
+#define GSERR_SVC_BADCONTEXT    15       /* The context args given to the */
+                                         /* receiver are bad or unsupported. */
+#define GSERR_CM_NOTINIT        17       /* The connection manager is not */
+                                         /* available, request is refused.  */
+
+d62 3
+a64 3
+ /*
+  * Communications Handle Definition
+  */
+d68 3
+a70 3
+ /*
+  * Message Definitions
+  */
+d90 5
+a94 3
+ /* Send Error string to Connection Manager if handle         */
+ /* is valid. Otherwise just write the string to the          */
+ /* local error log in the GSHOME directory.                  */
+d108 1
+d110 1
+d112 2
+d115 2
+@

@@ -1,0 +1,73 @@
+head     1.0;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.0; strict;
+comment  @ * @;
+
+
+1.0
+date     91.05.20.05.05.26;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of ptest.c.
+@
+
+
+
+1.0
+log
+@Initial
+@
+text
+@#include <stdio.h>
+#include "gs.h"
+
+
+typedef struct pent {
+	int pid;		/* pid of this process entry */
+	int type;		/* type of process: APP or REC */
+	GSKey_t *key;	/* key of slot owned by process if type=APP */
+	struct pent *next;	/* next process entry in list. */
+	} proc,*pproc;
+
+
+#ifdef TEST
+
+main (argc,argv)
+int argc;
+char **argv;
+{
+pproc pp,list;
+int i;
+
+list = (pproc)malloc(sizeof(proc));
+for (pp=list,i=0;i<10;i++,pp=pp->next) {
+	pp->pid = i;
+	pp->next = (pproc)malloc(sizeof(proc));
+}
+pp = (pproc)0;
+
+for (pp=list; pp->next; pp=pp->next) {
+	printf("pid = %d\n",pp->pid);
+	}
+
+for (pp=list; pp->next; pp=pp->next) {
+	if (pp->next->pid == 5) {
+		pproc tp;
+		tp = pp->next->next;
+		free(pp->next);
+		pp->next = tp;
+	}
+}
+for (pp=list; pp->next; pp=pp->next) {
+	printf("pid = %d\n",pp->pid);
+	}
+
+}
+
+#endif
+@

@@ -1,0 +1,8647 @@
+head	1.1;
+access;
+symbols;
+locks
+	julian:1.1; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.19.15.19.07;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.12.36.10;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of dlis.c.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#include "dlis.h"
+#include "esi_glue.h";
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_icnvc (char * charst, int * ec)
+#else
+publicdef int dlg_icnvc (charst, ec)
+char * charst;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d1_charst;
+	d1_charst.b_type = D_STRING;
+	d1_charst.b_class = STRING_CLASS;
+	d1_charst.a_pointer = charst;
+	d1_charst.l_length = strlen(charst);
+
+	return_value = icnvc(&d1_charst, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return icnvc_(charst, ec, strlen(charst));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef float dlg_rcnvc (char * charst, int * ec)
+#else
+publicdef float dlg_rcnvc (charst, ec)
+char * charst;
+int * ec;
+#endif
+	{
+#ifdef vms
+	float return_value;
+
+	dsc$descriptor d1_charst;
+	d1_charst.b_type = D_STRING;
+	d1_charst.b_class = STRING_CLASS;
+	d1_charst.a_pointer = charst;
+	d1_charst.l_length = strlen(charst);
+
+	return_value = rcnvc(&d1_charst, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rcnvc_(charst, ec, strlen(charst));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef double dlg_dcnvc (char * charst, int * ec)
+#else
+publicdef double dlg_dcnvc (charst, ec)
+char * charst;
+int * ec;
+#endif
+	{
+#ifdef vms
+	double return_value;
+
+	dsc$descriptor d1_charst;
+	d1_charst.b_type = D_STRING;
+	d1_charst.b_class = STRING_CLASS;
+	d1_charst.a_pointer = charst;
+	d1_charst.l_length = strlen(charst);
+
+	return_value = dcnvc(&d1_charst, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return dcnvc_(charst, ec, strlen(charst));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_igcac (int lu, int * ivar, int * ec)
+#else
+publicdef void dlg_igcac (lu, ivar, ec)
+int lu;
+int * ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	igcac(&lu, ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	igcac_(&lu, ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rgcac (int lu, float * fvar, int * ec)
+#else
+publicdef void dlg_rgcac (lu, fvar, ec)
+int lu;
+float * fvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rgcac(&lu, fvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rgcac_(&lu, fvar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dgcac (int lu, double * dvar, int * ec)
+#else
+publicdef void dlg_dgcac (lu, dvar, ec)
+int lu;
+double * dvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	dgcac(&lu, dvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dgcac_(&lu, dvar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcac (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcac (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcac(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcac_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_igcar (int lu, int * ivar, int * ec)
+#else
+publicdef void dlg_igcar (lu, ivar, ec)
+int lu;
+int * ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	igcar(&lu, ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	igcar_(&lu, ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcar (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcar (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcar(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcar_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_igccn (int lu, int * ivar, int * ec)
+#else
+publicdef void dlg_igccn (lu, ivar, ec)
+int lu;
+int * ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	igccn(&lu, ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	igccn_(&lu, ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgccn (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgccn (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgccn(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgccn_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_igcor (int lu, int * ivar, int * ec)
+#else
+publicdef void dlg_igcor (lu, ivar, ec)
+int lu;
+int * ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	igcor(&lu, ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	igcor_(&lu, ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcor (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcor (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcor(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcor_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_igsdat (int lu, int sfrc, int * ivar, char * dunits, char * runits, int * ec)
+#else
+publicdef void dlg_igsdat (lu, sfrc, ivar, dunits, runits, ec)
+int lu;
+int sfrc;
+int * ivar;
+char * dunits;
+char * runits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_dunits;
+	dsc$descriptor d5_runits;
+	d4_dunits.b_type = D_STRING;
+	d4_dunits.b_class = STRING_CLASS;
+	d4_dunits.a_pointer = dunits;
+	d4_dunits.l_length = strlen(dunits);
+	d5_runits.b_type = D_STRING;
+	d5_runits.b_class = STRING_CLASS;
+	d5_runits.a_pointer = runits;
+	d5_runits.l_length = strlen(runits);
+
+	igsdat(&lu, &sfrc, ivar, &d4_dunits, &d5_runits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	igsdat_(&lu, &sfrc, ivar, dunits, runits, ec, strlen(dunits), strlen(runits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgsdat (int lu, int sfrc, char * cvar, char * dunits, char * runits, int * ec)
+#else
+publicdef void dlg_cgsdat (lu, sfrc, cvar, dunits, runits, ec)
+int lu;
+int sfrc;
+char * cvar;
+char * dunits;
+char * runits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_cvar;
+	dsc$descriptor d4_dunits;
+	dsc$descriptor d5_runits;
+	d3_cvar.b_type = D_STRING;
+	d3_cvar.b_class = STRING_CLASS;
+	d3_cvar.a_pointer = cvar;
+	d3_cvar.l_length = strlen(cvar);
+	d4_dunits.b_type = D_STRING;
+	d4_dunits.b_class = STRING_CLASS;
+	d4_dunits.a_pointer = dunits;
+	d4_dunits.l_length = strlen(dunits);
+	d5_runits.b_type = D_STRING;
+	d5_runits.b_class = STRING_CLASS;
+	d5_runits.a_pointer = runits;
+	d5_runits.l_length = strlen(runits);
+
+	cgsdat(&lu, &sfrc, &d3_cvar, &d4_dunits, &d5_runits, ec);
+	cvar[d3_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgsdat_(&lu, &sfrc, cvar, dunits, runits, ec, strlen(cvar), strlen(dunits), strlen(runits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rgsdat (int lu, int sfrc, float * rvar, char * dunits, char * runits, int * ec)
+#else
+publicdef void dlg_rgsdat (lu, sfrc, rvar, dunits, runits, ec)
+int lu;
+int sfrc;
+float * rvar;
+char * dunits;
+char * runits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_dunits;
+	dsc$descriptor d5_runits;
+	d4_dunits.b_type = D_STRING;
+	d4_dunits.b_class = STRING_CLASS;
+	d4_dunits.a_pointer = dunits;
+	d4_dunits.l_length = strlen(dunits);
+	d5_runits.b_type = D_STRING;
+	d5_runits.b_class = STRING_CLASS;
+	d5_runits.a_pointer = runits;
+	d5_runits.l_length = strlen(runits);
+
+	rgsdat(&lu, &sfrc, rvar, &d4_dunits, &d5_runits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rgsdat_(&lu, &sfrc, rvar, dunits, runits, ec, strlen(dunits), strlen(runits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dgsdat (int lu, int sfrc, double * dvar, char * dunits, char * runits, int * ec)
+#else
+publicdef void dlg_dgsdat (lu, sfrc, dvar, dunits, runits, ec)
+int lu;
+int sfrc;
+double * dvar;
+char * dunits;
+char * runits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_dunits;
+	dsc$descriptor d5_runits;
+	d4_dunits.b_type = D_STRING;
+	d4_dunits.b_class = STRING_CLASS;
+	d4_dunits.a_pointer = dunits;
+	d4_dunits.l_length = strlen(dunits);
+	d5_runits.b_type = D_STRING;
+	d5_runits.b_class = STRING_CLASS;
+	d5_runits.a_pointer = runits;
+	d5_runits.l_length = strlen(runits);
+
+	dgsdat(&lu, &sfrc, dvar, &d4_dunits, &d5_runits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dgsdat_(&lu, &sfrc, dvar, dunits, runits, ec, strlen(dunits), strlen(runits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lgsdat (int lu, int sfrc, bool * lvar, char * dunits, char * runits, int * ec)
+#else
+publicdef void dlg_lgsdat (lu, sfrc, lvar, dunits, runits, ec)
+int lu;
+int sfrc;
+bool * lvar;
+char * dunits;
+char * runits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_dunits;
+	dsc$descriptor d5_runits;
+	d4_dunits.b_type = D_STRING;
+	d4_dunits.b_class = STRING_CLASS;
+	d4_dunits.a_pointer = dunits;
+	d4_dunits.l_length = strlen(dunits);
+	d5_runits.b_type = D_STRING;
+	d5_runits.b_class = STRING_CLASS;
+	d5_runits.a_pointer = runits;
+	d5_runits.l_length = strlen(runits);
+
+	lgsdat(&lu, &sfrc, lvar, &d4_dunits, &d5_runits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lgsdat_(&lu, &sfrc, lvar, dunits, runits, ec, strlen(dunits), strlen(runits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtct (int cxtid, char * atb, int * ec)
+#else
+publicdef int dlg_igtct (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = igtct(&cxtid, &d2_atb, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtct_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_cgtct (int cxtid, char * atb, int * ec)
+#else
+publicdef int dlg_cgtct (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = cgtct(&cxtid, &d2_atb, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtct_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtet (int tz, int y, int m, int d, int h, int mn, int s, int ms, char * tunit, int * ec)
+#else
+publicdef int dlg_igtet (tz, y, m, d, h, mn, s, ms, tunit, ec)
+int tz;
+int y;
+int m;
+int d;
+int h;
+int mn;
+int s;
+int ms;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d9_tunit;
+	d9_tunit.b_type = D_STRING;
+	d9_tunit.b_class = STRING_CLASS;
+	d9_tunit.a_pointer = tunit;
+	d9_tunit.l_length = strlen(tunit);
+
+	return_value = igtet(&tz, &y, &m, &d, &h, &mn, &s, &ms, &d9_tunit, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtet_(&tz, &y, &m, &d, &h, &mn, &s, &ms, tunit, ec, strlen(tunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtet (int tz, int y, int m, int d, int h, int mn, int s, int ms, char * tunit, int * ec)
+#else
+publicdef char * dlg_cgtet (tz, y, m, d, h, mn, s, ms, tunit, ec)
+int tz;
+int y;
+int m;
+int d;
+int h;
+int mn;
+int s;
+int ms;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d9_tunit;
+	d9_tunit.b_type = D_STRING;
+	d9_tunit.b_class = STRING_CLASS;
+	d9_tunit.a_pointer = tunit;
+	d9_tunit.l_length = strlen(tunit);
+
+	return_value = cgtet(&tz, &y, &m, &d, &h, &mn, &s, &ms, &d9_tunit, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ((char *)cgtet_(&tz, &y, &m, &d, &h, &mn, &s, &ms, tunit, ec, strlen(tunit)));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef double dlg_dgtet (int tz, int y, int m, int d, int h, int mn, int s, int ms, char * tunit, int * ec)
+#else
+publicdef double dlg_dgtet (tz, y, m, d, h, mn, s, ms, tunit, ec)
+int tz;
+int y;
+int m;
+int d;
+int h;
+int mn;
+int s;
+int ms;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	double return_value;
+
+	dsc$descriptor d9_tunit;
+	d9_tunit.b_type = D_STRING;
+	d9_tunit.b_class = STRING_CLASS;
+	d9_tunit.a_pointer = tunit;
+	d9_tunit.l_length = strlen(tunit);
+
+	return_value = dgtet(&tz, &y, &m, &d, &h, &mn, &s, &ms, &d9_tunit, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return dgtet_(&tz, &y, &m, &d, &h, &mn, &s, &ms, tunit, ec, strlen(tunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtfet (int cxtid, char * tunit, int * ec)
+#else
+publicdef int dlg_igtfet (cxtid, tunit, ec)
+int cxtid;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_tunit;
+	d2_tunit.b_type = D_STRING;
+	d2_tunit.b_class = STRING_CLASS;
+	d2_tunit.a_pointer = tunit;
+	d2_tunit.l_length = strlen(tunit);
+
+	return_value = igtfet(&cxtid, &d2_tunit, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtfet_(&cxtid, tunit, ec, strlen(tunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef double dlg_dgtfet (int cxtid, char * tunit, int * ec)
+#else
+publicdef double dlg_dgtfet (cxtid, tunit, ec)
+int cxtid;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	double return_value;
+
+	dsc$descriptor d2_tunit;
+	d2_tunit.b_type = D_STRING;
+	d2_tunit.b_class = STRING_CLASS;
+	d2_tunit.a_pointer = tunit;
+	d2_tunit.l_length = strlen(tunit);
+
+	return_value = dgtfet(&cxtid, &d2_tunit, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return dgtfet_(&cxtid, tunit, ec, strlen(tunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtfet (int cxtid, char * tunit, int * ec)
+#else
+publicdef char * dlg_cgtfet (cxtid, tunit, ec)
+int cxtid;
+char * tunit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d2_tunit;
+	d2_tunit.b_type = D_STRING;
+	d2_tunit.b_class = STRING_CLASS;
+	d2_tunit.a_pointer = tunit;
+	d2_tunit.l_length = strlen(tunit);
+
+	return_value = cgtfet(&cxtid, &d2_tunit, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtfet_(&cxtid, tunit, ec, strlen(tunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtfsn (int cxtid, int * ec)
+#else
+publicdef int dlg_igtfsn (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtfsn(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtfsn_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtfsn (int cxtid, int * ec)
+#else
+publicdef char * dlg_cgtfsn (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtfsn(&cxtid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtfsn_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtlrp (int cxtid, char * atb, int * ec)
+#else
+publicdef int dlg_igtlrp (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = igtlrp(&cxtid, &d2_atb, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtlrp_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtlrp (int cxtid, char * atb, int * ec)
+#else
+publicdef char * dlg_cgtlrp (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = cgtlrp(&cxtid, &d2_atb, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtlrp_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtlt (int cxtid, int * ec)
+#else
+publicdef int dlg_igtlt (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtlt(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtlt_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtlt (int cxtid, int * ec)
+#else
+publicdef char * dlg_cgtlt (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtlt(&cxtid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtlt_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtlu (int cxtid, int * ec)
+#else
+publicdef int dlg_igtlu (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtlu(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtlu_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtlu (int cxtid, int * ec)
+#else
+publicdef char * dlg_cgtlu (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtlu(&cxtid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtlu_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtocn (int cxtid, int * ec)
+#else
+publicdef int dlg_igtocn (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtocn(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtocn_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtocn (int cxtid, int * ec)
+#else
+publicdef char * dlg_cgtocn (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtocn(&cxtid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtocn_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtoor (int cxtid, int * ec)
+#else
+publicdef int dlg_igtoor (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtoor(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtoor_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtoor (int cxtid, int * ec)
+#else
+publicdef char * dlg_cgtoor (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtoor(&cxtid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtoor_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtvl (int cxtid, char * atb, int sfi, char * units, int en, int * ec)
+#else
+publicdef int dlg_igtvl (cxtid, atb, sfi, units, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+char * units;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	dsc$descriptor d4_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d4_units.b_type = D_STRING;
+	d4_units.b_class = STRING_CLASS;
+	d4_units.a_pointer = units;
+	d4_units.l_length = strlen(units);
+
+	return_value = igtvl(&cxtid, &d2_atb, &sfi, &d4_units, &en, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtvl_(&cxtid, atb, &sfi, units, &en, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtvl (int cxtid, char * atb, int sfi, char * units, int en, int * ec)
+#else
+publicdef char * dlg_cgtvl (cxtid, atb, sfi, units, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+char * units;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d2_atb;
+	dsc$descriptor d4_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d4_units.b_type = D_STRING;
+	d4_units.b_class = STRING_CLASS;
+	d4_units.a_pointer = units;
+	d4_units.l_length = strlen(units);
+
+	return_value = cgtvl(&cxtid, &d2_atb, &sfi, &d4_units, &en, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtvl_(&cxtid, atb, &sfi, units, &en, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef float dlg_rgtvl (int cxtid, char * atb, int sfi, char * units, int en, int * ec)
+#else
+publicdef float dlg_rgtvl (cxtid, atb, sfi, units, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+char * units;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	float return_value;
+
+	dsc$descriptor d2_atb;
+	dsc$descriptor d4_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d4_units.b_type = D_STRING;
+	d4_units.b_class = STRING_CLASS;
+	d4_units.a_pointer = units;
+	d4_units.l_length = strlen(units);
+
+	return_value = rgtvl(&cxtid, &d2_atb, &sfi, &d4_units, &en, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rgtvl_(&cxtid, atb, &sfi, units, &en, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef double dlg_dgtvl (int cxtid, char * atb, int sfi, char * units, int en, int * ec)
+#else
+publicdef double dlg_dgtvl (cxtid, atb, sfi, units, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+char * units;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	double return_value;
+
+	dsc$descriptor d2_atb;
+	dsc$descriptor d4_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d4_units.b_type = D_STRING;
+	d4_units.b_class = STRING_CLASS;
+	d4_units.a_pointer = units;
+	d4_units.l_length = strlen(units);
+
+	return_value = dgtvl(&cxtid, &d2_atb, &sfi, &d4_units, &en, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return dgtvl_(&cxtid, atb, &sfi, units, &en, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_lgtvl (int cxtid, char * atb, int sfi, char * units, int en, int * ec)
+#else
+publicdef bool dlg_lgtvl (cxtid, atb, sfi, units, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+char * units;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+	dsc$descriptor d2_atb;
+	dsc$descriptor d4_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d4_units.b_type = D_STRING;
+	d4_units.b_class = STRING_CLASS;
+	d4_units.a_pointer = units;
+	d4_units.l_length = strlen(units);
+
+	return_value = lgtvl(&cxtid, &d2_atb, &sfi, &d4_units, &en, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return lgtvl_(&cxtid, atb, &sfi, units, &en, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_ipsdat (int lu, int sfrc, int ivar, int * ec)
+#else
+publicdef void dlg_ipsdat (lu, sfrc, ivar, ec)
+int lu;
+int sfrc;
+int ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	ipsdat(&lu, &sfrc, &ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	ipsdat_(&lu, &sfrc, &ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpsdat (int lu, int sfrc, char * cvar, int * ec)
+#else
+publicdef void dlg_cpsdat (lu, sfrc, cvar, ec)
+int lu;
+int sfrc;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_cvar;
+	d3_cvar.b_type = D_STRING;
+	d3_cvar.b_class = STRING_CLASS;
+	d3_cvar.a_pointer = cvar;
+	d3_cvar.l_length = strlen(cvar);
+
+	cpsdat(&lu, &sfrc, &d3_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpsdat_(&lu, &sfrc, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rpsdat (int lu, int sfrc, float fvar, int * ec)
+#else
+publicdef void dlg_rpsdat (lu, sfrc, fvar, ec)
+int lu;
+int sfrc;
+float fvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rpsdat(&lu, &sfrc, &fvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rpsdat_(&lu, &sfrc, &fvar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dpsdat (int lu, int sfrc, double dvar, int * ec)
+#else
+publicdef void dlg_dpsdat (lu, sfrc, dvar, ec)
+int lu;
+int sfrc;
+double dvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	dpsdat(&lu, &sfrc, &dvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dpsdat_(&lu, &sfrc, &dvar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lpsdat (int lu, int sfrc, bool lvar, int * ec)
+#else
+publicdef void dlg_lpsdat (lu, sfrc, lvar, ec)
+int lu;
+int sfrc;
+bool lvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lpsdat(&lu, &sfrc, &lvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lpsdat_(&lu, &sfrc, &lvar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_addhnd (int ecode, int_function_ptr hdlr, int ipos, int * ec)
+#else
+publicdef void dlg_addhnd (ecode, hdlr, ipos, ec)
+int ecode;
+int_function_ptr hdlr;
+int ipos;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	addhnd(&ecode, &hdlr, &ipos, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	addhnd_(&ecode, &hdlr, &ipos, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_allacx (int ival, int * acxid, int * ec)
+#else
+publicdef void dlg_allacx (ival, acxid, ec)
+int ival;
+int * acxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	allacx(&ival, acxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	allacx_(&ival, acxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_appupd (int ctxid, int * ec)
+#else
+publicdef void dlg_appupd (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	appupd(&ctxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	appupd_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_ccnvi (int inum, int * ec)
+#else
+publicdef char * dlg_ccnvi (inum, ec)
+int inum;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = ccnvi(&inum, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ccnvi_(&inum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_ccnvf (float fnum, int * ec)
+#else
+publicdef char * dlg_ccnvf (fnum, ec)
+float fnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = ccnvf(&fnum, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ccnvf_(&fnum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_ccnvd (double dnum, int * ec)
+#else
+publicdef char * dlg_ccnvd (dnum, ec)
+double dnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = ccnvd(&dnum, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ccnvd_(&dnum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcal (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcal (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcal(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcal_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcau (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcau (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcau(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcau_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcid (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcid (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcid(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcid_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcsn (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcsn (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcsn(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcsn_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cgcst (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cgcst (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cgcst(&lu, &d2_cvar, ec);
+	cvar[d2_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	cgcst_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtdte (int tz, int y, int m, int d, int h, int mn, int s, int ms, int * ec)
+#else
+publicdef char * dlg_cgtdte (tz, y, m, d, h, mn, s, ms, ec)
+int tz;
+int y;
+int m;
+int d;
+int h;
+int mn;
+int s;
+int ms;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtdte(&tz, &y, &m, &d, &h, &mn, &s, &ms, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtdte_(&tz, &y, &m, &d, &h, &mn, &s, &ms, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtfil (int ctxid, int * ec)
+#else
+publicdef char * dlg_cgtfil (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtfil(&ctxid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtfil_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtlb (int ctxid, int * ec)
+#else
+publicdef char * dlg_cgtlb (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtlb(&ctxid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtlb_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtoid (int ctxid, int * ec)
+#else
+publicdef char * dlg_cgtoid (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtoid(&ctxid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtoid_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtsfn (int rcode, int sfi, int * ec)
+#else
+publicdef char * dlg_cgtsfn (rcode, sfi, ec)
+int rcode;
+int sfi;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtsfn(&rcode, &sfi, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtsfn_(&rcode, &sfi, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtsnm (int ctxid, int * ec)
+#else
+publicdef char * dlg_cgtsnm (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtsnm(&ctxid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtsnm_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtsrc (int rpcode, int * ec)
+#else
+publicdef char * dlg_cgtsrc (rpcode, ec)
+int rpcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgtsrc(&rpcode, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtsrc_(&rpcode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgttyp (int ctxid, int * ec)
+#else
+publicdef char * dlg_cgttyp (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cgttyp(&ctxid, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgttyp_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cgtut (int ctxid, char * atb, int * ec)
+#else
+publicdef char * dlg_cgtut (ctxid, atb, ec)
+int ctxid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = cgtut(&ctxid, &d2_atb, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cgtut_(&ctxid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clrfil (int ctxid, int * ec)
+#else
+publicdef void dlg_clrfil (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clrfil(&ctxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clrfil_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clrgdb (int * ec)
+#else
+publicdef void dlg_clrgdb (ec)
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clrgdb(ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clrgdb_(ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clrlu (int ctxid, int * ec)
+#else
+publicdef void dlg_clrlu (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clrlu(&ctxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clrlu_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clroaf (int ctxid, int flags, int * ec)
+#else
+publicdef void dlg_clroaf (ctxid, flags, ec)
+int ctxid;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clroaf(&ctxid, &flags, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clroaf_(&ctxid, &flags, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clrset (int ctxid, int * ec)
+#else
+publicdef void dlg_clrset (ctxid, ec)
+int ctxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clrset(&ctxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clrset_(&ctxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clsfil (int lu, int * ec)
+#else
+publicdef void dlg_clsfil (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clsfil(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clsfil_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_clssu (int lu, int flags, int * ec)
+#else
+publicdef void dlg_clssu (lu, flags, ec)
+int lu;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	clssu(&lu, &flags, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	clssu_(&lu, &flags, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_cnxtnm ()
+#else
+publicdef char * dlg_cnxtnm ()
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = cnxtnm();
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return cnxtnm_();
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpcal (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cpcal (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cpcal(&lu, &d2_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpcal_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpcau (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cpcau (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cpcau(&lu, &d2_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpcau_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpcid (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cpcid (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cpcid(&lu, &d2_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpcid_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpcsn (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cpcsn (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cpcsn(&lu, &d2_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpcsn_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpcst (int lu, char * cvar, int * ec)
+#else
+publicdef void dlg_cpcst (lu, cvar, ec)
+int lu;
+char * cvar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_cvar;
+	d2_cvar.b_type = D_STRING;
+	d2_cvar.b_class = STRING_CLASS;
+	d2_cvar.a_pointer = cvar;
+	d2_cvar.l_length = strlen(cvar);
+
+	cpcst(&lu, &d2_cvar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpcst_(&lu, cvar, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpycxt (int scxtid, int dcxtid, int * ec)
+#else
+publicdef void dlg_cpycxt (scxtid, dcxtid, ec)
+int scxtid;
+int dcxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	cpycxt(&scxtid, &dcxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpycxt_(&scxtid, &dcxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpyfrm (int ilu, int sftid, int olu, int * dftid, int * ec)
+#else
+publicdef void dlg_cpyfrm (ilu, sftid, olu, dftid, ec)
+int ilu;
+int sftid;
+int olu;
+int * dftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	cpyfrm(&ilu, &sftid, &olu, dftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpyfrm_(&ilu, &sftid, &olu, dftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpyobj (int scxtid, int dcxtid, int * ec)
+#else
+publicdef void dlg_cpyobj (scxtid, dcxtid, ec)
+int scxtid;
+int dcxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	cpyobj(&scxtid, &dcxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpyobj_(&scxtid, &dcxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpyset (int scxtid, int dcxtid, char * nstype, int nlrt, int * ec)
+#else
+publicdef void dlg_cpyset (scxtid, dcxtid, nstype, nlrt, ec)
+int scxtid;
+int dcxtid;
+char * nstype;
+int nlrt;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_nstype;
+	d3_nstype.b_type = D_STRING;
+	d3_nstype.b_class = STRING_CLASS;
+	d3_nstype.a_pointer = nstype;
+	d3_nstype.l_length = strlen(nstype);
+
+	cpyset(&scxtid, &dcxtid, &d3_nstype, &nlrt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpyset_(&scxtid, &dcxtid, nstype, &nlrt, ec, strlen(nstype));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_cpytpt (int scxtid, int dcxtid, int * ec)
+#else
+publicdef void dlg_cpytpt (scxtid, dcxtid, ec)
+int scxtid;
+int dcxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	cpytpt(&scxtid, &dcxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	cpytpt_(&scxtid, &dcxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crchan (int cxtid, int * ec)
+#else
+publicdef void dlg_crchan (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	crchan(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crchan_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crfram (int cxtid, int * ec)
+#else
+publicdef void dlg_crfram (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	crfram(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crfram_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_criflr (int lu, int lrt, bool encryp, int ddro, int ddrcn, char * ddrid, int * ec)
+#else
+publicdef void dlg_criflr (lu, lrt, encryp, ddro, ddrcn, ddrid, ec)
+int lu;
+int lrt;
+bool encryp;
+int ddro;
+int ddrcn;
+char * ddrid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d6_ddrid;
+	d6_ddrid.b_type = D_STRING;
+	d6_ddrid.b_class = STRING_CLASS;
+	d6_ddrid.a_pointer = ddrid;
+	d6_ddrid.l_length = strlen(ddrid);
+
+	criflr(&lu, &lrt, &encryp, &ddro, &ddrcn, &d6_ddrid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	criflr_(&lu, &lrt, &encryp, &ddro, &ddrcn, ddrid, ec, strlen(ddrid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtivl (int cxtid, int isval, char * atb, int sfi, int en, char * lunits, int * ec)
+#else
+publicdef void dlg_crtivl (cxtid, isval, atb, sfi, en, lunits, ec)
+int cxtid;
+int isval;
+char * atb;
+int sfi;
+int en;
+char * lunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_lunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_lunits.b_type = D_STRING;
+	d6_lunits.b_class = STRING_CLASS;
+	d6_lunits.a_pointer = lunits;
+	d6_lunits.l_length = strlen(lunits);
+
+	crtivl(&cxtid, &isval, &d3_atb, &sfi, &en, &d6_lunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtivl_(&cxtid, &isval, atb, &sfi, &en, lunits, ec, strlen(atb), strlen(lunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtcvl (int cxtid, char * csval, char * atb, int sfi, int en, char * lunits, int * ec)
+#else
+publicdef void dlg_crtcvl (cxtid, csval, atb, sfi, en, lunits, ec)
+int cxtid;
+char * csval;
+char * atb;
+int sfi;
+int en;
+char * lunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_csval;
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_lunits;
+	d2_csval.b_type = D_STRING;
+	d2_csval.b_class = STRING_CLASS;
+	d2_csval.a_pointer = csval;
+	d2_csval.l_length = strlen(csval);
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_lunits.b_type = D_STRING;
+	d6_lunits.b_class = STRING_CLASS;
+	d6_lunits.a_pointer = lunits;
+	d6_lunits.l_length = strlen(lunits);
+
+	crtcvl(&cxtid, &d2_csval, &d3_atb, &sfi, &en, &d6_lunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtcvl_(&cxtid, csval, atb, &sfi, &en, lunits, ec, strlen(csval), strlen(atb), strlen(lunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtfvl (int cxtid, float fsval, char * atb, int sfi, int en, char * lunits, int * ec)
+#else
+publicdef void dlg_crtfvl (cxtid, fsval, atb, sfi, en, lunits, ec)
+int cxtid;
+float fsval;
+char * atb;
+int sfi;
+int en;
+char * lunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_lunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_lunits.b_type = D_STRING;
+	d6_lunits.b_class = STRING_CLASS;
+	d6_lunits.a_pointer = lunits;
+	d6_lunits.l_length = strlen(lunits);
+
+	crtfvl(&cxtid, &fsval, &d3_atb, &sfi, &en, &d6_lunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtfvl_(&cxtid, &fsval, atb, &sfi, &en, lunits, ec, strlen(atb), strlen(lunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtdvl (int cxtid, double dsval, char * atb, int sfi, int en, char * lunits, int * ec)
+#else
+publicdef void dlg_crtdvl (cxtid, dsval, atb, sfi, en, lunits, ec)
+int cxtid;
+double dsval;
+char * atb;
+int sfi;
+int en;
+char * lunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_lunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_lunits.b_type = D_STRING;
+	d6_lunits.b_class = STRING_CLASS;
+	d6_lunits.a_pointer = lunits;
+	d6_lunits.l_length = strlen(lunits);
+
+	crtdvl(&cxtid, &dsval, &d3_atb, &sfi, &en, &d6_lunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtdvl_(&cxtid, &dsval, atb, &sfi, &en, lunits, ec, strlen(atb), strlen(lunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtlvl (int cxtid, bool lsval, char * atb, int sfi, int en, char * lunits, int * ec)
+#else
+publicdef void dlg_crtlvl (cxtid, lsval, atb, sfi, en, lunits, ec)
+int cxtid;
+bool lsval;
+char * atb;
+int sfi;
+int en;
+char * lunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_lunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_lunits.b_type = D_STRING;
+	d6_lunits.b_class = STRING_CLASS;
+	d6_lunits.a_pointer = lunits;
+	d6_lunits.l_length = strlen(lunits);
+
+	crtlvl(&cxtid, &lsval, &d3_atb, &sfi, &en, &d6_lunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtlvl_(&cxtid, &lsval, atb, &sfi, &en, lunits, ec, strlen(atb), strlen(lunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtatb (int cxtid, int label, char * units, int rcod, int cnt, bool inv, int * ec)
+#else
+publicdef void dlg_crtatb (cxtid, label, units, rcod, cnt, inv, ec)
+int cxtid;
+int label;
+char * units;
+int rcod;
+int cnt;
+bool inv;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_units;
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+
+	crtatb(&cxtid, &label, &d3_units, &rcod, &cnt, &inv, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtatb_(&cxtid, &label, units, &rcod, &cnt, &inv, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtfhs (int cxtid, int lu, int fsn, char * fid, int * ec)
+#else
+publicdef void dlg_crtfhs (cxtid, lu, fsn, fid, ec)
+int cxtid;
+int lu;
+int fsn;
+char * fid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_fid;
+	d4_fid.b_type = D_STRING;
+	d4_fid.b_class = STRING_CLASS;
+	d4_fid.a_pointer = fid;
+	d4_fid.l_length = strlen(fid);
+
+	crtfhs(&cxtid, &lu, &fsn, &d4_fid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtfhs_(&cxtid, &lu, &fsn, fid, ec, strlen(fid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtfil (int cxtid, int lu, char * fnam, char * ssub, char * vnum, char * date, char * mprl, char * ftyp, char * pnam, int * ec)
+#else
+publicdef void dlg_crtfil (cxtid, lu, fnam, ssub, vnum, date, mprl, ftyp, pnam, ec)
+int cxtid;
+int lu;
+char * fnam;
+char * ssub;
+char * vnum;
+char * date;
+char * mprl;
+char * ftyp;
+char * pnam;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_fnam;
+	dsc$descriptor d4_ssub;
+	dsc$descriptor d5_vnum;
+	dsc$descriptor d6_date;
+	dsc$descriptor d7_mprl;
+	dsc$descriptor d8_ftyp;
+	dsc$descriptor d9_pnam;
+	d3_fnam.b_type = D_STRING;
+	d3_fnam.b_class = STRING_CLASS;
+	d3_fnam.a_pointer = fnam;
+	d3_fnam.l_length = strlen(fnam);
+	d4_ssub.b_type = D_STRING;
+	d4_ssub.b_class = STRING_CLASS;
+	d4_ssub.a_pointer = ssub;
+	d4_ssub.l_length = strlen(ssub);
+	d5_vnum.b_type = D_STRING;
+	d5_vnum.b_class = STRING_CLASS;
+	d5_vnum.a_pointer = vnum;
+	d5_vnum.l_length = strlen(vnum);
+	d6_date.b_type = D_STRING;
+	d6_date.b_class = STRING_CLASS;
+	d6_date.a_pointer = date;
+	d6_date.l_length = strlen(date);
+	d7_mprl.b_type = D_STRING;
+	d7_mprl.b_class = STRING_CLASS;
+	d7_mprl.a_pointer = mprl;
+	d7_mprl.l_length = strlen(mprl);
+	d8_ftyp.b_type = D_STRING;
+	d8_ftyp.b_class = STRING_CLASS;
+	d8_ftyp.a_pointer = ftyp;
+	d8_ftyp.l_length = strlen(ftyp);
+	d9_pnam.b_type = D_STRING;
+	d9_pnam.b_class = STRING_CLASS;
+	d9_pnam.a_pointer = pnam;
+	d9_pnam.l_length = strlen(pnam);
+
+	crtfil(&cxtid, &lu, &d3_fnam, &d4_ssub, &d5_vnum, &d6_date, &d7_mprl, &d8_ftyp, &d9_pnam, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtfil_(&cxtid, &lu, fnam, ssub, vnum, date, mprl, ftyp, pnam, ec, strlen(fnam), strlen(ssub), strlen(vnum), strlen(date), strlen(mprl), strlen(ftyp), strlen(pnam));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtobj (int cxtid, int origin, int cnum, char * id, int * ec)
+#else
+publicdef void dlg_crtobj (cxtid, origin, cnum, id, ec)
+int cxtid;
+int origin;
+int cnum;
+char * id;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_id;
+	d4_id.b_type = D_STRING;
+	d4_id.b_class = STRING_CLASS;
+	d4_id.a_pointer = id;
+	d4_id.l_length = strlen(id);
+
+	crtobj(&cxtid, &origin, &cnum, &d4_id, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtobj_(&cxtid, &origin, &cnum, id, ec, strlen(id));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtrel (int lu, char * snam, char * date, char * odat, char * rnam, char * rcon, char * pnam, char * cmnt, int * ec)
+#else
+publicdef void dlg_crtrel (lu, snam, date, odat, rnam, rcon, pnam, cmnt, ec)
+int lu;
+char * snam;
+char * date;
+char * odat;
+char * rnam;
+char * rcon;
+char * pnam;
+char * cmnt;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_snam;
+	dsc$descriptor d3_date;
+	dsc$descriptor d4_odat;
+	dsc$descriptor d5_rnam;
+	dsc$descriptor d6_rcon;
+	dsc$descriptor d7_pnam;
+	dsc$descriptor d8_cmnt;
+	d2_snam.b_type = D_STRING;
+	d2_snam.b_class = STRING_CLASS;
+	d2_snam.a_pointer = snam;
+	d2_snam.l_length = strlen(snam);
+	d3_date.b_type = D_STRING;
+	d3_date.b_class = STRING_CLASS;
+	d3_date.a_pointer = date;
+	d3_date.l_length = strlen(date);
+	d4_odat.b_type = D_STRING;
+	d4_odat.b_class = STRING_CLASS;
+	d4_odat.a_pointer = odat;
+	d4_odat.l_length = strlen(odat);
+	d5_rnam.b_type = D_STRING;
+	d5_rnam.b_class = STRING_CLASS;
+	d5_rnam.a_pointer = rnam;
+	d5_rnam.l_length = strlen(rnam);
+	d6_rcon.b_type = D_STRING;
+	d6_rcon.b_class = STRING_CLASS;
+	d6_rcon.a_pointer = rcon;
+	d6_rcon.l_length = strlen(rcon);
+	d7_pnam.b_type = D_STRING;
+	d7_pnam.b_class = STRING_CLASS;
+	d7_pnam.a_pointer = pnam;
+	d7_pnam.l_length = strlen(pnam);
+	d8_cmnt.b_type = D_STRING;
+	d8_cmnt.b_class = STRING_CLASS;
+	d8_cmnt.a_pointer = cmnt;
+	d8_cmnt.l_length = strlen(cmnt);
+
+	crtrel(&lu, &d2_snam, &d3_date, &d4_odat, &d5_rnam, &d6_rcon, &d7_pnam, &d8_cmnt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtrel_(&lu, snam, date, odat, rnam, rcon, pnam, cmnt, ec, strlen(snam), strlen(date), strlen(odat), strlen(rnam), strlen(rcon), strlen(pnam), strlen(cmnt));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtset (int cxtid, int lrt, char * name, char * type, bool encryp, int * ec)
+#else
+publicdef void dlg_crtset (cxtid, lrt, name, type, encryp, ec)
+int cxtid;
+int lrt;
+char * name;
+char * type;
+bool encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_name;
+	dsc$descriptor d4_type;
+	d3_name.b_type = D_STRING;
+	d3_name.b_class = STRING_CLASS;
+	d3_name.a_pointer = name;
+	d3_name.l_length = strlen(name);
+	d4_type.b_type = D_STRING;
+	d4_type.b_class = STRING_CLASS;
+	d4_type.a_pointer = type;
+	d4_type.l_length = strlen(type);
+
+	crtset(&cxtid, &lrt, &d3_name, &d4_type, &encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtset_(&cxtid, &lrt, name, type, &encryp, ec, strlen(name), strlen(type));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crttap (int lu, char * snam, char * date, char * odat, char * tnam, char * tcon, char * pnam, char * cmnt, int * ec)
+#else
+publicdef void dlg_crttap (lu, snam, date, odat, tnam, tcon, pnam, cmnt, ec)
+int lu;
+char * snam;
+char * date;
+char * odat;
+char * tnam;
+char * tcon;
+char * pnam;
+char * cmnt;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_snam;
+	dsc$descriptor d3_date;
+	dsc$descriptor d4_odat;
+	dsc$descriptor d5_tnam;
+	dsc$descriptor d6_tcon;
+	dsc$descriptor d7_pnam;
+	dsc$descriptor d8_cmnt;
+	d2_snam.b_type = D_STRING;
+	d2_snam.b_class = STRING_CLASS;
+	d2_snam.a_pointer = snam;
+	d2_snam.l_length = strlen(snam);
+	d3_date.b_type = D_STRING;
+	d3_date.b_class = STRING_CLASS;
+	d3_date.a_pointer = date;
+	d3_date.l_length = strlen(date);
+	d4_odat.b_type = D_STRING;
+	d4_odat.b_class = STRING_CLASS;
+	d4_odat.a_pointer = odat;
+	d4_odat.l_length = strlen(odat);
+	d5_tnam.b_type = D_STRING;
+	d5_tnam.b_class = STRING_CLASS;
+	d5_tnam.a_pointer = tnam;
+	d5_tnam.l_length = strlen(tnam);
+	d6_tcon.b_type = D_STRING;
+	d6_tcon.b_class = STRING_CLASS;
+	d6_tcon.a_pointer = tcon;
+	d6_tcon.l_length = strlen(tcon);
+	d7_pnam.b_type = D_STRING;
+	d7_pnam.b_class = STRING_CLASS;
+	d7_pnam.a_pointer = pnam;
+	d7_pnam.l_length = strlen(pnam);
+	d8_cmnt.b_type = D_STRING;
+	d8_cmnt.b_class = STRING_CLASS;
+	d8_cmnt.a_pointer = cmnt;
+	d8_cmnt.l_length = strlen(cmnt);
+
+	crttap(&lu, &d2_snam, &d3_date, &d4_odat, &d5_tnam, &d6_tcon, &d7_pnam, &d8_cmnt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crttap_(&lu, snam, date, odat, tnam, tcon, pnam, cmnt, ec, strlen(snam), strlen(date), strlen(odat), strlen(tnam), strlen(tcon), strlen(pnam), strlen(cmnt));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_crtups (int cxtid, bool bd, bool vd, bool rd, bool ad, bool tc, bool tv, bool ft, bool fn, bool cmt, bool encryp, int * ec)
+#else
+publicdef void dlg_crtups (cxtid, bd, vd, rd, ad, tc, tv, ft, fn, cmt, encryp, ec)
+int cxtid;
+bool bd;
+bool vd;
+bool rd;
+bool ad;
+bool tc;
+bool tv;
+bool ft;
+bool fn;
+bool cmt;
+bool encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	crtups(&cxtid, &bd, &vd, &rd, &ad, &tc, &tv, &ft, &fn, &cmt, &encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	crtups_(&cxtid, &bd, &vd, &rd, &ad, &tc, &tv, &ft, &fn, &cmt, &encryp, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_deaacx (int acxid, int * ec)
+#else
+publicdef void dlg_deaacx (acxid, ec)
+int acxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	deaacx(&acxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	deaacx_(&acxid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_delhnd (int ecode, int_function_ptr hdlr, int ipos, int * ec)
+#else
+publicdef void dlg_delhnd (ecode, hdlr, ipos, ec)
+int ecode;
+int_function_ptr hdlr;
+int ipos;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	delhnd(&ecode, &hdlr, &ipos, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	delhnd_(&ecode, &hdlr, &ipos, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dfcbvr (int lu, int ftid, int origin, int cnum, char * chid, int nvar, char * vunit, int nchan, int nvalue, int ifee, int dtype, int skip, int flags, int * ec)
+#else
+publicdef void dlg_dfcbvr (lu, ftid, origin, cnum, chid, nvar, vunit, nchan, nvalue, ifee, dtype, skip, flags, ec)
+int lu;
+int ftid;
+int origin;
+int cnum;
+char * chid;
+int nvar;
+char * vunit;
+int nchan;
+int nvalue;
+int ifee;
+int dtype;
+int skip;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d5_chid;
+	dsc$descriptor d7_vunit;
+	d5_chid.b_type = D_STRING;
+	d5_chid.b_class = STRING_CLASS;
+	d5_chid.a_pointer = chid;
+	d5_chid.l_length = strlen(chid);
+	d7_vunit.b_type = D_STRING;
+	d7_vunit.b_class = STRING_CLASS;
+	d7_vunit.a_pointer = vunit;
+	d7_vunit.l_length = strlen(vunit);
+
+	dfcbvr(&lu, &ftid, &origin, &cnum, &d5_chid, &nvar, &d7_vunit, &nchan, &nvalue, &ifee, &dtype, &skip, &flags, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dfcbvr_(&lu, &ftid, &origin, &cnum, chid, &nvar, vunit, &nchan, &nvalue, &ifee, &dtype, &skip, &flags, ec, strlen(chid), strlen(vunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dfccvr (int lu, int ftid, int origin, int cnum, char * chid, int sfi, char * cvar, int clen, char * vunit, int fe, int mne, int ifee, int dtype, int flags, int * ec)
+#else
+publicdef void dlg_dfccvr (lu, ftid, origin, cnum, chid, sfi, cvar, clen, vunit, fe, mne, ifee, dtype, flags, ec)
+int lu;
+int ftid;
+int origin;
+int cnum;
+char * chid;
+int sfi;
+char * cvar;
+int clen;
+char * vunit;
+int fe;
+int mne;
+int ifee;
+int dtype;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d5_chid;
+	dsc$descriptor d7_cvar;
+	dsc$descriptor d9_vunit;
+	d5_chid.b_type = D_STRING;
+	d5_chid.b_class = STRING_CLASS;
+	d5_chid.a_pointer = chid;
+	d5_chid.l_length = strlen(chid);
+	d7_cvar.b_type = D_STRING;
+	d7_cvar.b_class = STRING_CLASS;
+	d7_cvar.a_pointer = cvar;
+	d7_cvar.l_length = strlen(cvar);
+	d9_vunit.b_type = D_STRING;
+	d9_vunit.b_class = STRING_CLASS;
+	d9_vunit.a_pointer = vunit;
+	d9_vunit.l_length = strlen(vunit);
+
+	dfccvr(&lu, &ftid, &origin, &cnum, &d5_chid, &sfi, &d7_cvar, &clen, &d9_vunit, &fe, &mne, &ifee, &dtype, &flags, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dfccvr_(&lu, &ftid, &origin, &cnum, chid, &sfi, cvar, &clen, vunit, &fe, &mne, &ifee, &dtype, &flags, ec, strlen(chid), strlen(cvar), strlen(vunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dfcgvr (int lu, int ftid, int origin, int cnum, char * chid, int sfi, void * nvar, char * vunit, int fe, int mne, int ifee, int dtype, int skip, int flags, int * ec)
+#else
+publicdef void dlg_dfcgvr (lu, ftid, origin, cnum, chid, sfi, nvar, vunit, fe, mne, ifee, dtype, skip, flags, ec)
+int lu;
+int ftid;
+int origin;
+int cnum;
+char * chid;
+int sfi;
+void * nvar;
+char * vunit;
+int fe;
+int mne;
+int ifee;
+int dtype;
+int skip;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d5_chid;
+	dsc$descriptor d8_vunit;
+	d5_chid.b_type = D_STRING;
+	d5_chid.b_class = STRING_CLASS;
+	d5_chid.a_pointer = chid;
+	d5_chid.l_length = strlen(chid);
+	d8_vunit.b_type = D_STRING;
+	d8_vunit.b_class = STRING_CLASS;
+	d8_vunit.a_pointer = vunit;
+	d8_vunit.l_length = strlen(vunit);
+
+	dfcgvr(&lu, &ftid, &origin, &cnum, &d5_chid, &sfi, nvar, &d8_vunit, &fe, &mne, &ifee, &dtype, &skip, &flags, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dfcgvr_(&lu, &ftid, &origin, &cnum, chid, &sfi, nvar, vunit, &fe, &mne, &ifee, &dtype, &skip, &flags, ec, strlen(chid), strlen(vunit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_dfcnt (int lu, int ftid, int origin, int cnum, char * chid, int * ndim, int * count, int * ec)
+#else
+publicdef void dlg_dfcnt (lu, ftid, origin, cnum, chid, ndim, count, ec)
+int lu;
+int ftid;
+int origin;
+int cnum;
+char * chid;
+int * ndim;
+int * count;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d5_chid;
+	d5_chid.b_type = D_STRING;
+	d5_chid.b_class = STRING_CLASS;
+	d5_chid.a_pointer = chid;
+	d5_chid.l_length = strlen(chid);
+
+	dfcnt(&lu, &ftid, &origin, &cnum, &d5_chid, ndim, count, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	dfcnt_(&lu, &ftid, &origin, &cnum, chid, ndim, count, ec, strlen(chid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_enbcvr (int lu, int ftid, bool flag, int * ec)
+#else
+publicdef void dlg_enbcvr (lu, ftid, flag, ec)
+int lu;
+int ftid;
+bool flag;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	enbcvr(&lu, &ftid, &flag, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	enbcvr_(&lu, &ftid, &flag, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_enblat (int lu, bool flag, int * ec)
+#else
+publicdef void dlg_enblat (lu, flag, ec)
+int lu;
+bool flag;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	enblat(&lu, &flag, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	enblat_(&lu, &flag, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_enblda (int cxtid, int * ec)
+#else
+publicdef bool dlg_enblda (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+
+	return_value = enblda(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return enblda_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_enbldo (int cxtid, int * ec)
+#else
+publicdef bool dlg_enbldo (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+
+	return_value = enbldo(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return enbldo_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_enblds (int cxtid, int * ec)
+#else
+publicdef bool dlg_enblds (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+
+	return_value = enblds(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return enblds_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_enblob (int cxtid, int flag, int * ec)
+#else
+publicdef void dlg_enblob (cxtid, flag, ec)
+int cxtid;
+int flag;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	enblob(&cxtid, &flag, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	enblob_(&cxtid, &flag, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_enblst (int cxtid, int flag, int * ec)
+#else
+publicdef void dlg_enblst (cxtid, flag, ec)
+int cxtid;
+int flag;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	enblst(&cxtid, &flag, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	enblst_(&cxtid, &flag, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_endlog (int flu, int * ec)
+#else
+publicdef void dlg_endlog (flu, ec)
+int flu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	endlog(&flu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	endlog_(&flu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_erstop (bool stflag)
+#else
+publicdef void dlg_erstop (stflag)
+bool stflag;
+#endif
+	{
+#ifdef vms
+
+	erstop(&stflag);
+
+#endif	/* vms */
+
+#if UNIX
+
+	erstop_(&stflag);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fdempt (int lu, int * ec)
+#else
+publicdef void dlg_fdempt (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fdempt(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fdempt_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fdfilt (int lu, int ftid, bool enable, int * ec)
+#else
+publicdef void dlg_fdfilt (lu, ftid, enable, ec)
+int lu;
+int ftid;
+bool enable;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fdfilt(&lu, &ftid, &enable, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fdfilt_(&lu, &ftid, &enable, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fecrea (int lu, int ftid, int * ec)
+#else
+publicdef void dlg_fecrea (lu, ftid, ec)
+int lu;
+int ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fecrea(&lu, &ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fecrea_(&lu, &ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmcfs (int lu, int ftid, int * aslze, int * rsize, int * ec)
+#else
+publicdef void dlg_fmcfs (lu, ftid, aslze, rsize, ec)
+int lu;
+int ftid;
+int * aslze;
+int * rsize;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmcfs(&lu, &ftid, aslze, rsize, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmcfs_(&lu, &ftid, aslze, rsize, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmcrea (int lu, int ftid, int * ec)
+#else
+publicdef void dlg_fmcrea (lu, ftid, ec)
+int lu;
+int ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmcrea(&lu, &ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmcrea_(&lu, &ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgich (int lu, int ftid, int slot, int fe, int rne, int sfi, char * units, int * ival, int * ner, int * ec)
+#else
+publicdef void dlg_fmgich (lu, ftid, slot, fe, rne, sfi, units, ival, ner, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int rne;
+int sfi;
+char * units;
+int * ival;
+int * ner;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmgich(&lu, &ftid, &slot, &fe, &rne, &sfi, &d7_units, ival, ner, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgich_(&lu, &ftid, &slot, &fe, &rne, &sfi, units, ival, ner, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgcch (int lu, int ftid, int slot, int fe, int rne, int sfi, char * units, char * cval, int * ner, int * ec)
+#else
+publicdef void dlg_fmgcch (lu, ftid, slot, fe, rne, sfi, units, cval, ner, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int rne;
+int sfi;
+char * units;
+char * cval;
+int * ner;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	dsc$descriptor d8_cval;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+	d8_cval.b_type = D_STRING;
+	d8_cval.b_class = STRING_CLASS;
+	d8_cval.a_pointer = cval;
+	d8_cval.l_length = strlen(cval);
+
+	fmgcch(&lu, &ftid, &slot, &fe, &rne, &sfi, &d7_units, &d8_cval, ner, ec);
+	cval[d8_cval.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgcch_(&lu, &ftid, &slot, &fe, &rne, &sfi, units, cval, ner, ec, strlen(units), strlen(cval));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgfch (int lu, int ftid, int slot, int fe, int rne, int sfi, char * units, float * fval, int * ner, int * ec)
+#else
+publicdef void dlg_fmgfch (lu, ftid, slot, fe, rne, sfi, units, fval, ner, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int rne;
+int sfi;
+char * units;
+float * fval;
+int * ner;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmgfch(&lu, &ftid, &slot, &fe, &rne, &sfi, &d7_units, fval, ner, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgfch_(&lu, &ftid, &slot, &fe, &rne, &sfi, units, fval, ner, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgdch (int lu, int ftid, int slot, int fe, int rne, int sfi, char * units, double * dval, int * ner, int * ec)
+#else
+publicdef void dlg_fmgdch (lu, ftid, slot, fe, rne, sfi, units, dval, ner, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int rne;
+int sfi;
+char * units;
+double * dval;
+int * ner;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmgdch(&lu, &ftid, &slot, &fe, &rne, &sfi, &d7_units, dval, ner, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgdch_(&lu, &ftid, &slot, &fe, &rne, &sfi, units, dval, ner, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmglch (int lu, int ftid, int slot, int fe, int rne, int sfi, char * units, bool * ival, int * ner, int * ec)
+#else
+publicdef void dlg_fmglch (lu, ftid, slot, fe, rne, sfi, units, ival, ner, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int rne;
+int sfi;
+char * units;
+bool * ival;
+int * ner;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmglch(&lu, &ftid, &slot, &fe, &rne, &sfi, &d7_units, ival, ner, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmglch_(&lu, &ftid, &slot, &fe, &rne, &sfi, units, ival, ner, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgchi (int lu, int ftid, int slot, int * origin, int * cnum, char * chid, int * rcod, char * units, int * nd, int * ne, int * maxnd, int * maxne, int * ec)
+#else
+publicdef void dlg_fmgchi (lu, ftid, slot, origin, cnum, chid, rcod, units, nd, ne, maxnd, maxne, ec)
+int lu;
+int ftid;
+int slot;
+int * origin;
+int * cnum;
+char * chid;
+int * rcod;
+char * units;
+int * nd;
+int * ne;
+int * maxnd;
+int * maxne;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d6_chid;
+	dsc$descriptor d8_units;
+	d6_chid.b_type = D_STRING;
+	d6_chid.b_class = STRING_CLASS;
+	d6_chid.a_pointer = chid;
+	d6_chid.l_length = strlen(chid);
+	d8_units.b_type = D_STRING;
+	d8_units.b_class = STRING_CLASS;
+	d8_units.a_pointer = units;
+	d8_units.l_length = strlen(units);
+
+	fmgchi(&lu, &ftid, &slot, origin, cnum, &d6_chid, rcod, &d8_units, nd, ne, maxnd, maxne, ec);
+	chid[d6_chid.l_length] = 0;
+	units[d8_units.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgchi_(&lu, &ftid, &slot, origin, cnum, chid, rcod, units, nd, ne, maxnd, maxne, ec, strlen(chid), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgchn (int lu, int ftid, int origin, char * chid, int cnum)
+#else
+publicdef void dlg_fmgchn (lu, ftid, origin, chid, cnum)
+int lu;
+int ftid;
+int origin;
+char * chid;
+int cnum;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_chid;
+	d4_chid.b_type = D_STRING;
+	d4_chid.b_class = STRING_CLASS;
+	d4_chid.a_pointer = chid;
+	d4_chid.l_length = strlen(chid);
+
+	fmgchn(&lu, &ftid, &origin, &d4_chid, &cnum);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgchn_(&lu, &ftid, &origin, chid, &cnum, strlen(chid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgfi (int lu, int ftid, int * nchan, int * indtyp, int * dir, double * spcing, bool * prop, int * origin, int * cnum, char * ichid, int * rcod, char * units)
+#else
+publicdef void dlg_fmgfi (lu, ftid, nchan, indtyp, dir, spcing, prop, origin, cnum, ichid, rcod, units)
+int lu;
+int ftid;
+int * nchan;
+int * indtyp;
+int * dir;
+double * spcing;
+bool * prop;
+int * origin;
+int * cnum;
+char * ichid;
+int * rcod;
+char * units;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d10_ichid;
+	dsc$descriptor d12_units;
+	d10_ichid.b_type = D_STRING;
+	d10_ichid.b_class = STRING_CLASS;
+	d10_ichid.a_pointer = ichid;
+	d10_ichid.l_length = strlen(ichid);
+	d12_units.b_type = D_STRING;
+	d12_units.b_class = STRING_CLASS;
+	d12_units.a_pointer = units;
+	d12_units.l_length = strlen(units);
+
+	fmgfi(&lu, &ftid, nchan, indtyp, dir, spcing, prop, origin, cnum, &d10_ichid, rcod, &d12_units);
+	ichid[d10_ichid.l_length] = 0;
+	units[d12_units.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgfi_(&lu, &ftid, nchan, indtyp, dir, spcing, prop, origin, cnum, ichid, rcod, units, strlen(ichid), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmgnch (int lu, int ftid, int slot, int * ndim, int * count, int * ec)
+#else
+publicdef void dlg_fmgnch (lu, ftid, slot, ndim, count, ec)
+int lu;
+int ftid;
+int slot;
+int * ndim;
+int * count;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmgnch(&lu, &ftid, &slot, ndim, count, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmgnch_(&lu, &ftid, &slot, ndim, count, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmnext (int lu, int ftid, int * fnum, int * ec)
+#else
+publicdef void dlg_fmnext (lu, ftid, fnum, ec)
+int lu;
+int ftid;
+int * fnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmnext(&lu, &ftid, fnum, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmnext_(&lu, &ftid, fnum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpich (int lu, int ftid, int slot, int fe, int ne, int sfi, char * units, int * iva, int * nwrit, int * ec)
+#else
+publicdef void dlg_fmpich (lu, ftid, slot, fe, ne, sfi, units, iva, nwrit, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int ne;
+int sfi;
+char * units;
+int * iva;
+int * nwrit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmpich(&lu, &ftid, &slot, &fe, &ne, &sfi, &d7_units, iva, nwrit, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpich_(&lu, &ftid, &slot, &fe, &ne, &sfi, units, iva, nwrit, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpcch (int lu, int ftid, int slot, int fe, int ne, int sfi, char * units, char ** cval, int * nwrit, int * ec)
+#else
+publicdef void dlg_fmpcch (lu, ftid, slot, fe, ne, sfi, units, cval, nwrit, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int ne;
+int sfi;
+char * units;
+char ** cval;
+int * nwrit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmpcch(&lu, &ftid, &slot, &fe, &ne, &sfi, &d7_units, cval, nwrit, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpcch_(&lu, &ftid, &slot, &fe, &ne, &sfi, units, cval, nwrit, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpfch (int lu, int ftid, int slot, int fe, int ne, int sfi, char * units, float * fval, int * nwrit, int * ec)
+#else
+publicdef void dlg_fmpfch (lu, ftid, slot, fe, ne, sfi, units, fval, nwrit, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int ne;
+int sfi;
+char * units;
+float * fval;
+int * nwrit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmpfch(&lu, &ftid, &slot, &fe, &ne, &sfi, &d7_units, fval, nwrit, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpfch_(&lu, &ftid, &slot, &fe, &ne, &sfi, units, fval, nwrit, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpdch (int lu, int ftid, int slot, int fe, int ne, int sfi, char * units, double * dval, int * nwrit, int * ec)
+#else
+publicdef void dlg_fmpdch (lu, ftid, slot, fe, ne, sfi, units, dval, nwrit, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int ne;
+int sfi;
+char * units;
+double * dval;
+int * nwrit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmpdch(&lu, &ftid, &slot, &fe, &ne, &sfi, &d7_units, dval, nwrit, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpdch_(&lu, &ftid, &slot, &fe, &ne, &sfi, units, dval, nwrit, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmplch (int lu, int ftid, int slot, int fe, int ne, int sfi, char * units, bool * lval, int * nwrit, int * ec)
+#else
+publicdef void dlg_fmplch (lu, ftid, slot, fe, ne, sfi, units, lval, nwrit, ec)
+int lu;
+int ftid;
+int slot;
+int fe;
+int ne;
+int sfi;
+char * units;
+bool * lval;
+int * nwrit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d7_units;
+	d7_units.b_type = D_STRING;
+	d7_units.b_class = STRING_CLASS;
+	d7_units.a_pointer = units;
+	d7_units.l_length = strlen(units);
+
+	fmplch(&lu, &ftid, &slot, &fe, &ne, &sfi, &d7_units, lval, nwrit, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmplch_(&lu, &ftid, &slot, &fe, &ne, &sfi, units, lval, nwrit, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpipi (int lu, int ftid, char * units, int  ival, int * ec)
+#else
+publicdef void dlg_fmpipi (lu, ftid, units, ival, ec)
+int lu;
+int ftid;
+char * units;
+int  ival;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_units;
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+
+	fmpipi(&lu, &ftid, &d3_units, &ival, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpipi_(&lu, &ftid, units, &ival, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpcpi (int lu, int ftid, char * units, char * cval, int * ec)
+#else
+publicdef void dlg_fmpcpi (lu, ftid, units, cval, ec)
+int lu;
+int ftid;
+char * units;
+char * cval;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_units;
+	dsc$descriptor d4_cval;
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+	d4_cval.b_type = D_STRING;
+	d4_cval.b_class = STRING_CLASS;
+	d4_cval.a_pointer = cval;
+	d4_cval.l_length = strlen(cval);
+
+	fmpcpi(&lu, &ftid, &d3_units, &d4_cval, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpcpi_(&lu, &ftid, units, cval, ec, strlen(units), strlen(cval));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmprpi (int lu, int ftid, char * units, float fval, int * ec)
+#else
+publicdef void dlg_fmprpi (lu, ftid, units, fval, ec)
+int lu;
+int ftid;
+char * units;
+float fval;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_units;
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+
+	fmprpi(&lu, &ftid, &d3_units, &fval, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmprpi_(&lu, &ftid, units, &fval, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpdpi (int lu, int ftid, char * units, double dval, int * ec)
+#else
+publicdef void dlg_fmpdpi (lu, ftid, units, dval, ec)
+int lu;
+int ftid;
+char * units;
+double dval;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_units;
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+
+	fmpdpi(&lu, &ftid, &d3_units, &dval, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpdpi_(&lu, &ftid, units, &dval, ec, strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmpeod (int lu, int ftid, int * ec)
+#else
+publicdef void dlg_fmpeod (lu, ftid, ec)
+int lu;
+int ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmpeod(&lu, &ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmpeod_(&lu, &ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmread (int lu, int * ftid, int * ec)
+#else
+publicdef void dlg_fmread (lu, ftid, ec)
+int lu;
+int * ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmread(&lu, ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmread_(&lu, ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmupcd (int lu, int ftid, int * ec)
+#else
+publicdef void dlg_fmupcd (lu, ftid, ec)
+int lu;
+int ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmupcd(&lu, &ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmupcd_(&lu, &ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fmwrit (int lu, int ftid, int * ec)
+#else
+publicdef void dlg_fmwrit (lu, ftid, ec)
+int lu;
+int ftid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fmwrit(&lu, &ftid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fmwrit_(&lu, &ftid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndatb (int cxtid, char * label, int cmode, int * ec)
+#else
+publicdef void dlg_fndatb (cxtid, label, cmode, ec)
+int cxtid;
+char * label;
+int cmode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_label;
+	d2_label.b_type = D_STRING;
+	d2_label.b_class = STRING_CLASS;
+	d2_label.a_pointer = label;
+	d2_label.l_length = strlen(label);
+
+	fndatb(&cxtid, &d2_label, &cmode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndatb_(&cxtid, label, &cmode, ec, strlen(label));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndfhr (int lu, char * rfsn, char * rfid, int * ec)
+#else
+publicdef void dlg_fndfhr (lu, rfsn, rfid, ec)
+int lu;
+char * rfsn;
+char * rfid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_rfsn;
+	dsc$descriptor d3_rfid;
+	d2_rfsn.b_type = D_STRING;
+	d2_rfsn.b_class = STRING_CLASS;
+	d2_rfsn.a_pointer = rfsn;
+	d2_rfsn.l_length = strlen(rfsn);
+	d3_rfid.b_type = D_STRING;
+	d3_rfid.b_class = STRING_CLASS;
+	d3_rfid.a_pointer = rfid;
+	d3_rfid.l_length = strlen(rfid);
+
+	fndfhr(&lu, &d2_rfsn, &d3_rfid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndfhr_(&lu, rfsn, rfid, ec, strlen(rfsn), strlen(rfid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndfil (int ctxid, int fsn, char * fid, int cmode, int * ec)
+#else
+publicdef void dlg_fndfil (ctxid, fsn, fid, cmode, ec)
+int ctxid;
+int fsn;
+char * fid;
+int cmode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_fid;
+	d3_fid.b_type = D_STRING;
+	d3_fid.b_class = STRING_CLASS;
+	d3_fid.a_pointer = fid;
+	d3_fid.l_length = strlen(fid);
+
+	fndfil(&ctxid, &fsn, &d3_fid, &cmode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndfil_(&ctxid, &fsn, fid, &cmode, ec, strlen(fid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_fndhnd (int ecode, int_function_ptr hdlr, int * ec)
+#else
+publicdef int dlg_fndhnd (ecode, hdlr, ec)
+int ecode;
+int_function_ptr hdlr;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = fndhnd(&ecode, &hdlr, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return fndhnd_(&ecode, &hdlr, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndlr (int lu, int lra, int * ec)
+#else
+publicdef void dlg_fndlr (lu, lra, ec)
+int lu;
+int lra;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fndlr(&lu, &lra, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndlr_(&lu, &lra, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndlu (int cxtid, int lu, int cmode, int * ec)
+#else
+publicdef void dlg_fndlu (cxtid, lu, cmode, ec)
+int cxtid;
+int lu;
+int cmode;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	fndlu(&cxtid, &lu, &cmode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndlu_(&cxtid, &lu, &cmode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndobj (int cxtid, char * id, int cnum, int origin, int scope, int cmode, int * ec)
+#else
+publicdef void dlg_fndobj (cxtid, id, cnum, origin, scope, cmode, ec)
+int cxtid;
+char * id;
+int cnum;
+int origin;
+int scope;
+int cmode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_id;
+	d2_id.b_type = D_STRING;
+	d2_id.b_class = STRING_CLASS;
+	d2_id.a_pointer = id;
+	d2_id.l_length = strlen(id);
+
+	fndobj(&cxtid, &d2_id, &cnum, &origin, &scope, &cmode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndobj_(&cxtid, id, &cnum, &origin, &scope, &cmode, ec, strlen(id));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_fndset (int cxtid, char * sname, char * type, int cmode, int * ec)
+#else
+publicdef void dlg_fndset (cxtid, sname, type, cmode, ec)
+int cxtid;
+char * sname;
+char * type;
+int cmode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_sname;
+	dsc$descriptor d3_type;
+	d2_sname.b_type = D_STRING;
+	d2_sname.b_class = STRING_CLASS;
+	d2_sname.a_pointer = sname;
+	d2_sname.l_length = strlen(sname);
+	d3_type.b_type = D_STRING;
+	d3_type.b_class = STRING_CLASS;
+	d3_type.a_pointer = type;
+	d3_type.l_length = strlen(type);
+
+	fndset(&cxtid, &d2_sname, &d3_type, &cmode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	fndset_(&cxtid, sname, type, &cmode, ec, strlen(sname), strlen(type));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_gdbfnd (int cxtid, int plusc, char * atb, char * oid, int cnum, int origin, char * sname, char * type, int fsn, char * fid, int lu, int * ec)
+#else
+publicdef void dlg_gdbfnd (cxtid, plusc, atb, oid, cnum, origin, sname, type, fsn, fid, lu, ec)
+int cxtid;
+int plusc;
+char * atb;
+char * oid;
+int cnum;
+int origin;
+char * sname;
+char * type;
+int fsn;
+char * fid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d4_oid;
+	dsc$descriptor d7_sname;
+	dsc$descriptor d8_type;
+	dsc$descriptor d10_fid;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d4_oid.b_type = D_STRING;
+	d4_oid.b_class = STRING_CLASS;
+	d4_oid.a_pointer = oid;
+	d4_oid.l_length = strlen(oid);
+	d7_sname.b_type = D_STRING;
+	d7_sname.b_class = STRING_CLASS;
+	d7_sname.a_pointer = sname;
+	d7_sname.l_length = strlen(sname);
+	d8_type.b_type = D_STRING;
+	d8_type.b_class = STRING_CLASS;
+	d8_type.a_pointer = type;
+	d8_type.l_length = strlen(type);
+	d10_fid.b_type = D_STRING;
+	d10_fid.b_class = STRING_CLASS;
+	d10_fid.a_pointer = fid;
+	d10_fid.l_length = strlen(fid);
+
+	gdbfnd(&cxtid, &plusc, &d3_atb, &d4_oid, &cnum, &origin, &d7_sname, &d8_type, &fsn, &d10_fid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	gdbfnd_(&cxtid, &plusc, atb, oid, &cnum, &origin, sname, type, &fsn, fid, &lu, ec, strlen(atb), strlen(oid), strlen(sname), strlen(type), strlen(fid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getcd (int lu, int * role, int * format, int * ec)
+#else
+publicdef void dlg_getcd (lu, role, format, ec)
+int lu;
+int * role;
+int * format;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getcd(&lu, role, format, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getcd_(&lu, role, format, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getcxt (int cxtid, int icx, int * ec)
+#else
+publicdef void dlg_getcxt (cxtid, icx, ec)
+int cxtid;
+int icx;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getcxt(&cxtid, &icx, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getcxt_(&cxtid, &icx, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getddr (int lu, int * ddro, int * ddrcn, char * ddrid, int * ec)
+#else
+publicdef void dlg_getddr (lu, ddro, ddrcn, ddrid, ec)
+int lu;
+int * ddro;
+int * ddrcn;
+char * ddrid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_ddrid;
+	d4_ddrid.b_type = D_STRING;
+	d4_ddrid.b_class = STRING_CLASS;
+	d4_ddrid.a_pointer = ddrid;
+	d4_ddrid.l_length = strlen(ddrid);
+
+	getddr(&lu, ddro, ddrcn, &d4_ddrid, ec);
+	ddrid[d4_ddrid.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	getddr_(&lu, ddro, ddrcn, ddrid, ec, strlen(ddrid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getdlu (int * lu, int lucf, int * ec)
+#else
+publicdef void dlg_getdlu (lu, lucf, ec)
+int * lu;
+int lucf;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getdlu(lu, &lucf, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getdlu_(lu, &lucf, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getdt (int tz, int * y, int * m, int * d, int * h, int * mn, int * s, int * ms, int * ec)
+#else
+publicdef void dlg_getdt (tz, y, m, d, h, mn, s, ms, ec)
+int tz;
+int * y;
+int * m;
+int * d;
+int * h;
+int * mn;
+int * s;
+int * ms;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getdt(&tz, y, m, d, h, mn, s, ms, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getdt_(&tz, y, m, d, h, mn, s, ms, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_getdtz (int * ec)
+#else
+publicdef int dlg_getdtz (ec)
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = getdtz(ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return getdtz_(ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getlra (int lu, int * lra, int * ec)
+#else
+publicdef void dlg_getlra (lu, lra, ec)
+int lu;
+int * lra;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getlra(&lu, lra, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getlra_(&lu, lra, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getlsa (int cxtid, char * atb, int sfi, int en, int index, int * nchar, char * cvar, int * ssiz, int * ec)
+#else
+publicdef void dlg_getlsa (cxtid, atb, sfi, en, index, nchar, cvar, ssiz, ec)
+int cxtid;
+char * atb;
+int sfi;
+int en;
+int index;
+int * nchar;
+char * cvar;
+int * ssiz;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	dsc$descriptor d7_cvar;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d7_cvar.b_type = D_STRING;
+	d7_cvar.b_class = STRING_CLASS;
+	d7_cvar.a_pointer = cvar;
+	d7_cvar.l_length = strlen(cvar);
+
+	getlsa(&cxtid, &d2_atb, &sfi, &en, &index, nchar, &d7_cvar, ssiz, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getlsa_(&cxtid, atb, &sfi, &en, &index, nchar, cvar, ssiz, ec, strlen(atb), strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getlsc (int lu, int ftid, int slot, int sfi, int en, int index, int * nchar, char * cvar, int * ssiz, int * ec)
+#else
+publicdef void dlg_getlsc (lu, ftid, slot, sfi, en, index, nchar, cvar, ssiz, ec)
+int lu;
+int ftid;
+int slot;
+int sfi;
+int en;
+int index;
+int * nchar;
+char * cvar;
+int * ssiz;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d8_cvar;
+	d8_cvar.b_type = D_STRING;
+	d8_cvar.b_class = STRING_CLASS;
+	d8_cvar.a_pointer = cvar;
+	d8_cvar.l_length = strlen(cvar);
+
+	getlsc(&lu, &ftid, &slot, &sfi, &en, &index, nchar, &d8_cvar, ssiz, ec);
+	cvar[d8_cvar.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	getlsc_(&lu, &ftid, &slot, &sfi, &en, &index, nchar, cvar, ssiz, ec, strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getlvl (int ecode, int * level, int * ec)
+#else
+publicdef void dlg_getlvl (ecode, level, ec)
+int ecode;
+int * level;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	getlvl(&ecode, level, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getlvl_(&ecode, level, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getroc (int scxtid, char * type, int index, int rocxid, int * ec)
+#else
+publicdef void dlg_getroc (scxtid, type, index, rocxid, ec)
+int scxtid;
+char * type;
+int index;
+int rocxid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_type;
+	d2_type.b_type = D_STRING;
+	d2_type.b_class = STRING_CLASS;
+	d2_type.a_pointer = type;
+	d2_type.l_length = strlen(type);
+
+	getroc(&scxtid, &d2_type, &index, &rocxid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	getroc_(&scxtid, type, &index, &rocxid, ec, strlen(type));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getsd (int lu, int sfrc, int num, char * str, int * ec)
+#else
+publicdef void dlg_getsd (lu, sfrc, num, str, ec)
+int lu;
+int sfrc;
+int num;
+char * str;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_str;
+	d4_str.b_type = D_STRING;
+	d4_str.b_class = STRING_CLASS;
+	d4_str.a_pointer = str;
+	d4_str.l_length = strlen(str);
+
+	getsd(&lu, &sfrc, &num, &d4_str, ec);
+	str[d4_str.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	getsd_(&lu, &sfrc, &num, str, ec, strlen(str));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_getsul (int lu, int * susn, char * dlisv, char * sus, int * mrl, char * ssid, int * ec)
+#else
+publicdef void dlg_getsul (lu, susn, dlisv, sus, mrl, ssid, ec)
+int lu;
+int * susn;
+char * dlisv;
+char * sus;
+int * mrl;
+char * ssid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_dlisv;
+	dsc$descriptor d4_sus;
+	dsc$descriptor d6_ssid;
+	d3_dlisv.b_type = D_STRING;
+	d3_dlisv.b_class = STRING_CLASS;
+	d3_dlisv.a_pointer = dlisv;
+	d3_dlisv.l_length = strlen(dlisv);
+	d4_sus.b_type = D_STRING;
+	d4_sus.b_class = STRING_CLASS;
+	d4_sus.a_pointer = sus;
+	d4_sus.l_length = strlen(sus);
+	d6_ssid.b_type = D_STRING;
+	d6_ssid.b_class = STRING_CLASS;
+	d6_ssid.a_pointer = ssid;
+	d6_ssid.l_length = strlen(ssid);
+
+	getsul(&lu, susn, &d3_dlisv, &d4_sus, mrl, &d6_ssid, ec);
+	dlisv[d3_dlisv.l_length] = 0;
+	sus[d4_sus.l_length] = 0;
+	ssid[d6_ssid.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	getsul_(&lu, susn, dlisv, sus, mrl, ssid, ec, strlen(dlisv), strlen(sus), strlen(ssid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_gtemsg (int ecode, char * strlna, int * ec)
+#else
+publicdef void dlg_gtemsg (ecode, strlna, ec)
+int ecode;
+char * strlna;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_strlna;
+	d2_strlna.b_type = D_STRING;
+	d2_strlna.b_class = STRING_CLASS;
+	d2_strlna.a_pointer = strlna;
+	d2_strlna.l_length = strlen(strlna);
+
+	gtemsg(&ecode, &d2_strlna, ec);
+	strlna[d2_strlna.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	gtemsg_(&ecode, strlna, ec, strlen(strlna));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_gtlrsi (int lu, int * lrt, int * lrsl, int * lrstl, int * lrsbl, int * lrspl, int * lrsepl, bool * lrsa, int * ec)
+#else
+publicdef void dlg_gtlrsi (lu, lrt, lrsl, lrstl, lrsbl, lrspl, lrsepl, lrsa, ec)
+int lu;
+int * lrt;
+int * lrsl;
+int * lrstl;
+int * lrsbl;
+int * lrspl;
+int * lrsepl;
+bool * lrsa;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	gtlrsi(&lu, lrt, lrsl, lrstl, lrsbl, lrspl, lrsepl, lrsa, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	gtlrsi_(&lu, lrt, lrsl, lrstl, lrsbl, lrspl, lrsepl, lrsa, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_icrtdo (int cxtid, char * fsn, int fnum, char * ft, char * prod, char * vers, char ** prog, int pne, char * onum, int dnum, int rnum, char * wid, char * wn, char * fn, int pc, char * pnm, char * cn, char * ns, int nv, int fsnum, int * ec)
+#else
+publicdef int dlg_icrtdo (cxtid, fsn, fnum, ft, prod, vers, prog, pne, onum, dnum, rnum, wid, wn, fn, pc, pnm, cn, ns, nv, fsnum, ec)
+int cxtid;
+char * fsn;
+int fnum;
+char * ft;
+char * prod;
+char * vers;
+char ** prog;
+int pne;
+char * onum;
+int dnum;
+int rnum;
+char * wid;
+char * wn;
+char * fn;
+int pc;
+char * pnm;
+char * cn;
+char * ns;
+int nv;
+int fsnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_fsn;
+	dsc$descriptor d4_ft;
+	dsc$descriptor d5_prod;
+	dsc$descriptor d6_vers;
+	dsc$descriptor d9_onum;
+	dsc$descriptor d12_wid;
+	dsc$descriptor d13_wn;
+	dsc$descriptor d14_fn;
+	dsc$descriptor d16_pnm;
+	dsc$descriptor d17_cn;
+	dsc$descriptor d18_ns;
+	d2_fsn.b_type = D_STRING;
+	d2_fsn.b_class = STRING_CLASS;
+	d2_fsn.a_pointer = fsn;
+	d2_fsn.l_length = strlen(fsn);
+	d4_ft.b_type = D_STRING;
+	d4_ft.b_class = STRING_CLASS;
+	d4_ft.a_pointer = ft;
+	d4_ft.l_length = strlen(ft);
+	d5_prod.b_type = D_STRING;
+	d5_prod.b_class = STRING_CLASS;
+	d5_prod.a_pointer = prod;
+	d5_prod.l_length = strlen(prod);
+	d6_vers.b_type = D_STRING;
+	d6_vers.b_class = STRING_CLASS;
+	d6_vers.a_pointer = vers;
+	d6_vers.l_length = strlen(vers);
+	d9_onum.b_type = D_STRING;
+	d9_onum.b_class = STRING_CLASS;
+	d9_onum.a_pointer = onum;
+	d9_onum.l_length = strlen(onum);
+	d12_wid.b_type = D_STRING;
+	d12_wid.b_class = STRING_CLASS;
+	d12_wid.a_pointer = wid;
+	d12_wid.l_length = strlen(wid);
+	d13_wn.b_type = D_STRING;
+	d13_wn.b_class = STRING_CLASS;
+	d13_wn.a_pointer = wn;
+	d13_wn.l_length = strlen(wn);
+	d14_fn.b_type = D_STRING;
+	d14_fn.b_class = STRING_CLASS;
+	d14_fn.a_pointer = fn;
+	d14_fn.l_length = strlen(fn);
+	d16_pnm.b_type = D_STRING;
+	d16_pnm.b_class = STRING_CLASS;
+	d16_pnm.a_pointer = pnm;
+	d16_pnm.l_length = strlen(pnm);
+	d17_cn.b_type = D_STRING;
+	d17_cn.b_class = STRING_CLASS;
+	d17_cn.a_pointer = cn;
+	d17_cn.l_length = strlen(cn);
+	d18_ns.b_type = D_STRING;
+	d18_ns.b_class = STRING_CLASS;
+	d18_ns.a_pointer = ns;
+	d18_ns.l_length = strlen(ns);
+
+	return_value = icrtdo(&cxtid, &d2_fsn, &fnum, &d4_ft, &d5_prod, &d6_vers, prog, &pne, &d9_onum, &dnum, &rnum, &d12_wid, &d13_wn, &d14_fn, &pc, &d16_pnm, &d17_cn, &d18_ns, &nv, &fsnum, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return icrtdo_(&cxtid, fsn, &fnum, ft, prod, vers, prog, &pne, onum, &dnum, &rnum, wid, wn, fn, &pc, pnm, cn, ns, &nv, &fsnum, ec, strlen(fsn), strlen(ft), strlen(prod), strlen(vers), strlen(onum), strlen(wid), strlen(wn), strlen(fn), strlen(pnm), strlen(cn), strlen(ns));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_idlstr (char * string)
+#else
+publicdef int dlg_idlstr (string)
+char * string;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d1_string;
+	d1_string.b_type = D_STRING;
+	d1_string.b_class = STRING_CLASS;
+	d1_string.a_pointer = string;
+	d1_string.l_length = strlen(string);
+
+	return_value = idlstr(&d1_string);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return idlstr_(string, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_iglsd (int lu, int sfrc, int * ec)
+#else
+publicdef int dlg_iglsd (lu, sfrc, ec)
+int lu;
+int sfrc;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = iglsd(&lu, &sfrc, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return iglsd_(&lu, &sfrc, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_ignosf (int rpcode, int * ec)
+#else
+publicdef int dlg_ignosf (rpcode, ec)
+int rpcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = ignosf(&rpcode, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ignosf_(&rpcode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igsfrc (int rcod, int sfi, int * ec)
+#else
+publicdef int dlg_igsfrc (rcod, sfi, ec)
+int rcod;
+int sfi;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igsfrc(&rcod, &sfi, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igsfrc_(&rcod, &sfi, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtdor (int cxtid, int * ec)
+#else
+publicdef int dlg_igtdor (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtdor(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtdor_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtft (int lu, int origin, int cnum, char * identi, int * ec)
+#else
+publicdef int dlg_igtft (lu, origin, cnum, identi, ec)
+int lu;
+int origin;
+int cnum;
+char * identi;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d4_identi;
+	d4_identi.b_type = D_STRING;
+	d4_identi.b_class = STRING_CLASS;
+	d4_identi.a_pointer = identi;
+	d4_identi.l_length = strlen(identi);
+
+	return_value = igtft(&lu, &origin, &cnum, &d4_identi, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtft_(&lu, &origin, &cnum, identi, ec, strlen(identi));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtirp (int cxtid, char * atb, int * ec)
+#else
+publicdef int dlg_igtirp (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = igtirp(&cxtid, &d2_atb, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtirp_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtlim (char * cpar, int * ec)
+#else
+publicdef int dlg_igtlim (cpar, ec)
+char * cpar;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d1_cpar;
+	d1_cpar.b_type = D_STRING;
+	d1_cpar.b_class = STRING_CLASS;
+	d1_cpar.a_pointer = cpar;
+	d1_cpar.l_length = strlen(cpar);
+
+	return_value = igtlim(&d1_cpar, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtlim_(cpar, ec, strlen(cpar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtnfn (int lu, int ftld, int * ec)
+#else
+publicdef int dlg_igtnfn (lu, ftld, ec)
+int lu;
+int ftld;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igtnfn(&lu, &ftld, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtnfn_(&lu, &ftld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtsfi (int rcode, char * sfn, int * ec)
+#else
+publicdef int dlg_igtsfi (rcode, sfn, ec)
+int rcode;
+char * sfn;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_sfn;
+	d2_sfn.b_type = D_STRING;
+	d2_sfn.b_class = STRING_CLASS;
+	d2_sfn.a_pointer = sfn;
+	d2_sfn.l_length = strlen(sfn);
+
+	return_value = igtsfi(&rcode, &d2_sfn, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtsfi_(&rcode, sfn, ec, strlen(sfn));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igtsl (int cxtid, char * atb, int sfi, int en, int * ec)
+#else
+publicdef int dlg_igtsl (cxtid, atb, sfi, en, ec)
+int cxtid;
+char * atb;
+int sfi;
+int en;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	return_value = igtsl(&cxtid, &d2_atb, &sfi, &en, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igtsl_(&cxtid, atb, &sfi, &en, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_igttor (int scxtid, int lxxtid, int sor, int * ec)
+#else
+publicdef int dlg_igttor (scxtid, lxxtid, sor, ec)
+int scxtid;
+int lxxtid;
+int sor;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = igttor(&scxtid, &lxxtid, &sor, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return igttor_(&scxtid, &lxxtid, &sor, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_iniatb (int cxtld, int * ec)
+#else
+publicdef void dlg_iniatb (cxtld, ec)
+int cxtld;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	iniatb(&cxtld, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	iniatb_(&cxtld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_inifil (int cxtld, int * ec)
+#else
+publicdef void dlg_inifil (cxtld, ec)
+int cxtld;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	inifil(&cxtld, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	inifil_(&cxtld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_inilu (int cxtld, int * ec)
+#else
+publicdef void dlg_inilu (cxtld, ec)
+int cxtld;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	inilu(&cxtld, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	inilu_(&cxtld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_iniobj (int cxtld, int * ec)
+#else
+publicdef void dlg_iniobj (cxtld, ec)
+int cxtld;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	iniobj(&cxtld, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	iniobj_(&cxtld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_iniset (int cxtld, int * ec)
+#else
+publicdef void dlg_iniset (cxtld, ec)
+int cxtld;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	iniset(&cxtld, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	iniset_(&cxtld, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_inisul (int lu, int fsusn, char * ssid, int * ec)
+#else
+publicdef void dlg_inisul (lu, fsusn, ssid, ec)
+int lu;
+int fsusn;
+char * ssid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_ssid;
+	d3_ssid.b_type = D_STRING;
+	d3_ssid.b_class = STRING_CLASS;
+	d3_ssid.a_pointer = ssid;
+	d3_ssid.l_length = strlen(ssid);
+
+	inisul(&lu, &fsusn, &d3_ssid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	inisul_(&lu, &fsusn, ssid, ec, strlen(ssid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_invat (int cxtid, int * ec)
+#else
+publicdef int dlg_invat (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = invat(&cxtid, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return invat_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_ipcac (int lu, int ivar, int * ec)
+#else
+publicdef void dlg_ipcac (lu, ivar, ec)
+int lu;
+int ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	ipcac(&lu, &ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	ipcac_(&lu, &ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_ipcar (int lu, int ivar, int * ec)
+#else
+publicdef void dlg_ipcar (lu, ivar, ec)
+int lu;
+int ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	ipcar(&lu, &ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	ipcar_(&lu, &ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_ipccn (int lu, int ivar, int * ec)
+#else
+publicdef void dlg_ipccn (lu, ivar, ec)
+int lu;
+int ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	ipccn(&lu, &ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	ipccn_(&lu, &ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_ipcor (int lu, int ivar, int * ec)
+#else
+publicdef void dlg_ipcor (lu, ivar, ec)
+int lu;
+int ivar;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	ipcor(&lu, &ivar, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	ipcor_(&lu, &ivar, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_lenstr (char * charst)
+#else
+publicdef int dlg_lenstr (charst)
+char * charst;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d1_charst;
+	d1_charst.b_type = D_STRING;
+	d1_charst.b_class = STRING_CLASS;
+	d1_charst.a_pointer = charst;
+	d1_charst.l_length = strlen(charst);
+
+	return_value = lenstr(&d1_charst);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return lenstr_(charst, strlen(charst));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lisini (int * ec)
+#else
+publicdef void dlg_lisini (ec)
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lisini(ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lisini_(ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lscont (int lu, char * reelnm, int * contno, int * ec)
+#else
+publicdef void dlg_lscont (lu, reelnm, contno, ec)
+int lu;
+char * reelnm;
+int * contno;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_reelnm;
+	d2_reelnm.b_type = D_STRING;
+	d2_reelnm.b_class = STRING_CLASS;
+	d2_reelnm.a_pointer = reelnm;
+	d2_reelnm.l_length = strlen(reelnm);
+
+	lscont(&lu, &d2_reelnm, contno, ec);
+	reelnm[d2_reelnm.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	lscont_(&lu, reelnm, contno, ec, strlen(reelnm));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_ltstws (int cxtid, int lu, int * ec)
+#else
+publicdef int dlg_ltstws (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = ltstws(&cxtid, &lu, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ltstws_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lucopy (int ilu, int olu, int * ec)
+#else
+publicdef void dlg_lucopy (ilu, olu, ec)
+int ilu;
+int olu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lucopy(&ilu, &olu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lucopy_(&ilu, &olu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lucpos (int lu, int rpos, int * npos, int * ec)
+#else
+publicdef void dlg_lucpos (lu, rpos, npos, ec)
+int lu;
+int rpos;
+int * npos;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lucpos(&lu, &rpos, npos, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lucpos_(&lu, &rpos, npos, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lucrea (int lu, int lrt, int lrstr, bool encryp, int * ec)
+#else
+publicdef void dlg_lucrea (lu, lrt, lrstr, encryp, ec)
+int lu;
+int lrt;
+int lrstr;
+bool encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lucrea(&lu, &lrt, &lrstr, &encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lucrea_(&lu, &lrt, &lrstr, &encryp, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lugbbl (int lu, int num, int * numr, int * array, int * ec)
+#else
+publicdef void dlg_lugbbl (lu, num, numr, array, ec)
+int lu;
+int num;
+int * numr;
+int * array;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lugbbl(&lu, &num, numr, array, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lugbbl_(&lu, &num, numr, array, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lugcbl (int lu, int num, int * numr, char * string, int * ec)
+#else
+publicdef void dlg_lugcbl (lu, num, numr, string, ec)
+int lu;
+int num;
+int * numr;
+char * string;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_string;
+	d4_string.b_type = D_STRING;
+	d4_string.b_class = STRING_CLASS;
+	d4_string.a_pointer = string;
+	d4_string.l_length = strlen(string);
+
+	lugcbl(&lu, &num, numr, &d4_string, ec);
+	string[d4_string.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	lugcbl_(&lu, &num, numr, string, ec, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lugpbl (int lu, int num, int offset, int * numr, int * array, int * ec)
+#else
+publicdef void dlg_lugpbl (lu, num, offset, numr, array, ec)
+int lu;
+int num;
+int offset;
+int * numr;
+int * array;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lugpbl(&lu, &num, &offset, numr, array, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lugpbl_(&lu, &num, &offset, numr, array, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_luglrt (int lu, int * lrt, int * lrstr, int * ec)
+#else
+publicdef void dlg_luglrt (lu, lrt, lrstr, ec)
+int lu;
+int * lrt;
+int * lrstr;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	luglrt(&lu, lrt, lrstr, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	luglrt_(&lu, lrt, lrstr, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_lugnam (int lu, int * ec)
+#else
+publicdef char * dlg_lugnam (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+
+	return_value = lugnam(&lu, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return lugnam_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lugrem (int lu, int * br, int * ec)
+#else
+publicdef void dlg_lugrem (lu, br, ec)
+int lu;
+int * br;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lugrem(&lu, br, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lugrem_(&lu, br, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lugslr (int lu, int * size, int * ec)
+#else
+publicdef void dlg_lugslr (lu, size, ec)
+int lu;
+int * size;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lugslr(&lu, size, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lugslr_(&lu, size, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lupbbl (int lu, int num, int * array, int * ec)
+#else
+publicdef void dlg_lupbbl (lu, num, array, ec)
+int lu;
+int num;
+int * array;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	lupbbl(&lu, &num, array, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lupbbl_(&lu, &num, array, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_lupcbl (int lu, int num, char * string, int * ec)
+#else
+publicdef void dlg_lupcbl (lu, num, string, ec)
+int lu;
+int num;
+char * string;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_string;
+	d3_string.b_type = D_STRING;
+	d3_string.b_class = STRING_CLASS;
+	d3_string.a_pointer = string;
+	d3_string.l_length = strlen(string);
+
+	lupcbl(&lu, &num, &d3_string, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	lupcbl_(&lu, &num, string, ec, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_luppbl (int lu, int num, byte * array, int offset, int * ec)
+#else
+publicdef void dlg_luppbl (lu, num, array, offset, ec)
+int lu;
+int num;
+byte * array;
+int offset;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	luppbl(&lu, &num, array, &offset, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	luppbl_(&lu, &num, array, &offset, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_luread (int lu, int * lrt, int * lrstr, bool * encryp, int * ec)
+#else
+publicdef void dlg_luread (lu, lrt, lrstr, encryp, ec)
+int lu;
+int * lrt;
+int * lrstr;
+bool * encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	luread(&lu, lrt, lrstr, encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	luread_(&lu, lrt, lrstr, encryp, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_luret (int lu, int * ec)
+#else
+publicdef void dlg_luret (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	luret(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	luret_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_luwrit (int lu, int * ec)
+#else
+publicdef void dlg_luwrit (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	luwrit(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	luwrit_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_modcvr (int lu, int ftid, void * var, int fe, int mne, int fnum, int * ec)
+#else
+publicdef void dlg_modcvr (lu, ftid, var, fe, mne, fnum, ec)
+int lu;
+int ftid;
+void * var;
+int fe;
+int mne;
+int fnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	modcvr(&lu, &ftid, var, &fe, &mne, &fnum, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	modcvr_(&lu, &ftid, var, &fe, &mne, &fnum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_modlvl (int ecode, int level, int * ec)
+#else
+publicdef void dlg_modlvl (ecode, level, ec)
+int ecode;
+int level;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	modlvl(&ecode, &level, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	modlvl_(&ecode, &level, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_numhnd (int ecode, int * ec)
+#else
+publicdef int dlg_numhnd (ecode, ec)
+int ecode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = numhnd(&ecode, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return numhnd_(&ecode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtatb (int cxtid, int * ec)
+#else
+publicdef void dlg_nxtatb (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtatb(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtatb_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtfil (int cxtid, int * ec)
+#else
+publicdef void dlg_nxtfil (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtfil(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtfil_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtfrm (int lu, int * ftid, int * fnum, int * ec)
+#else
+publicdef void dlg_nxtfrm (lu, ftid, fnum, ec)
+int lu;
+int * ftid;
+int * fnum;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtfrm(&lu, ftid, fnum, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtfrm_(&lu, ftid, fnum, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtlu (int cxtid, int * ec)
+#else
+publicdef void dlg_nxtlu (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtlu(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtlu_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtobj (int cxtid, int scope, int * ec)
+#else
+publicdef void dlg_nxtobj (cxtid, scope, ec)
+int cxtid;
+int scope;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtobj(&cxtid, &scope, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtobj_(&cxtid, &scope, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_nxtset (int cxtid, int * ec)
+#else
+publicdef void dlg_nxtset (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	nxtset(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	nxtset_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_opensu (int lu, int lca, char * su, char * msg, int * dver, int * ec)
+#else
+publicdef void dlg_opensu (lu, lca, su, msg, dver, ec)
+int lu;
+int lca;
+char * su;
+char * msg;
+int * dver;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_su;
+	dsc$descriptor d4_msg;
+	d3_su.b_type = D_STRING;
+	d3_su.b_class = STRING_CLASS;
+	d3_su.a_pointer = su;
+	d3_su.l_length = strlen(su);
+	d4_msg.b_type = D_STRING;
+	d4_msg.b_class = STRING_CLASS;
+	d4_msg.a_pointer = msg;
+	d4_msg.l_length = strlen(msg);
+
+	opensu(&lu, &lca, &d3_su, &d4_msg, dver, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	opensu_(&lu, &lca, su, msg, dver, ec, strlen(su), strlen(msg));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_opnfil (int cxtid, int lu, char * rfsn, char * rfid, int * ffsn, char * ffid, int * ec)
+#else
+publicdef void dlg_opnfil (cxtid, lu, rfsn, rfid, ffsn, ffid, ec)
+int cxtid;
+int lu;
+char * rfsn;
+char * rfid;
+int * ffsn;
+char * ffid;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_rfsn;
+	dsc$descriptor d4_rfid;
+	dsc$descriptor d6_ffid;
+	d3_rfsn.b_type = D_STRING;
+	d3_rfsn.b_class = STRING_CLASS;
+	d3_rfsn.a_pointer = rfsn;
+	d3_rfsn.l_length = strlen(rfsn);
+	d4_rfid.b_type = D_STRING;
+	d4_rfid.b_class = STRING_CLASS;
+	d4_rfid.a_pointer = rfid;
+	d4_rfid.l_length = strlen(rfid);
+	d6_ffid.b_type = D_STRING;
+	d6_ffid.b_class = STRING_CLASS;
+	d6_ffid.a_pointer = ffid;
+	d6_ffid.l_length = strlen(ffid);
+
+	opnfil(&cxtid, &lu, &d3_rfsn, &d4_rfid, ffsn, &d6_ffid, ec);
+	ffid[d6_ffid.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	opnfil_(&cxtid, &lu, rfsn, rfid, ffsn, ffid, ec, strlen(rfsn), strlen(rfid), strlen(ffid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_plstrd (int lu, int sfrc, int lstr, int * ec)
+#else
+publicdef void dlg_plstrd (lu, sfrc, lstr, ec)
+int lu;
+int sfrc;
+int lstr;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	plstrd(&lu, &sfrc, &lstr, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	plstrd_(&lu, &sfrc, &lstr, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_psfloa (int lu, int sfrc, int sval, int * ec)
+#else
+publicdef void dlg_psfloa (lu, sfrc, sval, ec)
+int lu;
+int sfrc;
+int sval;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	psfloa(&lu, &sfrc, &sval, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	psfloa_(&lu, &sfrc, &sval, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_putcd (int lu, int role, int format, int * ec)
+#else
+publicdef void dlg_putcd (lu, role, format, ec)
+int lu;
+int role;
+int format;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	putcd(&lu, &role, &format, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	putcd_(&lu, &role, &format, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_putlsa (int cxtid, char * atb, int sfi, int en, int index, int nchar, char * cvar, int ssiz, int mlen, int * ec)
+#else
+publicdef void dlg_putlsa (cxtid, atb, sfi, en, index, nchar, cvar, ssiz, mlen, ec)
+int cxtid;
+char * atb;
+int sfi;
+int en;
+int index;
+int nchar;
+char * cvar;
+int ssiz;
+int mlen;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	dsc$descriptor d7_cvar;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d7_cvar.b_type = D_STRING;
+	d7_cvar.b_class = STRING_CLASS;
+	d7_cvar.a_pointer = cvar;
+	d7_cvar.l_length = strlen(cvar);
+
+	putlsa(&cxtid, &d2_atb, &sfi, &en, &index, &nchar, &d7_cvar, &ssiz, &mlen, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	putlsa_(&cxtid, atb, &sfi, &en, &index, &nchar, cvar, &ssiz, &mlen, ec, strlen(atb), strlen(cvar));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_putsd (int lu, int slrc, int num, char * str, int * ec)
+#else
+publicdef void dlg_putsd (lu, slrc, num, str, ec)
+int lu;
+int slrc;
+int num;
+char * str;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_str;
+	d4_str.b_type = D_STRING;
+	d4_str.b_class = STRING_CLASS;
+	d4_str.a_pointer = str;
+	d4_str.l_length = strlen(str);
+
+	putsd(&lu, &slrc, &num, &d4_str, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	putsd_(&lu, &slrc, &num, str, ec, strlen(str));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rdempt (int lu, int * ec)
+#else
+publicdef void dlg_rdempt (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rdempt(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rdempt_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_rdenab (int lu, char * stype, char * sname, int fsn, char * fid, int lrt, int * ec)
+#else
+publicdef bool dlg_rdenab (lu, stype, sname, fsn, fid, lrt, ec)
+int lu;
+char * stype;
+char * sname;
+int fsn;
+char * fid;
+int lrt;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+	dsc$descriptor d2_stype;
+	dsc$descriptor d3_sname;
+	dsc$descriptor d5_fid;
+	d2_stype.b_type = D_STRING;
+	d2_stype.b_class = STRING_CLASS;
+	d2_stype.a_pointer = stype;
+	d2_stype.l_length = strlen(stype);
+	d3_sname.b_type = D_STRING;
+	d3_sname.b_class = STRING_CLASS;
+	d3_sname.a_pointer = sname;
+	d3_sname.l_length = strlen(sname);
+	d5_fid.b_type = D_STRING;
+	d5_fid.b_class = STRING_CLASS;
+	d5_fid.a_pointer = fid;
+	d5_fid.l_length = strlen(fid);
+
+	return_value = rdenab(&lu, &d2_stype, &d3_sname, &fsn, &d5_fid, &lrt, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rdenab_(&lu, stype, sname, &fsn, fid, &lrt, ec, strlen(stype), strlen(sname), strlen(fid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rdfile (int cxtid, int lu, int qual, int * flrt, int * ec)
+#else
+publicdef void dlg_rdfile (cxtid, lu, qual, flrt, ec)
+int cxtid;
+int lu;
+int qual;
+int * flrt;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rdfile(&cxtid, &lu, &qual, flrt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rdfile_(&cxtid, &lu, &qual, flrt, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rdfilt (int lu, char * stype, char * sname, char * fsn, char * fid, int lrt, bool enable, int * ec)
+#else
+publicdef void dlg_rdfilt (lu, stype, sname, fsn, fid, lrt, enable, ec)
+int lu;
+char * stype;
+char * sname;
+char * fsn;
+char * fid;
+int lrt;
+bool enable;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_stype;
+	dsc$descriptor d3_sname;
+	dsc$descriptor d4_fsn;
+	dsc$descriptor d5_fid;
+	d2_stype.b_type = D_STRING;
+	d2_stype.b_class = STRING_CLASS;
+	d2_stype.a_pointer = stype;
+	d2_stype.l_length = strlen(stype);
+	d3_sname.b_type = D_STRING;
+	d3_sname.b_class = STRING_CLASS;
+	d3_sname.a_pointer = sname;
+	d3_sname.l_length = strlen(sname);
+	d4_fsn.b_type = D_STRING;
+	d4_fsn.b_class = STRING_CLASS;
+	d4_fsn.a_pointer = fsn;
+	d4_fsn.l_length = strlen(fsn);
+	d5_fid.b_type = D_STRING;
+	d5_fid.b_class = STRING_CLASS;
+	d5_fid.a_pointer = fid;
+	d5_fid.l_length = strlen(fid);
+
+	rdfilt(&lu, &d2_stype, &d3_sname, &d4_fsn, &d5_fid, &lrt, &enable, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rdfilt_(&lu, stype, sname, fsn, fid, &lrt, &enable, ec, strlen(stype), strlen(sname), strlen(fsn), strlen(fid));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rdgdb (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_rdgdb (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rdgdb(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rdgdb_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_retdlu (int lu, int * ec)
+#else
+publicdef void dlg_retdlu (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	retdlu(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	retdlu_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rewsu (int lu, int * ec)
+#else
+publicdef void dlg_rewsu (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	rewsu(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rewsu_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_rnmobj (int cxtid, int neworg, int newcno, char * newnam, int * ec)
+#else
+publicdef void dlg_rnmobj (cxtid, neworg, newcno, newnam, ec)
+int cxtid;
+int neworg;
+int newcno;
+char * newnam;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_newnam;
+	d4_newnam.b_type = D_STRING;
+	d4_newnam.b_class = STRING_CLASS;
+	d4_newnam.a_pointer = newnam;
+	d4_newnam.l_length = strlen(newnam);
+
+	rnmobj(&cxtid, &neworg, &newcno, &d4_newnam, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	rnmobj_(&cxtid, &neworg, &newcno, newnam, ec, strlen(newnam));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef double dlg_rpeps (int rcode, int * ec)
+#else
+publicdef double dlg_rpeps (rcode, ec)
+int rcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	double return_value;
+
+
+	return_value = rpeps(&rcode, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rpeps_(&rcode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_rpgirp (int rcode, int sfi, int * ec)
+#else
+publicdef int dlg_rpgirp (rcode, sfi, ec)
+int rcode;
+int sfi;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = rpgirp(&rcode, &sfi, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rpgirp_(&rcode, &sfi, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_rpgs (int rcode, int * ec)
+#else
+publicdef int dlg_rpgs (rcode, ec)
+int rcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = rpgs(&rcode, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rpgs_(&rcode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_rppre (int rcode, int * ec)
+#else
+publicdef int dlg_rppre (rcode, ec)
+int rcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = rppre(&rcode, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return rppre_(&rcode, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_sdtcf (int cxtid, int flags, int * ec)
+#else
+publicdef int dlg_sdtcf (cxtid, flags, ec)
+int cxtid;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = sdtcf(&cxtid, &flags, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return sdtcf_(&cxtid, &flags, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_sdtsf (int cxtid, int flags, int * ec)
+#else
+publicdef int dlg_sdtsf (cxtid, flags, ec)
+int cxtid;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+
+	return_value = sdtsf(&cxtid, &flags, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return sdtsf_(&cxtid, &flags, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setivl (int cxtid, int isval, char * atb, int sfl, int en, char * iunits, int * ec)
+#else
+publicdef void dlg_setivl (cxtid, isval, atb, sfl, en, iunits, ec)
+int cxtid;
+int isval;
+char * atb;
+int sfl;
+int en;
+char * iunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_iunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_iunits.b_type = D_STRING;
+	d6_iunits.b_class = STRING_CLASS;
+	d6_iunits.a_pointer = iunits;
+	d6_iunits.l_length = strlen(iunits);
+
+	setivl(&cxtid, &isval, &d3_atb, &sfl, &en, &d6_iunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setivl_(&cxtid, &isval, atb, &sfl, &en, iunits, ec, strlen(atb), strlen(iunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setcvl (int cxtid, char * csval, char * atb, int sfl, int en, char * iunits, int * ec)
+#else
+publicdef void dlg_setcvl (cxtid, csval, atb, sfl, en, iunits, ec)
+int cxtid;
+char * csval;
+char * atb;
+int sfl;
+int en;
+char * iunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_csval;
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_iunits;
+	d2_csval.b_type = D_STRING;
+	d2_csval.b_class = STRING_CLASS;
+	d2_csval.a_pointer = csval;
+	d2_csval.l_length = strlen(csval);
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_iunits.b_type = D_STRING;
+	d6_iunits.b_class = STRING_CLASS;
+	d6_iunits.a_pointer = iunits;
+	d6_iunits.l_length = strlen(iunits);
+
+	setcvl(&cxtid, &d2_csval, &d3_atb, &sfl, &en, &d6_iunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setcvl_(&cxtid, csval, atb, &sfl, &en, iunits, ec, strlen(csval), strlen(atb), strlen(iunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setrvl (int cxtid, float fsval, char * atb, int sfl, int en, char * iunits, int * ec)
+#else
+publicdef void dlg_setrvl (cxtid, fsval, atb, sfl, en, iunits, ec)
+int cxtid;
+float fsval;
+char * atb;
+int sfl;
+int en;
+char * iunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_iunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_iunits.b_type = D_STRING;
+	d6_iunits.b_class = STRING_CLASS;
+	d6_iunits.a_pointer = iunits;
+	d6_iunits.l_length = strlen(iunits);
+
+	setrvl(&cxtid, &fsval, &d3_atb, &sfl, &en, &d6_iunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setrvl_(&cxtid, &fsval, atb, &sfl, &en, iunits, ec, strlen(atb), strlen(iunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setdvl (int cxtid, double dsval, char * atb, int sfl, int en, char * iunits, int * ec)
+#else
+publicdef void dlg_setdvl (cxtid, dsval, atb, sfl, en, iunits, ec)
+int cxtid;
+double dsval;
+char * atb;
+int sfl;
+int en;
+char * iunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_iunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_iunits.b_type = D_STRING;
+	d6_iunits.b_class = STRING_CLASS;
+	d6_iunits.a_pointer = iunits;
+	d6_iunits.l_length = strlen(iunits);
+
+	setdvl(&cxtid, &dsval, &d3_atb, &sfl, &en, &d6_iunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setdvl_(&cxtid, &dsval, atb, &sfl, &en, iunits, ec, strlen(atb), strlen(iunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setlvl (int cxtid, bool lsval, char * atb, int sfl, int en, char * iunits, int * ec)
+#else
+publicdef void dlg_setlvl (cxtid, lsval, atb, sfl, en, iunits, ec)
+int cxtid;
+bool lsval;
+char * atb;
+int sfl;
+int en;
+char * iunits;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d3_atb;
+	dsc$descriptor d6_iunits;
+	d3_atb.b_type = D_STRING;
+	d3_atb.b_class = STRING_CLASS;
+	d3_atb.a_pointer = atb;
+	d3_atb.l_length = strlen(atb);
+	d6_iunits.b_type = D_STRING;
+	d6_iunits.b_class = STRING_CLASS;
+	d6_iunits.a_pointer = iunits;
+	d6_iunits.l_length = strlen(iunits);
+
+	setlvl(&cxtid, &lsval, &d3_atb, &sfl, &en, &d6_iunits, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setlvl_(&cxtid, &lsval, atb, &sfl, &en, iunits, ec, strlen(atb), strlen(iunits));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setabs (int cxtid, char * atb, int * ec)
+#else
+publicdef void dlg_setabs (cxtid, atb, ec)
+int cxtid;
+char * atb;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	setabs(&cxtid, &d2_atb, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setabs_(&cxtid, atb, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setct (int cxtid, char * atb, int count, int * ec)
+#else
+publicdef void dlg_setct (cxtid, atb, count, ec)
+int cxtid;
+char * atb;
+int count;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	setct(&cxtid, &d2_atb, &count, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setct_(&cxtid, atb, &count, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setdtz (int tz, int * ec)
+#else
+publicdef void dlg_setdtz (tz, ec)
+int tz;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	setdtz(&tz, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setdtz_(&tz, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setoaf (int cxtid, int flag, int * ec)
+#else
+publicdef void dlg_setoaf (cxtid, flag, ec)
+int cxtid;
+int flag;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	setoaf(&cxtid, &flag, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setoaf_(&cxtid, &flag, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setrp (int cxtid, char * atb, int rcode, int * ec)
+#else
+publicdef void dlg_setrp (cxtid, atb, rcode, ec)
+int cxtid;
+char * atb;
+int rcode;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+
+	setrp(&cxtid, &d2_atb, &rcode, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setrp_(&cxtid, atb, &rcode, ec, strlen(atb));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_setut (int cxtid, char * atb, char * units, int * ec)
+#else
+publicdef void dlg_setut (cxtid, atb, units, ec)
+int cxtid;
+char * atb;
+char * units;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_atb;
+	dsc$descriptor d3_units;
+	d2_atb.b_type = D_STRING;
+	d2_atb.b_class = STRING_CLASS;
+	d2_atb.a_pointer = atb;
+	d2_atb.l_length = strlen(atb);
+	d3_units.b_type = D_STRING;
+	d3_units.b_class = STRING_CLASS;
+	d3_units.a_pointer = units;
+	d3_units.l_length = strlen(units);
+
+	setut(&cxtid, &d2_atb, &d3_units, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	setut_(&cxtid, atb, units, ec, strlen(atb), strlen(units));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_sflush (int lu, int * ec)
+#else
+publicdef void dlg_sflush (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	sflush(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	sflush_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef int dlg_skipb (char * charst)
+#else
+publicdef int dlg_skipb (charst)
+char * charst;
+#endif
+	{
+#ifdef vms
+	int return_value;
+
+	dsc$descriptor d1_charst;
+	d1_charst.b_type = D_STRING;
+	d1_charst.b_class = STRING_CLASS;
+	d1_charst.a_pointer = charst;
+	d1_charst.l_length = strlen(charst);
+
+	return_value = skipb(&d1_charst);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return skipb_(charst, strlen(charst));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_skipd (int lu, int sfrc, int * ec)
+#else
+publicdef void dlg_skipd (lu, sfrc, ec)
+int lu;
+int sfrc;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	skipd(&lu, &sfrc, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	skipd_(&lu, &sfrc, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_skipv (int lu, int count, int rc, int * ec)
+#else
+publicdef void dlg_skipv (lu, count, rc, ec)
+int lu;
+int count;
+int rc;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	skipv(&lu, &count, &rc, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	skipv_(&lu, &count, &rc, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_skpdtm (int lu, int * ec)
+#else
+publicdef void dlg_skpdtm (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	skpdtm(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	skpdtm_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_skpfil (int lu, int skpcnt, int * ec)
+#else
+publicdef void dlg_skpfil (lu, skpcnt, ec)
+int lu;
+int skpcnt;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	skpfil(&lu, &skpcnt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	skpfil_(&lu, &skpcnt, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef bool dlg_tstoaf (int cxtid, int flags, int * ec)
+#else
+publicdef bool dlg_tstoaf (cxtid, flags, ec)
+int cxtid;
+int flags;
+int * ec;
+#endif
+	{
+#ifdef vms
+	bool return_value;
+
+
+	return_value = tstoaf(&cxtid, &flags, ec);
+	return return_value;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return tstoaf_(&cxtid, &flags, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_unadls (char * ls, int type, char * udef, double doff, int * ec)
+#else
+publicdef void dlg_unadls (ls, type, udef, doff, ec)
+char * ls;
+int type;
+char * udef;
+double doff;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d1_ls;
+	dsc$descriptor d3_udef;
+	d1_ls.b_type = D_STRING;
+	d1_ls.b_class = STRING_CLASS;
+	d1_ls.a_pointer = ls;
+	d1_ls.l_length = strlen(ls);
+	d3_udef.b_type = D_STRING;
+	d3_udef.b_class = STRING_CLASS;
+	d3_udef.a_pointer = udef;
+	d3_udef.l_length = strlen(udef);
+
+	unadls(&d1_ls, &type, &d3_udef, &doff, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	unadls_(ls, &type, udef, &doff, ec, strlen(ls), strlen(udef));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_ungdls (char * unit, int * ec)
+#else
+publicdef char * dlg_ungdls (unit, ec)
+char * unit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d1_unit;
+	d1_unit.b_type = D_STRING;
+	d1_unit.b_class = STRING_CLASS;
+	d1_unit.a_pointer = unit;
+	d1_unit.l_length = strlen(unit);
+
+	return_value = ungdls(&d1_unit, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return ungdls_(unit, ec, strlen(unit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef char * dlg_unglis (char * unit, int * ec)
+#else
+publicdef char * dlg_unglis (unit, ec)
+char * unit;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor return_value;
+	dsc$descriptor d1_unit;
+	d1_unit.b_type = D_STRING;
+	d1_unit.b_class = STRING_CLASS;
+	d1_unit.a_pointer = unit;
+	d1_unit.l_length = strlen(unit);
+
+	return_value = unglis(&d1_unit, ec);
+	return return_value.a_pointer;
+
+#endif	/* vms */
+
+#if UNIX
+
+	return unglis_(unit, ec, strlen(unit));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_unguni (char * cunit, int type, char * dlisu, double * dmult, double * doff, char * dim, int * ec)
+#else
+publicdef void dlg_unguni (cunit, type, dlisu, dmult, doff, dim, ec)
+char * cunit;
+int type;
+char * dlisu;
+double * dmult;
+double * doff;
+char * dim;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d1_cunit;
+	dsc$descriptor d3_dlisu;
+	dsc$descriptor d6_dim;
+	d1_cunit.b_type = D_STRING;
+	d1_cunit.b_class = STRING_CLASS;
+	d1_cunit.a_pointer = cunit;
+	d1_cunit.l_length = strlen(cunit);
+	d3_dlisu.b_type = D_STRING;
+	d3_dlisu.b_class = STRING_CLASS;
+	d3_dlisu.a_pointer = dlisu;
+	d3_dlisu.l_length = strlen(dlisu);
+	d6_dim.b_type = D_STRING;
+	d6_dim.b_class = STRING_CLASS;
+	d6_dim.a_pointer = dim;
+	d6_dim.l_length = strlen(dim);
+
+	unguni(&d1_cunit, &type, &d3_dlisu, dmult, doff, &d6_dim, ec);
+	dlisu[d3_dlisu.l_length] = 0;
+
+#endif	/* vms */
+
+#if UNIX
+
+	unguni_(cunit, &type, dlisu, dmult, doff, dim, ec, strlen(cunit), strlen(dlisu), strlen(dim));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_unpos (int cxtid, int * ec)
+#else
+publicdef void dlg_unpos (cxtid, ec)
+int cxtid;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	unpos(&cxtid, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	unpos_(&cxtid, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_unposc (int cxtid, int cursor, int * ec)
+#else
+publicdef void dlg_unposc (cxtid, cursor, ec)
+int cxtid;
+int cursor;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	unposc(&cxtid, &cursor, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	unposc_(&cxtid, &cursor, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_unucvt (char * unito, char * uniti, double * dmult, double * doff, int * ec)
+#else
+publicdef void dlg_unucvt (unito, uniti, dmult, doff, ec)
+char * unito;
+char * uniti;
+double * dmult;
+double * doff;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d1_unito;
+	dsc$descriptor d2_uniti;
+	d1_unito.b_type = D_STRING;
+	d1_unito.b_class = STRING_CLASS;
+	d1_unito.a_pointer = unito;
+	d1_unito.l_length = strlen(unito);
+	d2_uniti.b_type = D_STRING;
+	d2_uniti.b_class = STRING_CLASS;
+	d2_uniti.a_pointer = uniti;
+	d2_uniti.l_length = strlen(uniti);
+
+	unucvt(&d1_unito, &d2_uniti, dmult, doff, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	unucvt_(unito, uniti, dmult, doff, ec, strlen(unito), strlen(uniti));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_w7seof (int lu, int * ec)
+#else
+publicdef void dlg_w7seof (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	w7seof(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	w7seof_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtcmt (int cxtid, int lu, int ctype, char * cmt, bool encryp, int * ec)
+#else
+publicdef void dlg_wrtcmt (cxtid, lu, ctype, cmt, encryp, ec)
+int cxtid;
+int lu;
+int ctype;
+char * cmt;
+bool encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_cmt;
+	d4_cmt.b_type = D_STRING;
+	d4_cmt.b_class = STRING_CLASS;
+	d4_cmt.a_pointer = cmt;
+	d4_cmt.l_length = strlen(cmt);
+
+	wrtcmt(&cxtid, &lu, &ctype, &d4_cmt, &encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtcmt_(&cxtid, &lu, &ctype, cmt, &encryp, ec, strlen(cmt));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtcc (int lu, char * string, int * ec)
+#else
+publicdef void dlg_wrtcc (lu, string, ec)
+int lu;
+char * string;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_string;
+	d2_string.b_type = D_STRING;
+	d2_string.b_class = STRING_CLASS;
+	d2_string.a_pointer = string;
+	d2_string.l_length = strlen(string);
+
+	wrtcc(&lu, &d2_string, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtcc_(&lu, string, ec, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtcst (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_wrtcst (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtcst(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtcst_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrteod (int lu, int origin, int cnum, char * id, int lrt, int * ec)
+#else
+publicdef void dlg_wrteod (lu, origin, cnum, id, lrt, ec)
+int lu;
+int origin;
+int cnum;
+char * id;
+int lrt;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d4_id;
+	d4_id.b_type = D_STRING;
+	d4_id.b_class = STRING_CLASS;
+	d4_id.a_pointer = id;
+	d4_id.l_length = strlen(id);
+
+	wrteod(&lu, &origin, &cnum, &d4_id, &lrt, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrteod_(&lu, &origin, &cnum, id, &lrt, ec, strlen(id));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtfc (int lu, char * string, int * ec)
+#else
+publicdef void dlg_wrtfc (lu, string, ec)
+int lu;
+char * string;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_string;
+	d2_string.b_type = D_STRING;
+	d2_string.b_class = STRING_CLASS;
+	d2_string.a_pointer = string;
+	d2_string.l_length = strlen(string);
+
+	wrtfc(&lu, &d2_string, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtfc_(&lu, string, ec, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtfil (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_wrtfil (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtfil(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtfil_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtfrm (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_wrtfrm (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtfrm(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtfrm_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtftr (int lu, int * ec)
+#else
+publicdef void dlg_wrtftr (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtftr(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtftr_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtlog (int flu, int level, int * ec)
+#else
+publicdef void dlg_wrtlog (flu, level, ec)
+int flu;
+int level;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtlog(&flu, &level, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtlog_(&flu, &level, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtmsg (int cxtid, int lu, int mtype, int ttype, char * tunits, int dtype, double depth, char * dunits, char * msg, bool encryp, int * ec)
+#else
+publicdef void dlg_wrtmsg (cxtid, lu, mtype, ttype, tunits, dtype, depth, dunits, msg, encryp, ec)
+int cxtid;
+int lu;
+int mtype;
+int ttype;
+char * tunits;
+int dtype;
+double depth;
+char * dunits;
+char * msg;
+bool encryp;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d5_tunits;
+	dsc$descriptor d8_dunits;
+	dsc$descriptor d9_msg;
+	d5_tunits.b_type = D_STRING;
+	d5_tunits.b_class = STRING_CLASS;
+	d5_tunits.a_pointer = tunits;
+	d5_tunits.l_length = strlen(tunits);
+	d8_dunits.b_type = D_STRING;
+	d8_dunits.b_class = STRING_CLASS;
+	d8_dunits.a_pointer = dunits;
+	d8_dunits.l_length = strlen(dunits);
+	d9_msg.b_type = D_STRING;
+	d9_msg.b_class = STRING_CLASS;
+	d9_msg.a_pointer = msg;
+	d9_msg.l_length = strlen(msg);
+
+	wrtmsg(&cxtid, &lu, &mtype, &ttype, &d5_tunits, &dtype, &depth, &d8_dunits, &d9_msg, &encryp, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtmsg_(&cxtid, &lu, &mtype, &ttype, tunits, &dtype, &depth, dunits, msg, &encryp, ec, strlen(tunits), strlen(dunits), strlen(msg));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtoc (int lu, char * strlna, int * ec)
+#else
+publicdef void dlg_wrtoc (lu, strlna, ec)
+int lu;
+char * strlna;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_strlna;
+	d2_strlna.b_type = D_STRING;
+	d2_strlna.b_class = STRING_CLASS;
+	d2_strlna.a_pointer = strlna;
+	d2_strlna.l_length = strlen(strlna);
+
+	wrtoc(&lu, &d2_strlna, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtoc_(&lu, strlna, ec, strlen(strlna));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtor (int lu, char * strlna, int * ec)
+#else
+publicdef void dlg_wrtor (lu, strlna, ec)
+int lu;
+char * strlna;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_strlna;
+	d2_strlna.b_type = D_STRING;
+	d2_strlna.b_class = STRING_CLASS;
+	d2_strlna.a_pointer = strlna;
+	d2_strlna.l_length = strlen(strlna);
+
+	wrtor(&lu, &d2_strlna, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtor_(&lu, strlna, ec, strlen(strlna));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtrel (int lu, int * ec)
+#else
+publicdef void dlg_wrtrel (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtrel(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtrel_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtrst (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_wrtrst (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtrst(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtrst_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtrtr (int lu, int * ec)
+#else
+publicdef void dlg_wrtrtr (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtrtr(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtrtr_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtset (int cxtid, int lu, int * ec)
+#else
+publicdef void dlg_wrtset (cxtid, lu, ec)
+int cxtid;
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtset(&cxtid, &lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtset_(&cxtid, &lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtso (int lu, char * string, int * ec)
+#else
+publicdef void dlg_wrtso (lu, string, ec)
+int lu;
+char * string;
+int * ec;
+#endif
+	{
+#ifdef vms
+	dsc$descriptor d2_string;
+	d2_string.b_type = D_STRING;
+	d2_string.b_class = STRING_CLASS;
+	d2_string.a_pointer = string;
+	d2_string.l_length = strlen(string);
+
+	wrtso(&lu, &d2_string, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtso_(&lu, string, ec, strlen(string));
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtsul (int lu, int * ec)
+#else
+publicdef void dlg_wrtsul (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtsul(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtsul_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrttap (int lu, int * ec)
+#else
+publicdef void dlg_wrttap (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrttap(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrttap_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+/*****************************************************************************/
+#if USE_PROTOTYPES
+publicdef void dlg_wrtttr (int lu, int * ec)
+#else
+publicdef void dlg_wrtttr (lu, ec)
+int lu;
+int * ec;
+#endif
+	{
+#ifdef vms
+
+	wrtttr(&lu, ec);
+
+#endif	/* vms */
+
+#if UNIX
+
+	wrtttr_(&lu, ec);
+
+#endif	/* unix */
+
+	}
+
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d687 1
+a687 1
+	return cgtet_(&tz, &y, &m, &d, &h, &mn, &s, &ms, tunit, ec, strlen(tunit));
+@

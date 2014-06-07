@@ -1,0 +1,560 @@
+head	1.12;
+access;
+symbols;
+locks
+	julian:1.12; strict;
+comment	@ * @;
+
+
+1.12
+date	91.05.20.19.50.40;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.05.20.19.13.32;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.05.15.00.42.37;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.05.12.01.43.14;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.05.06.13.04.15;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.29.10.46.03;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.24.09.37.23;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.20.22.50.54;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.20.21.45.38;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.20.19.31.11;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.20.19.09.28;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_log_init.c.
+@
+
+
+1.12
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <varargs.h>
+#include <sys/stat.h>
+#include <ctype.h>
+
+
+/****************************************************************************
+Module: GS_LOG_INIT
+
+Description:
+	This routine initializes the error logging system. A error log file
+	is created if it does not already exist.  The location of the error
+	log varies depending on environment.  The default place is in
+	GSHOME/gserrors.log.  If that is not possible, the error log is
+	created in the /tmp directory as /tmp/err_<PID>.log
+
+
+Usage:
+	status = gs_log_init();
+	gs_log(fmt,args);
+	
+	Example:
+		gs_log("Error: %s  status=%d",msg,status);
+	
+Parameters:
+	INPUT:
+		None.
+	OUTPUT:
+		None.
+
+Status:
+ 	The returned value will be GS_SUCCESS or GS_FAIL depending on the
+	disposition upen completion.
+
+Author:
+	Julian Carlisle 	 Wed Apr 17 05:22:31 PDT 1991
+*****************************************************************************/
+
+
+/* Initialize the error message/handling system...  */
+
+char   *gs_log_init(errfile)
+char   *errfile;
+{
+	register int i, status;
+	char    *cp;
+	static char gserrfile[256];
+	static int gs_log_initflag = FALSE;
+	FILE   *gserrfp;
+	int     gotname, debug_flag;
+
+ /*
+  * Since receiver is run as daemon, we don't have a tty.  Open an error log
+  * file in the GSHOME directory, name the error log using the client process
+  * PID
+  */
+	debug_flag = gs_chk_debug();
+
+	status = GS_SUCCESS;
+	gotname = TRUE;
+	if (errfile == (char *) 0) {
+		gotname = FALSE;
+	}
+	else {
+	/* Validate that it is a proper string and not an accident. */
+		for (i = 0; errfile[i] != '\0'; i++) {
+			if (!isprint(errfile[i]))
+				gotname = FALSE;
+		}
+	}
+
+	if (gs_log_initflag == TRUE) {
+		if (!gotname) {
+			return (gserrfile);
+		}
+	/* Open the file and write a header ... */
+		if ((gserrfp = fopen(errfile, "a+")) > (FILE *)0) {
+			fprintf(gserrfp, "\n-- New run Pid=%d --\n", getpid());
+			fclose(gserrfp);
+			strcpy(gserrfile, errfile);
+			status = GS_SUCCESS;
+		}
+		else {
+		/* Attempt to re-initialize with bad filename. */
+		/* Leave the previous filename intact & split  */
+			status = GS_FAIL;
+		}
+		return ((char *) (status == GS_SUCCESS) ? gserrfile : (char *) 0);
+	}
+	else {
+
+		cp = gs_logfile(NULL);
+		if (cp == NULL) {
+			sprintf(gserrfile,"/tmp/%s",GSLOGFILENAME);
+		}
+		else {
+			strcpy(gserrfile, cp);
+		}
+	/* Open the file and write a header ... */
+		if ((gserrfp = fopen(gserrfile, "a+")) > (FILE *)0) {
+			fprintf(gserrfp, "\n--- New run  Pid=%d ---\n", getpid());
+			fclose(gserrfp);
+			gs_log_initflag = TRUE;
+		}
+		else {
+			fprintf(stderr, "Error opening error file %s\n", gserrfile);
+			status = GS_FAIL;
+			gs_log_initflag = FALSE;
+		}
+	}
+	return ((status == GS_SUCCESS) ? gserrfile : (char *) 0);
+}
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d94 1
+a94 1
+			strcpy(gserrfile, "/tmp/gscm_errors.log");
+@
+
+
+1.10
+log
+@Update
+@
+text
+@d4 1
+@
+
+
+1.9
+log
+@Update
+@
+text
+@a3 1
+#include "systype.h"
+@
+
+
+1.8
+log
+@Update
+@
+text
+@d46 1
+a46 2
+	char    logdir[256], *cp;
+	char    text[256];
+a48 1
+	struct stat statbuf;
+d77 1
+a77 1
+		if ((gserrfp = fopen(errfile, "a+")) > 0) {
+d92 1
+a92 1
+		gs_logfile(&cp);
+d100 1
+a100 1
+		if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+@
+
+
+1.7
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d59 2
+a60 1
+	debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+@
+
+
+1.6
+log
+@.
+@
+text
+@d45 8
+a52 8
+    register int i, status;
+    char    logdir[256], *cp;
+    char    text[256];
+    static char gserrfile[256];
+    static int gs_log_initflag = FALSE;
+    struct stat statbuf;
+    FILE   *gserrfp;
+    int     gotname, debug_flag;
+d59 4
+a62 10
+    debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+    status = GS_SUCCESS;
+    gotname = TRUE;
+    if (errfile == (char *) 0) {
+	gotname = FALSE;
+    }
+    else {
+    /* Validate that it is a proper string and not an accident. */
+	for (i = 0; errfile[i] != '\0'; i++) {
+	    if (!isprint(errfile[i]))
+a64 13
+    }
+
+    if (gs_log_initflag == TRUE) {
+	if (!gotname) {
+	    return (gserrfile);
+	}
+    /* Open the file and write a header ... */
+	if ((gserrfp = fopen(errfile, "a+")) > 0) {
+	    fprintf(gserrfp, "\n-- New run Pid=%d --\n", getpid());
+	    fclose(gserrfp);
+	    strcpy(gserrfile, errfile);
+	    status = GS_SUCCESS;
+	}
+d66 5
+a70 3
+	/* Attempt to re-initialize with bad filename. */
+	/* Leave the previous filename intact & split  */
+	    status = GS_FAIL;
+a71 3
+	return ((char *) (status == GS_SUCCESS) ? gserrfile : (char *) 0);
+    }
+    else {
+d73 17
+a89 3
+	gs_logfile(&cp);
+	if (cp == NULL) {
+	    strcpy(gserrfile, "/tmp/gscm_errors.log");
+d92 19
+a110 1
+	    strcpy(gserrfile, cp);
+d112 1
+a112 13
+    /* Open the file and write a header ... */
+	if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+	    fprintf(gserrfp, "\n--- New run  Pid=%d ---\n", getpid());
+	    fclose(gserrfp);
+	    gs_log_initflag = TRUE;
+	}
+	else {
+	    fprintf(stderr, "Error opening error file %s\n", gserrfile);
+	    status = GS_FAIL;
+	    gs_log_initflag = FALSE;
+	}
+    }
+    return ((status == GS_SUCCESS) ? gserrfile : (char *) 0);
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d42 2
+a43 2
+char *gs_log_init(errfile)
+char *errfile;
+d45 1
+a45 1
+    register int  i,status;
+d47 2
+a48 2
+    char   text[256];
+    static char   gserrfile[256];
+d51 3
+a53 2
+    FILE  *gserrfp;
+    int gotname,debug_flag;
+d59 10
+a68 4
+    	debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+	status = GS_SUCCESS;
+	gotname = TRUE;
+	if (errfile == (char *)0) { 
+d71 13
+d85 3
+a87 5
+		/* Validate that it is a proper string and not an accident. */
+		for ( i=0; errfile[i] != '\0'; i++) {
+			if (!isprint(errfile[i]))
+				gotname = FALSE;
+		}
+d89 3
+d93 3
+a95 17
+        if (gs_log_initflag == TRUE) {
+		if (!gotname) {
+			return (gserrfile);
+		}
+		/* Open the file and write a header ... */
+		if ((gserrfp = fopen(errfile, "a+")) > 0) {
+			fprintf(gserrfp, "\n-- New run Pid=%d --\n", getpid());
+			fclose(gserrfp);
+			strcpy(gserrfile,errfile);
+			status = GS_SUCCESS;
+		}
+		else {
+			/* Attempt to re-initialize with bad filename. */
+			/* Leave the previous filename intact & split  */
+			status = GS_FAIL;
+		}				
+	return ((char *)(status == GS_SUCCESS) ? gserrfile : (char *)0);
+d98 15
+a112 21
+		
+		gs_logfile(&cp);
+		if (cp == NULL) {
+			strcpy(gserrfile,"/tmp/gscm_errors.log");
+		}
+		else {
+			strcpy(gserrfile,cp);
+		}
+				/* Open the file and write a header ... */
+		if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+		    fprintf(gserrfp, "\n--- New run  Pid=%d ---\n", getpid());
+		    fclose(gserrfp);
+		    gs_log_initflag = TRUE;
+		}
+		else {
+		    fprintf(stderr,"Error opening error file %s\n", gserrfile);
+		    status = GS_FAIL;
+		    gs_log_initflag = FALSE;
+		}
+	    }
+    return ((status == GS_SUCCESS) ? gserrfile : (char *)0);
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d58 1
+a58 1
+	debug_flag = FALSE;
+d78 1
+a78 2
+			fprintf(gserrfp, "\n--- New run  Pid=%d ---\n",
+			getpid());
+d92 3
+a94 6
+		gs_initconfig(logdir, NULL, &debug_flag);
+
+		/* Fall back on /tmp if none of the given */
+		/* error log directories are acceptable.  */
+		if (stat(logdir, &statbuf)) {
+		    strcpy(logdir, "/tmp");
+d96 2
+a97 9
+
+		sprintf(gserrfile, "%s/gscm_errors.log", logdir);
+		if (!stat(gserrfile, &statbuf)) {
+		    if (gs_faccess(gserrfile, "w",(char *)0) != GS_SUCCESS) {
+			sprintf(text,"%s/gscm_errors_%d.log",logdir,getpid());
+			strcpy(gserrfile, text);
+			status = GS_FAIL;
+			gs_log_initflag = FALSE;
+		    }
+d106 1
+a106 1
+		    printf("Error opening error file %s\n", gserrfile);
+d111 1
+a111 1
+    return ((char *)(status == GS_SUCCESS) ? gserrfile : (char *)0);
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@a86 3
+			if (isatty(stderr)) 
+				fprintf(stderr, 
+				  "Attempt to re-init logfile with bad filename");
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d87 3
+a89 1
+			gs_log("Attempt to re-init logfile with bad filename");
+d95 1
+a95 1
+
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@a38 3
+FILE *gserrfp = (FILE *) 0;
+char gserrfile[256];
+int gs_log_initflag = FALSE;
+d41 3
+a43 1
+int     gs_init_log()
+d45 1
+a45 3
+    char    buf[256];
+    int     len = 0;
+    int     status = GS_SUCCESS;
+d48 5
+a52 2
+    static struct stat statbuf;
+
+d58 5
+a62 3
+    if (gs_log_initflag != TRUE) {
+	if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	    strcpy(logdir, cp);
+d65 5
+a69 1
+	    strcpy(logdir, GSDEFAULTHOME);
+d72 19
+a90 4
+		    /* Fall back on /tmp if none of the given */
+		    /* error log directories are acceptable.  */
+	if (stat(logdir, &statbuf)) {
+	    strcpy(logdir, "/tmp");
+d92 1
+d94 28
+a121 6
+	sprintf(gserrfile, "%s/gscm_errors.log", logdir);
+	if (!stat(gserrfile, &statbuf)) {
+	    if (gs_faccess(gserrfile, "w", (char *) 0) != GS_SUCCESS) {
+		printf("Cannot write %s\n", gserrfile);
+		sprintf(text, "%s/gscm_errors_%d.log", logdir, getpid());
+		strcpy(gserrfile, text);
+d123 1
+a123 15
+	    else {
+		printf("%s exists and is writeable.\n", gserrfile);
+	    }
+	}
+	if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+	    fprintf(gserrfp, "\n--- New run  Pid=%d ---\n", getpid());
+	    fclose(gserrfp);
+	    gs_log_initflag = TRUE;
+	}
+	else {
+	    printf("Error opening error file %s\n", gserrfile);
+	    status = GS_FAIL;
+	}
+    }
+    return status;
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d39 3
+a41 3
+static FILE *gserrfp = (FILE *) 0;
+static char gserrfile[256];
+static int gs_log_initflag = FALSE;
+@

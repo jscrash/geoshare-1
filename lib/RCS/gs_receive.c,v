@@ -1,0 +1,730 @@
+head	1.19;
+access;
+symbols;
+locks
+	julian:1.19; strict;
+comment	@ * @;
+
+
+1.19
+date	2012.10.17.20.35.48;	author julian;	state Exp;
+branches;
+next	1.18;
+
+1.18
+date	91.05.20.04.27.22;	author julian;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	91.05.15.01.25.35;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.05.14.14.23.40;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.05.14.11.20.43;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.05.14.10.25.33;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.05.14.09.45.42;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.05.14.08.06.54;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.05.12.01.43.16;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.05.09.07.56.55;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.05.07.07.18.29;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.05.07.06.22.32;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.05.07.03.05.36;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.05.07.01.26.00;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.05.06.22.52.18;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.05.06.17.42.13;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.19.21.35.52;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.19.23.29;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_receive.c.
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@#include "gs.h"
+#define SYSV 1
+#include  <sys/types.h>
+#include  <string.h>
+#include  <sys/stat.h>
+#include  <sys/wait.h>
+#include  <sys/param.h>
+#include  <sys/ipc.h>
+#include  <sys/shm.h>
+#include  <signal.h>
+#include  <errno.h>
+#include "math.h"
+
+#ifndef SYSV
+#ifdef SIGTSTP		     /* BSD */
+#ifndef BSD
+#define BSD 1
+#endif
+#include  <sys/file.h>
+#include  <sys/ioctl.h>
+#endif			     /* SIGTSTP (BSD) */
+#else
+#ifdef BSD
+#undef BSD
+#endif			     /* ! SYSV */
+#endif			     /* ! SYSV */
+
+#include <stdarg.h>
+
+extern char *malloc();
+
+/****************************************************************************
+Module: GS_RECEIVE
+
+Description:
+        Receive a transfer control block that contains  either  a
+transfer structure containing data or an executive structure con-
+taining a protocol request.
+
+Usage:
+	status = gs_receive(handle, tcb);
+
+Parameters:
+	INPUT:
+		GSHandle_t handle	- Connection handle.
+		GSTCB_t *tcb		- Pointer to data tcb received.
+
+	OUTPUT:
+		Status of receive operation.
+
+Status:
+
+	This routine returns GS_SUCCESS upon normal successful completion.
+	If an error occurrs, one of the following codes is returned:
+
+	GSERR_MSGTYPE        - Unknown message type.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+*****************************************************************************/
+
+static int rec_timeout = FALSE;
+
+static void gsr_alrm()
+{
+	rec_timeout = TRUE;
+}
+
+static char *pooladdr = NULL;
+static int poolid = 0;
+
+
+int     gs_receive(h, tcb)
+GSHandle_t *h;
+GSTCB_t **tcb;
+{
+	int     done = FALSE;
+	int     itr = 0;
+	int     rstatus,status = GS_SUCCESS;
+	GSMessage_t rmsg;
+	datamsg *dp;
+	ptrmsg *pp;
+	statusmsg *sp;
+	int id;
+	char *cp;
+	struct stat statbuf;
+
+	done = FALSE;
+	rstatus = GS_SUCCESS;
+	errno = 0;
+	itr = 0;
+	rec_timeout = FALSE;
+	alarm(300);
+	signal(SIGALRM, gsr_alrm);
+	signal(SIGHUP, gsr_alrm);
+
+	while (!done) {
+		itr++;
+		do {
+			errno = 0;
+			if (rec_timeout == TRUE) {
+				gs_log("rec: timeout.");
+				done = TRUE;
+				break;
+			}
+			alarm(300);
+			signal(SIGALRM, gsr_alrm);
+			gs_semP(h->slot->cmsem);
+			status = errno;
+			if (status == 0) {
+				break;
+			}
+			else if (status == EINTR) {
+				continue;
+			}
+			else {
+				gs_log("rec:Sem error while waiting:%d", status);
+				done = TRUE;
+				break;
+			}
+		} while (1);
+
+		if (done) {
+			do {
+				sleep(0);
+				errno = 0;
+				gs_semV(h->slot->msgsem);
+			} while (errno == EINTR);
+
+			sleep(0);
+			break;
+		}
+		sp = (statusmsg *)&rmsg.MsgBuf[0];
+		sp->buf.uibuf[0] = GS_SUCCESS;
+		rmsg.MsgType = Status;
+		rmsg.MsgLen = 1;
+
+		dp = (datamsg *)&h->slot->msg.MsgBuf[0];	
+
+		switch(h->slot->msg.MsgType) {
+		case Terminate:
+			gs_log("rec:Terminate Msg received.");
+			done = 1;
+			rec_timeout = 1;
+			sp = (statusmsg *)&h->slot->msg.MsgBuf[0];
+			h->slot->msg.MsgType = Status;
+			h->slot->msg.MsgLen = sizeof status;
+			sp->buf.uibuf[0] = status;
+			*tcb = (GSTCB_t *)0;
+			rstatus = GS_TERMINATE;
+			sleep(0);
+			if (! stat(h->key->str,&statbuf)) {
+				unlink(h->key->str);
+			}
+			break;
+
+		case Data:
+			switch(dp->class) {
+			case String:
+				dp->buf.cbuf[h->slot->msg.MsgLen] = '\0';
+				if (h->slot->msg.MsgLen > 0) {
+					gs_log("rec: Message: %s", dp->buf.cbuf);
+				}
+				else {
+					gs_log("rec: MsgLen: %u", h->slot->msg.MsgLen);
+					sp = (statusmsg *)&h->slot->msg.MsgBuf[0];
+					h->slot->msg.MsgType = Status;
+					h->slot->msg.MsgLen = sizeof status;
+					sp->buf.uibuf[0] = status;
+				}	
+				break;
+
+			case SharedPointer:
+				pp = (ptrmsg *)&h->slot->msg.MsgBuf[0];	
+				errno = 0;
+				id = shmget(pp->key,pp->size,0);
+				if (id > 0) {
+					status = rstatus = GS_SUCCESS;
+				}
+				else {
+					gs_log("rec: Error getting pool memory");
+					status = rstatus = GS_FAIL;
+					break;
+				}
+				if (status == GS_SUCCESS && poolid != id) {
+					cp = (char *)shmat(id,pp->address,SHM_RDONLY);
+					if (cp > (char *)0) {
+					pooladdr =cp;
+					}
+					else {
+						gs_log("rec: Error attaching shared memory.");
+						status = rstatus = GS_FAIL;
+						break;
+					}
+				}
+				poolid = id;
+
+				*tcb = (GSTCB_t *)pp->buf.uibuf[0];	
+				done = TRUE;
+				status = rstatus = GS_SUCCESS;
+				break;
+
+			case VectorStart:
+				break;
+			case VectorContinue:
+				break;
+			case VectorEnd:
+				break;
+			case Pointer:
+				break;
+			}
+			break;
+
+		default:
+			gs_log("rec: MsgType: %u", h->slot->msg.MsgType);
+			sp = (statusmsg *)&h->slot->msg.MsgBuf[0];
+			h->slot->msg.MsgType = Status;
+			h->slot->msg.MsgLen = sizeof status;
+			sp->buf.uibuf[0] = status;
+			rstatus = GSERR_MSGTYPE;
+		}
+
+		do {
+			errno = 0;
+			gs_semV(h->slot->msgsem);
+			status = errno;
+			if (status == EINVAL) {
+				done = TRUE;
+				status  = GS_FAIL;	
+				break;
+			}
+			if (status != 0)
+				gs_log("rec: error %d while signalling msgsem", errno);
+		} while (status == EINTR);
+		sleep(0);
+	}
+	return rstatus;
+}
+@
+
+
+1.18
+log
+@Update
+@
+text
+@d28 1
+a28 1
+#include <varargs.h>
+@
+
+
+1.17
+log
+@Update
+@
+text
+@a126 1
+		gs_log("rec:itr= %d", itr);
+a192 2
+					gs_log("rec: attached pool to %lu, wanted %lu",
+							cp,pp->address);
+@
+
+
+1.16
+log
+@Update
+@
+text
+@a203 1
+				pooladdr = cp;
+d236 1
+a236 1
+				status  == GS_FAIL;	
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d73 4
+d90 1
+d157 3
+d180 1
+d190 16
+a205 4
+				cp = (char *)shmat(id,pp->address,SHM_RDONLY);
+				if (cp > (char *)0) {
+					gs_log("rec: attached pool to %lu wanted %lu",
+						cp,pp->address);
+a208 5
+				}
+				else {
+					gs_log("rec: Cannot attach pool. id=%u cp=%u",id,cp);
+					status = rstatus = GS_FAIL;
+				}
+d210 1
+d235 5
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d182 1
+a182 1
+				if (cp > 0) {
+d193 8
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d75 1
+a75 1
+GSTCB_t *tcb;
+d79 1
+a79 1
+	int     status = GS_SUCCESS;
+d87 2
+a88 1
+
+a90 2
+	gs_log("rec: cmsem: %d msgsem: %d locksem: %d",
+		h->slot->cmsem, h->slot->msgsem, h->slot->locksem);
+d149 2
+a150 1
+			gs_semV(h->slot->msgsem);
+d174 1
+a174 1
+					gs_log("rec: got pool  id=%u",id);
+d178 1
+a178 1
+					status = GS_FAIL;
+d185 3
+d191 1
+d203 1
+a204 1
+		if(done) break;
+d215 1
+a215 1
+	return status;
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d82 1
+d84 2
+d87 1
+d171 18
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d81 2
+d130 4
+d135 29
+a163 15
+		if (h->slot->msg.MsgLen >= 0 &&
+			(h->slot->msg.MsgType == Data || h->slot->msg.MsgType == Terminate) &&
+			h->slot->msg.MsgLen <= GSMAXMESSAGE) {
+			rmsg.MsgType = Status;
+			rmsg.MsgLen = 1;
+			rmsg.MsgBuf[0] = 0;
+			if (h->slot->msg.MsgType == Terminate) {
+				gs_log("rec:Terminate Msg received.");
+				done = 1;
+				rec_timeout = 1;
+				h->slot->msg.MsgType = Status;
+				h->slot->msg.MsgLen = sizeof status;
+				h->slot->msg.MsgBuf[0] = GS_SUCCESS;
+				gs_semV(h->slot->msgsem);
+				sleep(0);
+a164 6
+			}
+			if (h->slot->msg.MsgLen > 0) {
+				h->slot->msg.MsgBuf[h->slot->msg.MsgLen] = '\0';
+				gs_log("rec: Message: %s", h->slot->msg.MsgBuf);
+			}
+			else {
+d166 2
+a167 3
+				h->slot->msg.MsgType = Status;
+				h->slot->msg.MsgLen = sizeof status;
+				h->slot->msg.MsgBuf[0] = status;
+d169 1
+d171 6
+d178 1
+a189 1
+
+@
+
+
+1.10
+log
+@Update
+@
+text
+@a77 1
+	char    text[GSMAXMESSAGE];
+@
+
+
+1.9
+log
+@Update
+@
+text
+@d65 1
+a65 1
+	
+d70 1
+a70 1
+rec_timeout = TRUE;
+d86 1
+a86 1
+		h->slot->cmsem,h->slot->msgsem,h->slot->locksem);
+d88 1
+a88 1
+			alarm(300);
+d118 1
+a118 1
+		gs_log("rec:itr= %d",itr);
+d131 1
+a131 1
+			(h->slot->msg.MsgType==Data || h->slot->msg.MsgType==Terminate) &&
+d136 1
+a136 1
+			if ( h->slot->msg.MsgType == Terminate) {
+d147 1
+a147 1
+			if ( h->slot->msg.MsgLen > 0 )  {
+d149 1
+a149 1
+				gs_log("rec: Message: %s",h->slot->msg.MsgBuf);
+d157 1
+a157 1
+		
+d164 2
+a165 2
+			if (status != 0 )
+				gs_log("rec: error %d while signalling msgsem",errno);
+d169 1
+a169 1
+return status;
+a171 1
+
+@
+
+
+1.8
+log
+@Update
+@
+text
+@a139 3
+				sleep(0);
+				gs_semV(h->slot->msgsem);
+				sleep(0);
+d143 3
+a145 1
+				continue;
+d157 1
+a157 1
+			continue;
+@
+
+
+1.7
+log
+@Update
+@
+text
+@d103 3
+a105 2
+			status = gs_sem_wait(h->slot->cmsem);
+			if (status == GS_SUCCESS) {
+d123 1
+a123 1
+				gs_sem_signal(h->slot->msgsem);
+d141 1
+a141 1
+				gs_sem_signal(h->slot->msgsem);
+d163 3
+a165 4
+			status = gs_sem_signal(h->slot->msgsem);
+			if (status == GS_SUCCESS) 
+				break;
+			if (status != EINTR )
+@
+
+
+1.6
+log
+@Update
+@
+text
+@d142 3
+d157 1
+@
+
+
+1.5
+log
+@Update
+@
+text
+@d91 1
+d158 6
+a163 2
+			gs_sem_signal(h->slot->msgsem);
+		} while (errno == EINTR);
+@
+
+
+1.4
+log
+@Update
+@
+text
+@d85 2
+d88 1
+d100 1
+a100 1
+			alarm(30);
+d116 1
+d129 1
+a129 1
+			h->slot->msg.MsgType == Data &&
+d134 9
+@
+
+
+1.3
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d2 11
+d14 18
+d65 2
+d68 7
+a74 2
+int     gs_receive(handle, tcb)
+GSHandle_t handle;
+d77 5
+d83 67
+a149 1
+	return GS_SUCCESS;
+d151 1
+@
+
+
+1.2
+log
+@.
+@
+text
+@d42 1
+a42 1
+    return GS_SUCCESS;
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d29 2
+a30 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d37 1
+a37 1
+int gs_receive(handle,tcb)
+d42 1
+a42 1
+return GS_SUCCESS;
+a43 1
+
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d3 34
+@

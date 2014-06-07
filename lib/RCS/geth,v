@@ -1,0 +1,290 @@
+head	1.3;
+access;
+symbols;
+locks
+	julian:1.3; strict;
+comment	@# @;
+
+
+1.3
+date	91.04.19.11.44.34;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.19.11.39.06;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.19.11.05.07;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.10.25.42;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of geth.
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@#!/bin/csh -f
+# GETH:
+#     Get .h files around in the surrounding directorys 
+#     and check them in locally.
+# Julian      Fri Apr 19 02:44:56 PDT 1991
+#
+set here =(`pwd`)
+#
+#validate env.
+set av=($argv)
+set ac=$#argv
+alias a alias
+a  checkin   'ci -f -l \!* < `(echo "Moved $i to $here/$name.";echo ".")`'
+a  checkinq  'ci -f -l -q \!* < `(echo "Moved $i to $here/$name.";echo ".")`'
+unalias a
+set path=($path /usr/etc /usr/ucb /etc /usr/local/bin /usr/local/bin/$ARCH)
+#
+# Check path for ci & co rcs tools...
+#
+set warch = (`which arch`)
+if ($#warch > 1 ) then
+	if (-e /bin/arch ) then
+		alias arch /bin/arch
+	else
+		if (-e /bin/machine) then
+			alias arch /bin/machine
+		else
+			echo "arch command not defined.."
+			exit 1
+		endif
+	endif
+else
+	alias arch $warch
+endif
+if (! $?ARCH ) then
+		setenv ARCH "`arch`"
+endif
+
+switch ($ARCH)
+    case sun*:
+    case SUN*:
+        setenv ARCH "`arch`"
+    	breaksw
+
+    case mip*:
+    case MIP*:
+    case ultr*:
+    case ULTR*:
+	setenv ARCH "`/bin/machine`"
+	breaksw
+
+    default:
+
+    	echo "ARCH set to $ARCH"
+	breaksw
+endsw
+endif
+exit
+set path=($path /usr/local/bin/$ARCH)
+set wci = (`which ci`)
+if ( $#wci > 1 ) then
+    echo $0 "Cannot locate ci (rcs checkin) program."
+    exit 1
+endif
+set wco = (`which co`)
+if ( $#wco > 1 ) then
+    echo $0 "Cannot locate co (rcs checkout) program."
+    exit 1
+endif
+#
+#got rcs tools.... proceed
+#
+#Create RCS directory if not found
+if ( ! -d ./RCS ) then
+    mkdir RCS
+    if ( $status ) then
+        echo $0 "Error creating RCS directory."
+        exit 1
+    endif
+endif
+#
+#work lists..
+set clist=(`/bin/ls -1 ../*/*.c | sort`)
+set hlist=(`/bin/ls -1 ../*/*.h | sort`)
+#
+#Process files...
+#
+    foreach i ( $hlist)
+        set name=`basename $i`
+	echo " "
+	echo "**  $i  **"
+        if ( -e ./$name ) then
+#
+# Checkin any existing version in the current directory 
+# before fetching the new version
+#
+            if (-e ./RCS/$name,v ) then
+                echo -n "    Checking in local $name..."
+                chin $name &&  echo " ok."
+            else
+#
+# If cur version not under RCS, create new element.
+#
+                reserve $name >/dev/null && echo "    $name reserved."
+            endif
+#
+# Copy file to curr dir. 
+#
+            cp $i ./$name  &&  echo "    $i -> ./$name"
+
+#
+# Put it under RCS. leave it writeable
+#
+            echo -n "    Checking in $name..."
+            ci -f -l $name <`(echo "    Moved $i to $here/$name.";echo ".")` \
+		>/dev/null  && echo "    ci -f -l $name </dev/null"
+        else
+            cp $i ./$name  &&  echo "    $i -> $here/$name"
+            reserve $name >/dev/null && echo "    $name reserved."
+        endif
+    end
+#
+#
+exit 0
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d16 1
+d20 1
+a20 1
+warch = (`which arch`)
+d57 1
+a57 2
+
+echo $ARCH
+d59 1
+a59 2
+endif
+set path=($path /usr/etc /usr/ucb /etc /usr/local/bin /usr/local/bin/$ARCH)
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d12 4
+a15 1
+
+d19 42
+d89 1
+a89 1
+    foreach i ( $clist $hlist)
+d91 2
+d99 2
+a100 5
+                echo "Local version of $name found."
+                echo -n "    Checking in $name..." && 
+            ci -l $name < \
+		`echo "    Moved $i to $here/$name.";echo "."` >/dev/null && \
+                    echo " ok."
+d105 1
+a105 2
+                echo "New RCS element $name being created in $here/RCS" && \
+                    reserve $name
+d110 1
+a110 1
+            cp $i ./$name  &&  echo "    copied     $i -> ./$name"
+d115 3
+a117 2
+            ci -l $name <`echo "    Moved $i to $here/$name.";echo "."` && \
+                echo "    ci -f -l $name </dev/null"
+d119 2
+a120 3
+            cp $i ./$name  &&  echo "    copied     $i -> $here/$name"
+            echo "New RCS element $name being created in $here/RCS" && \
+                reserve $name
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d2 5
+a6 3
+# get c files around this dir and check them in locally.
+# Julian Fri Apr 19 02:44:56 PDT 1991
+
+d8 4
+d13 3
+a15 1
+#validate env.
+d18 2
+a19 2
+	echo $0 "Cannot locate ci (rcs checkin) program."
+	exit 1
+d23 2
+a24 2
+	echo $0 "Cannot locate co (rcs checkout) program."
+	exit 1
+d26 1
+a26 1
+
+d28 1
+a28 1
+
+d31 5
+a35 5
+	mkdir RCS
+	if ( $status ) then
+		echo $0 "Error creating RCS directory."
+		exit 1
+	endif
+d37 1
+a37 1
+
+d41 1
+a41 1
+
+d43 25
+d69 13
+a81 20
+	foreach i ($hlist)
+		set name=`basename $i`
+		if ( -e ./$name ) then
+			if (-e ./RCS/$name,v ) then
+				echo "ci -f -l $name </dev/null"
+				ci -f -l $name </dev/null
+			else
+				reserve $name
+			endif
+
+			cp $i ./$name && \
+				echo "cp $i ./$name"
+			ci -f -l $name </dev/null && \
+				echo "ci -f -l $name </dev/null"
+
+		else
+			cp $i ./$name
+			reserve $name
+		endif
+	end
+@

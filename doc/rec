@@ -1,0 +1,24 @@
+Data Receivers
+-------------
+
+For each application that is to receive data in a GeoShare system
+there must exist a data receiver program.  These programs are
+supplied by the parties who wish to participate in GeoShare
+A data reciever program is started on demand by the connection 
+manager using a standardized method for supplying arguments known 
+as 'context management'.  
+
+The arguments that a data receiver needs for initialization are
+supplied by the connection manager which looks up the data receiver
+program in its configuration file.  The configuration file contains
+the argument list in the form:
+
+	"User Prompt","Program argument keyword","type"
+
+for instance:
+	"Project name?","-project","string"
+
+The user interface on the client side is sent the prompt and the
+response is sent back to the CM and appended to the program argument
+keyword and finally used in a command line invocation for starting
+the data receiver process.

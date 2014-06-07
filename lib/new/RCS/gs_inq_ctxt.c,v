@@ -1,0 +1,862 @@
+head     1.18;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.18; strict;
+comment  @ * @;
+
+
+1.18
+date     91.05.20.04.27.19;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.20.03.30.13;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.14.12.39.09;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.12.01.43.10;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.09.07.56.50;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.09.04.00.39;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.05.14.23.52;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.05.11.30.05;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.03.12.03.17;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.03.11.14.34;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.03.10.57.08;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.30.12.11.55;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.30.09.48.36;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.30.08.48.33;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.29.10.47.18;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.29.03.52.31;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.19.45.58;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_inq_ctxt.c.
+@
+
+
+1.18
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <string.h>
+#include "errno.h"
+
+extern int errno;
+
+/****************************************************************************
+Module: GS_INQ_CTXT
+
+Description:
+	Get the list of arguments required for a given receiver service.
+	The returned data structure contains the following for each required
+	parameter:
+		
+	    * A string containing the command line text of the parameter,
+	      i.e. '-project'
+
+	    * A string containing the prompt for the user-interface that
+	      collects the value portion of this parameter.
+
+	    * A string that identifies the type of value expected for this
+	      parameter. I.e. CHAR, INTEGER etc.
+
+Usage:
+	char *dest = "finder";
+	GSContextRequirements_t *context;
+
+	status = gs_inquire_context(dest, context)
+		
+
+Parameters:
+	INPUT:
+		char *receiver_name	- Receiver service name
+
+	OUTPUT:
+		GSContextRequirements_t *context  - Required parameters.
+
+
+Status:
+	On successful completion of this request, GS_SUCCESS is returned.
+	If an error is encountered, one of the following codes may be
+	returned:
+
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BADCONTEXT - The context args given to the
+			     - receiver are bad or unsupported.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Tue Apr 30 01:30:47 PDT 1991
+*****************************************************************************/
+
+
+struct {
+	int     type;
+	char   *code;
+}       GSArgTypes[] = {
+	1, "INTEGER", 2, "CHAR", 3, "FLOAT", 4, "UINT", 0, NULL
+};
+
+int     gs_inquire_context(dest, context_req,count)
+char   *dest;
+GSContextRequirements_t ***context_req;
+unsigned int *count;
+{
+	int     status = GS_SUCCESS;
+	int     i, len;
+	int     j, k;
+	char   *cp = NULL;
+	char  **tcp = (char **) 0;
+	char   *pitem;
+	GSHandle_t *h = (GSHandle_t *) 0;
+	GSMessage_t msg, reply;
+	GSContextRequirements_t **crp;
+
+	*count = 0;
+	h = gs_get_handle();
+	if (h == (GSHandle_t *) 0) {
+		gs_log("gs_inq_context: null handle from gs_get_handle\n");
+		return (GSERR_CM_NOTINIT);
+	}
+
+#if 0
+	if (h->debug) {
+		gs_sem_dump(" (inq ctxt) locksem", h->cmslot->locksem);
+		gs_sem_dump(" (inq ctxt) msgsem", h->cmslot->msgsem);
+		gs_sem_dump(" (inq ctxt) cmsem", h->cmslot->cmsem);
+	}
+#endif
+
+	msg.MsgType = Executive;
+	msg.MsgBuf[0] = InqReceiverArgs;
+	msg.MsgLen = 1;
+	strcpy((char *) &msg.MsgBuf[1], dest);
+	msg.MsgLen += strlen(dest);
+
+	reply.MsgType = 0;
+	reply.MsgLen = 0;
+	reply.MsgBuf[0] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+	status = gs_talk(h, h->cmslot, &msg, &reply);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_inq_context: talk status=%u - detaching slot\n", status);
+		gs_detach_slot(h->cmslot);
+		h->init = FALSE;
+		*count = 0;
+		return (status);
+	}
+
+
+ /*
+  * handle the various possible replies from the Connection Manager
+  */
+	switch (reply.MsgType) {
+	case Status:
+		status = (int) reply.MsgBuf[0];
+		if (h->debug)
+			gs_log("gs_inq_context: Reply is Status %d\n", status);
+		break;
+
+	case Data:
+
+		if (reply.MsgLen <= 1) {
+			if (h->debug)
+				gs_log("gs_inq_context: No entries returned.");
+			status = GS_FAIL;
+			break;
+		}
+
+
+		cp = (char *) &reply.MsgBuf[0];
+		cp = strtok(cp, "|");
+		for (i = 0; cp != NULL; i++, cp = strtok(NULL, "|")) {
+			gs_tcp_append(&tcp, cp);
+		}
+
+	/* create and fill a vector of GSContextRequirement_t structs */
+		crp = (GSContextRequirements_t **)
+			malloc(sizeof(GSContextRequirements_t *) * i + 1);
+
+		status = GS_SUCCESS;
+
+		for (j = 0; j < i; j++) {
+			crp[j] = (GSContextRequirements_t *)
+				malloc(sizeof(GSContextRequirements_t) + 1);
+			pitem = strtok(tcp[j], ",");
+			gs_mk_string(pitem, &crp[j]->prompt);
+			pitem = strtok(NULL, ",");
+			if (pitem)
+				gs_mk_string(pitem, &crp[j]->cmdline_tag);
+			pitem = strtok(NULL, ",");
+			if (pitem) {
+				len = strlen(pitem);
+				for (k = 0; GSArgTypes[k].code; k++) {
+					if (strncmp(GSArgTypes[k].code, pitem, len) == 0) {
+						crp[j]->type = GSArgTypes[k].type;
+						break;
+					}
+				}
+				if (crp[j]->type == 0)
+					status = GSERR_SVC_BADCONTEXT;
+			}
+
+		}
+		crp[j] = (GSContextRequirements_t *) 0;
+		*context_req = crp;
+		*count = j;
+		break;
+
+	default:
+		if (h->debug)
+			gs_log("gs_inq_context: Msg Type:%d  Len:%d .\n",
+				reply.MsgType, reply.MsgLen);
+		status = GSERR_MSGTYPE;
+
+		*context_req = (GSContextRequirements_t **) 0;
+		*count = 0;
+		break;
+	}
+
+
+ /*
+  * Free up the temporary connection context we have established.
+  */
+	if (gs_detach_slot(h->cmslot) == GS_SUCCESS)
+		h->init = FALSE;
+	else
+		gs_log("gs_inquire_context: error detaching cmslot\n");
+
+	return (status);
+}
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d182 1
+a182 1
+			printf("gs_inq_context: Msg Type:%d  Len:%d .\n",
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d88 2
+d95 1
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d67 1
+a67 1
+int     gs_inquire_context(dest, context_req)
+d70 1
+d82 1
+a82 1
+
+d85 2
+a86 2
+		fprintf(stderr, "gs_inq_context: null handle from gs_get_handle\n");
+		return (GS_FAIL);
+d110 1
+a110 1
+			printf("gs_inq_context: talk status=%d - detaching slot\n", status);
+d113 1
+a128 2
+		if (h->debug)
+			printf("gs_inq_context: Message is %s\n", reply.MsgBuf);
+d148 2
+a163 1
+						status = GS_SUCCESS;
+d168 1
+a168 1
+					status = GS_FAIL;
+d174 1
+d181 1
+a181 1
+		status = GS_FAIL;
+d184 1
+a184 1
+
+d195 1
+a195 1
+		printf("inq ctxt: error detaching slot\n");
+@
+
+
+1.14
+log
+@Update
+@
+text
+@a73 3
+	char    item[512], entry[512];
+	char    t1 = '\0';
+	char    t2 = '\0';
+d76 1
+a76 1
+	char   *pitem, *pentry;
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d91 3
+a93 3
+		gs_sem_dump(" (inq ctxt) locksem",h->cmslot->locksem);
+		gs_sem_dump(" (inq ctxt) msgsem",h->cmslot->msgsem);
+		gs_sem_dump(" (inq ctxt) cmsem",h->cmslot->cmsem);
+d109 1
+a109 1
+	status = gs_talk(h, h->cmslot,&msg, &reply);
+d112 1
+a112 1
+			printf("gs_inq_context: talk status=%d - detaching slot\n",status);
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d90 5
+d112 1
+a112 1
+			printf("gs_inq_context: talk status = %d\n", status);
+d195 2
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d85 1
+a85 1
+	h = gs_def_handle();
+d87 1
+a87 1
+		fprintf(stderr, "gs_inq_context: null handle from gs_def_handle\n");
+@
+
+
+1.10
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d104 1
+a104 1
+	status = gs_talk(h, &msg, &reply);
+d108 1
+a108 1
+		gs_detach_slot(h->slot);
+d188 1
+a188 1
+	if (gs_detach_slot(h->slot) == GS_SUCCESS)
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d61 2
+a62 2
+    int     type;
+    char   *code;
+d64 1
+a64 1
+    1, "INTEGER", 2, "CHAR", 3, "FLOAT", 4, "UINT", 0, NULL
+d71 12
+a82 12
+    int     status = GS_SUCCESS;
+    int     i, len;
+    int     j, k;
+    char    item[512], entry[512];
+    char    t1 = '\0';
+    char    t2 = '\0';
+    char   *cp = NULL;
+    char  **tcp = (char **) 0;
+    char   *pitem, *pentry;
+    GSHandle_t *h = (GSHandle_t *) 0;
+    GSMessage_t msg, reply;
+    GSContextRequirements_t **crp;
+d85 5
+a89 5
+    h = gs_def_handle();
+    if (h == (GSHandle_t *) 0) {
+	fprintf(stderr, "gs_inq_context: null handle from gs_def_handle\n");
+	return (GS_FAIL);
+    }
+d91 5
+a95 5
+    msg.MsgType = Executive;
+    msg.MsgBuf[0] = InqReceiverArgs;
+    msg.MsgLen = 1;
+    strcpy((char *) &msg.MsgBuf[1], dest);
+    msg.MsgLen += strlen(dest);
+d97 3
+a99 3
+    reply.MsgType = 0;
+    reply.MsgLen = 0;
+    reply.MsgBuf[0] = '\0';
+d104 8
+a111 8
+    status = gs_talk(h, &msg, &reply);
+    if (status != GS_SUCCESS) {
+	if (h->debug)
+	    printf("gs_inq_context: talk status = %d\n", status);
+	gs_detach_slot(h->slot);
+	h->init = FALSE;
+	return (status);
+    }
+d117 6
+a122 6
+    switch (reply.MsgType) {
+    case Status:
+	status = (int) reply.MsgBuf[0];
+	if (h->debug)
+	    gs_log("gs_inq_context: Reply is Status %d\n", status);
+	break;
+d124 3
+a126 3
+    case Data:
+	if (h->debug)
+	    printf("gs_inq_context: Message is %s\n", reply.MsgBuf);
+d128 6
+a133 6
+	if (reply.MsgLen <= 1) {
+	    if (h->debug)
+		gs_log("gs_inq_context: No entries returned.");
+	    status = GS_FAIL;
+	    break;
+	}
+d136 5
+a140 5
+	cp = (char *) &reply.MsgBuf[0];
+	cp = strtok(cp, "|");
+	for (i = 0; cp != NULL; i++, cp = strtok(NULL, "|")) {
+	    gs_tcp_append(&tcp, cp);
+	}
+d142 3
+a144 3
+    /* create and fill a vector of GSContextRequirement_t structs */
+	crp = (GSContextRequirements_t **)
+	    malloc(sizeof(GSContextRequirements_t *) * i + 1);
+d146 22
+a167 17
+	for (j = 0; j < i; j++) {
+	    crp[j] = (GSContextRequirements_t *)
+		malloc(sizeof(GSContextRequirements_t) + 1);
+	    pitem = strtok(tcp[j], ",");
+	    gs_mk_string(pitem, &crp[j]->prompt);
+	    pitem = strtok(NULL, ",");
+	    if (pitem)
+		gs_mk_string(pitem, &crp[j]->cmdline_tag);
+	    pitem = strtok(NULL, ",");
+	    if (pitem) {
+		len = strlen(pitem);
+		for (k = 0; GSArgTypes[k].code; k++) {
+		    if (strncmp(GSArgTypes[k].code, pitem, len) == 0) {
+			crp[j]->type = GSArgTypes[k].type;
+			status = GS_SUCCESS;
+			break;
+		    }
+d169 3
+a171 3
+		if (crp[j]->type == 0)
+		    status = GS_FAIL;
+	    }
+d173 5
+a177 4
+	}
+	crp[j] = (GSContextRequirements_t *) 0;
+	*context_req = crp;
+	break;
+d179 1
+a179 7
+    default:
+	if (h->debug)
+	    printf("gs_inq_context: Msg Type:%d  Len:%d .\n",
+		reply.MsgType, reply.MsgLen);
+	status = GS_FAIL;
+	
+	*context_req = (GSContextRequirements_t **) 0;
+d181 2
+a182 2
+	break;
+    }
+d188 2
+a189 2
+    if (gs_detach_slot(h->slot) == GS_SUCCESS)
+	h->init = FALSE;
+d191 1
+a191 1
+    return (status);
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@a148 1
+	    printf("entry %d:\n", j);
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d69 1
+a69 1
+GSContextRequirements_t **context_req;
+d171 1
+d179 3
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d19 1
+a19 1
+	      collects the value portion of this parameter.  
+d48 2
+a49 2
+	GSERR_SVC_BADCONTEXT - The context args given to the 
+			     - receiver are bad or unsupported. 
+d51 2
+a52 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d59 8
+d69 1
+a69 1
+GSContextRequirements_t *context_req;
+d72 9
+a80 9
+    int i;
+    int j,k;
+    char  item[512],entry[512];
+    char  t1 = '\0';
+    char  t2 = '\0';
+    char *cp = NULL;
+    char **tcp = (char **)0;
+    char  *pitem,*pentry;
+    GSHandle_t *h = (GSHandle_t *)0;
+d82 1
+d84 1
+d87 1
+a87 1
+	fprintf(stderr,"gs_inq_context: null handle from gs_def_handle\n");
+d94 1
+a94 1
+    strcpy((char *)&msg.MsgBuf[1],dest);
+d115 1
+a115 1
+  *handle the various possible replies from the Connection Manager 
+d129 4
+a132 4
+		if (h->debug)
+			gs_log("gs_inq_context: No entries returned.");
+		status = GS_FAIL;
+		break;
+d135 1
+d137 3
+a139 3
+	cp = strtok(cp,"|");	
+	for (i=0; cp != NULL; i++,cp=strtok(NULL,"|")) {
+		gs_tcp_append(&tcp,cp);	
+d141 23
+a163 6
+	for (j=0; j < i; j++) {
+		printf("entry %d:\n",j);
+		pitem=strtok(tcp[j],",");
+		while(pitem) {
+			printf("\t%s\n",pitem);
+			pitem=strtok(NULL,",");
+d165 4
+d170 1
+a170 1
+	status = GS_SUCCESS;
+d186 1
+a186 1
+	    h->init = FALSE;
+a189 2
+
+
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@a63 2
+    GSHandle_t *h = (GSHandle_t *)0;
+    GSMessage_t msg, reply;
+d65 4
+d71 3
+d125 12
+a136 1
+	for (i =0; cp != NULL; i++,cp=strtok(NULL,",")) {
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d72 1
+a72 1
+	fprintf(stderr,"gs_inq_dest: null handle from gs_def_handle\n");
+d79 2
+d92 1
+a92 1
+	    printf("gs_inq_dest: talk status = %d\n", status);
+d106 1
+a106 1
+	    gs_log("gs_inq_dest: Reply is Status %d\n", status);
+d111 1
+a111 1
+	    printf("gs_inq_dest: Message is %s\n", reply.MsgBuf);
+d115 1
+a115 1
+			gs_log("gs_inq_dest: No entries returned.");
+d119 3
+a121 4
+	cp = strtok(reply.MsgBuf," ");
+	for (i=0; cp != NULL;  cp = strtok(NULL," "), i++) {
+		gs_tcp_append(&tcp, cp);			
+	}	
+a122 1
+	*dest_list = tcp;
+d127 1
+a127 1
+	    printf("gs_inq_dest: Msg Type:%d  Len:%d .\n",
+@
+
+
+1.3
+log
+@.
+@
+text
+@d2 1
+a2 2
+#include <sys/ipc.h>
+#include <sys/shm.h>
+d7 2
+d10 49
+a62 1
+
+d64 1
+a64 6
+    char    home[256];
+    char    cf[256];
+    char    log[256];
+    char   *cp;
+    int     debug = FALSE;
+    GSHandle_t *h;
+d66 3
+d70 3
+a72 4
+
+    cp = getenv("GSHOME");
+    if (cp == NULL) {
+	printf("Error: GSHOME not defined.\n");
+d76 3
+a78 1
+    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+d80 8
+a87 2
+    h->init = TRUE;
+    status = gs_initconfig(h->homedir, h->cfgfile, &h->debug);
+d89 5
+a93 2
+	printf("Error from initconfig.\n");
+	return (GS_FAIL);
+a94 1
+    h->key = gs_ipc_key(h->cfgfile);
+a95 4
+    if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	gs_log("error creating/attaching slot.\n");
+	return (GS_FAIL);
+    }
+d97 9
+d107 3
+a109 3
+    msg.MsgType = InqReceiverArgs;
+    msg.MsgBuf[0] = '\0';
+    msg.MsgLen = 0;
+d111 20
+a130 3
+    status = gs_talk(h, &msg, &reply);
+    if (reply.MsgType == Status) {
+	printf("test: Reply is Status %d\n", (int) reply.MsgBuf[0]);
+a131 3
+    else {
+	printf("test: Message is %s\n", reply.MsgBuf);
+    }
+a132 5
+    gs_sem_close(h->slot->msgsem);
+    gs_sem_close(h->slot->cmsem);
+    gs_sem_close(h->slot->locksem);
+    gs_free(h->slot);
+    free(h);
+d134 7
+a140 1
+    return status;
+d142 2
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d9 2
+a10 2
+int  gs_inquire_context(dest,context_req)
+char *dest;
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d33 1
+a33 1
+    status = gs_initconfig(h->homedir, h->config_file, &h->debug);
+d38 1
+a38 1
+    h->key = gs_ipc_key(h->config_file);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d2 3
+d6 3
+d14 51
+a64 1
+return GS_SUCCESS;
+a65 1
+
+@

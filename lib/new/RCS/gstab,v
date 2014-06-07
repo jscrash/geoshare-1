@@ -1,0 +1,474 @@
+head     1.16;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.16; strict;
+comment  @# @;
+
+
+1.16
+date     91.05.15.00.43.11;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.14.08.07.15;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.14.03.39.20;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.06.13.54.23;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.06.07.44.38;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.06.04.35.48;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.03.13.26.49;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.03.10.57.46;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.30.12.12.23;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.30.04.13.21;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.25.07.42.43;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.25.05.14.34;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.25.03.45.33;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.22.23.10.34;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.20.10.43.49;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.17.27.54;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.17.07.00;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gstab.
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@########################################################
+#
+#   GeoShare Connection Manager Configuration File
+#
+# This file is used to describe the configuration
+# of a GeoShare host.  It contains entries for all
+# Application Data Receivers installed on this host.
+#
+# Each entry starts with a list of aliases that 
+# may be used to refer to the entry.  
+# 
+#  See the GeoShare Design Document for more 
+# information about the syntax in this file.
+#
+#  Julian Carlisle  -  Mon Apr 22 20:28:44 PDT 1991
+######################################################## 
+#
+# Describe the Connection Manager.
+#
+cm|gs_cm:\
+	:debug:all=finder sierra terra printit:\
+	:logfile=gscm.log:homedir=/j/fl/lib:host=snuffy:\
+	:timeout#30:slotbuflen#16384:numactive#1:maxbuf#16384:\
+	:include=global:
+
+# This is the Finder data receiver.
+finder|gs_finder_rec|ftest:\
+	:program=gs_finder_rec:a0=gs_finder_rec:\
+	:context=Oracle Account/Password, ,CHAR|\
+	Project Name,-project,CHAR:\
+	:numactive#1:debug:maxbuf#4096:include=global:
+#
+# Sierra stratlog product receiver
+sierra|gs_sierra_rec|stratlog:\
+	:program=gs_sierra_rec:a0=gs_sierra_rec:\
+	:context=Stratlog Username,-user,CHAR|\
+	Prospect Name,-prospect,CHAR:\
+	:numactive#1:debug:maxbuf#1024:include=global:
+#
+# Terrascience 
+terra|gs_terra_rec|terrascience:\
+	:program=gs_terra_rec:a0=gs_terra_rec:\
+	:context=Terramap Account/Password,-user,CHAR|\
+	Map Name,-map,CHAR|\
+	Project Name,-proj,CHAR:\
+	:numactive#1:debug:maxbuf#1024:include=global:
+#
+# This is the Finder data receiver # 2 for testing.
+printit|gs_print_struct:\
+	:program=gs_print_struct:a0=gs_print_struct:\
+	:numactive#1:debug:maxbuf#4096:include=global:
+#
+global:\
+	:defaulthome=/j/fl/lib:bindir=/j/fl/lib:timeout#60:\
+	:host=snuffy:transport=shm:slotbuflen#16384:
+#
+#printit|gs_print_struct:\
+#	:program=gs_print_struct:a0=gs_print_struct:\
+#	:context=Output file,-file,CHAR:\
+#	:numactive#1:debug:maxbuf#4096:include=global:
+#
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d21 1
+a21 1
+	:debug:all=finder sierra terra finder2:\
+d49 2
+a50 4
+finder2|gs_finder_rec2|ftest:\
+	:program=gs_finder_rec2:a0=gs_finder_rec2:\
+	:context=Oracle Account/Password, ,CHAR|\
+	Project Name,-project,CHAR:\
+d56 5
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d21 1
+a21 1
+	:debug:all=finder sierra terra:\
+d47 7
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d23 2
+a24 1
+	:timeout#30:slotbuflen#16384:numactive#1:maxbuf#16384:
+d51 1
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d33 2
+a34 2
+sierra|gs_stlog_rec|stratlog:\
+	:program=gs_stlog_rec:a0=gs_stlog_rec:\
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d23 1
+a23 1
+	:timeout#30:slotbuflen#16384:
+d30 1
+a30 1
+	:numactive#1:
+d37 1
+a37 1
+	:numactive#1:
+d45 1
+a45 1
+	:numactive#1:
+d47 3
+a49 3
+std-host:\
+	:transport=shm:\
+	:host=snuffy:
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d27 1
+a27 1
+	:pgm=gs_finder_rec:a0=gs_finder_rec:\
+d34 1
+a34 1
+	:pgm=gs_stlog_rec:a0=gs_stlog_rec:\
+d41 1
+a41 1
+	:ex=gs_terra_rec:a0=gs_terra_rec:\
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d21 1
+a21 2
+	:debug:all=finder sierra terra zycor wcs charisma \
+	landmark ies:\
+d29 1
+a29 1
+	Project Name,-proj,CHAR:\
+d35 2
+a36 2
+	:context="Oracle Account/Password","","CHAR"|\
+	"Project Name","-proj","CHAR":\
+d42 3
+a44 2
+	:context="Oracle Account/Password","","CHAR"|\
+	"Project Name","-proj","CHAR":\
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d29 2
+a30 2
+	:context="Oracle Account/Password","",CHAR|\
+	"Project Name","-proj",CHAR:\
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d29 2
+a30 2
+	:context="Oracle Account/Password","","CHAR" \
+	"Project Name","-proj","CHAR":\
+d36 1
+a36 1
+	:context="Oracle Account/Password","","CHAR" \
+d43 1
+a43 1
+	:context="Oracle Account/Password","","CHAR" \
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d21 2
+a22 2
+	:debug:all=finder sierra terra zycor wcs charisma cymap \
+	intergraph landmark ies disco techra gs_test:\
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d36 1
+d43 1
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d21 5
+a25 4
+	:dr=finder sierra terra \
+	joe bob:\
+	:us=root:
+#
+d28 4
+a31 4
+	:ex=gs_finder_rec:a0=gs_finder_rec:\
+	:a1="Oracle Account/Password","","CHAR":\
+	:a2="Project Name","-proj","CHAR":\
+	:mi#1:ho=snuffy:tc=std-host:
+d35 3
+a37 4
+	:ex=gs_stlog_rec:a0=gs_stlog_rec:\
+	:a1="Oracle Account/Password","","CHAR":\
+	:a2="prospect Name","-prospect","CHAR":\
+	:mi#1:ho=snuffy:tc=std-host:
+d42 2
+a43 3
+	:a1="Oracle Account/Password","","CHAR":\
+	:a2="Project Name","-proj","CHAR":\
+	:mi#1:ho=snuffy:tc=std-host:
+d46 2
+a47 2
+	:am:\
+	:xd=\E[B:xs:
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d1 1
+a1 1
+# GeoShare configuration file
+d3 23
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a3 1
+finder|gs_finder_rec:ftest:\
+d7 1
+a7 3
+	:mi#1:ho=snuffy:
+
+
+d9 6
+a14 1
+# Data receiver #
+d16 7
+a24 15
+	:bc=\E[1D:bl=^G:bs:\
+	:cd=\E[2J:ce=\E[K:cl=\E[2J\E[H:cm=\E[%i%2;%i%2H:co#80:ju#33:\
+	:ho=\E[H:\
+	:K1=\200G:K2=\200I:K4=\200O:K5=\200Q:\
+	:k0=\200;:k1=\200<:k2=\200=:k3=\200>:k4=\200?:k5=\200@@:\
+	:k6=\200A:k7=\200B:k8=\200C:k9=\200D:\
+	:kb=^H:kC=\200w:kD=\200S:kd=\200H:kE=\200u:kH=\200O:kh=\200G:\
+	:kI=\200R:kl=\200K:kN=\200Q:kP=\200I:kr=\200M:kS=\200v:ku=\200P:\
+	:LE=\E[%dD:le=\E[1D:li#25:\
+	:mb=\E[5m:md=\E[1m:me=\E[0m:mk=\E[8m:mr=\E[7m:ms:\
+	:nd=\E[C:\
+	:RI=\E[%dC:rc=\E[u:\
+	:sc=\E[s:se=\E[0m:so=\E[7m:\
+	:te=\E[0m:ti=\E[0m:\
+	:UP=\E[%dA:ue=\E[0m:up=\E[A:us=\E[4m:\
+a25 24
+
+#
+#
+telly|TELLY:\
+	:bc=\E[D:\
+	:bs:\
+	:ce=\E[K:\
+	:cl=\E[2J:\
+	:cm=\E[%i%2;%2H:\
+	:co#80:\
+	:he=\E[44;37m:\
+	:hi=\E[32m:\
+	:ho=\E[H:\
+	:li#25:\
+	:nd=\E[C:\
+	:se=\E[44;37m:\
+	:so=\E[31m:\
+	:te=\E[0m:\
+	:ti=\E[44;37m:\
+	:ue=\E[m:\
+	:up=\E[A:\
+	:us=\E[1m:\
+	:xd=\E[B:\
+	:xs:
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d3 5
+a7 5
+snuffy|SNUFFY:\
+	:AL=\E[%dL:al=\E[1L:\
+	:DC=\E[%dP:dc=\E[1P:DL=\E[%dM:dl=\E[1M:\
+	:IC=\E[%d@@:ic=\E[1@@:\
+	:tc=std-host:
+d11 1
+a11 1
+# monochrome ANSI
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d16 1
+a16 1
+	:cd=\E[2J:ce=\E[K:cl=\E[2J\E[H:cm=\E[%i%2;%i%2H:co#80:\
+@

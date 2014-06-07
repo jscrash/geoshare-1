@@ -1,0 +1,25 @@
+The Connection Server is responsible for connecting Client applications
+to the data service that they request.  Clients can make inquirys to
+the connection server to:
+
+	* request a list of all data services available.
+	* request configuration information about a data service.
+
+Client applications communicate with the Connection Server through
+a shared memory region that is created by the Connection Server
+process when it starts.  The region is divided into slots so that
+multiple clients can share the same shared memory region. (fig n.)
+
+
+--------------------------------------------------------------
+
+	Size	Section
+	----	-------
+	Long	state flag (BUSY,READ,WRITE,FREE)
+
+
+--------------------------------------------------------------
+
+
+Clients map this region into their address space when
+they startup. 

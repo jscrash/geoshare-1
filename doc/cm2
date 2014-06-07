@@ -1,0 +1,3 @@
+The usage of the CM process slots is outlined in the following
+diagram which shows a client making a request of the connection
+manager to furnish it with a list of data destinations (services).

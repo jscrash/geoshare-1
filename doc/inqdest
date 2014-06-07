@@ -1,0 +1,22 @@
+FUNCTION
+int 	GS_inquire_destinations (TCP dest_list)
+
+ASSERTIONS
+	Input:	NONE
+
+	Output: TCP dest_list	- Array of character strings
+
+DESCRIPTION
+Query the connection manager for an array of character strings
+containing valid data receiver names.  The data receiver names
+returned by this routine may be used to initialize a connection
+using the GS_initialize function.
+
+A data receiver name is comprised of two parts, only the first part
+is mandatory:
+
+	receiver_name:host_string
+
+where host_string is an optional host name where the receiver
+exists.
+

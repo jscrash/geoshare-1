@@ -1,0 +1,34 @@
+FUNCTION
+int	GS_term (GS_handle_t handle)
+
+ASSERTIONS
+	Input:	handle		- A handle describing the connection
+				  to the receiving process. 
+
+	Output:	NONE
+
+DESCRIPTION
+Terminate the connection described by the handle argument.  This
+will flush the data stream and close any buffers associated with 
+the handle.  This routine must be called by the data sending
+application before it exits in order to guarantee that a data
+transfer is completed correctly.
+
+
+
+
+FUNCTION
+int	GS_receive (GS_handle_t handle, TCB *tcb)
+
+ASSERTIONS
+	Input:	handle		- A handle describing the connection
+				  to the connection manager.
+
+	Output:	tcb		- A transfer control block
+				  containing the data sent.
+
+DESCRIPTION
+Receive a transfer control block that contains either a transfer
+structure containing data or an executive structure containing a
+protocol request.  
+

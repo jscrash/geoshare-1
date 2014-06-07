@@ -1,0 +1,75 @@
+head	1.1;
+access;
+symbols;
+locks
+	julian:1.1; strict;
+comment	@# @;
+
+
+1.1
+date	91.04.19.11.05.15;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@@
+
+
+1.1
+log
+@Initial revision
+@
+text
+@#!/bin/csh -f
+# get c files around this dir and check them in locally.
+# Julian Fri Apr 19 02:44:56 PDT 1991
+
+set here =(`pwd`)
+
+#validate env.
+set wci = (`which ci`)
+if ( $#wci > 1 ) then
+	echo $0 "Cannot locate ci (rcs checkin) program."
+	exit 1
+endif
+set wco = (`which co`)
+if ( $#wco > 1 ) then
+	echo $0 "Cannot locate co (rcs checkout) program."
+	exit 1
+endif
+
+#got rcs tools.... proceed
+
+#Create RCS directory if not found
+if ( ! -d ./RCS ) then
+	mkdir RCS
+	if ( $status ) then
+		echo $0 "Error creating RCS directory."
+		exit 1
+	endif
+endif
+
+#work lists..
+set clist=(`/bin/ls -1 ../*/*.c | sort`)
+set hlist=(`/bin/ls -1 ../*/*.h | sort`)
+
+#Process files...
+
+foreach i ($clist)
+	set name=`basename $i`
+	if ( -e ./$name ) then
+		if (-e ./RCS/$name,v ) then
+			ci -f -l $name </dev/null
+		else
+			reserve $name
+		endif
+		cp $i ./$name
+		ci -f -l $name </dev/null
+	else
+		cp $i ./$name
+		reserve $name
+	endif
+end
+exit 0
+@

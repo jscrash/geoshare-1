@@ -1,0 +1,1294 @@
+head     1.43;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.43; strict;
+comment  @# @;
+
+
+1.43
+date     91.05.20.06.19.42;  author julian;  state Exp;
+branches ;
+next     1.42;
+
+1.42
+date     91.05.12.09.36.03;  author julian;  state Exp;
+branches ;
+next     1.41;
+
+1.41
+date     91.05.12.03.50.00;  author julian;  state Exp;
+branches ;
+next     1.40;
+
+1.40
+date     91.05.12.00.30.40;  author julian;  state Exp;
+branches ;
+next     1.39;
+
+1.39
+date     91.05.07.07.49.07;  author julian;  state Exp;
+branches ;
+next     1.38;
+
+1.38
+date     91.05.06.17.42.27;  author julian;  state Exp;
+branches ;
+next     1.37;
+
+1.37
+date     91.05.06.16.18.22;  author julian;  state Exp;
+branches ;
+next     1.36;
+
+1.36
+date     91.05.06.13.05.25;  author julian;  state Exp;
+branches ;
+next     1.35;
+
+1.35
+date     91.05.06.04.35.43;  author julian;  state Exp;
+branches ;
+next     1.34;
+
+1.34
+date     91.05.05.14.27.00;  author julian;  state Exp;
+branches ;
+next     1.33;
+
+1.33
+date     91.05.03.23.15.04;  author julian;  state Exp;
+branches ;
+next     1.32;
+
+1.32
+date     91.05.03.18.58.51;  author julian;  state Exp;
+branches ;
+next     1.31;
+
+1.31
+date     91.04.30.05.06.07;  author julian;  state Exp;
+branches ;
+next     1.30;
+
+1.30
+date     91.04.29.12.54.42;  author julian;  state Exp;
+branches ;
+next     1.29;
+
+1.29
+date     91.04.29.10.47.52;  author julian;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     91.04.29.08.16.39;  author julian;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     91.04.29.05.47.39;  author julian;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     91.04.29.03.51.54;  author julian;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     91.04.25.02.04.32;  author julian;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     91.04.24.23.42.24;  author julian;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     91.04.24.22.37.22;  author julian;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     91.04.24.08.55.56;  author julian;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     91.04.23.09.21.44;  author julian;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     91.04.23.08.24.45;  author julian;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     91.04.22.20.32.47;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.04.21.04.37.57;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.04.21.02.52.50;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.04.21.02.21.06;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.04.21.00.51.24;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.04.20.19.31.37;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.04.20.19.11.22;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.04.20.16.18.04;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.04.20.12.28.53;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.04.20.11.38.16;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.04.20.05.24.34;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.04.20.03.04.27;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.04.19.19.50.27;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.04.19.19.20.27;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.19.18.52.54;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.19.18.45.56;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.19.17.58.50;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.19.17.50.15;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.15.17.56;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.14.38.37;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of Makefile.
+@
+
+
+1.43
+log
+@*** empty log message ***
+@
+text
+@.SUFFIX       = .e: .i: .l: .p: .r: .s: .y:   
+
+.SUFFIXES: .pc .c .pfo .f .F
+
+DBGFLAG       = -g3
+
+CFLAGS        = $(DBGFLAG) -I. -I../h -L../lib
+
+CPPFLAGS      = $(LCFLAGS)
+
+TARGET_ARCH   = -sun4
+
+FFLAGS        = -c
+
+HOSTLIBS      = -Bstatic
+
+LDFLAGS       = $(HOSTLIBS)
+
+CC            = /usr/5bin/cc
+
+FC            = f77
+
+PCC           = pcc
+
+PCCINC        = $(ORACLE_HOME)/c/lib
+
+PCCFLAGS      = include=$(PCCINC) ireclen=132 oreclen=132 rebind=yes \
+                select_error=no ltype=none
+
+PFC           = pcc
+
+PFCINC        = $(ORACLE_HOME)/fortran/lib
+
+PFCFLAGS      = include=$(PFCINC) ireclen=132 oreclen=132 rebind=yes \
+                select_error=no ltype=none
+GENDEST       = .
+
+DEST          = .
+
+INSTALLGROUP  = tpi
+
+INSTALLOWNER  = julian
+
+EXTHDRS       =
+
+HDRS          = ../h/gs.h \
+		../h/gs_err.h \
+		../h/geoscience.h
+
+LIBRARY	      = libgs.a
+.PRECIOUS:    libgs.a
+
+MAKEFILE      = Makefile
+
+OBJS          = gs_alloc.o \
+		gs_faccess.o \
+		gs_chk_debug.o \
+		gs_config.o \
+		gs_cf_name.o \
+		gs_cm_do_exec.o \
+		gs_connect.o \
+		gs_get_handle.o \
+		gs_slot.o \
+		gs_home.o \
+		gs_init.o \
+		gs_ipc_key.o \
+		gs_log_init.o \
+		gs_log.o \
+		gs_logfile.o \
+		gs_inq_ctxt.o \
+		gs_inq_dest.o \
+		gs_receive.o \
+		gs_semlib.o \
+		gs_send.o \
+		gs_sendstr.o \
+		gs_subs.o \
+		gs_talk.o \
+		gs_terminate.o
+
+OBJLIB        = .
+
+OBJECTS       = $(OBJLIB)/*.o
+
+PRINT         = lpr
+
+SRCS          = gs_alloc.c \
+		gs_faccess.c \
+		gs_chk_debug.c \
+		gs_connect.c \
+		gs_cm_do_exec.c \
+		gs_config.c \
+		gs_cf_name.c \
+		gs_get_handle.c \
+		gs_slot.c \
+		gs_home.c \
+		gs_init.c \
+		gs_ipc_key.c \
+		gs_log.c \
+		gs_logfile.c \
+		gs_log_init.c \
+		gs_inq_ctxt.c \
+		gs_inq_dest.c \
+		gs_receive.c \
+		gs_semlib.c \
+		gs_send.c \
+		gs_sendstr.c \
+		gs_subs.c \
+		gs_talk.c \
+		gs_finder_rec.c \
+		gs_terminate.c \
+		gs_cm.c \
+		gs_test.c
+
+GSLIBS        = -lgs
+
+all:	library gs_cm gs_test gs_finder_rec gs_alloc
+
+library:	$(LIBRARY)($(OBJS)) ranlib
+		@@rm -f $(OBJS)
+
+world:	clean rmlib all
+
+new:;	-touch $(SRCS) gs_cm.c gs_test.c gs_config.c gs_finder_rec.c
+
+rmlib:;		rm -f $(LIBRARY)
+
+ranlib:	$(LIBRARY)
+		ranlib $(LIBRARY)
+	
+prod:;	make DBGFLAG=-O
+
+__.SYMDEF:;  ranlib $(LIBRARY) 
+
+gslock: ${LIBC}
+	${CC} -o $@@ ${CFLAGS} $@@.c ${GSLIBS}
+
+gs_cm:  $(SRCS) $(HDRS) gs_cm.c
+	${CC} -o $@@ ${CFLAGS} -DSERVER $@@.c ${GSLIBS}
+
+gs_test: $(SRCS) $(HDRS) gs_test.c
+	${CC} -o $@@ ${CFLAGS} -DSERVER $@@.c ${GSLIBS}
+
+gs_finder_rec: $(SRCS) $(HDRS) gs_finder_rec.c
+	${CC} -o $@@ ${CFLAGS} $@@.c ${GSLIBS}
+
+gs_alloc: gs_alloc.c
+	${CC} -o $@@ ${CFLAGS} -DTEST $@@.c ${GSLIBS}
+
+gs_config: gs_config.c
+	${CC} -o $@@ ${CFLAGS} -DTEST $@@.c ${GSLIBS}
+
+clean:; rm -f core $(OBJS)
+
+cleandir: clean
+	rm -f ${MAN} tags .depend
+
+depend: ${SRCS}
+	mkdep -p ${CFLAGS} ${SRCS}
+
+id:     midb
+
+ptypes:   proto
+   
+proto:;   mkptypes $(SRCS) | sed "s/va_alist/va_alist,.../" | grep -v ' main ' > gs_ptypes.h
+
+midb:;  -@@midb >/dev/null 2>&1 && echo "ID database created."
+
+install:
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 gslock ${DESTDIR}/bin/gslock
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 gs_cm ${DESTDIR}/bin/gs_cm
+	install -s -o $(INSTALLOWNER) -g $(INSTALLGROUP) -m 4755 test ${DESTDIR}/bin/cm
+
+lint: ${SRCS}
+	lint ${CFLAGS} ${SRCS}
+
+tags: ${SRCS}
+	ctags ${SRCS}
+
+depend:;	mkmf -f $(MAKEFILE)
+
+extract:;	ar xo $(DEST)/$(LIBRARY)
+		@@rm -f __.SYMDEF
+
+index:;		ctags -wx $(HDRS) $(SRCS)
+
+link:;          $(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) $(LDFLAGS) \
+		$(LCFLAGS) $(GENDEST)/$*.c -o $(DESTDIR)/$* $(OBJLIB)/$*.o
+
+install:	$(LIBRARY)
+		install $(INSTALLGROUP) $(INSTALLOWNER) $(LIBRARY) $(DEST)
+		ranlib -t $(DEST)/$(LIBRARY)
+
+print:;		$(PRINT) $(HDRS) $(SRCS)
+
+tags:           $(HDRS) $(SRCS); ctags $(HDRS) $(SRCS)
+
+update:         $(DEST)/$(LIBRARY)
+
+.pc.c:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+
+.pc.a:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.c -o $(OBJLIB)/$*.o
+
+.pc:;		$(PCC) $(PCCFLAGS) iname=$< oname=$(GENDEST)/$*.c
+		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.c -o $(OBJLIB)/$*.o
+
+.pfo.a:;	$(PFC) $(PFCFLAGS) iname=$< oname=$(GENDEST)/$*.f
+		$(FC)  $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $(GENDEST)/$*.f -o $(OBJLIB)/$*.o
+
+.c.a:;		$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $(OBJLIB)/$*.o
+		ar crul $(LIBRARY) $(OBJLIB)/$*.o
+
+.f.a:;		$(FC)  $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $< -o $(OBJLIB)/$*.o
+
+.F.a:;		$(FC)  $(CFLAGS) $(FFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $< -o $(OBJLIB)/$*.o
+# DO NOT DELETE THIS LINE -- make depend depends on it.
+
+gs_alloc.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_alloc.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_alloc.o: /usr/include/sys/sysmacros.h /usr/include/fcntl.h
+gs_alloc.o: /usr/include/sys/fcntlcom.h /usr/include/sys/stat.h
+gs_alloc.o: /usr/include/sys/ipc.h /usr/include/sys/shm.h
+gs_alloc.o: /usr/include/sys/param.h /usr/include/machine/param.h
+gs_alloc.o: /usr/include/sys/signal.h /usr/include/vm/faultcode.h
+gs_alloc.o: /usr/include/machine/mmu.h /usr/include/debug/debug.h
+gs_alloc.o: /usr/include/mon/sunromvec.h /usr/include/mon/openprom.h
+gs_alloc.o: /usr/include/machine/romvec.h
+gs_clerr.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_clerr.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_clerr.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_clerr.o: ../h/systype.h
+gs_cm.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_cm.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_cm.o: /usr/include/sys/sysmacros.h /usr/include/string.h
+gs_cm.o: /usr/include/sys/stat.h /usr/include/sys/wait.h
+gs_cm.o: /usr/include/sys/param.h /usr/include/machine/param.h
+gs_cm.o: /usr/include/sys/signal.h /usr/include/vm/faultcode.h
+gs_cm.o: /usr/include/sys/ipc.h /usr/include/sys/shm.h
+gs_cm.o: /usr/include/machine/mmu.h /usr/include/debug/debug.h
+gs_cm.o: /usr/include/mon/sunromvec.h /usr/include/mon/openprom.h
+gs_cm.o: /usr/include/machine/romvec.h /usr/include/signal.h
+gs_cm.o: /usr/include/errno.h /usr/include/sys/errno.h /usr/include/math.h
+gs_cm.o: /usr/include/floatingpoint.h /usr/include/sys/ieeefp.h
+gs_cm.o: /usr/include/sys/file.h /usr/include/sys/fcntlcom.h
+gs_cm.o: /usr/include/sys/ioctl.h /usr/include/sys/ttychars.h
+gs_cm.o: /usr/include/sys/ttydev.h /usr/include/sys/ttold.h
+gs_cm.o: /usr/include/sys/ioccom.h /usr/include/sys/ttycom.h
+gs_cm.o: /usr/include/sys/filio.h /usr/include/sys/sockio.h
+gs_cm.o: /usr/include/varargs.h /usr/include/syslog.h
+gs_config.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_config.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_config.o: /usr/include/sys/sysmacros.h /usr/include/sys/stat.h
+gs_config.o: /usr/include/fcntl.h /usr/include/sys/fcntlcom.h
+gs_connect.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_connect.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_connect.o: /usr/include/sys/sysmacros.h
+gs_error.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_error.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_error.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_error.o: ../h/systype.h
+gs_faccess.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_faccess.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_faccess.o: /usr/include/sys/sysmacros.h /usr/include/string.h
+gs_faccess.o: /usr/include/pwd.h /usr/include/sys/stat.h
+gs_finder_rec.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_finder_rec.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_finder_rec.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+gs_init.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_init.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_init.o: /usr/include/sys/sysmacros.h
+gs_initconfig.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_initconfig.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_initconfig.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+gs_initconfig.o: /usr/include/sys/stat.h
+gs_inq_ctxt.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_inq_ctxt.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_inq_ctxt.o: /usr/include/sys/sysmacros.h
+gs_inq_dest.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_inq_dest.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_inq_dest.o: /usr/include/sys/sysmacros.h
+gs_log.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_log.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_log.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_log.o: /usr/include/sys/stat.h ../h/systype.h /usr/include/errno.h
+gs_log.o: /usr/include/sys/errno.h
+gs_log_init.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_log_init.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_log_init.o: /usr/include/sys/sysmacros.h /usr/include/varargs.h
+gs_log_init.o: /usr/include/sys/stat.h ../h/systype.h
+gs_receive.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_receive.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_receive.o: /usr/include/sys/sysmacros.h
+gs_semlib.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_semlib.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_semlib.o: /usr/include/sys/sysmacros.h /usr/include/sys/ipc.h
+gs_semlib.o: /usr/include/sys/sem.h /usr/include/errno.h
+gs_semlib.o: /usr/include/sys/errno.h
+gs_send.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_send.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_send.o: /usr/include/sys/sysmacros.h
+gs_subs.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_subs.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_subs.o: /usr/include/sys/sysmacros.h
+gs_talk.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h ../h/geoscience.h
+gs_talk.o: /usr/include/sys/types.h /usr/include/sys/stdtypes.h
+gs_talk.o: /usr/include/sys/sysmacros.h
+gs_terminate.o: ../h/gs.h /usr/include/stdio.h ../h/gs_err.h
+gs_terminate.o: ../h/geoscience.h /usr/include/sys/types.h
+gs_terminate.o: /usr/include/sys/stdtypes.h /usr/include/sys/sysmacros.h
+@
+
+
+1.42
+log
+@*** empty log message ***
+@
+text
+@d164 1
+a164 1
+proto:;   mkptypes $(SRCS) | sed "s/int va_alist/char *vargs,.../" | grep -v ' main ' > gs_ptypes.h
+@
+
+
+1.41
+log
+@*** empty log message ***
+@
+text
+@d17 1
+a17 1
+LDFLAGS       = $(FLIB) $(DGLIB) $(HOSTLIBS)
+d116 1
+a116 1
+all:	library gs_cm gs_test gs_finder_rec
+d143 4
+a146 1
+gs_config: $(SRCS) $(HDRS) gs_config.c
+d149 2
+a150 2
+gs_finder_rec: $(SRCS) $(HDRS) gs_finder_rec.c
+	${CC} -o $@@ ${CFLAGS} $@@.c ${GSLIBS}
+@
+
+
+1.40
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+DBGFLAG       = -g
+d130 1
+a130 1
+prod:;	make DBGFLAG=
+@
+
+
+1.39
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+DBGFLAG       = -g3
+d110 3
+a112 1
+		gs_terminate.c
+d160 2
+a161 2
+
+proto:;   mkptypes $(SRCS) > gs_ptypes.h 
+@
+
+
+1.38
+log
+@*** empty log message ***
+@
+text
+@d114 1
+a114 1
+all:	library gs_cm gs_config gs_test gs_finder_rec
+@
+
+
+1.37
+log
+@*** empty log message ***
+@
+text
+@d75 1
+d106 1
+@
+
+
+1.36
+log
+@*** empty log message ***
+@
+text
+@d112 1
+a112 1
+all:	library gs_cm gs_config gs_test
+d119 1
+a119 1
+new:;	-touch $(SRCS) gs_cm.c gs_test.c gs_config.c
+d139 1
+a139 1
+gs_config: $(HDRS) gs_config.c
+d142 1
+a142 1
+gs_finder_rec: ${LIBC}
+@
+
+
+1.35
+log
+@*** empty log message ***
+@
+text
+@d112 1
+a112 1
+all:		library gs_cm gs_config gs_test
+d114 1
+a114 2
+library:	$(LIBRARY)($(OBJS))
+		ranlib $(LIBRARY)
+d117 1
+a117 1
+world:		clean rmlib all
+d119 1
+a119 2
+new:;          -touch $(SRCS) gs_cm.c gs_test.c gs_config.c
+	all
+d123 6
+a128 1
+prod:;		make $(1) $1 DBGFLAG=
+@
+
+
+1.34
+log
+@*** empty log message ***
+@
+text
+@d57 1
+a65 1
+		gs_initconfig.o \
+d87 1
+a95 1
+		gs_initconfig.c \
+d121 1
+d125 1
+a125 1
+prod:;		-make DBGFLAG=
+d151 4
+@
+
+
+1.33
+log
+@*** empty log message ***
+@
+text
+@d55 1
+a55 2
+OBJS          = gs_clerr.o \
+		gs_alloc.o \
+d61 2
+a62 5
+		gs_cr_slot.o \
+		gs_def_handle.o \
+		gs_at_slot.o \
+		gs_dt_slot.o \
+		gs_rm_slot.o \
+d85 1
+a85 2
+SRCS          = gs_clerr.c \
+		gs_alloc.c \
+d91 2
+a92 5
+		gs_cr_slot.c \
+		gs_def_handle.c \
+		gs_at_slot.c \
+		gs_dt_slot.c \
+		gs_rm_slot.c \
+@
+
+
+1.32
+log
+@*** empty log message ***
+@
+text
+@d157 2
+@
+
+
+1.31
+log
+@*** empty log message ***
+@
+text
+@a114 2
+		gs_cm.c \
+		gs_test.c \
+@
+
+
+1.30
+log
+@*** empty log message ***
+@
+text
+@d65 1
+d99 1
+@
+
+
+1.29
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = -g3 -I. -I../h -L../lib
+d7 2
+d132 1
+a132 1
+debug:;		-make LCFLAGS=-g3
+@
+
+
+1.28
+log
+@*** empty log message ***
+@
+text
+@d70 1
+d102 1
+@
+
+
+1.27
+log
+@*** empty log message ***
+@
+text
+@d46 1
+a46 2
+		../h/geoscience.h \
+		../h/mesg.h
+d124 1
+a124 1
+new:;		-touch $(SRCS)
+d145 1
+a145 2
+clean:
+	rm -f ${OBJS} core
+d152 2
+@
+
+
+1.26
+log
+@*** empty log message ***
+@
+text
+@d62 1
+d94 1
+@
+
+
+1.25
+log
+@*** empty log message ***
+@
+text
+@d58 1
+d64 1
+d91 1
+d95 2
+a97 1
+		gs_init.c \
+@
+
+
+1.24
+log
+@*** empty log message ***
+@
+text
+@d58 1
+d87 1
+@
+
+
+1.23
+log
+@*** empty log message ***
+@
+text
+@a55 1
+		gs_error.o \
+a83 1
+		gs_error.c \
+@
+
+
+1.22
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = $(LCFLAGS) -g3 -I. -I../h  -L../lib
+d7 4
+d36 1
+a36 1
+DEST          = $(FINDER_HOME)/source
+a58 1
+		gs_initconfig.o \
+d60 3
+d64 1
+d89 3
+d123 1
+a123 1
+debug:;		-make LCFLAGS=-g3 all
+a124 4
+p68:		err.o
+
+p89:		err.o
+
+d128 1
+a128 1
+gs_cm:  $(HDRS) gs_cm.c
+d141 1
+a141 1
+	rm -f ${OBJS} core gslock cm gs_cm
+d150 3
+a152 3
+	install -s -o root -g bin -m 4755 gslock ${DESTDIR}/bin/gslock
+	install -s -o root -g bin -m 4755 gs_cm ${DESTDIR}/bin/gs_cm
+	install -s -o root -g bin -m 4755 test ${DESTDIR}/bin/cm
+d194 1
+a194 1
+.c.a:;		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $(OBJLIB)/$*.o
+@
+
+
+1.21
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = $(LCFLAGS) -I. -I../h  -L../lib
+d122 1
+a122 1
+gs_cm:  $(SRCS) $(HDRS) gs_cm.c
+d128 1
+a128 1
+gs_config: $(SRCS) $(HDRS) gs_config.c
+@
+
+
+1.20
+log
+@*** empty log message ***
+@
+text
+@d95 1
+d101 1
+a101 1
+all:		library gs_cm gs_config 
+d122 1
+a122 1
+gs_cm:  $(LIBRARY)($(OBJS)) $(SRCS) $(HDRS) gs_cm.c
+d125 4
+a128 1
+gs_config:  $(LIBRARY)($(OBJS)) $(SRCS) $(HDRS) gs_config.c
+@
+
+
+1.19
+log
+@*** empty log message ***
+@
+text
+@d58 1
+d84 1
+d192 94
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@d106 2
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@d40 4
+a43 3
+HDRS          = ../h/mesg.h \
+		../h/shm.h \
+		../h/systype.h
+d117 1
+a117 1
+gs_cm:  $(LIBRARY)($(OBJS)) gs_cm.c
+d120 1
+a120 1
+gs_config:  $(LIBRARY)($(OBJS)) gs_config.c
+@
+
+
+1.16
+log
+@*** empty log message ***
+@
+text
+@d91 2
+d97 1
+a97 1
+all:		library gs_cm gs_config
+d116 1
+a116 1
+gs_cm:  $(LIBRARY)($(OBJS))
+d119 1
+a119 1
+gs_config:  $(LIBRARY)($(OBJS))
+@
+
+
+1.15
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = $(LCFLAGS) -I../h -L../lib
+d40 2
+a41 2
+HDRS          = ../h/gs.h \
+		../h/gs_err.h \
+d45 1
+a45 1
+.PRECIOUS:     $(LIBRARY)
+d95 1
+a95 1
+all:		library gs_cm gs_config gs_finder_rec
+a96 5
+debug:;	 	-make LCFLAGS=-g3
+
+library:	
+		-rm -f $(LIBRARY)
+
+d101 6
+d124 1
+a124 1
+	rm -f ${OBJS} core gs_config gs_cm
+d177 1
+a177 1
+.c.a:;		$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $(OBJLIB)/$*.o
+@
+
+
+1.14
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = $(LCFLAGS) -I. -I../h  -L../lib
+d34 1
+a34 1
+INSTALLGROUP  =
+d36 1
+a36 1
+INSTALLOWNER  =
+d40 3
+a42 3
+HDRS          = mesg.h \
+		shm.h \
+		systype.h
+d45 1
+a45 1
+.PRECIOUS     = libgs.a
+d95 1
+a95 1
+all:		library gs_cm gs_config
+d97 5
+d123 1
+a123 1
+	rm -f ${OBJS} core gslock cm gs_cm
+d176 1
+a176 1
+.c.a:;		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) -c $< -o $(OBJLIB)/$*.o
+@
+
+
+1.13
+log
+@*** empty log message ***
+@
+text
+@d56 2
+a58 1
+		gs_init.o \
+d78 1
+d81 1
+a81 1
+		gs_connect.c \
+d83 1
+a83 1
+		gs_init.c \
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d51 1
+d54 1
+d64 1
+d75 1
+d78 1
+d88 1
+d93 1
+a93 1
+all:		library gs_cm
+d107 4
+a110 1
+	${CC} -o $@@ ${CFLAGS} $@@.c ${GSLIBS}
+@
+
+
+1.11
+log
+@*** empty log message ***
+@
+text
+@d91 1
+a91 1
+		rm -f $(OBJS)
+d100 1
+a100 1
+gs_cm:  $(LIBRARY) $(LIBRARY)($(OBJS))
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d87 1
+a87 1
+library:	all
+d89 1
+a89 1
+all:            $(LIBRARY)($(OBJS))
+d100 1
+a100 1
+gs_cm: ${LIBC} $(LIBRARY)($(OBJS))(gs_cm.o)
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = -I. -I../h  -L../lib
+d100 1
+a100 1
+gs_cm: ${LIBC}
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d54 1
+a54 1
+		gs_debug.o \
+d75 1
+a75 1
+		gs_debug.c \
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a5 1
+CFLAGS        = $(LCFLAGS) -I. -I../h -I.. -I$(FI) -I$(FGEN) -L../lib
+d7 1
+a7 1
+FFLAGS        = $(LCFLAGS) -c
+d45 1
+d51 1
+d54 1
+d72 1
+d75 1
+d89 1
+a89 2
+all:            $(OBJS)
+		ar crul $(LIBRARY) $(OBJS)
+d91 1
+d103 1
+a103 1
+cm: ${LIBC}
+d160 2
+a161 2
+.c.a:;		$(CC)  $(CFLAGS)  $(CPPFLAGS) $(TARGET_ARCH) \
+			$(LCFLAGS) -c $< -o $(OBJLIB)/$*.o
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@a48 1
+		gs_subs.o \
+d51 9
+a59 1
+		gs_semlib.o
+a67 1
+		gs_subs.c \
+d70 9
+a78 1
+		gs_semlib.c
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d50 1
+d62 1
+d87 2
+a88 1
+clean: rm -f ${OBJS} core gslock cm gs_cm
+a105 3
+
+
+clean:;		rm -f $(OBJECTS)
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d85 1
+a85 2
+clean:
+	rm -f ${OBJS} core gslock cm gs_cm
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d49 1
+a49 2
+		gs_alloc.o \
+		gs_connect.o \
+d60 1
+a60 2
+		gs_alloc.c \
+		gs_connect.c \
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d48 1
+a48 1
+OBJS          = cl_err.o \
+d60 1
+a60 1
+SRCS          = cl_err.c \
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d51 2
+a52 1
+		semlib.o
+d63 2
+a64 1
+		semlib.c
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d48 1
+a48 1
+OBJS          = err.o \
+d59 1
+a59 1
+SRCS          = err.c \
+d66 2
+a104 2
+
+library: 	$(OBJS)
+@

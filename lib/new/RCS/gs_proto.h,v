@@ -1,0 +1,123 @@
+head	1.0;
+access;
+symbols;
+locks
+	julian:1.0; strict;
+comment	@ * @;
+
+
+1.0
+date	91.04.20.21.50.20;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_proto.h.
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@#ifndef _GS_PROTO_H
+#define _GS_PROTO_H
+#include "gs.h"
+/*
+ * GeoShare API library prototypes.
+ * 	
+ * Julian 	April 16,1991
+*/
+
+#if defined(__STDC__) || defined(__cplusplus)
+# define P_(s) s
+#else
+# define P_(s) ()
+#endif
+
+
+/* gs_alloc.c */
+char *gs_alloc P_((int size, GSKey_t *key));
+void gs_free P_((void *ptr));
+
+/* gs_clerr.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+
+/* gs_cm.c */
+int main P_((int argc, char *argv[], char *envp[]));
+char *strdup P_((char *cp));
+
+/* gs_config.c */
+int gs_cgetent P_((char *bp, char *name));
+int gs_cgetnum P_((char *id));
+int gs_cgetflag P_((char *id));
+char *gs_cgetstr P_((char *id, char **area));
+int main P_((int ac, char **av));
+
+/* gs_connect.c */
+GSHandle_t *gs_connect P_((int *ac, char ***av));
+
+/* gs_error.c */
+int gs_err_quit P_((int va_alist));
+int gs_err_sys P_((int va_alist));
+int gs_err_ret P_((int va_alist));
+int gs_err_dump P_((int va_alist));
+int my_perror P_((void));
+
+/* gs_faccess.c */
+int gs_faccess P_((char *file, char *mode, char *arg));
+
+/* gs_finder_rec.c */
+int main P_((int argc, char **argv));
+
+/* gs_init.c */
+GSHandle_t *gs_initialize P_((char *dest, GSContextInformation_t context));
+
+/* gs_initconfig.c */
+int gs_initconfig P_((char *homedir, char *cfgfile, int *debugflag));
+
+/* gs_inq_ctxt.c */
+int gs_inquire_context P_((char *dest, GSContextRequirements_t *context_req));
+
+/* gs_inq_dest.c */
+int *gs_inq_destinations P_((char ***dest_list));
+
+/* gs_log.c */
+int gs_log P_((int va_alist));
+
+/* gs_log_init.c */
+char *gs_log_init P_((char *errfile));
+
+/* gs_receive.c */
+int gs_receive P_((GSHandle_t handle, GSTCB_t *tcb));
+
+/* gs_semlib.c */
+int gs_sem_create P_((key_t key, int initval));
+int gs_sem_open P_((key_t key));
+int gs_sem_rm P_((int id));
+int gs_sem_close P_((int id));
+int gs_sem_wait P_((int id));
+int gs_sem_signal P_((int id));
+int gs_sem_op P_((int id, int value));
+
+/* gs_send.c */
+int gs_send P_((GSHandle_t handle, GSTCB_t *tcb, GSMessage_t *result));
+
+/* gs_subs.c */
+int send_data P_((void));
+
+/* gs_talk.c */
+int gs_talk P_((GSHandle_t h, GSMessage_t *msg, GSMessage_t **reply));
+
+/* gs_terminate.c */
+int gs_terminate P_((GSHandle_t handle));
+
+#undef P_
+#endif
+@

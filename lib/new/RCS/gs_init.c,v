@@ -1,0 +1,1284 @@
+head     1.29;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.29; strict;
+comment  @ * @;
+
+
+1.29
+date     91.05.20.09.08.18;  author julian;  state Exp;
+branches ;
+next     1.28;
+
+1.28
+date     91.05.20.04.27.18;  author julian;  state Exp;
+branches ;
+next     1.27;
+
+1.27
+date     91.05.20.03.30.12;  author julian;  state Exp;
+branches ;
+next     1.26;
+
+1.26
+date     91.05.15.00.42.35;  author julian;  state Exp;
+branches ;
+next     1.25;
+
+1.25
+date     91.05.14.03.37.52;  author julian;  state Exp;
+branches ;
+next     1.24;
+
+1.24
+date     91.05.12.01.43.09;  author julian;  state Exp;
+branches ;
+next     1.23;
+
+1.23
+date     91.05.09.07.56.48;  author julian;  state Exp;
+branches ;
+next     1.22;
+
+1.22
+date     91.05.07.08.14.17;  author julian;  state Exp;
+branches ;
+next     1.21;
+
+1.21
+date     91.05.07.07.18.24;  author julian;  state Exp;
+branches ;
+next     1.20;
+
+1.20
+date     91.05.07.06.22.28;  author julian;  state Exp;
+branches ;
+next     1.19;
+
+1.19
+date     91.05.07.04.23.52;  author julian;  state Exp;
+branches ;
+next     1.18;
+
+1.18
+date     91.05.07.03.05.32;  author julian;  state Exp;
+branches ;
+next     1.17;
+
+1.17
+date     91.05.07.01.25.55;  author julian;  state Exp;
+branches ;
+next     1.16;
+
+1.16
+date     91.05.06.22.52.13;  author julian;  state Exp;
+branches ;
+next     1.15;
+
+1.15
+date     91.05.06.17.42.09;  author julian;  state Exp;
+branches ;
+next     1.14;
+
+1.14
+date     91.05.06.15.52.27;  author julian;  state Exp;
+branches ;
+next     1.13;
+
+1.13
+date     91.05.06.13.04.11;  author julian;  state Exp;
+branches ;
+next     1.12;
+
+1.12
+date     91.05.06.04.35.05;  author julian;  state Exp;
+branches ;
+next     1.11;
+
+1.11
+date     91.05.05.15.03.49;  author julian;  state Exp;
+branches ;
+next     1.10;
+
+1.10
+date     91.05.05.14.23.50;  author julian;  state Exp;
+branches ;
+next     1.9;
+
+1.9
+date     91.05.05.11.30.03;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.03.15.53.15;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.03.13.48.08;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.04.24.09.37.59;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.23.08.24.25;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.23.07.37.31;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.19.21.17.46;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.19.19.23.28;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_init.c.
+@
+
+
+1.29
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <errno.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/ipc.h>
+#include <sys/shm.h>
+
+/****************************************************************************
+Module: GS_INITIALIZE
+
+Description:
+	Initialize a connection to the  named  receiver  program.
+	This will send a protocol request to the connection manager
+	running on the current host and have it start the named program.
+	The name of the program may be an alias that requires translation
+	by the connection manager process.
+
+	Upon successful initialization of the requested connection, a
+	communications handle is returned.  This handle is used in
+	subsequent calls to GeoShare library routines to identify the
+	connection channel.
+
+
+Usage:
+	handle  = gs_initialize(destination, context)
+	
+Parameters:
+	INPUT:
+           char   *destination		   - Name of data receiver pgm to start
+           GSContextInformation_t context  - Arguments for receiver command line
+
+	OUTPUT:
+		None
+
+Status:
+	Upon successful completion, this routine returns a valid GSHandle_t
+	pointer.
+
+	If an error occurrs during initialization, one of the following
+	error codes will be passed back in the status field of the handle.
+
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BUSY       - Requested data receiver is single
+			     - threaded, and already in use.
+
+	GSERR_SVC_BADCONTEXT - The context args given to the
+			     - receiver are bad or unsupported.
+
+	GSERR_CM_NOTINIT     - The connection manager is not
+			     - available, request is refused.
+
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 12:16:49 PDT 1991
+*****************************************************************************/
+static int gsz_create_slot();
+
+GSHandle_t *gs_initialize(dest, context,st)
+char   *dest;
+char   *context;
+int *st;
+{
+
+	int     status = GS_SUCCESS;
+	char    text[256],*cp;
+	GSHandle_t *h = (GSHandle_t *) 0;
+	GSMessage_t msg, reply;
+	int     len,i;
+	char    filename[256];
+	int     fd,*pint;
+
+
+	h = gs_get_handle();
+	if (h == (GSHandle_t *) 0) {
+		gs_log( "gs_initialize: null handle from gs_get_handle\n");
+		*st = GS_FAIL;
+		return ((GSHandle_t *) 0);
+	}
+
+ /* Create a local slot for communication with receiver. */
+	sprintf(text, "%s/gsappkey_XXXXXX", h->homedir);
+	strcpy(filename, mktemp(text));
+	if (strlen(filename) <= 1) {
+		gs_log("gs_initialize: cannot create slotfile name.");
+		*st = GS_FAIL;
+		return ((GSHandle_t *) 0);
+	}
+	fd = open(filename, O_RDWR | O_CREAT, 0666);
+	if (fd < 0) {
+		gs_log("gs_initialize: cannot create slotfile");
+		*st = GS_FAIL;
+		return ((GSHandle_t *) 0);
+	}
+	close(fd);
+
+	h->key = (GSKey_t *) gs_ipc_key(filename);
+	status = gsz_create_slot(h->key, &h->slot);
+	if (status != GS_SUCCESS) {
+		gs_log("gs_initialize: Error creating app slot.");
+		*st = GS_FAIL;
+		return ((GSHandle_t *) 0);
+	}
+
+ /* preset the message semaphore to > 0.  (available) */
+	gs_semV(h->slot->msgsem);
+	errno = 0;
+
+	cp = context;
+	while(*cp == ' ')
+		cp++;
+	
+	msg.MsgLen = 0;
+	msg.MsgType = Executive;
+	msg.MsgBuf[0] = StartReceiver;
+	msg.MsgLen++;
+	sprintf(text, "%s:-slot %s %s", dest, filename, cp);
+	len = strlen(text);
+	len++;		     /* null counts */
+	memcpy(&msg.MsgBuf[1], text, len);
+	msg.MsgLen += len;
+	msg.pid = getpid();
+	msg.shmid = h->slot->id;
+	msg.key = h->key->key;
+	reply.MsgType = 0;
+	reply.MsgLen = 0;
+	for(i=0; i<sizeof(int);i++)
+		reply.MsgBuf[i] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+	status = gs_talk(h, h->cmslot, &msg, &reply);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_initialize: talk status=%d - Deleting slot\n", status);
+
+		if (gsz_delete_slot(h->slot) == GS_SUCCESS)
+			h->init = FALSE;
+		*st = status;
+		return ((GSHandle_t *) 0);
+	}
+	if (reply.MsgType == Status) {
+		pint = (int *)&reply.MsgBuf[0];
+		if (*pint > 1) {
+			h->pid = *pint;
+			if (h->debug) 
+				gs_log("gs_initialize: receiver process is %u",h->pid);
+		}
+		else if(*pint == GS_FAIL) {
+			gs_log("gs_initialize: Deleting slot. Reply status msg=GS_FAIL");
+			if (gsz_delete_slot(h->slot) == GS_SUCCESS)
+				h->slot = (GSSlot_t *)0;
+				*st = GSERR_NOCONNECT;
+			return ((GSHandle_t *) 0);
+		}
+		else {
+			gs_log("gs_initialize: Warning: Child PID out of range: %d",*pint);
+		}
+	}
+	else {
+		gs_log("gs_initialize: CM returned %u message - Deleting slot.",
+				reply.MsgType);
+				
+		if (gsz_delete_slot(h->slot) == GS_SUCCESS)
+			h->init = FALSE;
+		*st = GSERR_MSGTYPE;
+		return ((GSHandle_t *) 0);
+	}
+	return (h);
+}
+
+static int gsz_create_slot(key, pslot)
+GSKey_t *key;
+GSSlot_t **pslot;
+{
+	int     id = 0;
+
+	errno = 0;
+
+	if (key == (GSKey_t *) 0) {
+		gs_log("gsz_create_slot: Null key.");
+		return (GS_FAIL);
+	}
+
+ /* Create shared memory segment, return its id.	 */
+	id = shmget(key->key, sizeof(GSSlot_t), 0666 | IPC_CREAT);
+	if (id < 0) {
+		gs_log("gsz_create_slot:Cannot alloc shared memory for slot.");
+		return (GS_FAIL);
+	}
+
+ /* Attach the shared memory, let the system 	 */
+ /* choose the address at which the memory is 	 */
+ /* attached.  This is more portable.		 */
+	*pslot = (GSSlot_t *) shmat(id, (char *) 0, 0);
+	if (*pslot == (GSSlot_t *) -1) {
+		gs_log("gsz_create_slot:Cannot attach shared memory.");
+		return (GSERR_CM_NOTINIT);
+	}
+
+(*pslot)->id = id;
+
+ /* Create the slot lock semaphore. 	 */
+	(*pslot)->lockkey = ftok(key->str,'0');
+	if ((*pslot)->lockkey > 0)
+		(*pslot)->locksem = gs_semtran((*pslot)->lockkey);
+	if ((*pslot)->locksem < 0 || (*pslot)->lockkey == -1) {
+	/* remove the shared memory segment  	 */
+		if (shmctl(id, IPC_RMID, (struct shmid_ds *) 0) < 0) {
+			gs_log("gsz_create_slot:Cannot remove shared mem.");
+		}
+		gs_log("gsz_create_slot:Cannot create lock semaphore");
+		return (GS_FAIL);
+	}
+
+ /* Create the slot message semaphore. 	 */
+	(*pslot)->msgkey = ftok(key->str,'1');
+	if ((*pslot)->msgkey > 0)
+		(*pslot)->msgsem = gs_semtran((*pslot)->msgkey);
+	if ((*pslot)->msgsem < 0 || (*pslot)->msgkey == -1) {
+	gs_log("gsz_create_slot:error creating msgsem. Deleting locksem");
+	/* remove the semaphore created above. 	 */
+		gs_semrm((*pslot)->locksem);
+
+	/* remove the shared memory segment	 */
+		if (shmctl(id, IPC_RMID, (struct shmid_ds *) 0) < 0) {
+			gs_log("gsz_create_slot:Cannot remove shared mem.");
+		}
+
+		gs_log("gsz_create_slot:Cannot create msg semaphore");
+		return (GS_FAIL);
+	}
+
+ /* Create the slot message semaphore. 	 */
+	(*pslot)->cmkey = ftok(key->str,'2');
+	if ((*pslot)->cmkey > 0)
+		(*pslot)->cmsem = gs_semtran((*pslot)->cmkey);
+	if ((*pslot)->cmsem < 0 || (*pslot)->cmkey == -1) {
+	gs_log("gsz_create_slot:error creating cmsem. Deleting locksem&msgsem");
+	/* remove the semaphore created above. 	 */
+		gs_semrm((*pslot)->locksem);
+		gs_semrm((*pslot)->msgsem);
+
+	/* remove the shared memory segment	 */
+		if (shmctl(id, IPC_RMID, (struct shmid_ds *) 0) < 0) {
+			gs_log("gsz_create_slot:Cannot remove shared mem.");
+		}
+
+		gs_log("gsz_create_slot:Cannot create cm semaphore");
+		return (GS_FAIL);
+	}
+
+	return (GS_SUCCESS);
+}
+@
+
+
+1.28
+log
+@Update
+@
+text
+@d122 3
+a124 1
+
+@
+
+
+1.27
+log
+@Update
+@
+text
+@d76 1
+a76 1
+		fprintf(stderr, "gs_initialize: null handle from gs_get_handle\n");
+d146 1
+a146 1
+				gs_log("test: receiver process is %u",h->pid);
+@
+
+
+1.26
+log
+@Update
+@
+text
+@d134 1
+a134 1
+			gs_log("gs_initialize: talk status = %d\n", status);
+d136 1
+a136 1
+		if (gs_delete_slot(h->slot) == GS_SUCCESS)
+d149 2
+a150 1
+			if (gs_delete_slot(h->slot) == GS_SUCCESS)
+d160 1
+a160 1
+		gs_log("gs_initialize: CM returned %u message not Status(pid).",
+d163 1
+a163 1
+		if (gs_delete_slot(h->slot) == GS_SUCCESS)
+d180 1
+a180 1
+		gs_log("gs_create_slot: Null key.");
+d187 1
+a187 1
+		gs_log("gs_create_slot:Cannot alloc shared memory for slot.");
+d196 1
+a196 1
+		gs_log("gs_create_slot:Cannot attach shared memory.");
+d200 2
+d203 4
+a206 2
+	(*pslot)->locksem = gs_semtran(key->key);
+	if ((*pslot)->locksem < 0) {
+d209 1
+a209 1
+			gs_log("gs_create_slot:Cannot remove shared mem.");
+d211 1
+a211 1
+		gs_log("gs_create_slot:Cannot create lock semaphore");
+d216 5
+a220 3
+	(*pslot)->msgsem = gs_semtran(key->key + 4);
+	if ((*pslot)->msgsem < 0) {
+
+d226 1
+a226 1
+			gs_log("gs_create_slot:Cannot remove shared mem.");
+d229 1
+a229 1
+		gs_log("gs_create_slot:Cannot create msg semaphore");
+d234 5
+a238 3
+	(*pslot)->cmsem = gs_semtran(key->key + 8);
+	if ((*pslot)->cmsem < 0) {
+
+d245 1
+a245 1
+			gs_log("gs_create_slot:Cannot remove shared mem.");
+d248 1
+a248 1
+		gs_log("gs_create_slot:Cannot create cm semaphore");
+a250 1
+	(*pslot)->id = id;
+@
+
+
+1.25
+log
+@Update
+@
+text
+@d59 1
+a59 1
+GSHandle_t *gs_initialize(dest, context)
+d62 1
+d66 1
+a66 1
+	char    text[256];
+d77 1
+d86 1
+d92 1
+d101 1
+d109 4
+d117 1
+a117 1
+	sprintf(text, "%s: -slot %s %s", dest, filename, context);
+d138 1
+a138 1
+
+d143 2
+a144 1
+		if (*pint != GS_SUCCESS) {
+d146 3
+a148 1
+				gs_log("test: cm returned status of %u",*pint);
+d150 3
+a152 2
+				h->init = FALSE;
+			return ((GSHandle_t *)0);
+d154 3
+d158 9
+a167 1
+
+d196 1
+a196 1
+		return (GS_FAIL);
+@
+
+
+1.24
+log
+@Update
+@
+text
+@d68 1
+a68 1
+	int     len;
+d70 1
+a70 1
+	int     fd;
+d116 2
+a117 1
+	reply.MsgBuf[0] = '\0';
+d132 10
+a141 1
+
+@
+
+
+1.23
+log
+@Update
+@
+text
+@d57 1
+d68 1
+a68 4
+	int     i, len;
+	char   *cp = NULL;
+	char  **tcp = (char **) 0;
+	GSKey_t *appkey;
+a139 1
+	int     status = GS_SUCCESS;
+@
+
+
+1.22
+log
+@Update
+@
+text
+@d71 1
+a71 1
+	char   filename[256];
+d82 2
+a83 2
+	sprintf(text,"%s/gsappkey_XXXXXX",h->homedir);
+	strcpy(filename,mktemp(text));
+d99 1
+a99 1
+		return ((GSHandle_t *)0);
+d102 1
+a102 1
+	/* preset the message semaphore to > 0.  (available)*/
+d104 1
+a104 1
+	errno =0;
+d110 1
+a110 1
+	sprintf(text, "%s: -slot %s %s", dest, filename,context);
+d112 2
+a113 2
+	len ++;		/* null counts */
+	memcpy(&msg.MsgBuf[1], text, len );
+d123 1
+a123 1
+	status = gs_talk(h, h->cmslot,&msg, &reply);
+d138 1
+a138 1
+static int     gsz_create_slot(key, pslot)
+d196 1
+a196 1
+	(*pslot)->cmsem = gs_semtran(key->key+8);
+a214 1
+
+@
+
+
+1.21
+log
+@Update
+@
+text
+@d101 2
+d112 3
+a114 2
+	memcpy(&msg.MsgBuf[1], text, len + 1);
+	msg.MsgLen += len+1;
+@
+
+
+1.20
+log
+@Update
+@
+text
+@d101 1
+@
+
+
+1.19
+log
+@Update
+@
+text
+@a101 3
+ 	gs_sem_signal(h->slot->msgsem);
+	if (errno != 0) 
+		gs_log("Error from initial signal of msgsem");
+a102 4
+ 	gs_sem_signal(h->slot->cmsem);
+	if (errno != 0) 
+		gs_log("Error from initial signal of cmsem");
+
+d165 1
+a165 1
+	(*pslot)->locksem = gs_sem_create(key->key, 1);
+d176 1
+a176 1
+	(*pslot)->msgsem = gs_sem_create(key->key + 4, 1);
+d180 1
+a180 1
+		gs_sem_close((*pslot)->locksem);
+d192 1
+a192 1
+	(*pslot)->cmsem = gs_sem_create(key->key + 8, 1);
+d196 2
+a197 2
+		gs_sem_close((*pslot)->locksem);
+		gs_sem_close((*pslot)->msgsem);
+@
+
+
+1.18
+log
+@Update
+@
+text
+@d101 8
+a108 1
+ /*	gs_sem_signal(h->slot->cmsem); */
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d96 1
+a96 1
+	status = gs_create_slot(h->key, &h->slot);
+d101 1
+a101 1
+	gs_sem_signal(h->slot->cmsem);
+d132 78
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d77 1
+a77 1
+		fprintf(stderr, "gs_inq_dest: null handle from gs_get_handle\n");
+d122 1
+a122 1
+			gs_log("gs_inq_dest: talk status = %d\n", status);
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d5 4
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d97 1
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d84 1
+a84 1
+	fd = open(filename, O_WRONLY | O_CREAT, 0644);
+d102 1
+a102 1
+	sprintf(text, "%s: -slot %d %s", dest, (int)h->key->key,context);
+@
+
+
+1.12
+log
+@Update
+@
+text
+@d98 1
+d101 1
+d105 1
+a105 1
+	msg.MsgLen = len + 1;
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d100 1
+a100 1
+	sprintf(text, "%s:%s", dest, context);
+d117 1
+a117 1
+		if (gs_remove_slot(h->slot) == GS_SUCCESS)
+a126 55
+
+
+GSHandle_t *gs_get_handle()
+{
+	int     status = GS_SUCCESS;
+	char    log[256];
+	char   *cp;
+	static GSHandle_t *h = (GSHandle_t *) 0;
+	static int firsttime = TRUE;
+
+	if (h != (GSHandle_t *) 0) {
+		if (h->init == FALSE)
+			firsttime = TRUE;
+	}
+
+	if (firsttime == TRUE) {
+		if (h == (GSHandle_t *) 0) {
+			h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+		}
+
+		h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+
+		if ((cp = gs_home(0)) != NULL)
+			strcpy(h->homedir, cp);
+
+		if ((cp = gs_cf_name(0)) != NULL)
+			strcpy(h->cfgfile, cp);
+
+		if ((cp = gs_logfile(0)) != NULL)
+			strcpy(h->logfile, cp);
+
+		h->pid = getpid();
+
+		h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+		if (h->key == (GSKey_t *) 0) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_get_handle: Error generating shm key.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+			if (h->debug) {
+				fprintf(stderr,
+					"gs_get_handle: Error attaching to cm slot.");
+			}
+			return ((GSHandle_t *) 0);
+		}
+
+		h->init = TRUE;
+		firsttime = FALSE;
+	}
+	return ((GSHandle_t *) h);
+}
+@
+
+
+1.10
+log
+@Update
+@
+text
+@d67 1
+a67 1
+	char   *filename;
+d78 6
+a83 1
+	filename = tmpnam(NULL);
+d85 4
+d91 6
+a96 2
+	appkey = (GSKey_t *) gs_ipc_key(filename);
+	status = gs_create_slot(appkey, &h->slot);
+d112 1
+a112 1
+	status = gs_talk(h, h->slot,&msg, &reply);
+d117 1
+a117 1
+		if (gs_detach_slot(h->slot) == GS_SUCCESS)
+@
+
+
+1.9
+log
+@Update
+@
+text
+@d71 1
+a71 1
+	h = gs_def_handle();
+d73 1
+a73 1
+		fprintf(stderr, "gs_inq_dest: null handle from gs_def_handle\n");
+d116 1
+a116 1
+GSHandle_t *gs_def_handle()
+d151 1
+a151 1
+					"gs_def_handle: Error generating shm key.");
+d159 1
+a159 1
+					"gs_def_handle: Error attaching to cm slot.");
+@
+
+
+1.8
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d99 1
+a99 1
+	status = gs_talk(h, &msg, &reply);
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d56 1
+a56 1
+char *context;
+d59 7
+a65 7
+    int     status = GS_SUCCESS;
+	char  text[256];	
+    GSHandle_t *h = (GSHandle_t *)0;
+    GSMessage_t msg, reply;
+    int i,len;
+    char *cp = NULL;
+    char **tcp = (char **)0;
+d67 2
+a68 2
+	char *filename;
+	int fd;
+d71 5
+a75 5
+    h = gs_def_handle();
+    if (h == (GSHandle_t *) 0) {
+	fprintf(stderr,"gs_inq_dest: null handle from gs_def_handle\n");
+	return ((GSHandle_t *)0);
+    }
+d77 1
+a77 1
+	/* Create a local slot for communication with receiver.*/
+d79 1
+a79 1
+	fd =open(filename,O_WRONLY|O_CREAT,0644);
+a81 1
+	
+d83 1
+a83 1
+	status = gs_create_slot(appkey,&h->slot);
+d85 6
+a90 6
+    msg.MsgType = Executive;
+    msg.MsgBuf[0] = StartReceiver;
+	sprintf(text,"%s:%s",dest,context);
+	len  = strlen(text);
+	memcpy(&msg.MsgBuf[1],text,len+1);
+    msg.MsgLen = len + 1;
+d92 3
+a94 3
+    reply.MsgType = 0;
+    reply.MsgLen = 0;
+    reply.MsgBuf[0] = '\0';
+d99 4
+a102 4
+    status = gs_talk(h, &msg, &reply);
+    if (status != GS_SUCCESS) {
+	if (h->debug)
+	    gs_log("gs_inq_dest: talk status = %d\n", status);
+d104 2
+a105 2
+	if (gs_detach_slot(h->slot) == GS_SUCCESS)
+		h->init = FALSE;
+d107 2
+a108 2
+	return ((GSHandle_t *)0);
+    }
+d110 1
+a110 1
+    return (h);
+d118 5
+a122 5
+    int     status = GS_SUCCESS;
+    char    log[256];
+    char   *cp;
+    static GSHandle_t *h = (GSHandle_t *)0;
+    static int firsttime = TRUE;
+d124 3
+a126 8
+    if (h != (GSHandle_t *)0) {
+	if (h->init == FALSE )
+	   firsttime = TRUE;
+    }
+
+    if (firsttime == TRUE) {
+	if (h == (GSHandle_t *)0) {
+	    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 4);
+d129 4
+a132 1
+	h->debug = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+d134 1
+a134 2
+	if ((cp = gs_home(0)) != NULL)
+	    strcpy(h->homedir, cp);
+d136 2
+a137 2
+	if ((cp = gs_cf_name(0)) != NULL)
+	    strcpy(h->cfgfile, cp);
+d139 2
+a140 2
+	if ((cp = gs_logfile(0)) != NULL)
+	    strcpy(h->logfile, cp);
+d142 2
+a143 1
+	h->pid = getpid();
+d145 1
+a145 8
+	h->key = (GSKey_t *) gs_ipc_key(h->cfgfile);
+	if (h->key == (GSKey_t *) 0) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error generating shm key.");
+	    }
+	    return ((GSHandle_t *) 0);
+	}
+d147 19
+a165 6
+	if (gs_attach_slot(h->key, &h->slot) != GS_SUCCESS) {
+	    if (h->debug) {
+		fprintf(stderr,
+		    "gs_def_handle: Error attaching to cm slot.");
+	    }
+	    return ((GSHandle_t *) 0);
+d167 1
+a167 5
+
+	h->init = TRUE;
+	firsttime = FALSE;
+    }
+    return ((GSHandle_t *) h);
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d4 1
+a4 1
+
+d56 1
+a56 1
+GSContextInformation_t context;
+d63 1
+a63 1
+    int i;
+d66 3
+d70 1
+d74 1
+a74 1
+	return (GS_FAIL);
+d77 9
+d88 1
+a88 1
+	sprintf(text,"%s:%s",dest,context->vector_pointer);
+d108 1
+a108 1
+	return (status);
+a110 4
+	
+
+
+
+d117 7
+a123 9
+ /*
+  *handle the various possible replies from the Connection Manager 
+  */
+    switch (reply.MsgType) {
+    case Status:
+	status = (int) reply.MsgBuf[0];
+	if (h->debug)
+	    gs_log("gs_inq_dest: Reply is Status %d\n", status);
+	break;
+d125 4
+a128 3
+    case Data:
+	if (h->debug)
+	    printf("gs_inq_dest: Message is %s\n", reply.MsgBuf);
+d130 3
+a132 5
+	if (reply.MsgLen <= 1) {
+		if (h->debug)
+			gs_log("gs_inq_dest: No entries returned.");
+		status = GS_FAIL;
+		break;
+d135 1
+a135 4
+	cp = strtok(reply.MsgBuf," ");
+	for (i=0; cp != NULL;  cp = strtok(NULL," "), i++) {
+		gs_tcp_append(&tcp, cp);			
+	}	
+d137 2
+a138 3
+	status = GS_SUCCESS;
+	*dest_list = tcp;
+	break;
+d140 2
+a141 7
+    default:
+	if (h->debug)
+	    printf("gs_inq_dest: Msg Type:%d  Len:%d .\n",
+		reply.MsgType, reply.MsgLen);
+	status = GS_FAIL;
+	break;
+    }
+d143 2
+d146 1
+a146 5
+ /*
+  * Free up the temporary connection context we have established.
+  */
+    if (gs_detach_slot(h->slot) == GS_SUCCESS)
+	    h->init = FALSE;
+d148 8
+a155 2
+    return (status);
+}
+d157 7
+d165 5
+@
+
+
+1.5
+log
+@.
+@
+text
+@d60 6
+a65 3
+    char   *cp;
+    GSKey_t *gskey;
+    GSHandle_t *h;
+d67 1
+a67 1
+    h = (GSHandle_t *) malloc(sizeof(GSHandle_t) + 1);
+d69 2
+a70 2
+	gs_log("gs_init: Could'nt alloc GSHandle_t - Out of memory");
+	return ((GSHandle_t *) 0);
+d73 23
+a95 3
+    cp = getenv("GSHOME");
+    if (cp != NULL) {
+	strcpy(h->homedir, cp);
+a96 4
+    else {
+	gs_log("Error: GSHOME not defined.\n");
+	return ((GSHandle_t *) 0);
+    }
+d98 1
+a98 1
+    h->key = (GSKey_t *) gs_ipc_key(h->homedir);
+d100 2
+d105 52
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d10 1
+a10 1
+	This will send a protocol request to the connection manager 
+d18 1
+a18 1
+	connection channel. 
+d40 1
+a40 1
+	GSERR_SVC_BUSY       - Requested data receiver is single 
+d43 2
+a44 2
+	GSERR_SVC_BADCONTEXT - The context args given to the 
+			     - receiver are bad or unsupported. 
+d46 2
+a47 2
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+d54 2
+a55 2
+GSHandle_t *gs_initialize(dest,context)
+char *dest;
+d59 4
+a62 4
+int status = GS_SUCCESS;
+char *cp;
+GSKey_t *gskey;
+GSHandle_t *h;
+d64 5
+a68 5
+	h = (GSHandle_t *)malloc(sizeof(GSHandle_t)+1);
+	if (h == (GSHandle_t *)0) {
+		gs_log ("gs_init: Could'nt alloc GSHandle_t - Out of memory");
+		return ((GSHandle_t *)0);
+	}
+d70 8
+a77 8
+	cp = getenv("GSHOME");
+	if (cp != NULL) {
+		strcpy(h->homedir,cp);
+	}
+	else {
+		gs_log("Error: GSHOME not defined.\n");
+		return ((GSHandle_t *)0);
+	}
+d79 1
+a79 1
+	h->key = (GSKey_t *)gs_ipc_key(h->homedir);
+d81 1
+a81 1
+	return (h);
+a83 2
+
+
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d75 1
+a75 3
+		if (isatty(stderr)) {
+			fprintf(stderr,"Error: GSHOME not defined.\n");
+		}
+a79 2
+	
+
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+a4 1
+#include <sys/stat.h>
+d61 2
+d64 6
+d71 9
+d81 2
+d85 2
+a86 1
+	return GS_SUCCESS;
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d2 3
+d59 8
+a66 1
+return GS_SUCCESS;
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d2 2
+d5 46
+d58 1
+@

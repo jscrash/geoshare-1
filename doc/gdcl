@@ -1,0 +1,5 @@
+The connection layer routines are designed to insulate the
+application routines from the system specific implementation of the
+transport layer.  The routines at this layer provide an interface
+that is implemented to look like the stdio open, close, read & write
+functions.  

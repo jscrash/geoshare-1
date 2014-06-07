@@ -1,0 +1,24 @@
+
+Connection Manager implementation notes
+
+The following outline describes the high level operation of the connection
+Manager process:
+
+	a) Create a shared memory region using a key that is well
+	known; the path to the CM program works well for this.
+
+	b) Create the process slots datastructure and allocate
+	semaphores for each of the slots.
+
+	c) Read the system configuration file, build datastructure
+	of known data receivers.
+
+   loop:
+	d) Listen for activity on any of the slot semaphores.
+
+	e) If message in slot is for CM, process the protocol
+	request.
+
+	f) If message in slot is not for CM then ignore it and
+	continue watching the slots.
+

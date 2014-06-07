@@ -1,0 +1,89 @@
+head	1.1;
+access;
+symbols;
+locks; strict;
+comment	@ * @;
+
+
+1.1
+date	91.04.29.06.22.43;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.11.51.02;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of shm.h.
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@#include        "mesg.h"
+
+#define NBUFF 4       /* number of buffers in shared memory */
+/* (for multiple buffer version) */
+
+#define SHMKEY ((key_t) 7890) /* base value for shmem key */
+
+#define SEMKEY1 ((key_t) 7891) /* client semaphore key */
+#define SEMKEY2 ((key_t) 7892) /* server semaphore key */
+
+#define PERMS 0666
+
+
+/* err.c */
+int err_quit();
+int err_sys();
+int err_ret();
+int err_dump();
+int my_perror();
+int err_init();
+int err_quit();
+int err_sys();
+int err_ret();
+int err_dump();
+int my_perror();
+char *sys_err_str();
+char *host_err_str();
+
+/* p68.c */
+int main();
+
+/* p89.c */
+int main();
+int my_lock();
+int my_unlock();
+
+/* semlib.c */
+int sem_create();
+int sem_open();
+int sem_rm();
+int sem_close();
+int sem_wait();
+int sem_signal();
+int sem_op();
+
+/* shm_client.c */
+int main();
+int client();
+
+/* shm_server.c */
+int main();
+int server();
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@@

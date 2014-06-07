@@ -1,0 +1,204 @@
+104 pgscriptver 
+
+100 DefSpaceEx 100 DefCharEx 1 DefNormalHyphenationOn 100 
+DefTypeColor (Times-Roman) DefTypeFace ENGLISH DefLanguage 12 DefPointSize 
+USE_POINTSIZE DefSetSize (@default) DefTypeResource 
+
+LEFT DefJustifyFlags 2 DefBeginParaLeadValue ABSOLUTE DefBeginParaLeadMode 2 
+DefEndParaLeadValue ABSOLUTE DefEndParaLeadMode 120 DefLeadValue 
+PROPORTIONAL DefLeadMode 1 46 0 TAB_LEFT  720 DefTab 1 46 0 
+TAB_LEFT  2160 DefTab 1 46 0 TAB_LEFT  3600 DefTab 1 46 0 
+TAB_LEFT  5040 DefTab 1 46 0 TAB_LEFT  6480 DefTab 1 46 0 
+TAB_LEFT  7920 DefTab 1 46 0 TAB_LEFT  9360 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 0 46 0 TAB_LEFT  24480 DefTab 0 46 0 
+TAB_LEFT  24480 DefTab 80 DefWSMN 100 DefWSNM 150 DefWSMX 110 
+DefLSMX 100 DefLeaderEx 46 DefLeaderChar 0 DefFirstIndent 0 
+DefLeftIndent 0 DefRightIndent 0 DefNumberingOn 0 DefNumberingType 0 
+DefNumberingRestart 1 DefNumberingLevel 0 DefNumberingStyle 0 
+DefNumberingTabAfter 1 DefNumberingShowAllLevels 1 DefNumberingStart 1 
+DefNumberingIncrement () DefNumberingPrefix () DefNumberingSuffix (.) 
+DefNumberingSeparator (*default) DefParaResource 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResource 
+
+0 DefPageDimensions 12240 DefPageWidth 15840 DefPageHeight 1440 
+DefInsideMargin 1080 DefOutsideMargin 1080 DefTopMargin 1080 
+DefBottomMargin 0 DefOrientation 0 DefPageStyle 1 DefColumns 360 
+DefGutter (%default) DefMasterPage ResDefEnd 
+
+0 DefFirstLeft 0 DefDocSetup 1 DefNumPages 1 AutoPage 1 
+DefStartPageNum () DefPageNumPrefix 1 DefGraphicLocation document 
+
+1 DefAutoPage 
+0 (%default) 1 DefPage 
+1 DefAutoPage 
+0 (%default) 2 DefPage 
+
+POLY_OBJECT POLY_EMPTY |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 0 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK POLY_COLUMN | |  DefSLinksFlags 0 DefStreamSucc 0 
+DefStreamPred 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_EMPTY |  (%default) 0 1 TextPolygon 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+
+MP_CPSUCC_LINK MP_CPPRED_LINK LINK_OVERFLOW MPREF_VALID POLY_COLUMN AUTO_STREAM | | | | | 
+DefSLinksFlags 4 DefStreamSucc 0 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (1) 0 2 TextPolygon 
+
+3 asciitextstream 
+<14 cs>I<SIZE type_rev>ntroduction<eop>
+------------<eop>
+<eop>
+The FinderLink facility allows transfer of data between applications<eop>
+belonging to different families and possibly running on different hosts of<eop>
+
+various architectures.<eop>
+<eop>
+Problems Addressed<eop>
+------------------<eop>
+<eop>
+The intention of this design is to address the problem of managing transfers<eo
+p>
+of FinderLink data between applications in a way that is:<eop>
+<eop>
+        * Portable<eop>
+        * Robust<eop>
+        * Easily Maintainable<eop>
+<eop>
+while providing:<eop>
+<eop>
+        * Flexibility<eop>
+        * Expandability<eop>
+        * Network Compatibility<eop>
+        * Application independance<eop>
+<eop>
+<eop>
+<eop>
+Additionally, there is the problem of delivery time.  The initial version of<eo
+p>
+FinderLink is expected to be delivered by April 15, 1991.  The April version<eo
+p>
+is only required to provide connection of applications running on the same<eop>
+
+host; a requirement intended to make the deadline achievable.<eop>
+<eop>
+This design provides a path to that initial functionality that is both<eop>
+portable and fast to implement, while allowing easy modular growth to the<eop>
+full network-based/multi-architecture scenario.<eop>
+<eop>
+<16 cs><eop>
+<SIZE type_rev>System Overview<eop>
+---------------<eop>
+<eop>
+FinderLink is composed of several different services working together, these<eo
+p>
+are:<eop>
+<eop>
+        * A PUT data service<eop>
+            This service processes interface datastructures data streams.<eop>
+            It is implemented as a standalone subroutine linked into each<eop>
+            application that uses FinderLink.<eop>
+<eop>
+        * A GET data service.<eop>
+            This service processes a data stream into an interface<eop>
+            datastructure.  It is implemented as a standalone subroutine<eop>
+            that is called by each application specific data server.<eop>
+<eop>
+        * A Traffic Manager service.<eop>
+            The TM service is responsible for recieving & dispatching data<eop>
+
+            to and from other TM services in an appropriate manner.<eop>
+            It is implemented as a standalone process that runs on each host<eo
+p>
+            configured with FinderLink.  The TM process handles incoming<eop>
+            and outgoing data traffic for all applications on a given host.<eop
+>
+<eop>
+<eop>
+An application wishing to send data to another application does so in the<eop>
+following manner:<eop>
+<eop>
+App_1 --<ra> App_2<eop>
+<eop>
+        * App_1 stores the data to be transferred into an interface<eop>
+        structure and calls fl_put with the host, user, application_name &<eop>
+
+<16 cs> <SIZE type_rev>       any context information needed by the destination
+ application's<eop>
+        server (i.e. a database login and project name).<eop>
+<eop>
+        * The fl_put calls a routine that opens a channel to a server<eop>
+<tab>program that will recieve data transfers for the type of <eop>
+<tab>application named in the fl_put argument list.  The server program <eop>
+<tab>that recieves the data is started by the call to fl_put.<eop>
+<eop>
+<16 cs>    <SIZE type_rev>    * The fl_get routine is called within the data re
+ciever server and<eop>
+        the data is read from the stream and reassembled into an interface stru
+cture.<eop>
+
+<textstream_end> 
+
+POLY_OBJECT POLY_TEXT |  DefPolyType 
+
+0 DefLineWidth TRANSPARENT DefPenColor TRANSPARENT DefFillColor 1 DefIG 300 
+DefResolution 100 DefYScale 100 DefXScale (=default) DefPolyResId 1 
+DefMasterRef 
+MP_CPSUCC_LINK MP_CPPRED_LINK MPREF_VALID POLY_COLUMN AUTO_STREAM | | | |  
+DefSLinksFlags 0 DefStreamSucc 2 DefStreamPred 3 DefTextHandle 
+1440 1080 11160 1080 11160 14760 1440 14760 4 
+POLY_OBJECT POLY_TEXT |  (2) 0 4 TextPolygon 
+
+BeginProfile 
+(Number of Pages) (2)  DefProfileString 
+(Language) (ENGLISH)  DefProfileString 
+(Version) (IslandWrite Version 2.3)  DefProfileString 
+(Creation Date) (julian March 7, 1991 2:14 PM)  DefProfileString 
+(Revision History) (julian March 7, 1991 2:52 PM)  DefProfileString 
+(Revision History) (julian March 7, 1991 2:15 PM)  DefProfileString 
+(Text Formats) (default)  DefProfileString 
+(Container Formats) (default)  DefProfileString 
+(Page Formats) (default)  DefProfileString 
+(Fonts) (Times-Roman)  DefProfileString 
+(File Path) ()  DefProfileString 
+(External Contents) ()  DefProfileString 
+(Title) ()  DefProfileString 
+(Status) ()  DefProfileString 
+(Distribution List) ()  DefProfileString 
+(Preparer) ()  DefProfileString 
+(Owner) ()  DefProfileString 
+(Author) ()  DefProfileString 
+(Superseded Documents) ()  DefProfileString 
+EndProfile 
+
+pgscriptdone 

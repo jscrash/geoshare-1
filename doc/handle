@@ -1,0 +1,5 @@
+GeoShare Connection Handle Definition
+
+This section describes the GSHandle I/O descriptor used by the
+GeoShare library routines.  The  to identify a destination for their I/O
+operations.

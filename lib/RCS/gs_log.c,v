@@ -1,0 +1,790 @@
+head	1.18;
+access;
+symbols;
+locks
+	julian:1.18; strict;
+comment	@ * @;
+
+
+1.18
+date	2012.10.17.20.35.48;	author julian;	state Exp;
+branches;
+next	1.17;
+
+1.17
+date	91.05.20.06.19.13;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.05.12.01.43.13;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.05.09.07.56.53;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.05.06.13.04.14;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.05.06.04.35.08;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.04.29.10.45.49;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.04.24.22.37.44;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.04.24.09.37.23;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.04.21.00.05.23;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.20.22.50.54;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.20.21.45.43;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.20.19.09.08;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.20.16.17.57;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.20.12.28.03;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.20.05.24.29;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.20.05.15.56;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_log.c.
+@
+
+
+1.18
+log
+@*** empty log message ***
+@
+text
+@#include "gs.h"
+#include <sys/stat.h>
+#include <stdarg.h>
+
+/****************************************************************************
+Module: GS_LOG
+
+Description:
+	This routine provides a way to log messages/errors from a daemon
+	process like the GeoShare connection manager.  Daemon processes have
+	no controlling terminal so it is necessary to log debug info through
+	a psuedo-terminal that is connected to the system console, or
+	optionally to a file on disk.
+
+Usage:
+	gs_log(fmt,args);
+	
+	Example:
+		gs_log("Error: %s  status=%d",msg,status);
+	
+Parameters:
+	INPUT:
+		char *fmt	- printf style format spec.
+		void *args,..   - Matching value list for fmt spec.
+
+	OUTPUT:
+		None.
+
+Status:
+	This is a void function, it has no return value.
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 23:02:10 PDT 1991
+*****************************************************************************/
+#if 0
+extern int errno;
+extern char *sys_errlist[];
+extern int sys_nerr;
+#endif 
+ /*
+  * GS_LOG: Log messages to error log file.  If not connected to an error log
+  * then send messages to stderr.
+  */
+/*VARARGS1*/
+int     gs_log(char *fmt, ...)
+{
+
+	va_list args;
+	int     len, status;
+	char   *cp;
+	FILE   *fp, *gserrfp;
+	static char gserrfile[256];
+	static int first_time = TRUE;
+	static int debug_flag = FALSE;
+	int     myerrno;
+
+	va_start(args,fmt);
+
+	debug_flag = gs_chk_debug();
+	myerrno = errno;
+	if (first_time == TRUE) {
+		if ((cp = gs_log_init(gs_logfile(NULL))) == NULL) {
+			status = GS_FAIL;
+			if (debug_flag) {
+				fp = fopen("/tmp/gs.err", "a+");
+				fprintf(fp, "Error initializing logfile.");
+				fflush(fp);
+				close(fp);
+			}
+			return (status);
+		}
+		else {
+			first_time = FALSE;
+			strcpy(gserrfile, cp);
+		}
+
+	}
+	if ((gserrfp = fopen(gserrfile, "a+")) <= (FILE *)0) {
+		if (debug_flag) {
+			fp = fopen("/tmp/cm.err", "a+");
+			fprintf(fp, "Error initializing logfile.");
+			fflush(fp);
+			close(fp);
+		}
+		status = GS_FAIL;
+	}
+	else {
+		setbuf(gserrfp, NULL);
+		cp = va_arg(args, char *);
+		vfprintf(gserrfp, fmt, args);
+		len = strlen(fmt);
+		if (fmt[len - 1] != '\n')
+			fprintf(gserrfp, "\n");
+		if (myerrno != 0) {
+			fprintf(gserrfp, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+		}
+		if (debug_flag) {
+			if (myerrno != 0) {
+				fprintf(stderr, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+			}
+			vfprintf(stderr, fmt, args);
+			if (fmt[len - 1] != '\n')
+				fprintf(stderr, "\n");
+			fflush(stderr);
+		}
+		va_end(args);
+		status = GS_SUCCESS;
+		first_time = FALSE;
+		fflush(gserrfp);
+		fclose(gserrfp);
+	}
+	errno = 0;
+	return (status);
+}
+@
+
+
+1.17
+log
+@Update
+@
+text
+@d3 1
+a3 1
+#include <varargs.h>
+d35 1
+a35 1
+
+d39 1
+a39 1
+
+a43 1
+
+d45 1
+a45 2
+int     gs_log(va_alist)
+char *va_alist;
+d47 1
+a48 1
+	char   *fmt;
+d57 1
+a57 1
+	va_start(args);
+d89 1
+a89 1
+		fmt = va_arg(args, char *);
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d47 1
+a47 1
+va_dcl
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d2 1
+a3 3
+#include <sys/stat.h>
+#include "systype.h"
+#include <errno.h>
+d46 2
+a47 1
+int     gs_log(va_alist) va_dcl
+a56 1
+	int     tt = 0;
+d64 1
+a64 1
+		if ((cp = gs_log_init(gs_logfile((char **) 0))) == NULL) {
+d80 1
+a80 1
+	if ((gserrfp = fopen(gserrfile, "a+")) <= 0) {
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d54 1
+a54 1
+	FILE   *fp,*gserrfp;
+d69 1
+a69 1
+				fp = fopen("/tmp/gs.err","a+");
+d84 1
+a84 1
+			fp = fopen("/tmp/cm.err","a+");
+d92 1
+a92 1
+		setbuf(gserrfp,NULL);
+d108 1
+a108 1
+		fflush(stderr);
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d54 1
+a54 1
+	FILE   *gserrfp;
+d63 1
+a65 1
+		debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+d68 6
+a73 2
+			if (debug_flag)
+				fprintf(stderr, "Error initializing logfile.");
+d84 4
+a87 3
+			fprintf(stderr, "Error writing to error log. \n");
+			perror();
+			fflush(stderr);
+@
+
+
+1.12
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d87 1
+d103 1
+a103 1
+			fclose(gserrfp);
+d108 2
+@
+
+
+1.11
+log
+@.
+@
+text
+@d50 10
+a59 10
+    va_list args;
+    char   *fmt;
+    int     len, status;
+    char   *cp;
+    FILE   *gserrfp;
+    static char gserrfile[256];
+    static int first_time = TRUE;
+    static int debug_flag = FALSE;
+    int     tt = 0;
+    int     myerrno;
+d61 1
+a61 1
+    va_start(args);
+d63 13
+a75 13
+    myerrno = errno;
+    if (first_time == TRUE) {
+	debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+	if ((cp = gs_log_init(gs_logfile((char **) 0))) == NULL) {
+	    status = GS_FAIL;
+	    if (debug_flag)
+		fprintf(stderr, "Error initializing logfile.");
+	    return (status);
+	}
+	else {
+	    first_time = FALSE;
+	    strcpy(gserrfile, cp);
+	}
+a76 6
+    }
+    if ((gserrfp = fopen(gserrfile, "a+")) <= 0) {
+	if (debug_flag) {
+	    fprintf(stderr, "Error writing to error log. \n");
+	    perror();
+	    fflush(stderr);
+d78 7
+a84 10
+	status = GS_FAIL;
+    }
+    else {
+	fmt = va_arg(args, char *);
+	vfprintf(gserrfp, fmt, args);
+	len = strlen(fmt);
+	if (fmt[len - 1] != '\n')
+	    fprintf(gserrfp, "\n");
+	if (myerrno != 0) {
+	    fprintf(gserrfp, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+d86 21
+a106 8
+	if (debug_flag) {
+	    if (myerrno != 0) {
+		fprintf(stderr, "%d - %s\n", myerrno, sys_errlist[myerrno]);
+	    }
+	    vfprintf(stderr, fmt, args);
+	    if (fmt[len - 1] != '\n')
+		fprintf(stderr, "\n");
+	    fclose(gserrfp);
+d108 2
+a109 6
+	va_end(args);
+	status = GS_SUCCESS;
+	first_time = FALSE;
+    }
+    errno = 0;
+    return (status);
+@
+
+
+1.10
+log
+@*** empty log message ***
+@
+text
+@d60 1
+a60 1
+    
+d66 1
+a66 1
+	    if ((cp = gs_log_init(gs_logfile((char **)0))) == NULL) {
+d71 1
+a71 1
+	    }
+@
+
+
+1.9
+log
+@*** empty log message ***
+@
+text
+@d52 1
+a52 1
+    int     len,status;
+d54 1
+a54 1
+    FILE *gserrfp;
+d58 3
+a60 1
+    int tt = 0;
+d63 1
+d66 6
+a71 6
+	if ((cp = gs_log_init((char *)0)) == NULL) {
+		status = GS_FAIL;
+		if (debug_flag)
+			fprintf(stderr,"Error initializing logfile.");
+		return (status);
+	}
+d73 2
+a74 2
+		first_time = FALSE;
+		strcpy(gserrfile,cp);
+d79 1
+a79 1
+        if (debug_flag) {
+d90 4
+a93 4
+	if (fmt[len-1] != '\n' ) 
+		fprintf(gserrfp,"\n");
+	if (errno != 0) {
+		fprintf(gserrfp,"%d - %s\n",errno,sys_errlist[errno]);
+d96 7
+a102 6
+		if (errno != 0) {
+			fprintf(stderr,"%d - %s\n",errno,sys_errlist[errno]);
+		}
+	vfprintf(stderr, fmt, args);
+	if (fmt[len-1] != '\n' ) 
+		fprintf(stderr,"\n");
+a104 1
+	fclose(gserrfp);
+d106 1
+d108 1
+@
+
+
+1.8
+log
+@*** empty log message ***
+@
+text
+@d87 1
+a87 1
+	if (fmt[len] != '\n' ) 
+d97 1
+a97 1
+	if (fmt[len] != '\n' ) 
+@
+
+
+1.7
+log
+@*** empty log message ***
+@
+text
+@d52 1
+a52 1
+    int     status;
+a74 1
+    tt = isatty(stderr);
+d76 1
+a76 1
+        if (tt) {
+d86 3
+d92 1
+a92 1
+	if (debug_flag && tt) {
+d97 2
+@
+
+
+1.6
+log
+@*** empty log message ***
+@
+text
+@d5 1
+a6 1
+
+d38 3
+d87 9
+a95 2
+	if (debug_flag && tt)
+	    vfprintf(stderr, fmt, args);
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d50 3
+d55 1
+a55 2
+    char   *cp;
+    FILE *gserrfp;
+d60 1
+a60 1
+	if ((cp = gs_init_log((char *)0)) == NULL) {
+d72 1
+a72 1
+
+d74 5
+a78 3
+	fprintf(stderr, "Error writing to error log. \n");
+	perror();
+	fflush(stderr);
+d84 1
+a84 1
+	if (debug_flag)
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@a37 3
+extern FILE *gserrfp;
+extern char *gserrfile;
+extern int gs_log_initflag;
+d50 1
+a50 1
+    static int firsttime = TRUE;
+d52 2
+a53 1
+    char *cp;
+d56 12
+a67 1
+    debug_flag = (getenv("GSDEBUG") != NULL) ? TRUE : FALSE;
+a68 3
+    if (gs_log_initflag != TRUE) {
+	if ((status = gs_init_log()) != GS_SUCCESS)
+	    return (status);
+d70 1
+d81 1
+a81 1
+		vfprintf(stderr,fmt,args);
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d35 1
+a35 1
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+d38 3
+a40 4
+extern GSGBL_t *pcm;
+static int gs_err_initflag = FALSE;
+static FILE *gserrfp = (FILE *) 0;
+static char gserrfile[256];
+a41 11
+/* Initialize the error message/handling system...  */
+int     gs_init_log()
+{
+    char    buf[256];
+    int     len = 0;
+    int     status = GS_SUCCESS;
+    char    logdir[256], *cp;
+    char   text[256];
+    static struct stat statbuf;
+
+
+a42 46
+  * Since receiver is run as daemon, we don't have a tty.  Open an error log
+  * file in the GSHOME directory, name the error log using the client process
+  * PID
+  */
+    if (gs_err_initflag != TRUE) {
+	if ((cp = (char *) getenv("GSHOME")) != (char *) 0) {
+	    strcpy(logdir, cp);
+	}
+	else {
+	    strcpy(logdir, GSDEFAULTHOME);
+	}
+
+		    /* Fall back on /tmp if none of the given */
+		    /* error log directories are acceptable.  */
+	if (stat(logdir, &statbuf)) {
+	    strcpy(logdir, "/tmp");
+	}
+
+	sprintf(gserrfile, "%s/gscm_errors.log", logdir);
+	if (!stat(gserrfile, &statbuf)) {
+	    if (gs_faccess(gserrfile, "w", (char *) 0) != GS_SUCCESS) {
+		printf("Cannot write %s\n", gserrfile);
+		sprintf(text, "%s/gscm_errors_%d.log", logdir, getpid());
+		strcpy(gserrfile, text);
+	    }
+	    else {
+		printf("%s exists and is writeable.\n", gserrfile);
+	    }
+	}
+	if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+	    fprintf(gserrfp, "\n--- New run  Pid=%d ---\n", getpid());
+	    fclose(gserrfp);
+	    gs_err_initflag = TRUE;
+	}
+	else {
+	    printf("Error opening error file %s\n", gserrfile);
+	    status = GS_FAIL;
+	}
+    }
+    return status;
+}
+
+
+
+
+ /*
+d46 1
+d53 3
+d58 1
+d60 1
+a60 2
+
+    if (gs_err_initflag != TRUE) {
+d73 1
+a73 1
+	if (pcm->debug)
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d3 1
+d38 1
+a38 2
+
+
+d49 3
+a51 1
+    char   logdir[256],*cp;
+d53 1
+d60 3
+a62 3
+	if ((cp = (char *) getenv("GSHOME")) != (char *)0) {
+		strcpy(logdir,cp);
+	} 
+d64 1
+a64 1
+		strcpy(logdir,GSDEFAULTHOME);
+a65 3
+	if (gs_faccess(logdir,(char *)"rw",(char *)0)) {
+		strcpy(logdir,"/tmp");
+	}	
+d67 26
+a92 2
+	sprintf(gserrfile, "%s/err_%d.log", logdir, (int) getpid());
+	gs_err_initflag = TRUE;
+a93 8
+    if ((gserrfp = fopen(gserrfile, "a+")) > 0) {
+	fprintf(gserrfp, "\n--- New run ---\n");
+	fclose(gserrfp);
+    }
+    else {
+	printf("Error opening error file %s\n", gserrfile);
+	status = GS_FAIL;
+    }
+d100 4
+a103 5
+ /* 
+ *  GS_LOG:
+ *	Log messages to error log file.  If not connected to an error log
+ *	then send messages to stderr.
+ */
+d105 1
+a105 2
+int     gs_log(va_alist)
+va_dcl
+d113 1
+d127 2
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@a41 1
+#define GSDEFAULTHOME "/tmp"
+d49 1
+a49 1
+    char   *logdir;
+d57 5
+a61 7
+	logdir = (char *) getenv("GSHOME");
+	if (logdir == (char *) 0)
+	    logdir = (char *) getcwd(buf, sizeof buf);
+	if (logdir == (char *) 0) {
+	    logdir = (char *) malloc(sizeof(char) * 
+				(int)strlen(GSDEFAULTHOME) + 1);
+	    strcpy(logdir, GSDEFAULTHOME);
+d63 4
+d100 1
+a100 1
+	if ((status = gs_err_init()) != GS_SUCCESS)
+d113 1
+a113 1
+	flclose(gserrfp);
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d62 2
+a63 2
+	    logdir = (char *) malloc(sizeof(char) * \
+		(int) (strlen(GSDEFAULTHOME)) + 1);
+d103 1
+a103 1
+	fprintf(stderr, "Error writing to error log. msg=%s\n", str);
+@

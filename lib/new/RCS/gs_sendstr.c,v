@@ -1,0 +1,431 @@
+head     1.9;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.9; strict;
+comment  @ * @;
+
+
+1.9
+date     91.05.20.04.27.25;  author julian;  state Exp;
+branches ;
+next     1.8;
+
+1.8
+date     91.05.14.15.09.05;  author julian;  state Exp;
+branches ;
+next     1.7;
+
+1.7
+date     91.05.14.08.06.56;  author julian;  state Exp;
+branches ;
+next     1.6;
+
+1.6
+date     91.05.12.01.43.18;  author julian;  state Exp;
+branches ;
+next     1.5;
+
+1.5
+date     91.05.09.07.56.58;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.05.07.08.14.22;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.05.07.07.18.31;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.05.07.06.22.34;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.05.06.22.52.20;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.05.06.17.03.03;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_sendstr.c.
+@
+
+
+1.9
+log
+@Update
+@
+text
+@#include "gs.h"
+#include <string.h>
+#include "errno.h"
+
+/****************************************************************************
+Module: GS_SENDSTR
+
+Description:
+	Send a string  to the receiver process.  The string will be logged
+	by the receiver to its message file.  This is primarily used to
+	debug receivers or to write informational messages into the receiver
+	message files, perhaps for marking events.
+
+	Note that strings received by the receiver are processed internally and 
+	do not cause a return from the gs_receive routine.
+
+Usage:
+	status = gs_sendstr(handle,string);
+
+Parameters:
+	INPUT:
+		GSHandle_t handle	- Initialized communications handle
+		char *string		- String to send to receiver.
+
+	OUTPUT:
+			NONE
+
+Status:
+	This routine will return GS_SUCCESS upon successful completion of
+	the string transfer.  If an error occurrs, one of the following may be
+	returned:
+				GS_FAIL
+
+                GSERR_MSGTYPE        - Unknown message type.
+
+                GSERR_CM_NOTINIT     - The connection manager is not
+                                     - available, request is refused.
+
+Author:
+	Julian Carlisle		Sun May 12 22:03:14 PDT 1991
+***************************************************************************/
+
+int     gs_sendstr(h, str)
+GSHandle_t *h;
+char   *str;
+{
+	int     status = GS_SUCCESS;
+	GSMessage_t msg, reply;
+	statusmsg *sp;
+	datamsg *dp;
+
+	dp = (datamsg *)&msg.MsgBuf[0];
+	msg.MsgType = Data;
+	dp->class = String;
+	strcpy(dp->buf.cbuf, str);
+	msg.MsgLen = strlen(str);
+
+	reply.MsgType = 0;
+	reply.MsgLen = 0;
+	reply.MsgBuf[0] = '\0';
+
+ /*
+  * Talk to the connection manager, wait for reply
+  */
+
+	status = gs_rec_talk(h, h->slot, &msg, &reply);
+	if (status != GS_SUCCESS) {
+		if (h->debug)
+			gs_log("gs_sendstr: rec_talk status = %d\n", status);
+
+		/*return (status);*/
+	}
+
+
+ /*
+  * handle the various possible replies from the Connection Manager
+  */
+	switch (reply.MsgType) {
+	case Status:
+		sp = (statusmsg *)&reply.MsgBuf[0];
+		status = sp->buf.uibuf[0];
+		if (h->debug)
+			gs_log("gs_sendstr: Reply is Status %d\n", status);
+		break;
+
+	case Data:
+		dp = (datamsg *)&reply.MsgBuf[0];
+		if (h->debug)
+			gs_log("gs_sendstr: Message is %s\n", dp->buf.cbuf);
+
+		status = GS_SUCCESS;
+		break;
+
+	default:
+		if (h->debug)
+			gs_log("gs_sendstr: Msg Type:%d  Len:%d .\n",
+				reply.MsgType, reply.MsgLen);
+		status = GS_FAIL;
+		break;
+	}
+
+
+ /*
+  * Free up the temporary connection context we have established.
+  */
+	return (status);
+}
+@
+
+
+1.8
+log
+@Update
+@
+text
+@d89 1
+a89 1
+			fprintf(stderr,"gs_sendstr: Message is %s\n", dp->buf.cbuf);
+d96 1
+a96 1
+			fprintf(stderr,"gs_sendstr: Msg Type:%d  Len:%d .\n",
+@
+
+
+1.7
+log
+@Update
+@
+text
+@d5 2
+d8 5
+d14 30
+a43 1
+int     gs_sendstr(h, slot, str)
+a44 1
+GSSlot_t *slot;
+d66 1
+a66 1
+	status = gs_rec_talk(h, slot, &msg, &reply);
+@
+
+
+1.6
+log
+@Update
+@
+text
+@d14 2
+d17 1
+d19 2
+a20 1
+	strcpy(msg.MsgBuf, str);
+d36 1
+a36 1
+		return (status);
+d45 2
+a46 1
+		status = (int) reply.MsgBuf[0];
+d52 1
+d54 1
+a54 1
+			printf("gs_sendstr: Message is %s\n", reply.MsgBuf);
+a55 7
+		if (reply.MsgLen <= 1) {
+			if (h->debug)
+				gs_log("gs_sendstr: No entries returned.");
+			status = GS_FAIL;
+			break;
+		}
+
+d61 1
+a61 1
+			printf("gs_sendstr: Msg Type:%d  Len:%d .\n",
+@
+
+
+1.5
+log
+@Update
+@
+text
+@a13 2
+	int     i;
+	char   *cp = NULL;
+@
+
+
+1.4
+log
+@Update
+@
+text
+@d7 1
+a7 1
+int gs_sendstr(h,slot,str)
+d10 1
+a10 1
+char *str;
+d18 1
+a18 1
+	strcpy(msg.MsgBuf,str);
+d28 2
+a29 2
+	
+	status = gs_rec_talk(h,slot, &msg, &reply);
+@
+
+
+1.3
+log
+@Update
+@
+text
+@a75 88
+
+int     gs_rec_talk(h, pslot,msg, reply)
+GSHandle_t *h;
+GSSlot_t *pslot;
+GSMessage_t *msg;
+GSMessage_t *reply;
+{
+	int     status = GS_SUCCESS;
+
+	errno = 0;
+
+	if (h == (GSHandle_t *) 0) {
+		gs_log("gs_rec_talk: Null handle.");
+		return (GS_FAIL);
+	}
+
+	if (h->init != TRUE) {
+		gs_log("gs_rec_talk: Handle not initialized.");
+		return (GS_FAIL);
+	}
+
+ /* Check the message length */
+	if (msg->MsgLen > GSMAXMESSAGE) {
+		gs_log("gs_rec_talk: Message is too long.");
+		return (GS_FAIL);
+	}
+
+	/* Get the send semaphore */
+	do {
+		errno = 0;
+		gs_semP(pslot->msgsem);
+		status = errno;
+		if (errno != 0)
+			printf("rec_talk:2 error waiting on msgsem %d\n", errno);
+	} while (status == EINTR);
+
+	/* write message to slot */
+	pslot->msg.MsgType = msg->MsgType;
+	pslot->msg.MsgLen = msg->MsgLen;
+	memcpy(pslot->msg.MsgBuf, msg->MsgBuf, msg->MsgLen);
+
+ /* signal partner to read message */
+	do {
+		errno = 0;
+		gs_semV(pslot->cmsem);
+		status = errno;
+		if (errno != 0)
+			printf("rec_talk:3 error signalling  on cmsem %d\n", errno);
+	} while (status == EINTR);
+
+	sleep(0);
+
+	do {
+		errno = 0;
+		gs_semP(pslot->msgsem);
+		status = errno;
+		if (errno != 0)
+			printf("rec_talk:4 error waiting on msgsem %d\n", errno);
+	} while (status == EINTR);
+
+ /* read reply */
+	if (pslot->msg.MsgType == 0) {
+		gs_log("gs_rec_talk: Received Bad Message from cm.");
+		status = GS_FAIL;
+	}
+	else {
+		reply->MsgType = pslot->msg.MsgType;
+		reply->MsgLen = pslot->msg.MsgLen;
+		memcpy(reply->MsgBuf, pslot->msg.MsgBuf, pslot->msg.MsgLen);
+		reply->MsgBuf[reply->MsgLen] = '\0';
+		pslot->msg.MsgType = 0;
+		pslot->msg.MsgLen = 0;
+		pslot->msg.MsgBuf[0] = '\0';
+		status = GS_SUCCESS;
+	}
+ /* free the slot for other procs */
+
+	do {
+		errno = 0;
+		gs_semV(pslot->msgsem);
+		if (errno != 0)
+			printf("rec_talk:5 error signalling msgsem %d\n", errno);
+	} while (errno == EINTR);
+
+	sleep(0);
+
+	return (status);
+}
+@
+
+
+1.2
+log
+@Update
+@
+text
+@d32 1
+a32 1
+			gs_log("gs_sendstr: talk status = %d\n", status);
+d88 1
+a88 1
+		gs_log("gs_talk: Null handle.");
+d93 1
+a93 1
+		gs_log("gs_talk: Handle not initialized.");
+d99 1
+a99 1
+		gs_log("gs_talk: Message is too long.");
+d109 1
+a109 1
+			printf("talk:2 error waiting on msgsem %d\n", errno);
+d123 1
+a123 1
+			printf("talk:3 error signalling  on cmsem %d\n", errno);
+d130 1
+a130 1
+		gs_semP(pslot->cmsem);
+d133 1
+a133 1
+			printf("talk:4 error waiting on cmsem %d\n", errno);
+d138 1
+a138 1
+		gs_log("gs_talk: Received Bad Message from cm.");
+d157 1
+a157 1
+			printf("talk:5 error signalling msgsem %d\n", errno);
+@
+
+
+1.1
+log
+@Update
+@
+text
+@d29 1
+a29 1
+	status = gs_talk(h,slot, &msg, &reply);
+d74 88
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d28 1
+@

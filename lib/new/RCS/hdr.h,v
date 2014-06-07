@@ -1,0 +1,59 @@
+head     1.1;
+branch   ;
+access   ;
+symbols  ;
+locks    ; strict;
+comment  @ * @;
+
+
+1.1
+date     91.05.14.15.24.59;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@@
+
+
+
+1.1
+log
+@Initial revision
+@
+text
+@/****************************************************************************
+Module:
+
+Description:
+
+Usage:
+	
+Parameters:
+	INPUT:
+
+	OUTPUT:
+
+Status:
+
+	GSERR_MSGTYPE        - Unknown message type.
+	GSERR_NOCONNECT      - Connect attempt failed.
+	GSERR_EXECTYPE       - Unknown Executive Request.
+	GSERR_SVC_UNAVAIL    - Unknown data service.
+	GSERR_SVC_BUSY       - Requested data receiver is single 
+			     - threaded, and already in use.
+
+	GSERR_SVC_MISMATCH   - The data type sent to the data 
+			     - service is not supported.  
+
+	GSERR_SVC_BADCONTEXT - The context args given to the 
+			     - receiver are bad or unsupported. 
+
+	GSERR_CM_NOTINIT     - The connection manager is not 
+			     - available, request is refused.  
+
+
+Author:
+	Julian Carlisle 	 Fri Apr 19 13:32:19 PDT 1991
+*****************************************************************************/
+@

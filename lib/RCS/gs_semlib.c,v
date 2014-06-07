@@ -1,0 +1,1410 @@
+head	1.17;
+access;
+symbols;
+locks
+	julian:1.17; strict;
+comment	@ * @;
+
+
+1.17
+date	2012.10.17.20.35.48;	author julian;	state Exp;
+branches;
+next	1.16;
+
+1.16
+date	91.05.20.05.18.07;	author julian;	state Exp;
+branches;
+next	1.15;
+
+1.15
+date	91.05.20.03.30.18;	author julian;	state Exp;
+branches;
+next	1.14;
+
+1.14
+date	91.05.14.14.23.42;	author julian;	state Exp;
+branches;
+next	1.13;
+
+1.13
+date	91.05.14.03.37.57;	author julian;	state Exp;
+branches;
+next	1.12;
+
+1.12
+date	91.05.12.00.57.49;	author julian;	state Exp;
+branches;
+next	1.11;
+
+1.11
+date	91.05.09.07.56.56;	author julian;	state Exp;
+branches;
+next	1.10;
+
+1.10
+date	91.05.09.04.09.00;	author julian;	state Exp;
+branches;
+next	1.9;
+
+1.9
+date	91.05.09.04.00.44;	author julian;	state Exp;
+branches;
+next	1.8;
+
+1.8
+date	91.05.04.00.22.40;	author julian;	state Exp;
+branches;
+next	1.7;
+
+1.7
+date	91.05.03.21.39.53;	author julian;	state Exp;
+branches;
+next	1.6;
+
+1.6
+date	91.04.29.21.58.59;	author julian;	state Exp;
+branches;
+next	1.5;
+
+1.5
+date	91.04.24.14.21.44;	author julian;	state Exp;
+branches;
+next	1.4;
+
+1.4
+date	91.04.23.07.37.10;	author julian;	state Exp;
+branches;
+next	1.3;
+
+1.3
+date	91.04.23.03.30.43;	author julian;	state Exp;
+branches;
+next	1.2;
+
+1.2
+date	91.04.21.00.05.23;	author julian;	state Exp;
+branches;
+next	1.1;
+
+1.1
+date	91.04.19.19.54.23;	author julian;	state Exp;
+branches;
+next	1.0;
+
+1.0
+date	91.04.19.17.49.46;	author julian;	state Exp;
+branches;
+next	;
+
+
+desc
+@Initial checkin of gs_semlib.c.
+@
+
+
+1.17
+log
+@*** empty log message ***
+@
+text
+@#include "gs.h"
+#include        <sys/ipc.h>
+#include        <sys/sem.h>
+
+#if 0
+extern int semget();
+extern int semctl();
+extern int semop();
+
+#endif
+ /*
+ * Provlde an simpler and easier to understand interface to the System V
+ * semaphore system calls. There are 7 routines available to the user:
+ *      id = gs_sem_create(key, initval); # create with initial value or open
+ *      id = gs_sem_open(key)i              # open (must already exist)
+ *      gs_sem_wait(id);                    # wait = P = down by 1
+ *      gs_sem_signal(id);                  # signal = V = up by 1
+ *      gs_sem_op(id, amount);              # wait if (amount < O)
+ *                                       # signal if (amount > O)
+ *      gs_sem_close(id);                   # close
+ *      gs_sem_rm(id);                      # remove (delete)
+ * We create and use a 3-member set for the requested semaphore.
+ * The first member, [0], is the actual semaphore value, and the second
+ * member, [1], is a counter used to know when all processes have finished
+ * with the semaphore. The counter is initialized to a large number,
+ * decremented on every create or open and incremented on every close.
+ * This way we can use the "adjust" feature provided by System V so that
+ * any process that exit's without calling gs_sem_close() is accounted
+ * for. It doesn't help us if the last process does this (as we have
+ * no way of getting control to remove the semaphore) but it will
+ * work if any process other than the last does an exit (intentional
+ * or unintentional).
+ * The third member, [2], of the semaphore set is used as a lock variable
+ * to avoid any race conditions in the gs_sem_create() and gs_sem_close()
+ * functions.
+ */
+
+
+#define BIGCOUNT 10000	     /* initial value of process counter */
+
+ /*
+ * Define the semaphore operation arrays for the semop() calls.
+ */
+
+static struct sembuf op_lock[2] =
+{
+	2, 0, 0,	     /* wait for [2] (lock) to equal O */
+	2, 1, SEM_UNDO	     /* then increment [2] to 1 - this locks it */
+
+ /*
+  * UNDO to release the lock if processes exits before explicitly unlocking
+  */
+};
+static struct sembuf op_endcreate[2] =
+{
+	1, -1, SEM_UNDO,     /* decrement [1] (proc counter) with undo on exit */
+ /* UNDO to adjust proc counter if process exits */
+ /* before explicitly calling sem_close() */
+
+	2, -1, SEM_UNDO	     /* then decrement [2] (lock) back to O */
+};
+
+static struct sembuf op_open[1] =
+{
+	1, -1, SEM_UNDO	     /* decrement [1] (proc counter) with undo on  exit */
+};
+
+static struct sembuf op_close[3] =
+{
+	2, 0, 0,	     /* wait for [2] (lock) to equal O */
+	2, 1, SEM_UNDO,	     /* then increment [2] to 1 - this locks it */
+	1, 1, SEM_UNDO	     /* then increment [1] (proc counter) */
+};
+
+static struct sembuf op_unlock[1] =
+{
+	2, -1, SEM_UNDO	     /* decrement [2] (lock) back to O */
+};
+
+static struct sembuf op_op[1] =
+{
+	0, 99, 0	     /* decrement or increment [0] with undo on exit */
+};
+					 /* 99 is set to the actual amount to add or subtract */
+
+
+
+ /*
+  * Create a semaphore with a specified initial value. If the semaphore
+  * already exists, we don't initialize it (of course). We return the
+  * semaphore ID if all OK, else GS_FAIL.
+  */
+int     gs_sem_create(key, initval)
+key_t   key;
+int     initval;	     /* used if we create the semaphore */
+{
+	register int id, semval;
+	union semun {
+		int     val;
+		struct semid_ds *buf;
+		ushort *array;
+	}       semctl_arg;
+#ifdef DEBUG
+	gs_log("calling gs_sem_create");
+#endif
+
+	if (key == IPC_PRIVATE)
+		return (GS_FAIL); /* not intended for private semaphores */
+
+	else if (key == (key_t) - 1)
+		return (GS_FAIL); /* probably an ftok() error by caller */
+
+again:
+#ifdef DEBUG
+	gs_log("gs_sem_create: Calling semget\n");
+#endif
+	if ((id = semget(key, 3, 0666 | IPC_CREAT)) < 0)
+		return id;   /* permission problem or tables full */
+
+ /*
+  * When the semaphore is created, we know that the value of all 3 members is
+  * 0. Get a lock on the semaphore by waiting for [2] to equal 0, then
+  * increment it. There is a race condition here. There is a possibility that
+  * between the semget() above and the semop() below, another process can
+  * call our gs_sem_close() function which can remove the semaphore if that
+  * process is the last one using it. Therefore, we handle the error
+  * condition of an invalid semaphore ID specially below, and if it does
+  * happen, we just go back and create it again.
+  */
+
+#ifdef DEBUG
+	gs_log("gs_sem_create: Locking semaphore %d\n", id);
+#endif
+	if (semop(id, &op_lock[0], 2) < 0) {
+		if (errno == EINVAL)
+			goto again;
+		gs_log("gs_sem_create: can't lock");
+	}
+
+ /*
+  * Get the value of the process counter. If it equals 0, then no one has
+  * initialized the semaphore yet.
+  */
+
+	if ((semval = semctl(id, 1, GETVAL, 0)) < 0)
+		gs_log("gs_sem_create: can't GETVAL");
+
+#ifdef DEBUG
+	gs_log("gs_sem_create: process counter = %d\n", semval);
+#endif
+	if (semval == 0) {
+
+	/*
+	 * We could initialize by doing a SETALL, but that would clear the
+	 * adjust value that we set when we locked the semaphore above.
+	 * Instead, we'll do 2 system calls to initialize [0] and [1].
+	 */
+
+		semctl_arg.val = initval;
+		if (semctl(id, 0, SETVAL, semctl_arg) < 0)
+			gs_log("gs_sem_create: can SETVAL[0]");
+
+		semctl_arg.val = BIGCOUNT;
+		if (semctl(id, 1, SETVAL, semctl_arg) < 0)
+			gs_log("gs_sem_create: can SETVAL[1]");
+	}
+
+ /*
+  * Decrement the process counter and then release the lock.
+  */
+
+	if (semop(id, &op_endcreate[0], 2) < 0)
+		gs_log("gs_sem_create: can't end create");
+
+	return (id);
+}
+
+
+
+ /*
+  * Open a semaphore that must already exist. This function should be used,
+  * instead of gs_sem_create(), if the caller knows that the semaphore must
+  * already exist. For example a client from a client-server pair would use
+  * this, if its the server's responsibility to create the semaphore. We
+  * return the semaphore ID if all OK, else GS_FAIL.
+  */
+
+int     gs_sem_open(key)
+key_t   key;
+{
+	register int id;
+#ifdef DEBUG
+	gs_log("calling gs_sem_open");
+#endif
+
+	if (key == IPC_PRIVATE)
+		return (GS_FAIL); /* not intended for private semaphores */
+
+	else if (key == (key_t) - 1)
+		return (GS_FAIL); /* probably an ftok() error by caller */
+
+	if ((id = semget(key, 3, 0)) < 0)
+		return (GS_FAIL); /* doesn't exist, or tables full */
+
+ /*
+  * Decrement the process counter. We don't need a lock to do this.
+  */
+
+	if (semop(id, &op_open[0], 1) < 0)
+		gs_log("gs_sem_open: can't open, key=%u", key);
+
+	return (id);
+}
+
+
+
+ /*
+  * Remove a semaphore. This call is intended to be called by a server, for
+  * example, when it is being shut down, as we do an IPC RMID on the
+  * semaphore, regardless whether other processes may be using it or not.
+  * Most other processes should use gs_sem_close() below.
+  */
+
+int     gs_sem_rm(id)
+int     id;
+{
+	return (semctl(id, 0, IPC_RMID, 0));
+}
+
+
+
+
+ /*
+  * Close a semaphore. Unlike the remove function above, this function is for
+  * a process to call before it exits, when it is done with the semaphore. We
+  * "decrement" the counter of processes using the semaphore, and if this was
+  * the last one, we can remove the semaphore.
+  */
+
+int     gs_sem_close(id)
+int     id;
+{
+	register int semval;
+	int     status = GS_SUCCESS;
+#ifdef DEBUG
+	gs_log("calling gs_sem_close");
+#endif
+
+ /*
+  * The following semop() first gets a lock on the semaphore, then increments
+  * [l] - the process counter.
+  */
+	if (semop(id, &op_close[0], 3) < 0)
+		gs_log("gs_sem_close:can't semop");
+
+ /*
+  * Now that we have a lock, read the value of the process counter to see if
+  * this is the last reference to the semaphore. There is a race condition
+  * here - see the comments in gs_sem_create().
+  */
+
+	if ((semval = semctl(id, 1, GETVAL, 0)) < 0)
+		gs_log("gs_sem_close: can't GETVAL");
+
+#ifdef DEBUG
+	gs_log("gs_sem_close: process counter = %d\n", semval);
+#endif
+
+	if (semval > BIGCOUNT) {
+		gs_log("gs_sem_close:sem[l] > BIGCOUNT");
+		abort();
+	}
+	else if (semval == BIGCOUNT)
+		status = gs_sem_rm(id);
+	else {
+		status = semop(id, &op_unlock[0], 1);
+	}
+	return status;
+}
+
+
+ /*
+  * Wait until a semaphore's value is greater than 0, then decrement it by 1
+  * and return. Dijkstra's P operation. Tanenbaum's DOWN operation.
+  */
+
+int     gs_sem_wait(id)
+int     id;
+{
+	return (gs_sem_op(id, -1));
+}
+
+
+ /*
+  * Increment a semaphore by 1. Dijkstra's V operation. Tanenbaum's UP
+  * operation.
+  */
+int     gs_sem_signal(id)
+int     id;
+{
+	return (gs_sem_op(id, 1));
+}
+
+
+
+ /*
+  * General semaphore operation. Increment or decrement by a user-specified
+  * amount (positive or negative; amount can't be zero).
+  */
+int     gs_sem_op(id, value)
+int     id;
+int     value;
+{
+	int     status = GS_SUCCESS;
+
+	errno = 0;
+	if ((op_op[0].sem_op = value) == 0) {
+		gs_log("gs_sem_op: can't have value == 0");
+		return (GS_FAIL);
+	}
+
+	if (semop(id, &op_op[0], 1) < 0)
+		status = errno;
+
+	return (status);
+}
+
+
+ /*
+  * Dump the values of all the semaphores associated with a given id.
+  */
+void    gs_sem_dump(str, id)
+char   *str;
+int     id;
+{
+	int     sems[3];
+	int pid;
+
+	sems[0] = semctl(id, 0, GETVAL, 0);
+	sems[1] = semctl(id, 1, GETVAL, 0);
+	sems[2] = semctl(id, 2, GETVAL, 0);
+	pid = semctl(id,0,GETPID,0);
+	gs_log("%s val:%d  processes:%d  lock:%d  lastpid=%lu", str, sems[0], sems[1], sems[2],pid);
+	
+}
+
+@
+
+
+1.16
+log
+@Update
+@
+text
+@d5 1
+d10 1
+a10 1
+
+@
+
+
+1.15
+log
+@Update
+@
+text
+@d336 1
+d341 3
+a343 1
+	gs_log("%s val:%d  processes:%d  lock:%d", str, sems[0], sems[1], sems[2]);
+d345 1
+@
+
+
+1.14
+log
+@Update
+@
+text
+@d10 26
+a35 26
+/*
+* Provlde an simpler and easier to understand interface to the System V
+* semaphore system calls. There are 7 routines available to the user:
+*      id = gs_sem_create(key, initval); # create with initial value or open
+*      id = gs_sem_open(key)i              # open (must already exist)
+*      gs_sem_wait(id);                    # wait = P = down by 1
+*      gs_sem_signal(id);                  # signal = V = up by 1
+*      gs_sem_op(id, amount);              # wait if (amount < O)
+*                                       # signal if (amount > O)
+*      gs_sem_close(id);                   # close
+*      gs_sem_rm(id);                      # remove (delete)
+* We create and use a 3-member set for the requested semaphore.
+* The first member, [0], is the actual semaphore value, and the second
+* member, [1], is a counter used to know when all processes have finished
+* with the semaphore. The counter is initialized to a large number,
+* decremented on every create or open and incremented on every close.
+* This way we can use the "adjust" feature provided by System V so that
+* any process that exit's without calling gs_sem_close() is accounted
+* for. It doesn't help us if the last process does this (as we have
+* no way of getting control to remove the semaphore) but it will
+* work if any process other than the last does an exit (intentional
+* or unintentional).
+* The third member, [2], of the semaphore set is used as a lock variable
+* to avoid any race conditions in the gs_sem_create() and gs_sem_close()
+* functions.
+*/
+d40 3
+a42 3
+/*
+* Define the semaphore operation arrays for the semop() calls.
+*/
+d55 1
+a55 2
+	1, -1, SEM_UNDO,     /* decrement [1] (proc counter) with undo on
+			      * exit */
+d64 1
+a64 2
+	1, -1, SEM_UNDO	     /* decrement [1] (proc counter) with undo on
+			      * exit */
+d83 1
+a83 2
+/* the 99 is set to the actual amount to add
+or subtract (positive or negative) */
+d85 7
+a91 5
+/****************************************************************************
+* Create a semaphore with a specified initial value.
+* If the semaphore already exists, we don't initialize it (of course).
+* We return the semaphore ID if all OK, else -1.
+*/
+d102 3
+d107 1
+a107 1
+		return (-1); /* not intended for private semaphores */
+d110 1
+a110 1
+		return (-1); /* probably an ftok() error by caller */
+d114 1
+a114 1
+	fprintf(stderr, "sem_create: Calling semget\n");
+d131 1
+a131 1
+	fprintf(stderr, "sem_create: Locking semaphore %d\n", id);
+d136 1
+a136 1
+		gs_log("can't lock");
+d145 1
+a145 1
+		gs_log("can't GETVAL");
+d148 1
+a148 1
+	fprintf(stderr, "sem_create: process counter = %d\n", semval);
+d160 1
+a160 1
+			gs_log("can SETVAL[0]");
+d164 1
+a164 1
+			gs_log("can SETVAL[1]");
+d172 1
+a172 1
+		gs_log("can't end create");
+a176 8
+/****************************************************************************
+* Open a semaphore that must already exist.
+* This function should be used, instead of gs_sem_create(), if the caller
+* knows that the semaphore must already exist. For example a client
+* from a client-server pair would use this, if its the server's
+* responsibility to create the semaphore.
+* We return the semaphore ID if all OK, else -1.
+*/
+d178 9
+d191 3
+d196 1
+a196 1
+		return (-1); /* not intended for private semaphores */
+d199 1
+a199 1
+		return (-1); /* probably an ftok() error by caller */
+d202 1
+a202 1
+		return (-1); /* doesn't exist, or tables full */
+d209 1
+a209 1
+		gs_log("can't open, key=%u",key);
+a213 7
+/****************************************************************************
+* Remove a semaphore.
+* This call is intended to be called by a server, for example,
+* when it is being shut down, as we do an IPC RMID on the semaphore,
+* regardless whether other processes may be using it or not.
+* Most other processes should use gs_sem_close() below.
+*/
+d215 8
+d226 1
+a226 1
+	return ( semctl(id, 0, IPC_RMID, 0)); 
+a227 1
+/****************************************************************************
+a228 6
+* Close a semaphore.
+* Unlike the remove function above, this function is for a process
+* to call before it exits, when it is done with the semaphore.
+* We "decrement" the counter of processes using the semaphore, and
+* if this was the last one, we can remove the semaphore.
+*/
+d230 9
+d243 4
+a246 1
+	int status = GS_SUCCESS;
+d265 1
+a265 1
+	fprintf(stderr, "sem_close: process counter = %d\n", semval);
+d275 1
+a275 1
+		status = semop(id, &op_unlock[0], 1); 
+d277 1
+a277 1
+return status;
+a278 5
+/****************************************************************
+* Wait until a semaphore's value is greater than 0, then decrement
+* it by 1 and return.
+* Dijkstra's P operation. Tanenbaum's DOWN operation.
+*/
+d280 6
+d292 5
+a296 4
+/**************************************************************************
+* Increment a semaphore by 1.
+* Dijkstra's V operation. Tanenbaum's UP operation.
+*/
+d302 7
+a308 4
+/****************************************************************************
+* General semaphore operation. Increment or decrement by a user-specified
+* amount (positive or negative; amount can't be zero).
+*/
+d327 5
+a331 1
+void     gs_sem_dump(str, id)
+d340 1
+a340 1
+	gs_log("%s val:%d  processes:%d  lock:%d",str,sems[0],sems[1],sems[2]);
+@
+
+
+1.13
+log
+@Update
+@
+text
+@d203 1
+a203 1
+		gs_log("can't open");
+d219 1
+a219 5
+int status = GS_SUCCESS;
+	status = semctl(id, 0, IPC_RMID, 0); 
+	if (status < 0)
+		gs_log("can't IPC_RMID");
+	return status;
+d241 1
+a241 1
+		gs_log("can't semop");
+d250 2
+a251 1
+		gs_log("can't GETVAL");
+d257 1
+a257 1
+		gs_log("sem[l] > BIGCOUNT");
+a263 2
+		if (status < 0)
+			gs_log("can't unlock");	/* unlock */
+@
+
+
+1.12
+log
+@*** empty log message ***
+@
+text
+@d324 1
+a324 2
+	fprintf(stderr, "%s val:%d  processes:%d  lock:%d\n",
+		str, sems[0], sems[1], sems[2]);
+@
+
+
+1.11
+log
+@Update
+@
+text
+@d2 2
+d5 5
+a36 7
+#ifdef DEBUG
+#include                <stdio.h>
+#endif
+#include        <sys/types.h>
+#include        <sys/ipc.h>
+#include        <sys/sem.h>
+#include        <errno.h>
+d219 3
+a221 1
+	if (semctl(id, 0, IPC_RMID, 0) < 0)
+d223 1
+d238 1
+d264 7
+a270 3
+		gs_sem_rm(id);
+	else if (semop(id, &op_unlock[0], 1) < 0)
+		gs_log("can't unlock");	/* unlock */
+d315 1
+a315 1
+int     gs_sem_dump(str, id)
+a318 1
+	int     status = 0;
+@
+
+
+1.10
+log
+@Update
+@
+text
+@d216 1
+a216 1
+int gs_sem_rm(id)
+d231 1
+a231 1
+int gs_sem_close(id)
+d252 1
+a252 1
+	fprintf(stderr,"sem_close: process counter = %d\n",semval);
+d307 3
+a309 3
+int gs_sem_dump(str,id)
+char *str;
+int id;
+d311 2
+a312 2
+	int status = 0;
+	int sems[3];
+d314 5
+a318 5
+	sems[0] = semctl(id,0,GETVAL,0);
+	sems[1] = semctl(id,1,GETVAL,0);
+	sems[2] = semctl(id,2,GETVAL,0);
+	fprintf(stderr,"%s val:%d  processes:%d  lock:%d\n",
+			str,sems[0],sems[1],sems[2]);
+@
+
+
+1.9
+log
+@Update
+@
+text
+@d83 1
+a83 1
+	0, 99, SEM_UNDO	     /* decrement or increment [0] with undo on exit */
+@
+
+
+1.8
+log
+@Update
+@
+text
+@d38 1
+a38 1
+#define BIGCOUNT 100	     /* initial value of process counter */
+d112 1
+a112 1
+	fprintf(stderr, "Calling semget\n");
+d129 1
+a129 1
+	fprintf(stderr, "Locking semaphore %d\n", id);
+d146 1
+a146 1
+	fprintf(stderr, "Semaphore process counter = %d\n", semval);
+d216 1
+a216 1
+gs_sem_rm(id)
+d231 1
+a231 1
+gs_sem_close(id)
+d250 4
+a253 1
+		gs_log("can't G~TVAL");
+d305 14
+@
+
+
+1.7
+log
+@Reformat to indentation 8 for readability
+@
+text
+@d252 4
+a255 2
+	if (semval > BIGCOUNT)
+		gs_err_dump("sem[l] > BIGCOUNT");
+@
+
+
+1.6
+log
+@.
+@
+text
+@d46 2
+a47 2
+    2, 0, 0,		     /* wait for [2] (lock) to equal O */
+    2, 1, SEM_UNDO	     /* then increment [2] to 1 - this locks it */
+d55 1
+a55 1
+    1, -1, SEM_UNDO,	     /* decrement [1] (proc counter) with undo on
+d60 1
+a60 1
+    2, -1, SEM_UNDO	     /* then decrement [2] (lock) back to O */
+d65 1
+a65 1
+    1, -1, SEM_UNDO	     /* decrement [1] (proc counter) with undo on
+d71 3
+a73 3
+    2, 0, 0,		     /* wait for [2] (lock) to equal O */
+    2, 1, SEM_UNDO,	     /* then increment [2] to 1 - this locks it */
+    1, 1, SEM_UNDO	     /* then increment [1] (proc counter) */
+d78 1
+a78 1
+    2, -1, SEM_UNDO	     /* decrement [2] (lock) back to O */
+d83 1
+a83 1
+    0, 99, SEM_UNDO	     /* decrement or increment [0] with undo on exit */
+d97 6
+a102 6
+    register int id, semval;
+    union semun {
+	int     val;
+	struct semid_ds *buf;
+	ushort *array;
+    }       semctl_arg;
+d104 2
+a105 2
+    if (key == IPC_PRIVATE)
+	return (-1);	     /* not intended for private semaphores */
+d107 2
+a108 2
+    else if (key == (key_t) - 1)
+	return (-1);	     /* probably an ftok() error by caller */
+d112 1
+a112 1
+    fprintf(stderr, "Calling semget\n");
+d114 2
+a115 2
+    if ((id = semget(key, 3, 0666 | IPC_CREAT)) < 0)
+	return id;	     /* permission problem or tables full */
+d129 1
+a129 1
+    fprintf(stderr, "Locking semaphore %d\n", id);
+d131 5
+a135 5
+    if (semop(id, &op_lock[0], 2) < 0) {
+	if (errno == EINVAL)
+	    goto again;
+	gs_log("can't lock");
+    }
+d142 2
+a143 2
+    if ((semval = semctl(id, 1, GETVAL, 0)) < 0)
+	gs_log("can't GETVAL");
+d146 1
+a146 1
+    fprintf(stderr, "Semaphore process counter = %d\n", semval);
+d148 1
+a148 1
+    if (semval == 0) {
+d150 5
+a154 5
+    /*
+     * We could initialize by doing a SETALL, but that would clear the adjust
+     * value that we set when we locked the semaphore above. Instead, we'll
+     * do 2 system calls to initialize [0] and [1].
+     */
+d156 3
+a158 3
+	semctl_arg.val = initval;
+	if (semctl(id, 0, SETVAL, semctl_arg) < 0)
+	    gs_log("can SETVAL[0]");
+d160 4
+a163 4
+	semctl_arg.val = BIGCOUNT;
+	if (semctl(id, 1, SETVAL, semctl_arg) < 0)
+	    gs_log("can SETVAL[1]");
+    }
+d169 2
+a170 2
+    if (semop(id, &op_endcreate[0], 2) < 0)
+	gs_log("can't end create");
+d172 1
+a172 1
+    return (id);
+d187 1
+a187 1
+    register int id;
+d189 2
+a190 2
+    if (key == IPC_PRIVATE)
+	return (-1);	     /* not intended for private semaphores */
+d192 2
+a193 2
+    else if (key == (key_t) - 1)
+	return (-1);	     /* probably an ftok() error by caller */
+d195 2
+a196 2
+    if ((id = semget(key, 3, 0)) < 0)
+	return (-1);	     /* doesn't exist, or tables full */
+d202 2
+a203 2
+    if (semop(id, &op_open[0], 1) < 0)
+	gs_log("can't open");
+d205 1
+a205 1
+    return (id);
+d219 2
+a220 2
+    if (semctl(id, 0, IPC_RMID, 0) < 0)
+	gs_log("can't IPC_RMID");
+d234 1
+a234 1
+    register int semval;
+d240 2
+a241 2
+    if (semop(id, &op_close[0], 3) < 0)
+	gs_log("can't semop");
+d249 2
+a250 2
+    if ((semval = semctl(id, 1, GETVAL, 0)) < 0)
+	gs_log("can't G~TVAL");
+d252 6
+a257 6
+    if (semval > BIGCOUNT)
+	gs_err_dump("sem[l] > BIGCOUNT");
+    else if (semval == BIGCOUNT)
+	gs_sem_rm(id);
+    else if (semop(id, &op_unlock[0], 1) < 0)
+	gs_log("can't unlock");	/* unlock */
+d268 1
+a268 1
+    return (gs_sem_op(id, -1));
+d278 1
+a278 1
+    return (gs_sem_op(id, 1));
+d288 1
+a288 1
+    int     status = GS_SUCCESS;
+d290 5
+a294 5
+    errno = 0;
+    if ((op_op[0].sem_op = value) == 0) {
+	gs_log("gs_sem_op: can't have value == 0");
+	return (GS_FAIL);
+    }
+d296 2
+a297 2
+    if (semop(id, &op_op[0], 1) < 0)
+	status = errno;
+d299 1
+a299 1
+    return (status);
+@
+
+
+1.5
+log
+@*** empty log message ***
+@
+text
+@d38 1
+a38 1
+#define BIGCOUNT 100              /* initial value of process counter */
+d44 4
+a47 12
+static struct sembuf op_lock[2] = 
+    {
+    2, 0, 0,                        /* wait for [2] (lock) to equal O */
+    2, 1, SEM_UNDO                  /* then increment [2] to 1 - this locks it */
+                                                                        /* UNDO to release the lock if processes exits
+                                                                                before explicitly unlocking */
+    };
+static struct sembuf op_endcreate[2] = 
+    {
+    1, -1, SEM_UNDO,        /* decrement [1] (proc counter) with undo on exit */
+                                /* UNDO to adjust proc counter if process exits */
+                            /* before explicitly calling sem_close() */
+d49 10
+a58 2
+    2, -1, SEM_UNDO         /* then decrement [2] (lock) back to O */
+    };
+d60 2
+a61 4
+static struct sembuf op_open[1] = 
+    {
+    1, -1, SEM_UNDO         /* decrement [1] (proc counter) with undo on exit */
+    };
+d63 5
+a67 6
+static struct sembuf op_close[3] = 
+    {
+    2, 0, 0,                /* wait for [2] (lock) to equal O */
+    2, 1, SEM_UNDO,         /* then increment [2] to 1 - this locks it */
+    1, 1, SEM_UNDO          /* then increment [1] (proc counter) */
+    };
+d69 6
+a74 4
+static struct sembuf op_unlock[1] = 
+    {
+    2, -1, SEM_UNDO         /* decrement [2] (lock) back to O */
+    };
+d76 9
+a84 4
+static struct sembuf op_op[1] = 
+    {
+    0, 99, SEM_UNDO         /* decrement or increment [0] with undo on exit */
+    };
+d93 4
+a96 4
+int gs_sem_create (key, initval)
+key_t key;
+int initval;                        /* used if we create the semaphore */
+    {
+d98 6
+a103 7
+    union semun 
+        {
+        int val;
+        struct semid_ds *buf;
+        ushort *array;
+        } semctl_arg;
+    
+d105 5
+a109 5
+        return(-1);                 /* not intended for private semaphores */
+    
+    else if (key == (key_t) -1)
+        return(-1);                 /* probably an ftok() error by caller */
+    
+d112 1
+a112 1
+        fprintf(stderr,"Calling semget\n");
+d114 14
+a127 16
+    if ((id = semget (key, 3, 0666 | IPC_CREAT)) < 0)
+        return id;                  /* permission problem or tables full */
+    /*
+    * When the semaphore is created, we know that the value of all
+    * 3 members is 0.
+    * Get a lock on the semaphore by waiting for [2] to equal 0,
+    * then increment it.
+    * There is a race condition here. There is a possibility that
+    * between the semget() above and the semop() below, another
+    * process can call our gs_sem_close() function which can remove
+    * the semaphore if that process is the last one using it.
+    * Therefore, we handle the error condition of an invalid
+    * semaphore ID specially below, and if it does happen, we just
+    * go back and create it again.
+    */
+    
+d129 1
+a129 1
+        fprintf(stderr,"Locking semaphore %d\n", id);
+d131 14
+a144 14
+    if (semop (id, &op_lock[0], 2) < 0)
+        {
+        if (errno == EINVAL)
+            goto again;
+        gs_log ("can't lock");
+        }
+    /*
+    * Get the value of the process counter. If it equals 0,
+    * then no one has initialized the semaphore yet.
+    */
+    
+    if ((semval = semctl (id, 1, GETVAL, 0)) < 0)
+        gs_log ("can't GETVAL");
+    
+d146 1
+a146 1
+        fprintf(stderr,"Semaphore process counter = %d\n", semval);
+d148 2
+a149 17
+    if (semval == 0)
+        {
+        /*
+        * We could initialize by doing a SETALL, but that
+        * would clear the adjust value that we set when we
+        * locked the semaphore above. Instead, we'll do 2
+        * system calls to initialize [0] and [1].
+        */
+        
+        semctl_arg.val = initval;
+        if (semctl (id, 0, SETVAL, semctl_arg) < 0)
+            gs_log ("can SETVAL[0]");
+        
+        semctl_arg.val = BIGCOUNT;
+        if (semctl (id, 1, SETVAL, semctl_arg) < 0)
+            gs_log ("can SETVAL[1]");
+        }
+d151 12
+a162 7
+    * Decrement the process counter and then release the lock.
+    */
+    
+    if (semop (id, &op_endcreate[0], 2) < 0)
+        gs_log ("can't end create");
+    
+    return(id);
+d165 10
+d184 3
+a186 3
+int gs_sem_open (key)
+key_t key;
+    {
+d188 1
+a188 1
+    
+d190 2
+a191 2
+        return(-1);                 /* not intended for private semaphores */
+    
+d193 1
+a193 15
+        return(-1);                 /* probably an ftok() error by caller */
+    
+    if ((id = semget (key, 3, 0)) < 0)
+        return(-1);                 /* doesn't exist, or tables full */
+    
+    /*
+    * Decrement the process counter. We don't need a lock
+    * to do this.
+    */
+    
+    if (semop (id, &op_open[0], 1) < 0)
+        gs_log ("can't open");
+    
+    return(id);
+    }
+d195 13
+d216 6
+a221 6
+gs_sem_rm (id)
+int id;
+    {
+    if (semctl (id, 0, IPC_RMID, 0) < 0)
+        gs_log ("can't IPC_RMID");
+    }
+d231 3
+a233 3
+gs_sem_close (id)
+int id;
+    {
+d235 17
+a251 19
+    
+    /*
+    * The following semop() first gets a lock on the semaphore,
+    * then increments [l] - the process counter.
+    */
+    if (semop (id, &op_close[0], 3) < 0)
+        gs_log ("can't semop");
+    
+    /*
+    * Now that we have a lock, read the value of the process
+    * counter to see if this is the last reference to the
+    * semaphore.
+    * There is a race condition here - see the comments in
+    * gs_sem_create().
+    */
+    
+    if ((semval = semctl (id, 1, GETVAL, 0)) < 0)
+        gs_log ("can't G~TVAL");
+    
+d253 1
+a253 1
+        gs_err_dump ("sem[l] > BIGCOUNT");
+d255 4
+a258 4
+        gs_sem_rm (id);
+    else if (semop (id, &op_unlock[0], 1) < 0)
+        gs_log ("can't unlock");   /* unlock */
+    }
+d265 5
+a269 5
+int gs_sem_wait (id)
+int id;
+    {
+    return (gs_sem_op (id, -1));
+    }
+d275 5
+a279 5
+int gs_sem_signal (id)
+int id;
+    {
+    return (gs_sem_op (id, 1));
+    }
+d284 3
+a286 3
+int gs_sem_op (id, value)
+int id;
+int value;
+d288 1
+a288 1
+int status = GS_SUCCESS;
+d290 1
+a290 1
+    errno=0;
+d292 2
+a293 2
+        gs_log ("gs_sem_op: can't have value == 0");
+        return (GS_FAIL);
+d295 3
+a297 3
+    
+    if (semop (id, &op_op[0], 1) < 0)
+        status = errno;        
+@
+
+
+1.4
+log
+@*** empty log message ***
+@
+text
+@d290 2
+a291 1
+int status=GS_SUCCESS;
+@
+
+
+1.3
+log
+@*** empty log message ***
+@
+text
+@d31 1
+a31 1
+#include		<stdio.h>
+d48 2
+a49 2
+									/* UNDO to release the lock if processes exits
+										before explicitly unlocking */
+d54 2
+a55 2
+    		            /* UNDO to adjust proc counter if process exits */
+			    /* before explicitly calling sem_close() */
+d109 1
+a109 1
+	fprintf(stderr,"Calling semget\n");
+d128 1
+a128 1
+	fprintf(stderr,"Locking semaphore %d\n", id);
+d145 1
+a145 1
+	fprintf(stderr,"Semaphore process counter = %d\n", semval);
+d292 1
+a292 1
+    if ((op_op[0].sem_op = value) == 0)
+d294 2
+d297 2
+a298 1
+    status = semop (id, &op_op[0], 1);
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d267 1
+a267 1
+gs_sem_wait (id)
+d270 1
+a270 1
+    gs_sem_op (id, -1);
+d277 1
+a277 1
+gs_sem_signal (id)
+d280 1
+a280 1
+    gs_sem_op (id, 1);
+d286 1
+a286 1
+gs_sem_op (id, value)
+d289 3
+a291 1
+    {
+d295 4
+a298 5
+    if (semop (id, &op_op[0], 1) < 0)
+	if (errno == EINTR) 
+		gs_log ("gs_sem_op error");
+	return ((errno == 0)?GS_SUCCESS:errno);
+    }
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d1 2
+d134 1
+a134 1
+        gs_err_sys ("can't lock");
+d142 1
+a142 1
+        gs_err_sys ("can't GETVAL");
+d158 1
+a158 1
+            gs_err_sys ("can SETVAL[0]");
+d162 1
+a162 1
+            gs_err_sys ("can SETVAL[1]");
+d169 1
+a169 1
+        gs_err_sys ("can't end create");
+d203 1
+a203 1
+        gs_err_sys ("can't open");
+d220 1
+a220 1
+        gs_err_sys ("can't IPC_RMID");
+d241 1
+a241 1
+        gs_err_sys ("can't semop");
+d252 1
+a252 1
+        gs_err_sys ("can't G~TVAL");
+d259 1
+a259 1
+        gs_err_sys ("can't unlock");   /* unlock */
+d291 1
+a291 1
+        gs_err_sys ("gs_sem_op: can't have value == 0");
+d294 3
+a296 1
+        gs_err_sys ("gs_sem_op error");
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d132 1
+a132 1
+        err_sys ("can't lock");
+d140 1
+a140 1
+        err_sys ("can't GETVAL");
+d156 1
+a156 1
+            err_sys ("can SETVAL[0]");
+d160 1
+a160 1
+            err_sys ("can SETVAL[1]");
+d167 1
+a167 1
+        err_sys ("can't end create");
+d201 1
+a201 1
+        err_sys ("can't open");
+d218 1
+a218 1
+        err_sys ("can't IPC_RMID");
+d239 1
+a239 1
+        err_sys ("can't semop");
+d250 1
+a250 1
+        err_sys ("can't G~TVAL");
+d253 1
+a253 1
+        err_dump ("sem[l] > BIGCOUNT");
+d257 1
+a257 1
+        err_sys ("can't unlock");   /* unlock */
+d289 1
+a289 1
+        err_sys ("gs_sem_op: can't have value == 0");
+d292 1
+a292 1
+        err_sys ("gs_sem_op error");
+@

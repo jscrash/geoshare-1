@@ -1,0 +1,15 @@
+FUNCTION
+int	GS_receive (GS_handle_t handle, TCB *tcb)
+
+ASSERTIONS
+	Input:	handle		- A handle describing the connection
+				  to the connection manager.
+
+	Output:	tcb		- A transfer control block
+				  containing the data sent.
+
+DESCRIPTION
+Receive a transfer control block that contains either a transfer
+structure containing data or an executive structure containing a
+protocol request.  
+

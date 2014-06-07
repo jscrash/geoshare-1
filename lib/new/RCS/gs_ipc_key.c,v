@@ -1,0 +1,263 @@
+head     1.5;
+branch   ;
+access   ;
+symbols  ;
+locks    julian:1.5; strict;
+comment  @ * @;
+
+
+1.5
+date     91.05.12.01.43.12;  author julian;  state Exp;
+branches ;
+next     1.4;
+
+1.4
+date     91.05.03.21.39.53;  author julian;  state Exp;
+branches ;
+next     1.3;
+
+1.3
+date     91.04.29.21.58.59;  author julian;  state Exp;
+branches ;
+next     1.2;
+
+1.2
+date     91.04.23.08.24.25;  author julian;  state Exp;
+branches ;
+next     1.1;
+
+1.1
+date     91.04.23.07.30.10;  author julian;  state Exp;
+branches ;
+next     1.0;
+
+1.0
+date     91.04.23.07.22.12;  author julian;  state Exp;
+branches ;
+next     ;
+
+
+desc
+@Initial checkin of gs_ipc_key.c.
+@
+
+
+1.5
+log
+@Update
+@
+text
+@#include "gs.h"
+/****************************************************************************
+Module: GS_IPC_KEY
+
+Description:
+	This routine will return a key for opening shared resources that are
+	identified by a 'well known key/address'.  The input filename is
+	converted to a unique integer key by using the ftok() function.
+	
+	If the environment variable GSCMKEY is defined, that value will be
+	used to generate the key.  This overrides the file path in the
+	parameter list and should be explicitly undefined if this behaviour
+	is not desired.
+
+	This function may be called with a null file path if the GSCMKEY
+	environment variable is defined.
+
+
+Usage:
+	key = (GSKey_t *) gs_ipc_key("/home/julian/some.file");
+
+Parameters:
+	INPUT:
+		char *filename		- Full path of file to key from
+
+	OUTPUT:
+		None.  Returns a pointer to a GSKey_t key struct as value
+		of function.
+Status:
+
+	On error, such is the given file not existing, a null key pointer is
+	returned (GSKey_t *)0.
+	
+
+Author:
+	Julian Carlisle 	 Mon Apr 22 23:34:40 PDT 1991
+*****************************************************************************/
+
+GSKey_t *gs_ipc_key(file)
+char   *file;
+{
+	char   *cp;
+	GSKey_t *retkey;
+
+
+
+	cp = getenv("GSCMKEY");
+	if (file == NULL) {
+		if (cp == NULL)
+			return ((GSKey_t *) 0);
+	}
+
+
+
+	retkey = (GSKey_t *) malloc(sizeof(GSKey_t) + 1);
+
+	if (cp == (char *) 0) {
+	/* No ipc key Env variable defined. */
+	/* Use the given file path instead. */
+		retkey->str = (char *) malloc(strlen(file) + 1);
+		strcpy(retkey->str, file);
+		retkey->key = (key_t) ftok(file, FTOKID);
+	}
+	else {
+		retkey->str = (char *) malloc(strlen(cp) + 1);
+		strcpy(retkey->str, cp);
+		retkey->key = (key_t) atoi(cp);
+	}
+	if (retkey->key == (key_t) - 1) {
+		free(retkey->str);
+		free(retkey);
+		retkey = (GSKey_t *) 0;
+	}
+
+	return (retkey);
+}
+@
+
+
+1.4
+log
+@Reformat to indentation 8 for readability
+@
+text
+@a41 1
+	int     status = GS_SUCCESS;
+@
+
+
+1.3
+log
+@.
+@
+text
+@d42 3
+a44 3
+    int     status = GS_SUCCESS;
+    char   *cp;
+    GSKey_t *retkey;
+d48 5
+a52 5
+    cp = getenv("GSCMKEY");
+    if (file == NULL) {
+	if (cp == NULL)
+	    return ((GSKey_t *) 0);
+    }
+d56 1
+a56 1
+    retkey = (GSKey_t *) malloc(sizeof(GSKey_t) + 1);
+d58 17
+a74 17
+    if (cp == (char *) 0) {
+    /* No ipc key Env variable defined. */
+    /* Use the given file path instead. */
+	retkey->str = (char *) malloc(strlen(file) + 1);
+	strcpy(retkey->str, file);
+	retkey->key = (key_t) ftok(file, FTOKID);
+    }
+    else {
+	retkey->str = (char *) malloc(strlen(cp) + 1);
+	strcpy(retkey->str, cp);
+	retkey->key = (key_t) atoi(cp);
+    }
+    if (retkey->key == (key_t) - 1) {
+	free(retkey->str);
+	free(retkey);
+	retkey = (GSKey_t *) 0;
+    }
+d76 1
+a76 1
+    return (retkey);
+@
+
+
+1.2
+log
+@*** empty log message ***
+@
+text
+@d20 1
+a20 1
+	key = (GSKey_t *) gs_ipc_key("/home/julian/some.file");	
+d39 2
+a40 2
+GSKey_t * gs_ipc_key(file)
+char *file;
+d42 3
+a44 3
+int status = GS_SUCCESS;
+char *cp;
+GSKey_t *retkey;
+d48 5
+a52 5
+	cp = getenv("GSCMKEY");
+	if (file == NULL) {
+		if (cp == NULL)
+			return ((GSKey_t *)0);
+	}
+d56 1
+a56 1
+	retkey = (GSKey_t *) malloc(sizeof (GSKey_t) +1);
+d58 17
+a74 17
+	if (cp == (char *) 0) {
+				/* No ipc key Env variable defined. */
+				/* Use the given file path instead. */
+		retkey->str = (char *)malloc(strlen(file)+1);
+		strcpy(retkey->str,file);
+		retkey->key = (key_t) ftok(file, FTOKID);
+	}
+	else {
+		retkey->str = (char *)malloc(strlen(cp)+1);
+		strcpy(retkey->str,cp);
+		retkey->key = (key_t) atoi(cp);
+	}
+	if (retkey->key == (key_t) - 1) {
+		free (retkey->str);
+		free (retkey);
+		retkey = (GSKey_t *)0;
+	}
+d76 1
+a76 1
+	return (retkey);
+@
+
+
+1.1
+log
+@*** empty log message ***
+@
+text
+@d61 1
+d66 1
+d71 1
+@
+
+
+1.0
+log
+@Initial
+@
+text
+@d10 4
+d15 4
+a42 1
+struct stat sb;
+d46 3
+d50 2
+a51 1
+		return ((GSKey_t *)0);
+d54 2
+a57 1
+	cp = getenv("GSCMKEY");
+@

@@ -1,0 +1,211 @@
+%! ISLANDWRITE prolog Version 2.1
+%%
+/BLACK { 0.0 } bind def
+/CP {closepath} bind def
+/FI {eofill} bind def
+/E {exch} bind def
+/FF {findfont} bind def
+/GR {grestore} bind def
+/GS {gsave} bind def
+/MF {makefont} bind def
+/NP {newpath} bind def
+/RO {rotate} bind def
+/ST {stroke} bind def
+/SC {scale} bind def
+/SF {setfont} bind def
+/SG {setgray} bind def
+/SLC {setlinecap} bind def
+/SLJ {setlinejoin} bind def
+/SLW {setlinewidth} bind def
+/TR {translate} bind def
+/WHITE { 1.0 } bind def
+/m {moveto} bind def
+/r {rmoveto} bind def
+/l {lineto} bind def
+/sp {x 0 rmoveto} bind def
+/rl {rlineto} bind def
+/s {show} bind def
+/box { NP m l l l CP } bind def
+/pageboundary { NP m l l l CP } bind def
+/BS {   % black stroke
+GS SLJ SLW BLACK SG ST GR
+} bind def
+/WS {   % white stroke
+GS SLJ SLW WHITE SG ST GR
+} bind def
+/reencode_small_dict 12 dict def
+/ReencodeSmall {
+reencode_small_dict begin
+/new_codes_and_names E def
+/new_font_name E def
+/base_font_name E def
+/base_font_dict base_font_name FF def
+/newfont base_font_dict maxlength dict def
+base_font_dict {
+E dup /FID ne
+{ dup /Encoding eq
+{ E dup length array copy newfont 3 1 roll put }
+{ E newfont 3 1 roll put }
+ifelse
+}
+{ pop pop }
+ifelse
+} forall
+newfont /FontName new_font_name put
+new_codes_and_names aload pop
+new_codes_and_names length 2 idiv
+{ newfont /Encoding get 3 1 roll put }
+repeat
+new_font_name newfont definefont pop
+end     %reencode_small_dict
+} def
+/extended_Zapf [
+8#223 /a89
+8#224 /a90
+8#225 /a93
+8#226 /a94
+8#227 /a91
+8#230 /a92
+8#231 /a205
+8#232 /a85
+8#233 /a206
+8#234 /a86
+8#235 /a87
+8#236 /a88
+8#237 /a95
+8#240 /a96
+] def
+/extended_Standard [
+128 /Acircumflex
+129 /Adieresis
+130 /Agrave
+131 /Aring
+132 /Atilde
+133 /Ccedilla
+134 /Eacute
+135 /Ecircumflex
+136 /Edieresis
+137 /Egrave
+138 /Iacute
+139 /Icircumflex
+140 /Idieresis
+141 /Igrave
+142 /Ntilde
+143 /Oacute
+144 /Ocircumflex
+145 /Odieresis
+146 /Ograve
+147 /Otilde
+148 /Scaron
+149 /Uacute
+150 /Ucircumflex
+151 /Udieresis
+152 /Ugrave
+153 /Ydieresis
+154 /Zcaron
+155 /aacute
+156 /acircumflex
+157 /adieresis
+158 /agrave
+159 /aring
+160 /atilde
+209 /ccedilla
+210 /copyright
+211 /eacute
+212 /ecircumflex
+213 /edieresis
+214 /egrave
+215 /iacute
+216 /icircumflex
+217 /idieresis
+218 /igrave
+219 /logicalnot
+220 /minus
+221 /ntilde
+222 /oacute
+223 /ocircumflex
+224 /odieresis
+228 /ograve
+229 /otilde
+230 /registered
+231 /scaron
+236 /trademark
+237 /uacute
+238 /ucircumflex
+239 /udieresis
+240 /ugrave
+242 /ydieresis
+243 /zcaron
+244 /Aacute
+] def
+/extended_Symbol [
+] def
+/extend_font {  % stack: fontname newfontname
+E dup (ZapfDingbats) eq
+{ cvn E cvn extended_Zapf ReencodeSmall }
+{ dup (Symbol) eq
+{ cvn E cvn extended_Symbol ReencodeSmall }
+{ cvn E cvn extended_Standard ReencodeSmall }
+ifelse
+}
+ifelse
+} bind def
+/getfont {
+/f E def f cvn where
+{ begin f cvx cvn exec SF end }
+% { f 0 f length 8 sub getinterval (LocalFont) extend_font
+%/LocalFont FF
+{ f 0 f length 8 sub getinterval dup
+dup length 1 add string /localfont exch def
+localfont exch 0 exch putinterval
+localfont dup length 1 sub (X) putinterval
+localfont extend_font
+localfont FF
+/xsz f f length 4 sub 4 getinterval cvi def
+/ysz f f length 8 sub 4 getinterval cvi def
+[ xsz 0 0 ysz neg 0 0 ] MF dup f cvn E def
+SF
+}
+ifelse
+} bind def
+/ul { % space drop thickness
+GS currentpoint currentlinewidth 
+currentpoint NP m 6 -3 roll 
+SLW 0 E r
+0 rl ST SLW m
+GR 
+} bind def
+/ss { currentpoint pop E m } bind def
+/image_raster { % sw sh dw dh xs ys
+TR SC /sh E def /sw E def
+/imagebuf sw 7 add 8 idiv string def
+sw sh 1 [sw 0 0 sh 0 0] { currentfile imagebuf readhexstring pop }
+image
+} bind def
+/nx { /x E def } bind def
+0. nx
+%%EndFixedProlog
+
+save /vm_state E def [1 0 0 -1 0 0] concat 0.050000 0.050000 SC .5 SLW
+0 -15840 TR 0 RO
+0 0 0 15840 12240 15840 12240 0 pageboundary clip
+userdict /#copies 1 put statusdict /manualfeed false put 1772 ss 6300 1772 m
+(NewCenturySchlbk-Roman09600960) getfont 2964 ss 6300 2964 m
+(NewCenturySchlbk-Roman09600960) getfont 4156 ss 4131 4156 m
+(NewCenturySchlbk-Roman09600960) getfont (GeoShare) s
+(NewCenturySchlbk-Italic09600960) getfont 5348 ss 6300 5348 m
+(NewCenturySchlbk-Italic09600960) getfont 6540 ss 6300 6540 m
+(NewCenturySchlbk-Italic09600960) getfont
+(NewCenturySchlbk-Italic05600560) getfont 7252 ss 4195 7252 m
+(NewCenturySchlbk-Italic05600560) getfont (Software Design) s
+(NewCenturySchlbk-Roman05600560) getfont
+(NewCenturySchlbk-Roman09600960) getfont 8444 ss 6300 8444 m
+(NewCenturySchlbk-Roman09600960) getfont 9636 ss 6300 9636 m
+(NewCenturySchlbk-Roman09600960) getfont 10828 ss 6300 10828 m
+(NewCenturySchlbk-Roman09600960) getfont 12020 ss 6300 12020 m
+(NewCenturySchlbk-Roman09600960) getfont
+(NewCenturySchlbk-Roman03600360) getfont 12492 ss 6103 12492 m
+(NewCenturySchlbk-Roman03600360) getfont (by) s 12964 ss 3777 12964 m
+(NewCenturySchlbk-Roman03600360) getfont (Finder Graphics Systems, Inc.) s
+showpage vm_state restore
+
