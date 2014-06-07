@@ -9,3 +9,90 @@ geoshare
 
 Original Geoshare
 >>>>>>> bb1508d132e05332bbed8c9fe429e52d80b6e70d
+
+This directory contains the source code for the GeoShare Application
+Programming Interface library.  To build the  library, type make.
+
+These routines are ALPHA release, they work but have not been extensively
+tested.  
+
+The connection manager (gs_cm) and the test program gs_test require that
+you have set the environment variable GSHOME to point to the directory that 
+holds the gstab file.  This is also the default path for finding executables
+unless there is a bindir entry in gstab for the connection manager.
+
+
+To start a connection manager:
+			gs_cm
+the process will fork and become a daemon process.  If GSDEBUG is set when the
+connection manager is started, the verbose logging behavior will be inherited
+by the receiver processes that are started.
+
+when this is started, you may run the gs_test program as follows
+			gs_test 
+Again, the GSDEBUG variable will cause more extensive informational messages
+to be logged.
+
+By using  the '-d' argument with gs_test you can have the connection manager
+shutdown & restart for each run... 
+This was necessary during early development but really does'nt have much use
+anymore.
+
+All message output from the Connection Manager as well as receiver processes
+is output to the file $GSHOME/gscm_errors.log.  This file actually needs a new
+name since it is the general logging file and not really just a place for
+error messages.  Note that neither the CM or the receiver processes have
+controlling terminals associated with them.... it is therfore necessary to
+output to a file.  The receiver processes will write to the file /tmp/rec.out
+if the GSDEBUG variable is set when the CM is started.
+
+this alpha release of GeoShare uses shared memory for communication..
+Application programs are required to allocate their structures using the
+gs_alloc & gs_free tools.  These tools implement a shared memory
+pool-management system.  When a structure is passed using gs_send, I give the
+pointer to the receiver process along with information about how to attach the
+memory pool into its address space such that the pointer appears to be locally
+allocated.  I currently have a limitation of 1 meg for total allocation size.
+
+This method will be used until the GeoShare general structure parser is
+available... that should be several weeks.... So for now programmers can start
+writing their programs and properly test them, but only in a limited capacity.
+
+It seems that most transfers can be supported in much less than 1Meg, as long
+as they do not include large vectors of logs or seismic traces... For passing
+this kind of data, receivers will have to be created to accept multiple
+transfers to get all the peices...
+
+See the file gs_alloc.c for an example of using the gs_alloc, gs_free,
+gs_init_pool,  gs_term_pool routines.
+
+See the file gs_test.c for an example of how an overall system is implemented
+using the toolkit.
+
+You can call gs_sendstr to just send string messages to the receivers.. They
+are internally processed and written to the logfile.  A sendstr message is
+invisible to the receiver application, it does not cause gs_receive to
+return.  This is useful for debugging and annotation log files.
+
+The gstab file contains definitions for the receiver processes & their alias
+names and other information.  See the file $GSHOME/gstab
+
+
+
+		I will keep you up to date as things are developed.
+
+
+							Bye for now,
+
+									Julian Carlisle
+									Finder Graphics Systems
+									415-927-0100
+									Wed May 15 01:51:45 PDT 1991
+
+note that all the sources are under rcs. a copy of rcs is in the tools
+directory.
+
+More coming soon....
+
+								Julian Carlisle
+								Tue May 14 16:19:05 PDT 1991
